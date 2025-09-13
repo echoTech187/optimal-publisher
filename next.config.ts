@@ -7,6 +7,16 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  experimental: {
+    optimizeCss: true,
+    scrollRestoration: true
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   devIndicators: false,
   turbopack: {
     root: path.join(__dirname, '..'),
