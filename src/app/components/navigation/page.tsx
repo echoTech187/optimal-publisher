@@ -21,11 +21,7 @@ export default function MenuNavigation({ isVisible }: { isVisible?: boolean }) {
                     </ul>
                 </nav>
             </div>
-            <div className="md:hidden">
-                <button className="p-2 rounded-md hover:bg-purple-600/30 transition-colors">
-                    <Icon icon="mdi:menu" className={`${isVisible ? 'text-black' : 'text-white'}`} width="24" height="24" />
-                </button>
-            </div>
+
         </>
     );
 }

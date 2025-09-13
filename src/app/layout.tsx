@@ -4,6 +4,7 @@ import Header from "./components/header/page";
 import Footer from "./components/footer/page";
 import "./globals.css";
 import FlyonuiScript from "./components/FlyonuiScript";
+import MobileSidebar from "./components/sidebar/mobile";
 
 const encodeSansCondensed = Encode_Sans_Condensed({
   variable: "--font-encode-sans-condensed",
@@ -51,6 +52,7 @@ export default function RootLayout({
       <body
         className={`${encodeSansCondensed.variable} ${encodeSansCondensed.variable} antialiased`}
       >
+        <MobileSidebar />
         <Header />
         <div className="relative h-full w-full overflow-x-hidden overflow-y-auto">
           {children}
