@@ -13,11 +13,10 @@ export default function Footer() {
                     </div>
                     <div className="flex flex-col gap-2">
                         <p className="mb-2 font-bold">Produk Optimal</p>
-                        <a href="#services" className="text-sm">Layanan</a>
-                        <a href="#about" className="text-sm">Tentang</a>
-                        <a href="#reviews" className="text-sm">Ulasan</a>
-                        <a href="#articles" className="text-sm">Artikel</a>
-                        <a href="#faqs" className="text-sm">FAQs</a>
+                        <p className="text-sm">Bimbingan Belajar</p>
+                        <p className="text-sm">Jurnal & Penerbitan</p>
+                        <p className="text-sm">CBT</p>
+                        <p className="text-sm">Artikel</p>
                     </div>
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-col gap-2">
@@ -38,11 +37,11 @@ export default function Footer() {
                         </div>
                         <div className="flex flex-col gap-2 text-white">
                             <p className="font-bold">Ikuti Kami</p>
-                            <div className="w-full">
-                                <p className="mt-2"><Link href="https://instagram.com/optimaluntuknegeri" className="flex items-center gap-2 hover:underline hover:text-[var(--primary)]"><Icon icon="tabler:brand-instagram" /> @optimaluntuknegeri</Link></p>
-                                <p className="mt-2"><Link href="https://www.tiktok.com/@maskokooo" className="flex items-center gap-2 hover:underline hover:text-[var(--primary)]"><Icon icon="tabler:brand-tiktok-filled" />@maskokooo</Link></p>
-                                <p className="mt-2"><Link href="https://www.youtube.com/@optimaluntuknegeri" className="flex items-center gap-2 hover:underline hover:text-[var(--primary)]"><Icon icon="tabler:brand-youtube" />Optimal Untuk Negeri</Link></p>
-                                <p className="mt-2"><Link href="https://id.linkedin.com/company/optimalbynfc" className="flex items-center gap-2 hover:underline hover:text-[var(--primary)]"><Icon icon="tabler:brand-linkedin" />PT Optimal Untuk Negeri</Link></p>
+                            <div className="flex gap-4">
+                                <Link href="https://instagram.com/optimaluntuknegeri" className="mt-4 inline-block bg-white/10 hover:bg-white/20 p-2 rounded-full transition" title="@optimaluntuknegeri"><Icon icon="tabler:brand-instagram" /></Link>
+                                <Link href="https://www.tiktok.com/@maskokooo" className="mt-4 inline-block bg-white/10 hover:bg-white/20 p-2 rounded-full transition" title="@maskokooo"><Icon icon="tabler:brand-tiktok-filled" /></Link>
+                                <Link href="https://www.youtube.com/@optimaluntuknegeri" className="mt-4 inline-block bg-white/10 hover:bg-white/20 p-2 rounded-full transition" title="Optimal Untuk Negeri"><Icon icon="tabler:brand-youtube" /></Link>
+                                <Link href="https://id.linkedin.com/company/optimalbynfc" className="mt-4 inline-block bg-white/10 hover:bg-white/20 p-2 rounded-full transition" title="PT Optimal Untuk Negeri"><Icon icon="tabler:brand-linkedin" /></Link>
                             </div>
                         </div>
                     </div>
