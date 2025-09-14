@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Encode_Sans_Condensed, Anton } from "next/font/google";
+import { Encode_Sans_Condensed, Anton, Inter } from "next/font/google";
 import Header from "./components/header/page";
 import Footer from "./components/footer/page";
 import "./globals.css";
@@ -16,6 +16,12 @@ const anton = Anton({
   subsets: ["latin"],
   weight: "400"
 });
+
+const interFont = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  weight: "500"
+})
 
 
 export const metadata: Metadata = {
@@ -50,7 +56,7 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Encode+Sans+Condensed:wght@400;700&family=Anton&display=swap" rel="stylesheet" />
       </head>
       <body
-        className={`${encodeSansCondensed.variable} ${encodeSansCondensed.variable} antialiased`}
+        className={`${interFont.variable} ${interFont.variable} antialiased`}
       >
         <MobileSidebar />
         <Header />

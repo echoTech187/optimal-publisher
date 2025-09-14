@@ -2,7 +2,7 @@
 @import "tailwindcss";
 @plugin "flyonui";
 @import "flyonui/variants.css";
-@source "./node_modules/flyonui/flyonui.js"; 
+@source "./node_modules/flyonui/flyonui.js";
 
 :root {
   --background: #ffffff;
@@ -35,4 +35,40 @@ body {
 
 .anton {
   font-family: 'Anton', sans-serif;
+}
+
+.inter {
+  font-family: 'Inter', 'sans-serif';
+}
+
+.html_content p,
+.html_content h1,
+.html_content h2,
+.html_content h3,
+.html_content h4,
+.html_content h5,
+.html_content h6 {
+  display: block !important;
+  margin-block-start: 1em !important;
+  margin-block-end: 1em !important;
+  margin-inline-start: 0px !important;
+  margin-inline-end: 0px !important;
+  font-size: revert !important;
+  font-weight: revert !important;
+  font-family: var(--font-dm-sans)
+}
+
+.html_content ol {
+  list-style: decimal;
+}
+
+.html_content *,
+.html_content:after,
+.html_content:before {
+  padding: revert !important;
+  font-family: var(--font-inter)
+}
+
+button.active {
+  @apply bg-blue-800 text-white;
 }
