@@ -35,7 +35,7 @@ export default function Article() {
                     </div>
                 </div>
             </div>
-            <button className="w-fit rounded-full text-black/80 font-stretch-extra-condensed hover:text-blue-400 tracking-wide cursor-pointer transition ease-in-out duration-300 my-12 border border-gray-500 hover:border-blue-400 py-3 px-6 text-sm">Lihat Semua Artikel</button>
+            <button className="w-fit rounded-full text-black/80 dark:text-gray-50 font-stretch-extra-condensed hover:text-blue-400 tracking-wide cursor-pointer transition ease-in-out duration-300 my-12 border border-gray-500 hover:border-blue-400 py-3 px-6 text-sm">Lihat Semua Artikel</button>
         </section>
     );
 }
