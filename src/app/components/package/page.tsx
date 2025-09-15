@@ -1,3 +1,4 @@
+"use client";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 export default function Package() {
@@ -24,7 +25,7 @@ export default function Package() {
                         </ol>
                         <div className="mt-4 border border-dotted border-gray-200 h-[1px]" />
                         <div className="flex justify-center px-6 py-4">
-                            <button className="w-fit py-3 px-4 rounded-lg transition-colors bg-white dark:bg-black/80 dark:text-green-500 dark:hover:text-green-400 text-green-700 hover:font-semibold text-sm hover:bg-transparent border border-transparent hover:border-green-800 hover:text-green-800 flex items-center justify-center">
+                            <button onClick={() => window.open("https://wa.link/gkfaqz", "_blank")} className="w-fit py-3 px-4 rounded-lg transition-colors bg-white dark:bg-black/80 dark:text-green-500 dark:hover:text-green-400 text-green-700 hover:font-semibold text-sm hover:bg-transparent border border-transparent hover:border-green-800 hover:text-green-800 flex items-center justify-center">
                                 <Icon icon="tabler:brand-whatsapp" className="mr-2 size-6" width="32" height="32" /> Hubungi Kami
                             </button>
                         </div>
@@ -47,7 +48,7 @@ export default function Package() {
                         </ol>
                         <div className="mt-4 border border-dotted border-gray-200 h-[1px]" />
                         <div className="flex justify-center px-6 py-4">
-                            <button className="w-fit py-3 px-4 rounded-lg transition-colors bg-white dark:bg-black/80 dark:text-green-500 dark:hover:text-green-400 text-green-700 hover:font-semibold text-sm hover:bg-transparent border border-transparent hover:border-green-800 hover:text-green-800 flex items-center justify-center">
+                            <button onClick={() => window.open("https://wa.link/gkfaqz", "_blank")} className="w-fit py-3 px-4 rounded-lg transition-colors bg-white dark:bg-black/80 dark:text-green-500 dark:hover:text-green-400 text-green-700 hover:font-semibold text-sm hover:bg-transparent border border-transparent hover:border-green-800 hover:text-green-800 flex items-center justify-center">
                                 <Icon icon="tabler:brand-whatsapp" className="mr-2 size-6" width="32" height="32" /> Hubungi Kami
                             </button>
                         </div>
