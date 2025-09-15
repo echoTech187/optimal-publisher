@@ -1,5 +1,4 @@
-import { Icon } from "@iconify/react";
-import ArticleBanner from "../components/article/banner";
+import ArticleBanner from "../components/article/banner/page";
 import Image from "next/image";
 export default function Article() {
     return (

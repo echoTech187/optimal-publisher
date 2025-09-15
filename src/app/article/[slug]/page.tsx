@@ -2,7 +2,7 @@ import Article from "@/app/components/article/page"
 import Image from "next/image"
 
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
     const posts = [
         {
             slug: '1',
@@ -149,8 +149,8 @@ export function generateStaticParams() {
             userPost: "Pradanis Yanuarinda Imkasari",
             postDate: new Date()
 
-        }]
-    console.log(posts)
+        }];
+        
     return posts.map((post) => ({
         slug: post.slug,
         title: post.title,
@@ -167,8 +167,18 @@ export default async function DetailArticle({
 }) {
     const { slug } = await params
     const posts = generateStaticParams()
-    const article = posts.find((post) => post.slug === slug)
-    if (!article) throw new Error("Article not found")
+    const article = (await posts).find((post) => post.slug === slug)
+    if (!article){
+        return(
+            <div className="bg-gray-50 dark:bg-gray-700 min-h-screen">
+                <div className="max-w-[1300px] mx-auto px-4 py-[100px]  rounded-lg mt-12">
+                    <div className="mb-12">
+                        <h1 className="text-5xl text-gray-700 dark:text-gray-100 leading-tight"> Article Not Found</h1>
+                    </div>
+                </div>
+            </div>
+        )
+    }
     const { title, image, description, userPost, postDate } = article
     return (
         <>

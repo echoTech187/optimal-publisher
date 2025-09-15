@@ -1,10 +1,8 @@
 "use client";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 export default function Article() {
-    const router = useRouter()
     function goArticle() {
-        router.push('/article')
+        window.open("/article", "_blank");
     }
     return (
         <section className="flex flex-col items-center w-full max-w-[1300px] mx-auto py-[100px] px-4 2xl:px-0" id="articles">

@@ -11,8 +11,8 @@ export default function Brand({ isVisible, isMobile }: { isVisible?: boolean, is
             </div>
             <div className={`text-lg font-bold ${isVisible ? 'text-black' : ''}`}>
                 <Link href="/" className="flex items-center gap-2">
-                    <Image src="/logo.png" alt="logo" width={100} height={80} className="h-12 w-fit" />
-                    <Image src="/Optimal.png" alt="brand" width={100} height={80} className="h-10 w-fit" />
+                    <Image src="/penerbit-logo.png" alt="logo" width={100} height={80} className="h-12 w-fit" />
+                    {/* <Image src="/Optimal.png" alt="brand" width={100} height={80} className="h-10 w-fit" /> */}
                 </Link>
             </div>
         </>
