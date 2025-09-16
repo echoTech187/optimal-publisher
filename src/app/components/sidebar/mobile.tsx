@@ -20,20 +20,29 @@ export default function MobileSidebar() {
             <div className="drawer-body px-2 h-full">
                 <nav>
                     <ul className="menu" onClick={handleCloseSidebar}>
-                        <li >
+                        <li>
                             <a href="/">Beranda</a>
                         </li>
-                        <li >
-                            <a href="#package">Layanan</a>
+                        <li>
+                            <a href="/#book">Buku</a>
                         </li>
-                        <li >
-                            <a href="#reviews">Ulasan</a>
+                        <li>
+                            <a href="/#package">Layanan</a>
                         </li>
-                        <li >
-                            <a href="#articles">Artikel</a>
+                        {/* <li>
+                            <a href="/#reviews">Ulasan</a>
+                        </li> */}
+                        <li>
+                            <a href="/#news-events">Berita & Acara</a>
                         </li>
-                        <li >
-                            <a href="#faqs">FAQ</a>
+                        {/* <li>
+                            <a href="/#articles">Artikel</a>
+                        </li> */}
+                        {/* <li>
+                            <a href="/#faqs">FAQs</a>
+                        </li> */}
+                        <li>
+                            <a href="/#contact">Hubungi Kami</a>
                         </li>
                     </ul>
                 </nav>

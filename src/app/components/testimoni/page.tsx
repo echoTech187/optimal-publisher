@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react";
 export default function Testimoni() {
     return (
-        <section className="w-full h-auto py-[100px]" id="reviews">
+        <section className="w-full h-auto py-[100px] bg-gradient-to-r from-[#f4c573] to-[#f5be5f] text-black dark:text-white " id="reviews">
             <div className="px-4 max-w-[1300px] mx-auto 2xl:px-0">
                 <h2 className="text-4xl anton mb-12 z-10 text-gray-700 dark:text-gray-50 leading-tight text-center">Apa Kata Mereka?</h2>
             </div>
@@ -9,27 +9,27 @@ export default function Testimoni() {
                 data-carousel-initialized='true' className='relative w-full px-4 max-w-[1300px] mx-auto 2xl:px-0'>
                 <div className='carousel min-h-80' >
                     <div className="carousel-body h-full w-full gap-8 flex items-stretch">
-                        <div className="carousel-slide w-full bg-white dark:bg-black/30 p-6 my-6 rounded-lg shadow-xs flex flex-col items-center text-center">
+                        <div className="carousel-slide w-full p-6 my-6 rounded-lg shadow-xs flex flex-col items-center text-center">
                             <img src="/user/PPC05016.jpg" alt="Testimoni 1" width={50} height={50} className="w-24 h-24 rounded-full object-cover mb-4 border-8 border-gray-200" />
                             <p className="mb-4 flex-1 max-w-sm">"Dengan belajar di Optimal, Anda akan dapat menghadapi UKOM dengan percaya diri dan sukses."</p>
                             <h3 className="font-bold capitalize"><span className="text-black/60 dark:text-gray-400">Stikes Bhakti husada Bengkulu</span> - Meci Putri Utami</h3>
                         </div>
-                        <div className="carousel-slide bg-white dark:bg-black/30 p-6 my-6 rounded-lg shadow-xs flex flex-col items-center text-center">
+                        <div className="carousel-slide  p-6 my-6 rounded-lg shadow-xs flex flex-col items-center text-center">
                             <img src="/user/IMG20220620100552.jpg" alt="Testimoni 2" width={50} height={50} className="w-24 h-24 rounded-full object-cover mb-4 border-8 border-gray-200" />
                             <p className="mb-4 flex-1 max-w-sm">"Belajar Bimbel di Optimal sangatlah seru, apalagi waktu pembahasan soalnya banyak yg keluar waktu di Ukom, terimakasih Tim Optimal Sukses selalu"</p>
                             <h3 className="font-bold capitalize"><span className="text-black/60 dark:text-gray-400">Unipdu Jombang</span> - Zuliana Latifah Ari Hidawati</h3>
                         </div>
-                        <div className="carousel-slide bg-white dark:bg-black/30 p-6 my-6 rounded-lg shadow-xs flex flex-col items-center text-center">
+                        <div className="carousel-slide  p-6 my-6 rounded-lg shadow-xs flex flex-col items-center text-center">
                             <img src="/user/IMG20241010.jpg" alt="Testimoni 2" width={50} height={50} className="w-24 h-24 rounded-full object-cover mb-4 border-8 border-gray-200" />
                             <p className="mb-4 flex-1 max-w-sm">"Bimbel optimal sangat membantu dalam persiapan ukom. Selain para pengajar yang enak dan mudah diterima, materi soal dan pembahasannya juga banyak yang keluar di ukom."</p>
                             <h3 className="font-bold capitalize"><span className="text-black/60 dark:text-gray-400">Stikes majapahit</span> - Lili wahyuni</h3>
                         </div>
-                        <div className="carousel-slide bg-white dark:bg-black/30 p-6 my-6 rounded-lg shadow-xs flex flex-col items-center text-center">
+                        <div className="carousel-slide  p-6 my-6 rounded-lg shadow-xs flex flex-col items-center text-center">
                             <img src="/user/IMG20240912.jpg" alt="Testimoni 2" width={50} height={50} className="w-24 h-24 rounded-full object-cover mb-4 border-8 border-gray-200" />
                             <p className="mb-4 flex-1 max-w-sm">"Optimal kereeen,, Masyaallah tabarakallah,, metode belajar nya bagus banget,mudah di mengerti, gampang banget untuk di ingat n di fahami 😊😊 <br />Teman saya yang belum kompeten saya rekomendasikan untuk bimbel di optimal Alhamdulillah katanya enak belajar di bimbel optimal.."</p>
                             <h3 className="font-bold capitalize"><span className="text-black/60 dark:text-gray-400">Payung negeri Pekanbaru</span> - Muliana Sari</h3>
                         </div>
-                        <div className="carousel-slide bg-white dark:bg-black/30 p-6 my-6 rounded-lg shadow-xs flex flex-col items-center text-center">
+                        <div className="carousel-slide  p-6 my-6 rounded-lg shadow-xs flex flex-col items-center text-center">
                             <img src="/user/IMG385511.jpg" alt="Testimoni 2" width={50} height={50} className="w-24 h-24 rounded-full object-cover mb-4 border-8 border-gray-200" />
                             <p className="mb-4 flex-1 max-w-sm">"Sangat bagus dan sangat membantu selama bimbel  selama ini Danke banyak kaka gbu"</p>
                             <h3 className="font-bold capitalize"><span className="text-black/60 dark:text-gray-400">Akper Waingapu</span> - Anastasia padu lemba</h3>
