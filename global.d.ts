@@ -2,6 +2,7 @@
 import { IStaticMethods } from "flyonui/flyonui";
 import type { noUiSlider } from "nouislider";
 
+
 declare global {
   interface Window {
     // Optional third-party libraries
@@ -9,7 +10,7 @@ declare global {
     $: typeof import("jquery");
     jQuery: typeof import("jquery");
     DataTable;
-    Dropzone;
+    Dropzone : typeof Dropzone;
 
     HSStaticMethods: IStaticMethods;
     noUiSlider: noUiSlider;

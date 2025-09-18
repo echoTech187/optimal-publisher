@@ -5,7 +5,7 @@ import "../globals.css";
 import FlyonuiScript from "../components/FlyonuiScript";
 import Footer from "../components/footer/page";
 import { Header } from "../components/header/page";
-import {MobileSidebar} from "../components/sidebar";
+import { MobileSidebar } from "../components/sidebar";
 const encodeSansCondensed = Encode_Sans_Condensed({
     variable: "--font-encode-sans-condensed",
     subsets: ["latin"],

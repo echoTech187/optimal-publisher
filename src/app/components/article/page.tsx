@@ -2,7 +2,7 @@
 import Image from "next/image";
 export default function Article() {
     function goArticle() {
-        window.open("/article", "_blank");
+        window.open("/article", "_parent");
     }
     return (
         <section className="flex flex-col items-center w-full max-w-[1300px] mx-auto py-[100px] px-4 2xl:px-0" id="articles">

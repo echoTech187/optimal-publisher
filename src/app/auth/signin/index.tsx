@@ -1,6 +1,11 @@
+import { useSearchParams } from "next/navigation";
 import SignInForm from "./page";
 import { AuthHeader } from "@/app/components/header/page";
+import { use, useEffect } from "react";
 export default function SignIn() {
+    const router = useSearchParams();
+    const callback = router.get("type");
+    
     return (
         <>
             <div className="relative w-screen min-h-screen h-full flex items-center justify-center bg-gray-50 dark:bg-gray-700 overflow-x-hidden">
@@ -14,9 +19,9 @@ export default function SignIn() {
                     <div className="absolute w-full h-full bg-purple-900/50 z-2"></div>
                     <section className="w-full h-full ">
                         <div className="fixed right-0 top-0 z-10 max-lg:w-full w-sm md:w-sm lg:w-md xl:w-lg h-screen flex items-center justify-center overflow-x-hidden overflow-y-auto">
-                            <div className="flex flex-col items-center justify-center bg-white/60 shadow-md backdrop-blur-2xl px-8 w-full min-h-full mx-auto py-6">
+                            <div className="relative flex flex-col items-center justify-center bg-white/60 shadow-md backdrop-blur-2xl px-8 w-full min-h-full mx-auto py-6">
                                 <AuthHeader title="Login" subtitle="Masukan username dan password untuk melakukan." />
-                                <SignInForm />
+                                <SignInForm type={callback} />
                             </div>
                         </div>
                     </section>

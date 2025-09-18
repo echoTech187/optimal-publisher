@@ -1,7 +1,7 @@
 const PersonalInformation = () => {
     return (<>
         <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fullname">Nama Lengkap</label>
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fullname">Nama Lengkap Beserta Gelar</label>
             <input type="text" name="fullname" autoFocus className="input rounded-md bg-white/50 border-white/40 hover:border-white/45  hover:shadow-outline hover:outline-none active:border-white/50 focus:border-white/50 focus:outline-none focus:shadow-outline focus-within:border-white/50 in-focus:border-white/50" />
         </div>
         <div className="mb-4">
@@ -18,21 +18,29 @@ const PersonalInformation = () => {
         </div>
     </>);
 }
-const Institution = () => {
+const Institution = (props) => {
+    const { type } = props
     return (<>
+        {
+            (type === "event") ?
+                <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="location">Kota/Provinsi/Kabupaten</label>
+                    <input id="location" name="location" className="input rounded-md bg-white/50 border-white/40 hover:border-white/45  hover:shadow-outline hover:outline-none active:border-white/50 focus:border-white/50 focus:outline-none focus:shadow-outline focus-within:border-white/50 in-focus:border-white/50" />
+                </div> : null
+        }
         <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="institution">Institusi</label>
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="institution">Asal Kampus/Institusi</label>
             <select className="select" name="institution" id="institution">
-                <option value="">Pilih Institusi</option>
+                <option value="">Pilih Asal Kampus/Institusi</option>
                 <option value="1">Institut Teknologi Bandung</option>
                 <option value="2">Institut Teknologi Sumatera</option>
                 <option value="3">Institut Teknologi Kalimantan</option>
             </select>
         </div>
         <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="major">Jurusan</label>
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="major">{(type === "event") ? "Homebase Mengajar" : "Jurusan"} </label>
             <select className="select" name="major" id="major">
-                <option value="">Pilih Jurusan</option>
+                <option value="">Pilih {(type === "event") ? "Homebase Mengajar" : "Jurusan"}</option>
                 <option value="1">Kebidanan</option>
                 <option value="2">Keperawatan</option>
             </select>
@@ -41,9 +49,16 @@ const Institution = () => {
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="position">Jabatan Struktural di kampus/Institusi</label>
             <input type="text" name="position" id="position" className="input rounded-md bg-white/50 border-white/40 hover:border-white/45  hover:shadow-outline hover:outline-none active:border-white/50 focus:border-white/50 focus:outline-none focus:shadow-outline focus-within:border-white/50 in-focus:border-white/50" />
         </div>
+        {
+            (type === "isbn") ?
+                <div className="mb-4 join gap-2">
+                    <input type="checkbox" name="already_wrote" id="already_wrote" value={1} className="checkbox" />
+                    <label className="block text-gray-700 text-sm font-bold" htmlFor="already_wrote">Apakah Bapak/Ibu pernah mengikuti program menulis buku di Optimal?</label>
+                </div> : null
+        }
         <div className="mb-4 join gap-2">
-            <input type="checkbox" name="already_wrote" id="already_wrote" value={1} className="checkbox" />
-            <label className="block text-gray-700 text-sm font-bold" htmlFor="already_wrote">Apakah Bapak/Ibu pernah mengikuti program menulis buku di Optimal?</label>
+            <input type="checkbox" name="aggreement" id="aggreement" value={1} className="checkbox" />
+            <label className="block text-gray-700 text-sm font-bold" htmlFor="aggreement">Dengan ini saya menyatakan bahwa data yang saya masukan adalah benar dan dapat dipertanggung jawabkan. Serta saya telah membaca dan menyetujui Syarat dan Ketentuan yang berlaku.</label>
         </div>
     </>);
 }
@@ -52,7 +67,7 @@ const TermsAndConditions = () => {
     return (<>
         <div className="mb-0">
             <h1 className="text-lg text-gray-700 dark:text-gray-100 leading-tight capitalize">Silahkan dibaca Prosedur, Pedoman dan Template Penulisan Buku Ajar Terbit November 2025</h1>
-            <button type="button" onClick={() => window.open("https://drive.google.com/drive/folders/1JbarddGhTZ3l9JBaFEbawRAmzSBc3Pks", "_blank")} className="text-lg dark:text-gray-100 leading-tight text-primary my-4 inter font-bold">Download</button>
+            <button type="button" onClick={() => window.open("https://drive.google.com/drive/folders/1JbarddGhTZ3l9JBaFEbawRAmzSBc3Pks", "_parent")} className="text-lg dark:text-gray-100 leading-tight text-primary my-4 inter font-bold">Download</button>
         </div>
         <div className="mb-4 join gap-2">
             <input type="checkbox" name="terms_conditions" id="terms_conditions" value={1} className="checkbox" />

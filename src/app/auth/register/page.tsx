@@ -2,10 +2,12 @@
 import { AuthHeader } from "@/app/components/header/page";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useEffect, useState } from "react";
-import {PersonalInformation, Institution, TermsAndConditions} from "./form";
+import { PersonalInformation, Institution, TermsAndConditions } from "./form";
+import { useSearchParams } from "next/navigation";
 
 export default function RegisterForm() {
-    const [institution, setInstitution] = useState("");
+    const router = useSearchParams();
+    const type = router.get("type");
     useEffect(() => {
         document.title = "Register";
     })
@@ -51,12 +53,12 @@ export default function RegisterForm() {
                                             <div className="stepper-success:bg-primary stepper-completed:bg-success bg-base-content/20 h-px w-full group-last:hidden max-md:mt-2 max-md:h-8 max-md:w-px md:flex-1" ></div>
                                         </li>
                                     </ul>
-                                    <form action="/api/auth/register" method="post" className="max-w-sm mx-auto w-full form-validate" id="wizard-validation-form" noValidate>
+                                    <form action="/program" method="post" className="max-w-sm mx-auto w-full form-validate" id="wizard-validation-form" noValidate>
                                         <div id="account-details-validation" className="space-y-5" data-stepper-content-item='{ "index": 1 }'>
                                             <PersonalInformation />
                                         </div>
                                         <div id="personal-info-validation" className="space-y-5" data-stepper-content-item='{ "index": 2 }' style={{ display: "none" }} >
-                                            <Institution />
+                                            <Institution type={type} />
                                         </div>
                                         <div className="mt-5 flex items-center justify-between gap-x-2">
                                             <button type="button" className="btn btn-prev hidden" data-stepper-back-btn="">
@@ -74,10 +76,14 @@ export default function RegisterForm() {
                                         </div>
                                     </form>
                                 </div>
+                                <div className="w-full h-12 flex items-center justify-center gap-1">
+                                    Sudah punya akun? <a href={`/auth?type=${type}`} className="text-fuchsia-800 hover:text-fuchsia-700">Login disini</a>
+                                </div>
                             </div>
                         </div>
                     </section>
                 </div >
+
             </div >
 
         </>

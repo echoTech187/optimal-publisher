@@ -1,7 +1,8 @@
-export default function SignInForm() {
+export default function SignInForm({ type }: { type?: string | null }) {
+
     return (
         <>
-            <form action="/api/auth/signin" method="post" className="max-w-sm mx-auto w-full">
+            <form action="/api/auth/signin" method="post" className="max-w-sm mx-auto w-full h-full">
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="phone">No. Telepon</label>
                     <input type="email" name="phone" autoFocus className="input rounded-md bg-white/50 border-white/40 hover:border-white/45  hover:shadow-outline hover:outline-none active:border-white/50 focus:border-white/50 focus:outline-none focus:shadow-outline focus-within:border-white/50 in-focus:border-white/50" />
@@ -16,6 +17,9 @@ export default function SignInForm() {
                     </button>
                 </div>
             </form>
+            <div className="w-full h-12 flex items-center justify-center gap-1">
+                Belum memiliki akun? <a href={`/auth/register?type=${type}`} className="text-fuchsia-800 hover:text-fuchsia-700">Daftar disini</a>
+            </div>
         </>
     );
 }
