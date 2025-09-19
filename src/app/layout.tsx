@@ -25,6 +25,11 @@ export default function RootLayout({
         setLayout("auth");
         setIsLoading(false);
       }
+    }else if(pathname.search("optimal") !== -1){
+      
+        setLayout("dashboard");
+        setIsLoading(false);
+      
     }else{
       setLayout("web");
       setIsLoading(false);

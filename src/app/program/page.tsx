@@ -1,7 +1,7 @@
 "use client";
 export default function ProgramList() {
     return (<>
-        <section className="w-full h-auto py-[100px] px-4 max-w-[1300px] mx-auto 2xl:px-0" id="program">
+        <section className="w-full h-auto py-[150px] px-4 max-w-[1300px] mx-auto 2xl:px-0" id="program">
             <header className="relative mb-24 text-center">
                 <h1 className="text-4xl anton mb-4 z-10 text-gray-700 dark:text-gray-50 leading-tight">Program Unggulan</h1>
                 <p>Pilih program yang sesuai dengan kebutuhanmu</p>

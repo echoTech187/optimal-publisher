@@ -1,5 +1,5 @@
 // global.d.ts
-import { IStaticMethods } from "flyonui/flyonui";
+import { IStaticMethods,HSCarousel } from "flyonui/flyonui";
 import type { noUiSlider } from "nouislider";
 
 
@@ -13,6 +13,7 @@ declare global {
     Dropzone : typeof Dropzone;
 
     HSStaticMethods: IStaticMethods;
+    HSCarousel: HSCarousel;
     noUiSlider: noUiSlider;
   }
 }

@@ -1,3 +1,4 @@
+"use client";
 import { Icon } from "@iconify/react"
 import Image from "next/image"
 export default function Book() {
@@ -11,7 +12,7 @@ export default function Book() {
                     <div className="flex-1">
                         <h1 className="text-6xl font-semibold mb-3 dark:text-gray-50">Temukan Buku yang Sesuai Untukmu</h1>
                         <p className="text-3xl text-black/60 dark:text-gray-50">Temukan buku yang sesuai dengan kebutuhanmu dengan mudah dan cepat</p>
-                        <button className="flex items-center justify-between gap-6 mt-6 py-3 px-6 rounded-md transition-colors bg-black/90 backdrop-blur-3xl text-white font-semibold hover:bg-yellow-700 hover:text-white">
+                        <button onClick={() => window.open("/book", "_parent")} className="flex items-center justify-between gap-6 mt-6 py-3 px-6 rounded-md transition-colors bg-black/90 backdrop-blur-3xl text-white font-semibold hover:bg-yellow-700 hover:text-white">
                             <span className="flex items-center gap-2">
                                 <Icon icon="tabler:books" className="size-6" width="32" height="32" />
                                 Temukan Sekarang
