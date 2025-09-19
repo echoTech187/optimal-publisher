@@ -159,12 +159,12 @@ const BookList = ({ data }: { data: any[] }) => {
 
     return (<>
         <div className='flex-1' >
-            
+
             <div className='flex flex-col items-start justify-start mb-8'>
                 <h2 className='text-xl font-bold text-[var(--primary)] '>Hasil Pencarian</h2>
                 <p className='text-sm text-slate-500'>Hasil pencarian {data.length} buku</p>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full h-auto rounded-xl">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full h-auto rounded-xl">
                 {
                     data.map((item, index) => {
                         return (
@@ -207,18 +207,14 @@ const BookSectionLoading = () => {
                         <h2 className='text-2xl font-bold text-[var(--primary)] '>Hasil Pencarian</h2>
                         {/* <p className='text-sm text-slate-500'>Hasil pencarian 0 buku</p> */}
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 w-full h-auto rounded-xl">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full h-auto rounded-xl">
                         {
-                            [...Array(3)].map((item, index) => {
+                            [...Array(12)].map((item, index) => {
                                 return (
-                                    <div className='flex flex-col items-start justify-start gap-4 text-center h-full' key={index}>
+                                    <div className='flex flex-col items-start justify-start gap-4 text-center h-full border border-gray-200 rounded-lg p-4' key={index}>
                                         <div className="animate-pulse bg-gray-300 rounded-t-lg object-cover w-full min-h-[200px] h-[200px]"></div>
                                         <div className="animate-pulse bg-gray-300 rounded-lg w-1/3 min-h-[30px] h-[30px]"></div>
                                         <div className="animate-pulse bg-gray-300 rounded-lg w-full min-h-[50px] h-[50px]"></div>
-                                        <div className=" w-full min-h-[50px] h-[50px] flex items-center justify-between gap-4">
-                                            <div className="animate-pulse bg-gray-300 rounded-lg w-1/2 min-h-[30px] h-[30px]"></div>
-                                            <div className="animate-pulse bg-gray-300 rounded-lg w-1/2 min-h-[30px] h-[30px]"></div>
-                                        </div>
                                     </div>
                                 );
                             })
