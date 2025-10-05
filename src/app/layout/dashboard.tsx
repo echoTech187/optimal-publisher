@@ -1,5 +1,5 @@
 import FlyonuiScript from "../components/FlyonuiScript";
-import { DashboardHeader } from "../components/header/page";
+import DashboardHeader from "../components/header/dashboard";
 import { DashboardSidebar } from "../components/sidebar";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -9,8 +9,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <DashboardSidebar />
             <div className="relative min-h-screen w-full overflow-x-hidden overflow-y-auto">
                 <div className="flex flex-col h-full">
-                <DashboardHeader />
-                {children}
+                    <DashboardHeader />
+                    {children}
                 </div>
             </div>
         </div>

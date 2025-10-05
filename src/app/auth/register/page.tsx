@@ -1,72 +1,151 @@
 "use client";
-import { AuthHeader } from "@/app/components/header/page";
+import AuthHeader from "@/app/components/header/auth";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PersonalInformation, Institution, TermsAndConditions } from "./form";
-import { useSearchParams } from "next/navigation";
-import baseUrl from "@/app/constants/api";
+import { useRouter, useSearchParams } from "next/navigation";
+import { baseUrl } from "@/app/constants/api";
 import Alert, { useAlert } from '@/app/ui/Alert';
+import { HSStepper } from "flyonui/flyonui";
 
-
+declare global {
+    interface Window {
+        HSStepper: typeof HSStepper
+    }
+}
 
 
 export default function RegisterForm() {
+    const navigation = useRouter();
+
     const router = useSearchParams();
     const type = router.get("type");
     const eventType = router.get("event");
-    const { alertProps, showAlert } = useAlert();
-    const [aggreement, setAgreement] = useState(false);
-
+    const { alertProps, showAlert, closeAlert } = useAlert();
+    const [finalValidate, setFinalValidate] = useState(false);
+    const [isValidated, setIsValidated] = useState(false);
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [institution, setInstitution] = useState([]);
+    const [major, setMajor] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const isFetched = useRef(false);
     useEffect(() => {
+        if (isFetched.current) return;
+        isFetched.current = true;
         document.title = "Register";
-    })
+        setTimeout(() => {
+            if (window.HSStepper) {
+                window.HSStepper.autoInit();
+            }
+        }, 100);
+        async function getInstitution() {
+            const inst = await fetch(baseUrl + "/institutions", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            const data = await inst.json();
+            setInstitution(data);
+
+        }
+        async function getMajor() {
+            const maj = await fetch(baseUrl + "/majors", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            });
+            const data = await maj.json();
+            setMajor(data);
+        }
+        getMajor();
+        getInstitution();
+        if (institution && major) {
+            setIsLoading(false);
+        }
+    }, [])
 
     async function signUpHandler(event: any) {
+        setIsSubmitted(true);
         event.preventDefault();
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData);
-        console.log(data);
-        const response = await fetch(`${baseUrl}/register`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        });
-        console.log(response);
-        const result = await response.json();
-        console.log(result);
+        const finalBtn = document.querySelector('[data-stepper-finish-btn]');
+        finalBtn?.removeAttribute('style');
+        try {
+            const response = await fetch(`${baseUrl}/register`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+            console.log(response);
+            const result = await response.json();
+            console.log(result);
 
-        if (result.code === 200) {
-            localStorage.setItem("token", result.token);
-            localStorage.setItem("user", JSON.stringify(result.user));
-            showAlert({
-                type: 'success',
-                title: 'Registrasi Berhasil!',
-                message: result.message,
-                onCloseCallback: () => {
-                    if (type === "null") {
-                        window.location.href = "/optimal/dashboard";
-                    } else if (type === "event") {
-                        window.location.href = "/event/" + eventType;
-                    } else {
-                        window.location.href = "/program";
+            if (result.code === 200) {
+                localStorage.setItem("token", result.token);
+                localStorage.setItem("user", JSON.stringify(result.user));
+                handleSuccessfulRegistration(result);
+            } else {
+
+                showAlert({
+                    type: 'error',
+                    title: 'Registrasi Gagal!',
+                    message: result.message,
+                    onCloseCallback: () => {
+                        closeAlert();
+
                     }
-                }
-            })
-
-
-        } else {
+                });
+                setIsSubmitted(false);
+            }
+        } catch (error: any) {
             showAlert({
                 type: 'error',
                 title: 'Registrasi Gagal!',
-                message: result.message,
+                message: error.message,
                 onCloseCallback: () => {
-                    alertProps.onClose();
+                    closeAlert();
                 }
-            })
+            });
+            setIsSubmitted(false);
         }
     }
+    function handleSuccessfulRegistration(result: any) {
+        // Perform state update here
+        showAlert({
+            type: 'success',
+            title: 'Registrasi Berhasil!',
+            message: result.message,
+            onCloseCallback: () => {
+                closeAlert();
+                setIsSubmitted(false);
+                setTimeout(() => {
+                    closeAlert();
+                    setIsSubmitted(false);
+                    if (type === "null") {
+                        navigation.push("/optimal/dashboard");
+                    } else if (type === "event") {
+                        navigation.push("/event/" + eventType);
+                    } else {
+                        navigation.push("/program");
+                    }
+                })
+
+            }
+        })
+    }
+
+    if (isLoading)
+        return (
+            <>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full flex items-center justify-center bg-white z-50 dark:bg-gray-800 dark:text-gray-50 overflow-hidden">Loading...</div>
+
+            </>
+        )
     return (
         <>
             <div className="relative w-screen min-h-screen h-full flex items-center justify-center bg-gray-50 dark:bg-gray-700 overflow-x-hidden">
@@ -79,8 +158,8 @@ export default function RegisterForm() {
                     </video>
                     <div className="absolute w-full h-full bg-purple-900/50 z-2"></div>
                     <section className="w-full h-full">
-                        <div className="fixed right-0 top-0 z-10 max-lg:w-full w-sm md:w-sm lg:w-md xl:w-lg h-screen flex items-center justify-center overflow-x-hidden overflow-y-auto">
-                            <div className="flex flex-col items-center justify-center bg-white/80 shadow-md backdrop-blur-2xl px-8 w-full min-h-full mx-auto py-6">
+                        <div className="fixed right-0 top-0 z-10 max-lg:w-full w-sm md:w-sm lg:w-md xl:w-lg h-screen flex items-center justify-center overflow-hidden">
+                            <div className="flex flex-col items-center justify-center bg-white/80 shadow-md backdrop-blur-2xl px-8 w-full max-h-full mx-auto py-6 overflow-y-auto hidden-scroll">
                                 <AuthHeader title="Registrasi" subtitle="Buat akun baru anda." />
                                 <div data-stepper="" className="flex w-full items-start gap-10 rounded-lg p-4 shadow-none max-sm:flex-wrap max-sm:justify-center" id="wizard-validation" >
                                     <ul className="relative flex flex-col gap-2 md:flex-row hidden">
@@ -110,25 +189,35 @@ export default function RegisterForm() {
                                         </li>
                                     </ul>
 
-                                    <form onSubmit={signUpHandler} method="post" className="max-w-sm mx-auto w-full form-validate" id="wizard-validation-form" noValidate>
+                                    <form onSubmit={signUpHandler} method="post" className="max-w-sm mx-auto w-full needs-validation peer" id="wizard-validation-form" noValidate>
                                         <div id="account-details-validation" className="space-y-5" data-stepper-content-item='{ "index": 1 }'>
-                                            <PersonalInformation />
+                                            <PersonalInformation setIsValid={setIsValidated} />
                                         </div>
-                                        <div id="personal-info-validation" className="space-y-5" data-stepper-content-item='{ "index": 2 }' style={{ display: "none" }} >
-                                            <Institution type={type} aggreement={aggreement} setAgreement={setAgreement} />
+                                        <div id="personal-info-validation" className="space-y-5" data-stepper-content-item='{ "index": 2 ,"isFinal": true }' style={{ display: "none" }} >
+                                            <Institution type={type} setIsValid={setFinalValidate} institution={institution} major={major} />
                                         </div>
                                         <div className="mt-5 flex items-center justify-between gap-x-2">
                                             <button type="button" className="btn btn-prev hidden" data-stepper-back-btn="">
                                                 <Icon icon="tabler:chevron-left" width="24" height="24" className="text-primary-content size-5 rtl:rotate-180" />
                                                 <span className="">Kembali</span>
                                             </button>
-                                            <button type="button" className="btn btn-next w-full justify-between rounded-sm" data-stepper-next-btn="">
+                                            <button type="button" className={`btn btn-next w-full justify-between rounded-sm `} disabled={isValidated ? false : true} data-stepper-next-btn="">
                                                 <span className="">Lanjutkan</span>
                                                 <Icon icon="tabler:chevron-right" width="24" height="24" className="text-primary-content size-5 rtl:rotate-180" />
                                             </button>
-                                            <button type="submit" data-stepper-finish-btn="" style={{ display: "none" }} className="btn justify-center rounded-sm w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-2 px-4 border-none outline-none shadow-outline focus:outline-none focus:shadow-outline">
-                                                <Icon icon="tabler:send" width="24" height="24" className="text-primary-content size-5 rtl:rotate-180" />
-                                                <span className="">Daftar</span>
+                                            <button type="submit" data-stepper-finish-btn={""} style={{ display: "none" }} disabled={finalValidate && !isSubmitted ? false : true} className="btn justify-center rounded-sm w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-2 px-4 border-none outline-none shadow-outline focus:outline-none focus:shadow-outline">
+                                                {
+                                                    isSubmitted ?
+                                                        <>
+                                                            <Icon icon="tabler:loader-2" width="24" height="24" className="text-primary-content size-5 rtl:rotate-180 animate-spin" />
+                                                            <span className="">Loading...</span>
+                                                        </>
+                                                        : <>
+                                                            <Icon icon="tabler:send" width="24" height="24" className="text-primary-content size-5 rtl:rotate-180" />
+                                                            <span className="">Daftar</span>
+                                                        </>
+                                                }
+
                                             </button>
                                         </div>
                                     </form>

@@ -1,64 +1,142 @@
-const PersonalInformation = () => {
+import { useEffect, useState } from "react";
+import { validationPersonal, validationInstitution } from "../../../utils/validation";
+import { useForm } from "../../../utils/useForm";
+import baseUrl from "@/app/constants/api";
+
+const PersonalInformation = ({ setIsValid }) => {
+
+    const { form, errors: errros, handleInputChange } = useForm({
+        fullname: "",
+        phone: "",
+        password: "",
+        confirm_password: "",
+    }, validationPersonal);
+
+    useEffect(() => {
+        const validate = () => {
+            const { fullname, phone, password, confirm_password } = form;
+            const hasErrors = Object.values(errros).some(error => error !== "");
+
+            if (fullname && phone && password && confirm_password && !hasErrors) {
+                setIsValid(true);
+            } else {
+                setIsValid(false);
+            }
+        };
+
+        validate();
+    }, [form, errros, setIsValid]);
     return (<>
         <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fullname">Nama Lengkap Beserta Gelar</label>
-            <input type="text" name="fullname" autoFocus className="input rounded-md bg-white/50 border-white/40 hover:border-white/45  hover:shadow-outline hover:outline-none active:border-white/50 focus:border-white/50 focus:outline-none focus:shadow-outline focus-within:border-white/50 in-focus:border-white/50" />
+            <input type="text" name="fullname" id="fullname" value={form.fullname} onInput={handleInputChange} autoFocus className="input rounded-md bg-white/50 border-white/40 hover:border-white/45  hover:shadow-outline hover:outline-none active:border-white/50 focus:border-white/50 focus:outline-none focus:shadow-outline focus-within:border-white/50 in-focus:border-white/50" />
+            {errros.fullname && <p className="text-red-500 text-xs mt-1">{errros.fullname}</p>}
         </div>
         <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="phone">No. Telepon</label>
-            <input type="number" name="phone" className="input rounded-md bg-white/50 border-white/40 hover:border-white/45  hover:shadow-outline hover:outline-none active:border-white/50 focus:border-white/50 focus:outline-none focus:shadow-outline focus-within:border-white/50 in-focus:border-white/50" />
+            <input type="tel" pattern={`${form.phone.length <= 10 ? "[0-8]{3}-[0-9]{3}-[0-9]{4}" : "[0-8]{4}-[0-9]{4}-[0-9]{4}"}`} name="phone" id="phone" value={form.phone} onInput={handleInputChange} className="input rounded-md bg-white/50 border-white/40 hover:border-white/45  hover:shadow-outline hover:outline-none active:border-white/50 focus:border-white/50 focus:outline-none focus:shadow-outline focus-within:border-white/50 in-focus:border-white/50" />
+            {errros.phone && <p className="text-red-500 text-xs mt-1">{errros.phone}</p>}
         </div>
         <div className="mb-6">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">Password</label>
-            <input type="password" name="password" className="input rounded-md bg-white/50 border-white/40 hover:border-white/45  hover:shadow-outline hover:outline-none active:border-white/50 focus:border-white/50 focus:outline-none focus:shadow-outline focus-within:border-white/50 in-focus:border-white/50" />
+            <input type="password" name="password" id="password" value={form.password} onInput={handleInputChange} className="input rounded-md bg-white/50 border-white/40 hover:border-white/45  hover:shadow-outline hover:outline-none active:border-white/50 focus:border-white/50 focus:outline-none focus:shadow-outline focus-within:border-white/50 in-focus:border-white/50" />
+            {errros.password && <p className="text-red-500 text-xs mt-1">{errros.password}</p>}
         </div>
         <div className="mb-6">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="confirm_password">Konfirmasi Password</label>
-            <input type="password" name="confirm_password" className="input rounded-md bg-white/50 border-white/40 hover:border-white/45  hover:shadow-outline hover:outline-none active:border-white/50 focus:border-white/50 focus:outline-none focus:shadow-outline focus-within:border-white/50 in-focus:border-white/50" />
+            <input type="password" name="confirm_password" id="confirm_password" value={form.confirm_password} onInput={handleInputChange} className="input rounded-md bg-white/50 border-white/40 hover:border-white/45  hover:shadow-outline hover:outline-none active:border-white/50 focus:border-white/50 focus:outline-none focus:shadow-outline focus-within:border-white/50 in-focus:border-white/50" />
+            {errros.confirm_password && <p className="text-red-500 text-xs mt-1">{errros.confirm_password}</p>}
         </div>
     </>);
 }
-const Institution = (props) => {
-    const { type, aggreement, setAgreement } = props
+const Institution = ({ type, setIsValid, institution, major }) => {
+    const [aggreement, setAggreement] = useState(false);
+    const [wrote, setWrote] = useState(false);
+    const { form, errors: errros, handleInputChange } = useForm({
+        // location: "",
+        institution: "",
+        major: "",
+        position: "",
+        aggreement: false,
+    }, validationInstitution);
+    useEffect(() => {
+        const validate = () => {
+            const { location, institution, major, position, aggreement } = form;
+            const hasErrors = Object.values(errros).some(error => error !== "");
+            if (type === "event") {
+                if (location && institution && major && position && aggreement && !hasErrors) {
+                    setIsValid(true);
+                } else {
+                    setIsValid(false);
+                }
+            } else {
+
+                if (institution && major && position && aggreement && !hasErrors) {
+                    setIsValid(true);
+                } else {
+                    setIsValid(false);
+                }
+            }
+        };
+        validate();
+    }, [form, errros, setIsValid]);
+    const wroteHandler = (e) => {
+        setWrote(e.target.checked);
+    }
+
     return (<>
+        <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="institution">Asal Kampus/Institusi</label>
+            <select className="select" name="institution" id="institution" defaultValue={form.institution} onChange={handleInputChange}>
+                <option value="">Pilih Asal Kampus/Institusi</option>
+                {
+                    institution.map((item, index) => {
+                        return (
+                            <option key={index} value={item.id}>{item.name}</option>
+                        )
+                    })
+                }
+            </select>
+            {errros.institution && <p className="text-red-500 text-xs mt-1">{errros.institution}</p>}
+        </div>
+        <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="major">{(type === "event") ? "Homebase Mengajar" : "Jurusan"} </label>
+            <select className="select" name="major" id="major" defaultValue={form.major} onChange={handleInputChange}>
+                <option value="">Pilih {(type === "event") ? "Homebase Mengajar" : "Jurusan"}</option>
+                {
+                    major.map((item, index) => {
+                        return (
+                            <option key={index} value={item.id}>{item.major_name}</option>
+                        )
+                    })
+                }
+            </select>
+            {errros.major && <p className="text-red-500 text-xs mt-1">{errros.major}</p>}
+        </div>
+        <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="position">Jabatan Struktural di kampus/Institusi</label>
+            <input type="text" name="position" id="position" value={form.position} onInput={handleInputChange} className="input rounded-md bg-white/50 border-white/40 hover:border-white/45  hover:shadow-outline hover:outline-none active:border-white/50 focus:border-white/50 focus:outline-none focus:shadow-outline focus-within:border-white/50 in-focus:border-white/50" />
+            {errros.position && <p className="text-red-500 text-xs mt-1">{errros.position}</p>}
+        </div>
         {
             (type === "event") ?
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="location">Kota/Provinsi/Kabupaten</label>
-                    <input id="location" name="location" className="input rounded-md bg-white/50 border-white/40 hover:border-white/45  hover:shadow-outline hover:outline-none active:border-white/50 focus:border-white/50 focus:outline-none focus:shadow-outline focus-within:border-white/50 in-focus:border-white/50" />
+                    <input id="location" name="location" value={form.location} onInput={handleInputChange} className="input rounded-md bg-white/50 border-white/40 hover:border-white/45  hover:shadow-outline hover:outline-none active:border-white/50 focus:border-white/50 focus:outline-none focus:shadow-outline focus-within:border-white/50 in-focus:border-white/50" />
+                    {errros.location && <p className="text-red-500 text-xs mt-1">{errros.location}</p>}
                 </div> : null
         }
-        <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="institution">Asal Kampus/Institusi</label>
-            <select className="select" name="institution" id="institution">
-                <option value="">Pilih Asal Kampus/Institusi</option>
-                <option value="1">Institut Teknologi Bandung</option>
-                <option value="2">Institut Teknologi Sumatera</option>
-                <option value="3">Institut Teknologi Kalimantan</option>
-            </select>
-        </div>
-        <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="major">{(type === "event") ? "Homebase Mengajar" : "Jurusan"} </label>
-            <select className="select" name="major" id="major">
-                <option value="">Pilih {(type === "event") ? "Homebase Mengajar" : "Jurusan"}</option>
-                <option value="1">Kebidanan</option>
-                <option value="2">Keperawatan</option>
-            </select>
-        </div>
-        <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="position">Jabatan Struktural di kampus/Institusi</label>
-            <input type="text" name="position" id="position" className="input rounded-md bg-white/50 border-white/40 hover:border-white/45  hover:shadow-outline hover:outline-none active:border-white/50 focus:border-white/50 focus:outline-none focus:shadow-outline focus-within:border-white/50 in-focus:border-white/50" />
-        </div>
         {
             (type === "isbn") ?
                 <div className="mb-4 join gap-2">
-                    <input type="checkbox" name="already_wrote" id="already_wrote" value={true} className="checkbox" />
+                    <input type="checkbox" name="already_wrote" id="already_wrote" value={wrote} className="checkbox" onChange={wroteHandler} />
                     <label className="block text-gray-700 text-sm font-bold" htmlFor="already_wrote">Apakah Bapak/Ibu pernah mengikuti program menulis buku di Optimal?</label>
                 </div> : null
         }
         <div className="mb-4 join gap-2">
-            <input type="checkbox" name="aggreement" id="aggreement" value={aggreement} className="checkbox" required onChange={(e) => setAgreement(e.target.checked)} />
+            <input type="checkbox" name="aggreement" id="aggreement" value={aggreement} className="checkbox" required onChange={handleInputChange} />
             <label className="block text-gray-700 text-sm font-bold" htmlFor="aggreement">Dengan ini saya menyatakan bahwa data yang saya masukan adalah benar dan dapat dipertanggung jawabkan. Serta saya telah membaca dan menyetujui Syarat dan Ketentuan yang berlaku.</label>
+            {errros.aggreement && <p className="text-red-500 text-xs mt-1">{errros.aggreement}</p>}
         </div>
     </>);
 }

@@ -4,7 +4,7 @@ import { Encode_Sans_Condensed, Anton, Inter } from "next/font/google";
 import "../globals.css";
 import FlyonuiScript from "../components/FlyonuiScript";
 import Footer from "../components/footer/page";
-import { Header } from "../components/header/page";
+import Header from "../components/header";
 import { MobileSidebar } from "../components/sidebar";
 const encodeSansCondensed = Encode_Sans_Condensed({
     variable: "--font-encode-sans-condensed",

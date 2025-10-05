@@ -125,13 +125,24 @@ const BookSection = () => {
             if (params) {
                 const response = await fetch("http://127.0.0.1:8000/api/v1/book?" + params.toString());
                 const book = await response.json();
-                setBookData(book.data)
-                setIsLoading(false);
+                if (book.data.length === 0) {
+                    setBookData(book.data)
+                    setIsLoading(false);
+                } else {
+                    setBookData([])
+                    setIsLoading(false);
+                }
+
             } else {
                 const response = await fetch("http://127.0.0.1:8000/api/v1/book");
                 const book = await response.json();
-                setBookData(book.data)
-                setIsLoading(false);
+                if (book.data.length === 0) {
+                    setBookData(book.data)
+                    setIsLoading(false);
+                } else {
+                    setBookData([])
+                    setIsLoading(false);
+                }
             }
 
         }

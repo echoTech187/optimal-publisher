@@ -3,23 +3,16 @@ import path from "path";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  output: "export",
+  // output: "export",
   images: {
     unoptimized: true,
   },
   experimental: {
-    optimizeCss: true,
+    optimizeCss: false,
     scrollRestoration: true
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  devIndicators: false,
   turbopack: {
-    root: path.join(__dirname, '..'),
+    root: path.join(__dirname, './'),
   },
 };
 

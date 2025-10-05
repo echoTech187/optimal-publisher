@@ -1,5 +1,5 @@
 // global.d.ts
-import { IStaticMethods,HSCarousel } from "flyonui/flyonui";
+import { IStaticMethods, HSCarousel, HSStepper } from "flyonui/flyonui";
 import type { noUiSlider } from "nouislider";
 
 
@@ -10,12 +10,12 @@ declare global {
     $: typeof import("jquery");
     jQuery: typeof import("jquery");
     DataTable;
-    Dropzone : typeof Dropzone;
+    Dropzone: typeof Dropzone;
 
     HSStaticMethods: IStaticMethods;
-    HSCarousel: HSCarousel;
+    HSCarousel: typeof HSCarousel;
     noUiSlider: noUiSlider;
   }
 }
 
-export {};
+export { };

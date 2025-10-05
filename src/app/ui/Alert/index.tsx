@@ -1,13 +1,17 @@
 'use client';
 
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Icon } from '@iconify/react';
 
-// Tipe untuk varian alert
+// --- BAGIAN 1: DEFINISI TIPE ---
+
 type AlertPosition = 'center' | 'top' | 'bottom';
 type AlertType = 'success' | 'error' | 'warning' | 'info' | 'custom';
 
-// --- MODIFIKASI: Tambahkan `onCloseCallback` ---
+/**
+ * Konfigurasi untuk menampilkan sebuah alert.
+ * Digunakan saat memanggil fungsi `showAlert`.
+ */
 export type AlertConfig = {
     type: AlertType;
     title: string;
@@ -18,107 +22,99 @@ export type AlertConfig = {
     secondaryButtonText?: string;
     onSecondaryClick?: () => void;
     onCloseCallback?: () => void;
-    duration?: number;
+    duration?: number; // Durasi dalam milidetik
     position?: AlertPosition;
 };
 
-// Tipe untuk props internal komponen Alert
+/**
+ * Tipe untuk props internal komponen Alert.
+ */
 interface AlertProps extends AlertConfig {
     isOpen: boolean;
     onClose: () => void;
 }
+
+// --- BAGIAN 2: KONFIGURASI STYLE & ANIMASI ---
+
+const alertConfigStyles: Record<AlertType, object> = {
+    success: { icon: 'mdi:check-circle-outline', iconColor: 'text-green-600', iconBg: 'bg-green-100', primaryButton: 'bg-green-600 hover:bg-green-700 focus:ring-green-500' },
+    error: { icon: 'mdi:alert-circle-outline', iconColor: 'text-red-600', iconBg: 'bg-red-100', primaryButton: 'bg-red-600 hover:bg-red-700 focus:ring-red-500' },
+    warning: { icon: 'mdi:alert-outline', iconColor: 'text-yellow-600', iconBg: 'bg-yellow-100', primaryButton: 'bg-yellow-500 hover:bg-yellow-600 focus:ring-yellow-400' },
+    info: { icon: 'mdi:information-outline', iconColor: 'text-blue-600', iconBg: 'bg-blue-100', primaryButton: 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500' },
+    custom: { icon: 'mdi:help-circle-outline', iconColor: 'text-gray-600', iconBg: 'bg-gray-100', primaryButton: 'bg-gray-600 hover:bg-gray-700 focus:ring-gray-500' },
+};
+
 const positionStyles: Record<AlertPosition, string> = {
     center: 'items-center justify-center',
     top: 'items-start justify-center pt-12',
     bottom: 'items-end justify-center pb-12',
 };
+
 const animationStyles: Record<AlertPosition, string> = {
     center: 'animate-in fade-in zoom-in-95',
     top: 'animate-in fade-in slide-in-from-top',
     bottom: 'animate-in fade-in slide-in-from-bottom',
 };
-// ... (const alertConfigStyles tidak berubah)
-const alertConfigStyles = {
-    success: {
-        icon: 'mdi:check-circle-outline',
-        iconColor: 'text-green-600',
-        iconBg: 'bg-green-100',
-        primaryButton: 'bg-green-600 hover:bg-green-700 focus:ring-green-500',
-    },
-    error: {
-        icon: 'mdi:alert-circle-outline',
-        iconColor: 'text-red-600',
-        iconBg: 'bg-red-100',
-        primaryButton: 'bg-red-600 hover:bg-red-700 focus:ring-red-500',
-    },
-    warning: {
-        icon: 'mdi:alert-outline',
-        iconColor: 'text-yellow-600',
-        iconBg: 'bg-yellow-100',
-        primaryButton: 'bg-yellow-500 hover:bg-yellow-600 focus:ring-yellow-400',
-    },
-    info: {
-        icon: 'mdi:information-outline',
-        iconColor: 'text-blue-600',
-        iconBg: 'bg-blue-100',
-        primaryButton: 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500',
-    },
-    custom: {
-        icon: 'mdi:help-circle-outline',
-        iconColor: 'text-gray-600',
-        iconBg: 'bg-gray-100',
-        primaryButton: 'bg-gray-600 hover:bg-gray-700 focus:ring-gray-500',
-    },
-};
 
 
-// Custom Hook untuk mengelola state Alert
+// --- BAGIAN 3: CUSTOM HOOK `useAlert` (LOGIKA UTAMA) ---
+
 export const useAlert = () => {
     const [alertState, setAlertState] = useState<Partial<AlertProps>>({ isOpen: false });
-    const timerRef = useRef<NodeJS.Timeout | null>(null); // Ref untuk menyimpan ID timer
 
+    const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+    // PERBAIKAN KUNCI: Buat fungsi close yang stabil dan tidak bergantung pada state
     const closeAlert = useCallback(() => {
-        // Hapus timer jika ada saat menutup manual
+        setAlertState((currentState) => {
+            // Jika sudah ditutup, jangan lakukan apa-apa
+            if (!currentState.isOpen) {
+                return currentState;
+            }
+            // Jalankan callback jika ada di state saat ini
+            if (currentState.onCloseCallback) {
+                currentState.onCloseCallback();
+            }
+            // Kembalikan state baru untuk menutup alert
+            return { ...currentState, isOpen: false };
+        });
+    }, []);
+
+    // useEffect sekarang menjadi satu-satunya yang bertanggung jawab atas timer
+    useEffect(() => {
+        // Hapus timer lama setiap kali state berubah
         if (timerRef.current) {
             clearTimeout(timerRef.current);
             timerRef.current = null;
         }
 
-        if (alertState.onCloseCallback) {
-            alertState.onCloseCallback();
-        }
-        setAlertState({ isOpen: false });
-    }, [alertState]);
-
-    const showAlert = useCallback((config: AlertConfig) => {
-        // Hapus timer sebelumnya jika ada alert baru yang muncul
-        if (timerRef.current) {
-            clearTimeout(timerRef.current);
-        }
-
-        setAlertState({ ...config, isOpen: true, onClose: closeAlert });
-
-        // --- BARU: Logika untuk durasi ---
-        if (config.duration && config.duration > 0) {
+        // Jika alert terbuka dan punya durasi, set timer baru
+        if (alertState.isOpen && alertState.duration) {
             timerRef.current = setTimeout(() => {
+                // Panggil fungsi close yang stabil
                 closeAlert();
-            }, config.duration);
+            }, alertState.duration);
         }
-    }, [closeAlert]);
 
-    // Cleanup effect untuk membersihkan timer saat komponen unmount
-    useEffect(() => {
+        // Fungsi cleanup untuk saat komponen unmount
         return () => {
             if (timerRef.current) {
                 clearTimeout(timerRef.current);
             }
         };
-    }, []);
+    }, [alertState, closeAlert]); // Bergantung pada seluruh objek state
 
-    return { alertProps: alertState as AlertProps, showAlert };
+    // Fungsi showAlert sekarang hanya fokus untuk mengatur state
+    const showAlert = useCallback((config: AlertConfig) => {
+        setAlertState({ ...config, isOpen: true, onClose: closeAlert });
+    }, [closeAlert]);
+
+    return { alertProps: alertState as AlertProps, showAlert, closeAlert };
 };
 
-// ... (Komponen Alert tidak perlu diubah sama sekali)
+
+// --- BAGIAN 4: KOMPONEN REACT `Alert` (HANYA UNTUK TAMPILAN) ---
+
 const Alert: React.FC<Partial<AlertProps>> = ({
     isOpen,
     onClose,
@@ -130,31 +126,20 @@ const Alert: React.FC<Partial<AlertProps>> = ({
     onPrimaryClick,
     secondaryButtonText,
     onSecondaryClick,
-    duration = 3000,
     position = 'center',
 }) => {
     if (!isOpen || !onClose) {
         return null;
     }
 
-    const config = alertConfigStyles[type];
+    const config = alertConfigStyles[type] as any;
     const displayIcon = icon || config.icon;
     const posStyles = positionStyles[position];
     const animStyles = animationStyles[position];
 
-    // --- BARU: Logika untuk durasi ---
-    useEffect(() => {
-        if (duration && duration > 0) {
-            const timer = setTimeout(() => {
-                onClose();
-            }, duration);
-            return () => clearTimeout(timer);
-        }
-    }, [duration, onClose]);
-
     return (
         <div
-            className={`fixed inset-0 z-50 flex p-4 transition-opacity duration-300 animate-in fade-in ${posStyles}`}
+            className={`fixed inset-0 z-50 flex p-4 transition-opacity duration-300 bg-black/60 ${posStyles}`}
             onClick={onClose}
         >
             <div
@@ -188,4 +173,5 @@ const Alert: React.FC<Partial<AlertProps>> = ({
         </div>
     );
 };
+
 export default Alert;
