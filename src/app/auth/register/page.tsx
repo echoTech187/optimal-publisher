@@ -4,13 +4,69 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { useEffect, useState } from "react";
 import { PersonalInformation, Institution, TermsAndConditions } from "./form";
 import { useSearchParams } from "next/navigation";
+import baseUrl from "@/app/constants/api";
+import Alert, { useAlert } from '@/app/ui/Alert';
+
+
+
 
 export default function RegisterForm() {
     const router = useSearchParams();
     const type = router.get("type");
+    const eventType = router.get("event");
+    const { alertProps, showAlert } = useAlert();
+    const [aggreement, setAgreement] = useState(false);
+
     useEffect(() => {
         document.title = "Register";
     })
+
+    async function signUpHandler(event: any) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData);
+        console.log(data);
+        const response = await fetch(`${baseUrl}/register`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+        console.log(response);
+        const result = await response.json();
+        console.log(result);
+
+        if (result.code === 200) {
+            localStorage.setItem("token", result.token);
+            localStorage.setItem("user", JSON.stringify(result.user));
+            showAlert({
+                type: 'success',
+                title: 'Registrasi Berhasil!',
+                message: result.message,
+                onCloseCallback: () => {
+                    if (type === "null") {
+                        window.location.href = "/optimal/dashboard";
+                    } else if (type === "event") {
+                        window.location.href = "/event/" + eventType;
+                    } else {
+                        window.location.href = "/program";
+                    }
+                }
+            })
+
+
+        } else {
+            showAlert({
+                type: 'error',
+                title: 'Registrasi Gagal!',
+                message: result.message,
+                onCloseCallback: () => {
+                    alertProps.onClose();
+                }
+            })
+        }
+    }
     return (
         <>
             <div className="relative w-screen min-h-screen h-full flex items-center justify-center bg-gray-50 dark:bg-gray-700 overflow-x-hidden">
@@ -53,12 +109,13 @@ export default function RegisterForm() {
                                             <div className="stepper-success:bg-primary stepper-completed:bg-success bg-base-content/20 h-px w-full group-last:hidden max-md:mt-2 max-md:h-8 max-md:w-px md:flex-1" ></div>
                                         </li>
                                     </ul>
-                                    <form action={`${type ==="event" ? "/pack?type=event&event=Lomba Menulis Artikel Pro 6" :(type === "null") ? "/optimal/dashboard" : "/program"}`} method="post" className="max-w-sm mx-auto w-full form-validate" id="wizard-validation-form" noValidate>
+
+                                    <form onSubmit={signUpHandler} method="post" className="max-w-sm mx-auto w-full form-validate" id="wizard-validation-form" noValidate>
                                         <div id="account-details-validation" className="space-y-5" data-stepper-content-item='{ "index": 1 }'>
                                             <PersonalInformation />
                                         </div>
                                         <div id="personal-info-validation" className="space-y-5" data-stepper-content-item='{ "index": 2 }' style={{ display: "none" }} >
-                                            <Institution type={type} />
+                                            <Institution type={type} aggreement={aggreement} setAgreement={setAgreement} />
                                         </div>
                                         <div className="mt-5 flex items-center justify-between gap-x-2">
                                             <button type="button" className="btn btn-prev hidden" data-stepper-back-btn="">
@@ -85,7 +142,7 @@ export default function RegisterForm() {
                 </div >
 
             </div >
-
+            <Alert {...alertProps} />
         </>
     );
 }

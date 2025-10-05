@@ -19,7 +19,7 @@ const PersonalInformation = () => {
     </>);
 }
 const Institution = (props) => {
-    const { type } = props
+    const { type, aggreement, setAgreement } = props
     return (<>
         {
             (type === "event") ?
@@ -52,12 +52,12 @@ const Institution = (props) => {
         {
             (type === "isbn") ?
                 <div className="mb-4 join gap-2">
-                    <input type="checkbox" name="already_wrote" id="already_wrote" value={1} className="checkbox" />
+                    <input type="checkbox" name="already_wrote" id="already_wrote" value={true} className="checkbox" />
                     <label className="block text-gray-700 text-sm font-bold" htmlFor="already_wrote">Apakah Bapak/Ibu pernah mengikuti program menulis buku di Optimal?</label>
                 </div> : null
         }
         <div className="mb-4 join gap-2">
-            <input type="checkbox" name="aggreement" id="aggreement" value={1} className="checkbox" />
+            <input type="checkbox" name="aggreement" id="aggreement" value={aggreement} className="checkbox" required onChange={(e) => setAgreement(e.target.checked)} />
             <label className="block text-gray-700 text-sm font-bold" htmlFor="aggreement">Dengan ini saya menyatakan bahwa data yang saya masukan adalah benar dan dapat dipertanggung jawabkan. Serta saya telah membaca dan menyetujui Syarat dan Ketentuan yang berlaku.</label>
         </div>
     </>);
