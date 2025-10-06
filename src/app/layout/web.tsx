@@ -37,17 +37,6 @@ export default function WebLayout({ children }: { children: React.ReactNode }) {
                 <meta name="description" content="Optimal Untuk Negeri - Platform Kursus Online Terbaik di Indonesia. Tingkatkan keterampilan Anda dengan kursus berkualitas dari instruktur ahli. Mulai perjalanan belajar Anda hari ini!" />
                 <meta name="keywords" content="Optimal Untuk Negeri, kursus online, belajar online, pendidikan, keterampilan, pelatihan, instruktur ahli, platform pembelajaran, kursus berkualitas" />
                 <meta name="author" content="Optimal Untuk Negeri" />
-                <meta property="og:title" content="Optimal Untuk Negeri - Platform Kursus Online Terbaik di Indonesia" />
-                <meta property="og:description" content="Tingkatkan keterampilan Anda dengan kursus berkualitas dari instruktur ahli. Mulai perjalanan belajar Anda hari ini!" />
-                <meta property="og:image" content="/images/og-image.png" />
-                <meta property="og:url" content="https://www.optimaluntuknegeri.com" />
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content="Optimal Untuk Negeri - Platform Kursus Online Terbaik di Indonesia" />
-                <meta name="twitter:description" content="Tingkatkan keterampilan Anda dengan kursus berkualitas dari instruktur ahli. Mulai perjalanan belajar Anda hari ini!" />
-                <meta name="twitter:image" content="/images/og-image.png" />
-                <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-                <link href="https://fonts.googleapis.com/css2?family=Encode+Sans+Condensed:wght@400;700&family=Anton&display=swap" rel="stylesheet" />
             </head>
             <body
                 className={`${interFont.variable} ${interFont.variable} antialiased`}

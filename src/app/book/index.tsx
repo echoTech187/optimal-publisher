@@ -199,6 +199,10 @@ const BookSectionLoading = () => {
     return (
         <>
             <section className="max-w-[1300px] mx-auto px-4 text-center py-[150px]">
+                <header className={`max-w-[1300px] mx-auto px-4 text-center mb-12`}>
+                    <h1 className="text-4xl anton z-10 text-gray-700 dark:text-gray-50 leading-tight text-center">Daftar Buku Optimal</h1>
+                    <p>Dapatkan buku terbaru dari Optimal Untuk Negeri</p>
+                </header>
                 {/* <Suspense>
                     <FilterBook onUpdateParams={setParams} />
                 </Suspense> */}
