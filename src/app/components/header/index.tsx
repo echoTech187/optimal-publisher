@@ -8,18 +8,21 @@ const Header = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState({});
+    console.log(isLoggedIn);
     useEffect(() => {
         document.title = "Optimal Courses";
         const token = localStorage.getItem("token");
-        const user = localStorage.getItem("user") as string;
+        console.log(token);
+        const user = localStorage.getItem("user") ;
+        console.log(user);
         if (token) {
             setIsLoggedIn(true);
-            const userData = JSON.parse(user);
+            const userData = JSON.parse(user as string);
             setUser(userData);
         } else {
             setIsLoggedIn(false);
-            setUser(null);
+            setUser({});
         }
         function handleResize() {
             setIsMobile(window.innerWidth <= 1023);

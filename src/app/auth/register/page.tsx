@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { baseUrl } from "@/app/constants/api";
 import Alert, { useAlert } from '@/app/ui/Alert';
 import { HSStepper } from "flyonui/flyonui";
+import { checkAuthentication } from "@/utils/authentication";
 
 declare global {
     interface Window {
@@ -33,13 +34,15 @@ export default function RegisterForm() {
         if (isFetched.current) return;
         isFetched.current = true;
         document.title = "Register";
+        const authStatus = checkAuthentication();
+        if (authStatus) navigation.push("/");
         setTimeout(() => {
             if (window.HSStepper) {
                 window.HSStepper.autoInit();
             }
         }, 100);
         async function getInstitution() {
-            const inst = await fetch(baseUrl + "/institutions", {
+            const inst = await fetch(baseUrl() + "/institutions", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -50,7 +53,7 @@ export default function RegisterForm() {
 
         }
         async function getMajor() {
-            const maj = await fetch(baseUrl + "/majors", {
+            const maj = await fetch(baseUrl() + "/majors", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"
@@ -74,7 +77,7 @@ export default function RegisterForm() {
         const finalBtn = document.querySelector('[data-stepper-finish-btn]');
         finalBtn?.removeAttribute('style');
         try {
-            const response = await fetch(`${baseUrl}/register`, {
+            const response = await fetch(baseUrl() + `/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -88,6 +91,7 @@ export default function RegisterForm() {
             if (result.code === 200) {
                 localStorage.setItem("token", result.token);
                 localStorage.setItem("user", JSON.stringify(result.user));
+                localStorage.setItem("exprires_in",Date.now() + result.exprires_in);
                 handleSuccessfulRegistration(result);
             } else {
 
@@ -159,7 +163,7 @@ export default function RegisterForm() {
                     <div className="absolute w-full h-full bg-purple-900/50 z-2"></div>
                     <section className="w-full h-full">
                         <div className="fixed right-0 top-0 z-10 max-lg:w-full w-sm md:w-sm lg:w-md xl:w-lg h-screen flex items-center justify-center overflow-hidden">
-                            <div className="flex flex-col items-center justify-center bg-white/80 shadow-md backdrop-blur-2xl px-8 w-full max-h-full mx-auto py-6 overflow-y-auto hidden-scroll">
+                            <div className="flex flex-col items-center justify-center bg-white/80 shadow-md backdrop-blur-2xl px-8 w-full h-full mx-auto py-6 overflow-y-auto hidden-scroll">
                                 <AuthHeader title="Registrasi" subtitle="Buat akun baru anda." />
                                 <div data-stepper="" className="flex w-full items-start gap-10 rounded-lg p-4 shadow-none max-sm:flex-wrap max-sm:justify-center" id="wizard-validation" >
                                     <ul className="relative flex flex-col gap-2 md:flex-row hidden">
@@ -223,7 +227,7 @@ export default function RegisterForm() {
                                     </form>
                                 </div>
                                 <div className="w-full h-12 flex items-center justify-center gap-1">
-                                    Sudah punya akun? <a href={`/auth?type=${type}`} className="text-fuchsia-800 hover:text-fuchsia-700">Login disini</a>
+                                    Sudah punya akun? <a href={`/auth/signin?type=${type}`} className="text-fuchsia-800 hover:text-fuchsia-700">Login disini</a>
                                 </div>
                             </div>
                         </div>

@@ -4,6 +4,7 @@ import React from "react";
 import { BookRecomend, BookSection, BookSectionLoading } from "./index";
 
 import { useEffect, useState } from "react";
+import WebLayout from "../layout/web";
 
 const Book = () => {
     const [bookData, setBookData] = useState<any[]>([]);

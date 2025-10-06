@@ -1,12 +1,10 @@
+import { logout } from "@/utils/authentication";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
 export default function UserProfile(data: any) {
     const userData = data.data;
     // console.log(userData);
     return (<>
-        <button type="button" className="btn btn-text max-md:btn-square lg:hidden" aria-haspopup="dialog" aria-expanded="false" aria-controls="collapsible-sidebar" data-overlay="#collapsible-sidebar" >
-            <Icon icon="tabler:menu-2" width="24" height="24" />
-        </button>
         <div className="dropdown relative inline-flex [--auto-close:inside] [--offset:8] [--placement:bottom-end]">
             <button id="dropdown-scrollable" type="button" className="dropdown-toggle flex items-center" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
                 <div className="avatar">
@@ -52,7 +50,7 @@ export default function UserProfile(data: any) {
                     </a>
                 </li>
                 <li className="dropdown-footer gap-2">
-                    <a className="btn btn-error btn-soft btn-block" href="#">
+                    <a className="btn btn-error btn-soft btn-block" onClick={() =>logout()}>
                         <span className="icon-[tabler--logout]"></span>
                         Sign out
                     </a>

@@ -1,4 +1,5 @@
 "use client";
+import DashboardLayout from "@/app/layout/dashboard";
 import { useEffect } from "react"
 
 export default function Dashboard() {
@@ -6,6 +7,8 @@ export default function Dashboard() {
         document.title = "Dashboard";
     })
     return (<>
+        <DashboardLayout>
         <main className="h-full w-full">Dashboard</main>
+        </DashboardLayout>
     </>)
 }

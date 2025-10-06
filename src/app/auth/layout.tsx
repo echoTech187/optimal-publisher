@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+"use client";
 import { Inter } from "next/font/google";
 import "../globals.css";
 import FlyonuiScript from "../components/FlyonuiScript";
@@ -10,11 +10,6 @@ const interFont = Inter({
     weight: "500"
 })
 
-
-export const metadata: Metadata = {
-    title: "Login - Optimal Penerbit",
-    description: "Optimal Untuk Negeri - Platform Kursus Online Terbaik di Indonesia. Tingkatkan keterampilan Anda dengan kursus berkualitas dari instruktur ahli. Mulai perjalanan belajar Anda hari ini!",
-};
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
     return (<html lang="en">

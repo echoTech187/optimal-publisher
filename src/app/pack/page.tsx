@@ -1,22 +1,42 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormCustomer from "./form";
 import { useSearchParams } from "next/navigation";
-import { parse } from "path";
+import { baseUrl } from "../constants/api";
+import WebLayout from "../layout/web";
 export default function PackageList() {
-    const router = useSearchParams();
-    const type = router.get("type");
+    const params = useSearchParams();
+    const type = params.get("key");
+    console.log(type);
     const [showCustomer, setShowCustomer] = useState(false);
     const [showAdress, setShowAdress] = useState(false);
     const [packName, setPackName] = useState("");
     const [selected, setSelected] = useState("");
+    const [packages, setPackages] = useState([]);
+
+    useEffect(() => {
+        async function getDataPackage() {
+            const response = await fetch(baseUrl() + "/program/package/" + type, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+            const data = await response.json();
+            console.log(data);
+            setPackages(data);
+        }
+        getDataPackage();
+    }, []);
+    console.log(packages);
     function showFormCustomer(selected: string, pack: string) {
         setShowCustomer(true);
         setPackName(pack);
-        if(parseInt(selected) > 0) 
+        if (parseInt(selected) > 0)
             setSelected(selected);
-        else 
+        else
             setSelected("");
         if (selected === "full") setShowAdress(true);
         else setShowAdress(false);

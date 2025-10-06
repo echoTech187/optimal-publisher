@@ -5,18 +5,14 @@ import { useEffect, useState } from "react"
 
 
 
-export default async function DetailArticle({
-    params,
-}: {
-    params: Promise<{ slug: string }>
-}) {
-    const { slug } = await params
+export default async function DetailArticle() {
+    // const slug  =  1;
     const [posts, setPosts] = useState([]);
     useEffect(() => {
 
         document.title = "Detail Article | Bookstore";
         async function getBook() {
-            const posts = await fetch("http://127.0.0.1:8000/api/v1/article/" + slug);
+            const posts = await fetch("http://127.0.0.1:8000/api/v1/article");
             const postsData = await posts.json();
             if (postsData.length > 0) {
                 setPosts(postsData)

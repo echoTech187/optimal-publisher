@@ -15,8 +15,6 @@ const validationPersonal = {
         } else {
             return "Nomor Telepon tidak valid";
         }
-
-        return "";
     },
     password: (value) => {
         if (value.length > 0 && value.length < 6) {
@@ -61,4 +59,24 @@ const validationInstitution = {
         return "";
     },
 };
-export { validationPersonal, validationInstitution };
+
+const validationLogin = {
+    phone: (value) => {
+        if (value.length < 8) {
+            return "Nomor Telepon tidak valid";
+        } else if (value.length < 12) {
+            return "";
+        } else if (value.length >= 12 && value.length <= 13) {
+            return "";
+        } else {
+            return "Nomor Telepon tidak valid";
+        }
+    },
+    password: (value) => {
+        if (value === "" && value === null) {
+            return "Password harus diisi";
+        }
+        return "";
+    },
+};
+export { validationPersonal, validationInstitution , validationLogin};

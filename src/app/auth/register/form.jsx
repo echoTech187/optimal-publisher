@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { validationPersonal, validationInstitution } from "../../../utils/validation";
 import { useForm } from "../../../utils/useForm";
-import baseUrl from "@/app/constants/api";
 
 const PersonalInformation = ({ setIsValid }) => {
 

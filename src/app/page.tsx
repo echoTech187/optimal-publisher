@@ -8,21 +8,21 @@ import Hero from "./components/hero/page";
 import Package from "./components/package/page";
 import Services from "./components/services/page";
 import Testimoni from "./components/testimoni/page";
+import WebLayout from "./layout/web";
 export default function Home() {
   return (
-    <>
-      <main className="h-full w-full dark:bg-gray-800">
-        <Hero />
-        {/* <Package /> */}
-        <Book />
-        <Services />
-        <NewsEvents />
-        <Contact />
-        <Testimoni />
-        <Article />
-        <Faqs />
-      </main>
-
-    </>
+      <WebLayout>
+        <main className="h-full w-full dark:bg-gray-800">
+          <Hero />
+          {/* <Package /> */}
+          <Book />
+          <Services />
+          <NewsEvents />
+          <Contact />
+          <Testimoni />
+          <Article />
+          <Faqs />
+        </main>
+      </WebLayout>
   );
 }

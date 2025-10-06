@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     description: "Optimal Untuk Negeri - Platform Kursus Online Terbaik di Indonesia. Tingkatkan keterampilan Anda dengan kursus berkualitas dari instruktur ahli. Mulai perjalanan belajar Anda hari ini!",
 };
 export default function WebLayout({ children }: { children: React.ReactNode }) {
-    return (<>
+    return (
         <html lang="en">
             <head>
                 <link rel="icon" href="/favicon.ico" />
@@ -50,5 +50,5 @@ export default function WebLayout({ children }: { children: React.ReactNode }) {
                 <FlyonuiScript />
             </body>
         </html>
-    </>);
+    );
 }
