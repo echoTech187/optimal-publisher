@@ -14,6 +14,11 @@ export default function RootLayout({
   const [layout, setLayout] = useState("web");
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
+    setTimeout(() => {
+      if (window.HSStaticMethods) {
+        window.HSStaticMethods.autoInit();
+      }
+    }, 100);
     const pathname = window.location.pathname;
     console.log(pathname.search("auth"));
     const session = localStorage.getItem("session");
@@ -21,26 +26,27 @@ export default function RootLayout({
       if (session) {
         setLayout("dashboard");
         setIsLoading(false);
-      }else{
+      } else {
         setLayout("auth");
         setIsLoading(false);
       }
-    }else if(pathname.search("optimal") !== -1){
-      
-        setLayout("dashboard");
-        setIsLoading(false);
-      
-    }else{
+    } else if (pathname.search("optimal") !== -1) {
+
+      setLayout("dashboard");
+      setIsLoading(false);
+
+    } else {
       setLayout("web");
       setIsLoading(false);
     }
-  },[]);
-  if(isLoading) return (<>
-  <html lang="en">
-    <body>
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full flex items-center justify-center bg-white z-50 dark:bg-gray-800 dark:text-gray-50 overflow-hidden">Loading...</div>
-    </body>
-  </html>
-  
+  }, []);
+  if (isLoading) return (<>
+    <html lang="en">
+      <body>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full flex items-center justify-center bg-white z-50 dark:bg-gray-800 dark:text-gray-50 overflow-hidden">Loading...</div>
+      </body>
+    </html>
+
   </>);
-return (layout === "dashboard") ?  (<DashboardLayout>{children}</DashboardLayout>) : (layout === "auth") ?  (<AuthLayout>{children}</AuthLayout>) : (<WebLayout>{children}</WebLayout>);}
+  return (layout === "dashboard") ? (<DashboardLayout>{children}</DashboardLayout>) : (layout === "auth") ? (<AuthLayout>{children}</AuthLayout>) : (<WebLayout>{children}</WebLayout>);
+}

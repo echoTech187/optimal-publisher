@@ -1,6 +1,8 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 
-export default function UserProfile() {
+export default function UserProfile(data: any) {
+    const userData = data.data;
+    // console.log(userData);
     return (<>
         <button type="button" className="btn btn-text max-md:btn-square lg:hidden" aria-haspopup="dialog" aria-expanded="false" aria-controls="collapsible-sidebar" data-overlay="#collapsible-sidebar" >
             <Icon icon="tabler:menu-2" width="24" height="24" />
@@ -21,8 +23,8 @@ export default function UserProfile() {
                         </div>
                     </div>
                     <div>
-                        <h6 className="text-base-content text-base font-semibold">John Doe</h6>
-                        <small className="text-base-content/50">Admin</small>
+                        <h6 className="text-base-content text-base font-semibold">{userData.full_name}</h6>
+                        <small className="text-base-content/50">{userData.position}</small>
                     </div>
                 </li>
                 <li>

@@ -1,11 +1,11 @@
 import { useSearchParams } from "next/navigation";
 import SignInForm from "./page";
-import { AuthHeader } from "@/app/components/header/page";
+import AuthHeader from "@/app/components/header/auth";
 import { use, useEffect } from "react";
 export default function SignIn() {
     const router = useSearchParams();
     const callback = router.get("type");
-    
+
     return (
         <>
             <div className="relative w-screen min-h-screen h-full flex items-center justify-center bg-gray-50 dark:bg-gray-700 overflow-x-hidden">

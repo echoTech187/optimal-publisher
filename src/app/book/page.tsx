@@ -13,8 +13,13 @@ const Book = () => {
         async function BookRecomended() {
             const response = await fetch("http://127.0.0.1:8000/api/v1/book?length=5");
             const book = await response.json();
-            setBookData(book.data)
-            setIsLoading(false);
+            if (book.data.length === 0) {
+                setBookData(book.data)
+                setIsLoading(false);
+            } else {
+                setBookData([])
+                setIsLoading(false);
+            }
         }
         BookRecomended();
     }, []);

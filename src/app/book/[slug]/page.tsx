@@ -7,7 +7,7 @@ import Image from "next/image";
 import { BookRecomend } from "../index";
 import { Icon } from '@iconify/react';
 
- const DetailBook = () => {
+const DetailBook = () => {
     const router = useParams();
     const slug = router.slug;
     const [data, setData] = useState<any>({});
@@ -19,15 +19,24 @@ import { Icon } from '@iconify/react';
         async function getRecommendedBooks() {
             const response = await fetch("http://127.0.0.1:8000/api/v1/book?length=5");
             const book = await response.json();
-            setRecommendedBooks(book.data);
+            if (book.data.length === 0) {
+                setRecommendedBooks(book.data);
+            } else {
+                setRecommendedBooks([]);
+            }
+
         }
         async function getData() {
             const response = await fetch("http://127.0.0.1:8000/api/v1/book/" + slug);
 
             const book = await response.json();
-
-            setData(book);
-            setIsLoading(false);
+            if (book.data.length === 0) {
+                setData(book.data);
+                setIsLoading(false);
+            } else {
+                setData({});
+                setIsLoading(false);
+            }
 
         }
 
