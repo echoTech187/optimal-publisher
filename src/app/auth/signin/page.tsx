@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { checkAuthentication } from "@/utils/authentication";
 import { signInAction } from "@/app/api/auth";
+import Image from "next/image";
 export default function SignIn() {
     const navigation = useRouter();
     const params = useSearchParams();
@@ -25,13 +26,13 @@ export default function SignIn() {
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData);
         const response = await signInAction(data);
-
+        console.log(response);
         if (response.status === 200) {
             handleSuccessfulLogin(response.message);
         } else {
             showAlert({
                 type: 'error',
-                title: 'Registrasi Gagal!',
+                title: 'Login Gagal!',
                 message: response.message,
                 onCloseCallback: () => {
                     closeAlert();
@@ -49,10 +50,7 @@ export default function SignIn() {
             title: 'Login Berhasil!',
             message: message,
             onCloseCallback: () => {
-                closeAlert();
-                setIsSubmitted(false);
                 setTimeout(() => {
-                    closeAlert();
                     setIsSubmitted(false);
                     if (type === "null") {
                         navigation.push("/optimal/dashboard");
@@ -61,7 +59,7 @@ export default function SignIn() {
                     } else {
                         navigation.push("/program");
                     }
-                })
+                }, 0)
 
             }
         })
@@ -70,12 +68,7 @@ export default function SignIn() {
         <>
             <div className="relative w-screen min-h-screen h-full flex items-center justify-center bg-gray-50 dark:bg-gray-700 overflow-x-hidden">
                 <div className="relative w-full h-screen overflow-hidden">
-                    <video autoPlay muted loop className="absolute top-0 left-0 w-full h-full object-cover z-1 m-0 p-0" >
-                        <source src="/videos/video-original.mp4" type="video/mp4" />
-                        <source src="/videos/video-original.webm" type="video/webm" />
-                        <source src="/videos/video-original.ogv" type="video/ogg" />
-                        Your browser does not support the video tag.
-                    </video>
+                    <Image src="/images/1.png" alt="Underline" width={2000} height={0} className="absolute left-1/2 -translate-x-1/2 top-1 mx-auto h-auto w-1/4 mt-9 z-1" />
                     <div className="absolute w-full h-full bg-purple-900/50 z-2"></div>
                     <section className="w-full h-full ">
                         <div className="fixed right-0 top-0 z-10 max-lg:w-full w-sm md:w-sm lg:w-md xl:w-lg h-screen flex items-center justify-center overflow-x-hidden overflow-y-auto">

@@ -50,10 +50,10 @@ export default function UserProfile(data: any) {
                     </a>
                 </li>
                 <li className="dropdown-footer gap-2">
-                    <a className="btn btn-error btn-soft btn-block" onClick={() =>logout()}>
+                    <span className="btn btn-error btn-soft btn-block" onClick={() => logout()}>
                         <span className="icon-[tabler--logout]"></span>
                         Sign out
-                    </a>
+                    </span>
                 </li>
             </ul>
         </div>

@@ -17,6 +17,7 @@ function logout() {
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("user");
     window.localStorage.removeItem("expires_in");
+    window.location.href = "/";
 }
 
-export { checkAuthentication, getToken, logout};
+export { checkAuthentication, getToken, logout };

@@ -11,7 +11,7 @@ export default function ProgramList() {
         document.title = "Program | Optimal Untuk Negeri";
         const authStatus = checkAuthentication();
         if (!authStatus) {
-            window.location.href = "/auth";
+            window.location.href = "/auth/signin";
         }
         const fetchPrograms = async () => {
             try {
@@ -34,7 +34,7 @@ export default function ProgramList() {
 
         fetchPrograms();
     }, []);
-    
+
     return (
         <section className="w-full h-auto py-[150px] px-4 max-w-[1300px] mx-auto 2xl:px-0" id="program">
             <header className="relative mb-24 text-center">
@@ -50,7 +50,7 @@ export default function ProgramList() {
                             programs.map((program: any) => {
                                 return (
                                     <div className="card w-full bg-base-100 shadow-xl" key={program.id}>
-                                        <figure style={{height: '400px'}}><img src={`${program.images ? imageUrl() +'/'+ program.images : '/images/placeholder.png'}`} alt={program.program_name} className="size-full object-cover" /></figure>
+                                        <figure style={{ height: '400px' }}><img src={`${program.images ? imageUrl() + '/' + program.images : '/images/placeholder.png'}`} alt={program.program_name} className="size-full object-cover" /></figure>
                                         <div className="card-body">
                                             <h2 className="card-title">{program.program_name}</h2>
                                             <p>{program.program_description}</p>
