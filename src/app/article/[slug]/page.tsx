@@ -1,5 +1,5 @@
 "use client";
-import Article from "@/app/components/article/page"
+import Article from "@/components/article/page"
 import Image from "next/image"
 import { useEffect, useState } from "react"
 

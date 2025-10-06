@@ -1,9 +1,10 @@
-import { logout } from "@/utils/authentication";
+
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { logout } from "@/lib/actions/auth"; // <-- Import server action
 
 export default function UserProfile(data: any) {
     const userData = data.data;
-    // console.log(userData);
+    
     return (<>
         <div className="dropdown relative inline-flex [--auto-close:inside] [--offset:8] [--placement:bottom-end]">
             <button id="dropdown-scrollable" type="button" className="dropdown-toggle flex items-center" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
@@ -50,10 +51,13 @@ export default function UserProfile(data: any) {
                     </a>
                 </li>
                 <li className="dropdown-footer gap-2">
-                    <span className="btn btn-error btn-soft btn-block" onClick={() => logout()}>
-                        <span className="icon-[tabler--logout]"></span>
-                        Sign out
-                    </span>
+                    {/* The button is now inside a form that calls the server action */}
+                    <form action={logout} className="w-full">
+                        <button type="submit" className="btn btn-error btn-soft btn-block">
+                            <span className="icon-[tabler--logout]"></span>
+                            Sign out
+                        </button>
+                    </form>
                 </li>
             </ul>
         </div>

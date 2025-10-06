@@ -1,28 +1,27 @@
+
+// Define a generic type for the form state to improve type safety
+type FormState = Record<string, any>;
+
 const validationPersonal = {
-    fullname: (value) => {
+    fullname: (value: string) => {
         if (value.length > 0 && value.length < 3) {
             return "Nama Lengkap harus diisi minimal 3 karakter";
         }
         return "";
     },
-    phone: (value) => {
-        if (value.length < 8) {
-            return "Nomor Telepon tidak valid";
-        } else if (value.length < 12) {
-            return "";
-        } else if (value.length >= 12 && value.length <= 13) {
-            return "";
-        } else {
+    phone: (value: string) => {
+        if (value.length > 0 && (value.length < 8 || value.length > 13)) {
             return "Nomor Telepon tidak valid";
         }
+        return "";
     },
-    password: (value) => {
+    password: (value: string) => {
         if (value.length > 0 && value.length < 6) {
             return "Password harus diisi minimal 6 karakter";
         }
         return "";
     },
-    confirm_password: (value, formState) => {
+    confirm_password: (value: string, formState: FormState) => {
         if (value.length > 0 && value.length < 6) {
             return "Konfirmasi Password harus diisi minimal 6 karakter";
         }
@@ -34,26 +33,26 @@ const validationPersonal = {
 };
 
 const validationInstitution = {
-    institution: (value) => {
-        if (value === "" && value === null) {
+    institution: (value: string) => {
+        if (!value) {
             return "Institusi harus diisi";
         }
         return "";
     },
-    major: (value) => {
-        if (value === "" && value === null) {
+    major: (value: string) => {
+        if (!value) {
             return "Jurusan harus diisi";
         }
         return "";
     },
-    position: (value) => {
-        if (value === "" && value === null) {
+    position: (value: string) => {
+        if (!value) {
             return "Posisi harus diisi";
         }
         return "";
     },
-    aggreement: (value) => {
-        if (value === false) {
+    aggreement: (value: boolean) => {
+        if (!value) {
             return "Anda harus menyetujui syarat dan ketentuan";
         }
         return "";
@@ -61,22 +60,18 @@ const validationInstitution = {
 };
 
 const validationLogin = {
-    phone: (value) => {
-        if (value.length < 8) {
-            return "Nomor Telepon tidak valid";
-        } else if (value.length < 12) {
-            return "";
-        } else if (value.length >= 12 && value.length <= 13) {
-            return "";
-        } else {
+    phone: (value: string) => {
+        if (value.length > 0 && (value.length < 8 || value.length > 13)) {
             return "Nomor Telepon tidak valid";
         }
+        return "";
     },
-    password: (value) => {
-        if (value === "" && value === null) {
+    password: (value: string) => {
+        if (!value) {
             return "Password harus diisi";
         }
         return "";
     },
 };
-export { validationPersonal, validationInstitution , validationLogin};
+
+export { validationPersonal, validationInstitution, validationLogin };
