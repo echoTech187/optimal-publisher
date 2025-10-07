@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import UserProfile from "../user/profile/page";
+import UserProfile from "../user/profile";
 
 const DashboardHeader = () => {
     const [user, setUser ] = useState({});

@@ -1,8 +1,8 @@
 
 "use client";
 
-import { useEffect } from "react";
-import { useFormState, useFormStatus } from "react-dom";
+import { useEffect, useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import { useSearchParams } from "next/navigation";
 import { login } from "@/lib/actions/auth";
 import Alert, { useAlert } from "@/components/ui/Alert";
@@ -33,9 +33,12 @@ export default function SignInForm() {
     const { alertProps, showAlert, closeAlert } = useAlert();
 
     const initialState = { success: false, message: null };
-    const [state, formAction] = useFormState(login, initialState);
+    const [state, formAction] = useActionState(login, initialState);
 
     useEffect(() => {
+        document.title = "Login | Optimal Penerbit";
+    
+
         if (state?.message) {
             showAlert({
                 type: state.success ? 'success' : 'error',
@@ -48,7 +51,7 @@ export default function SignInForm() {
 
     return (
         <>
-            <form action={formAction} id="loginForm" name="loginForm" method="post" className="max-w-sm mx-auto w-full">
+            <form action={formAction} id="loginForm" name="loginForm" className="max-w-sm mx-auto w-full">
                 {/* Hidden inputs to pass params to the server action */}
                 <input type="hidden" name="type" value={type ?? ''} />
                 <input type="hidden" name="event" value={eventType ?? ''} />

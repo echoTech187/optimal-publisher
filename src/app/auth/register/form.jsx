@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { validationPersonal, validationInstitution } from "../../../utils/validation";
-import { useForm } from "../../../utils/useForm";
+import { validationPersonal, validationInstitution } from "@/lib/utils/validation";
+import { useForm } from "@/lib/hooks/useForm";
 
 const PersonalInformation = ({ setIsValid }) => {
 
@@ -12,6 +12,7 @@ const PersonalInformation = ({ setIsValid }) => {
     }, validationPersonal);
 
     useEffect(() => {
+        document.title = "Registrasi | Optimal Untuk Negeri";
         const validate = () => {
             const { fullname, phone, password, confirm_password } = form;
             const hasErrors = Object.values(errros).some(error => error !== "");

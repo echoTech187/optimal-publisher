@@ -4,9 +4,11 @@
 
 export interface User {
     id: number;
-    fullname: string;
-    email: string;
+    full_name: string;
+    // email: string;
     // Add other user properties from your API, e.g.,
-    // phone?: string;
-    // position?: string;
+    phone_number?: string;
+    institution?: string;
+    major?: string;
+    position?: string;
 }

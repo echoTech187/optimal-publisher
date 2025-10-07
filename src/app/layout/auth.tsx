@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "../globals.css";
-import FlyonuiScript from "../components/FlyonuiScript";
+import FlyonuiScript from "@/components/FlyonuiScript";
 
 
 const interFont = Inter({

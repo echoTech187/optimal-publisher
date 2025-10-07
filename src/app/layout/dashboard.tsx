@@ -1,6 +1,6 @@
-import FlyonuiScript from "../components/FlyonuiScript";
-import DashboardHeader from "../components/header/dashboard";
-import { DashboardSidebar } from "../components/sidebar";
+import FlyonuiScript from "@/components/FlyonuiScript";
+import DashboardHeader from "@/components/header/dashboard";
+import { DashboardSidebar } from "@/components/sidebar";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
 

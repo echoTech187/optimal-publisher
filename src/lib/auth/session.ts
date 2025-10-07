@@ -7,7 +7,8 @@ import { User } from '@/types/user'; // <-- Import the centralized User type
  * @returns The user object if the session is valid, otherwise null.
  */
 export async function getSession(): Promise<User | null> {
-    const sessionCookie = cookies().get('user')?.value;
+    // Read the user session from the cookies
+    const sessionCookie = (await cookies()).get('user')?.value;
     if (!sessionCookie) {
         return null;
     }
@@ -27,6 +28,6 @@ export async function getSession(): Promise<User | null> {
  * @returns True if the token exists, otherwise false.
  */
 export async function isAuthenticated(): Promise<boolean> {
-    const tokenCookie = cookies().get('token')?.value;
+    const tokenCookie = (await cookies()).get('token')?.value;
     return !!tokenCookie;
 }

@@ -26,20 +26,24 @@ export async function register(previousState: any, formData: FormData) {
         }
 
         // Securely set authentication token in an HttpOnly cookie
-        cookies().set('token', result.token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            maxAge: result.expires_in, // Use the expiration from the API
-            path: '/',
-        });
+        (await
+            // Securely set authentication token in an HttpOnly cookie
+            cookies()).set('token', result.token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: result.expires_in, // Use the expiration from the API
+                path: '/',
+            });
 
         // Optionally, you can also store non-sensitive user info
-        cookies().set('user', JSON.stringify(result.user), {
-            httpOnly: true, // Still good practice
-            secure: process.env.NODE_ENV === 'production',
-            maxAge: result.expires_in,
-            path: '/',
-        });
+        (await
+            // Optionally, you can also store non-sensitive user info
+            cookies()).set('user', JSON.stringify(result.user), {
+                httpOnly: true, // Still good practice
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: result.expires_in,
+                path: '/',
+            });
 
     } catch (error: any) {
         return {
@@ -57,13 +61,12 @@ export async function register(previousState: any, formData: FormData) {
     } else if (type === "program") {
         redirect('/program');
     }
-    
-    redirect('/optimal/dashboard');
+
+    redirect('/');
 }
 
 export async function login(previousState: any, formData: FormData) {
     const data = Object.fromEntries(formData);
-
     try {
         // The old code used signInAction, let's assume it calls the /login endpoint
         const response = await fetch(baseUrl() + `/login`, {
@@ -76,7 +79,7 @@ export async function login(previousState: any, formData: FormData) {
 
         const result = await response.json();
 
-        if (!response.ok || result.status !== 200) {
+        if (!response.ok) {
             return {
                 success: false,
                 message: result.message || "Login failed. Please check your credentials.",
@@ -84,14 +87,16 @@ export async function login(previousState: any, formData: FormData) {
         }
 
         // Set cookies on successful login
-        cookies().set('token', result.token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            maxAge: result.expires_in,
-            path: '/',
-        });
+        (await
+            // Set cookies on successful login
+            cookies()).set('token', result.token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: result.expires_in,
+                path: '/',
+            });
 
-        cookies().set('user', JSON.stringify(result.user), {
+        (await cookies()).set('user', JSON.stringify(result.user), {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             maxAge: result.expires_in,
@@ -114,12 +119,61 @@ export async function login(previousState: any, formData: FormData) {
     } else if (type === "program") {
         redirect('/program');
     } else {
-        redirect('/optimal/dashboard');
+        redirect('/');
     }
 }
 
 export async function logout() {
-    cookies().delete('token');
-    cookies().delete('user');
+    (await cookies()).delete('token');
+    (await cookies()).delete('user');
     redirect('/');
+}
+export async function validateOrRefreshToken() {
+    try {
+        var tokenCookie = (await cookies()).get('token')?.value;
+        if (!tokenCookie) {
+            (await cookies()).delete('token');
+            (await cookies()).delete('user');
+            return false;
+        }
+
+        const response = await fetch(baseUrl() + "/validate-token", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${tokenCookie}`,
+            },
+        });
+        const result = await response.json();
+        console.log(result);
+        if (response.ok && response.status === 200) {
+            if (result.token) {
+                (await cookies()).set('token', result.token, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    maxAge: result.expires_in,
+                    path: '/',
+                });
+
+                (await cookies()).set('user', JSON.stringify(result.user), {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    maxAge: result.expires_in,
+                    path: '/',
+                });
+            }
+            return true;
+        }
+
+        (await cookies()).delete('token');
+        (await cookies()).delete('user');
+        return false;
+
+
+    } catch (error) {
+        console.error("Error validating or refreshing token:", error);
+        (await cookies()).delete('token');
+        (await cookies()).delete('user');
+        return false;
+    }
 }

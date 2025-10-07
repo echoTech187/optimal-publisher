@@ -1,15 +1,15 @@
 
 import Image from "next/image";
 import AuthHeader from "@/components/header/auth";
-import { isAuthenticated } from "@/lib/auth/session";
+import { getSession } from "@/lib/auth/session";
 import { redirect } from "next/navigation";
 import SignInForm from "./SignInForm"; // We will put the form logic here
 
 // This is now an async Server Component
 export default async function SignInPage() {
     // 1. Check authentication on the server
-    const authenticated = await isAuthenticated();
-    if (authenticated) {
+    const session = await getSession();
+    if (session) {
         // 2. If logged in, redirect on the server before rendering
         redirect("/optimal/dashboard");
     }

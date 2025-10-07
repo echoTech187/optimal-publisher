@@ -3,7 +3,12 @@ import { baseUrl } from "@/lib/utils/api";
 
 export async function getInstitutions() {
     try {
-        const response = await fetch(baseUrl() + "/institutions");
+        const response = await fetch(baseUrl() + "/institutions", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch institutions');
         }
@@ -16,7 +21,12 @@ export async function getInstitutions() {
 
 export async function getMajors() {
     try {
-        const response = await fetch(baseUrl() + "/majors");
+        const response = await fetch(baseUrl() + "/majors", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch majors');
         }
@@ -26,3 +36,5 @@ export async function getMajors() {
         return [];
     }
 }
+
+

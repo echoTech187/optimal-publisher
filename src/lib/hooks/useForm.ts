@@ -51,7 +51,7 @@ export function useForm<T extends Record<string, any>>(
         if (validationRules && validationRules[name as keyof T]) {
             const validator = validationRules[name as keyof T];
             if (validator) {
-                const error = validator(value, form);
+                const error = validator(value as T[keyof T], form as T);
                 setErrors((prevErrors) => ({
                     ...prevErrors,
                     [name]: error,

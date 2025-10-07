@@ -1,6 +1,6 @@
 "use client";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import Brand from "../brand/page";
+import Brand from "../brand";
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";

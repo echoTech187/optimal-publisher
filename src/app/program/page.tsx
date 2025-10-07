@@ -1,22 +1,16 @@
 
-import { redirect } from "next/navigation";
-import { imageUrl } from "../constants/api";
-import { isAuthenticated } from "@/lib/auth/session";
+import { imageUrl } from "@/lib/utils/api";
 import { getPrograms } from "@/lib/data/program";
 import Link from "next/link";
 
 // This is now a Server Component
 export default async function ProgramListPage() {
-    // 1. Authenticate on the server. Redirect if not logged in.
-    const authenticated = await isAuthenticated();
-    if (!authenticated) {
-        redirect("/auth/signin?type=program"); // Redirect to signin page
-    }
+    // Authentication is now handled by middleware.ts
 
     // 2. Fetch data on the server.
     // The page will automatically wait for this to complete before rendering.
     const programs = await getPrograms();
-
+    
     return (
         <section className="w-full h-auto py-[150px] px-4 max-w-[1300px] mx-auto 2xl:px-0" id="program">
             <header className="relative mb-24 text-center">

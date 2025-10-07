@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import WebLayout from "./layout/web";
-import AuthLayout from "@/app/auth/layout";
+import AuthLayout from "./layout/auth";
 import { usePathname} from "next/navigation";
 
 

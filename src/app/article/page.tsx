@@ -1,4 +1,4 @@
-import ArticleBanner from "../components/article/banner/page";
+import ArticleBanner from "@/components/article/banner";
 import Image from "next/image";
 export default function Article() {
     return (
