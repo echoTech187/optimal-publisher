@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 
 // Define types for better code quality and maintainability

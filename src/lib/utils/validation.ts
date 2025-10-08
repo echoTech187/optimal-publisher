@@ -1,4 +1,3 @@
-
 // Define a generic type for the form state to improve type safety
 type FormState = Record<string, any>;
 

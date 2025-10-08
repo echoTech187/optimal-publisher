@@ -5,10 +5,9 @@ import FormProgramChapter from "@/components/program/chapter";
 import FormProgramMonograf from "@/components/program/monograf";
 import { User } from "@/types/user";
 
-export default function Pack(props: {data: any, user: User}) {
-    const {data, user} =props;
+export default function Pack(props: { data: any, user: User }) {
+    const { data, user } = props;
     const isbn = data[0].isbn_program_id;
-
 
     // const [showCustomer, setShowCustomer] = useState(false);
     // const [showAdress, setShowAdress] = useState(false);
@@ -29,7 +28,7 @@ export default function Pack(props: {data: any, user: User}) {
     //     }
 
     // }
-        if (!user) {
+    if (!user) {
         return <div>Loading user data...</div>; // Or some other placeholder
     }
     return (

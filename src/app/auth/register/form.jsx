@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { validationPersonal, validationInstitution } from "@/lib/utils/validation";
 import { useForm } from "@/lib/hooks/useForm";
 
-const PersonalInformation = ({ setIsValid }) => {
+const PersonalInformation = ({ onValidationChange }) => {
 
     const { form, errors: errros, handleInputChange } = useForm({
         fullname: "",
@@ -18,14 +18,14 @@ const PersonalInformation = ({ setIsValid }) => {
             const hasErrors = Object.values(errros).some(error => error !== "");
 
             if (fullname && phone && password && confirm_password && !hasErrors) {
-                setIsValid(true);
+                onValidationChange(true);
             } else {
-                setIsValid(false);
+                onValidationChange(false);
             }
         };
 
         validate();
-    }, [form, errros, setIsValid]);
+    }, [form, errros, onValidationChange]);
     return (<>
         <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fullname">Nama Lengkap Beserta Gelar</label>
@@ -49,7 +49,7 @@ const PersonalInformation = ({ setIsValid }) => {
         </div>
     </>);
 }
-const Institution = ({ type, setIsValid, institution, major }) => {
+const Institution = ({ type, onValidationChange, institution, major }) => {
     const [aggreement, setAggreement] = useState(false);
     const [wrote, setWrote] = useState(false);
     const { form, errors: errros, handleInputChange } = useForm({
@@ -65,21 +65,21 @@ const Institution = ({ type, setIsValid, institution, major }) => {
             const hasErrors = Object.values(errros).some(error => error !== "");
             if (type === "event") {
                 if (location && institution && major && position && aggreement && !hasErrors) {
-                    setIsValid(true);
+                    onValidationChange(true);
                 } else {
-                    setIsValid(false);
+                    onValidationChange(false);
                 }
             } else {
 
                 if (institution && major && position && aggreement && !hasErrors) {
-                    setIsValid(true);
+                    onValidationChange(true);
                 } else {
-                    setIsValid(false);
+                    onValidationChange(false);
                 }
             }
         };
         validate();
-    }, [form, errros, setIsValid]);
+    }, [form, errros, onValidationChange]);
     const wroteHandler = (e) => {
         setWrote(e.target.checked);
     }

@@ -1,10 +1,45 @@
-import { order } from "@/lib/actions/order";
+"use client";
+import { changeBookTitle, changeBookTopic } from "@/lib/actions/program";
+import { fetchBookTitle, fetchBookTopic, fetchMajor } from "@/lib/data/program";
+import { baseUrl } from "@/lib/utils/api";
 import { User } from "@/types/user";
 import { Icon } from "@iconify/react";
+import { useEffect, useState } from "react";
 
-export default async function FormProgramPrivate(props: { data: any, user: User | null}) {
-    const { data,user } = props;
-    
+export default function FormProgramPrivate(props: { data: any, user: User | null }) {
+    const { data, user } = props;
+
+    const [major, setMajor] = useState([]);
+    const [bookTitle, setBookTitle] = useState([]);
+    const [bookTopic, setBookTopic] = useState([]);
+
+    const [selectedMajor, setSelectedMajor] = useState("");
+    const [selectedBookTitle, setSelectedBookTitle] = useState("");
+    const [selectedBookTopic, setSelectedBookTopic] = useState("");
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const majorData = await fetchMajor();
+            setMajor(majorData);
+        };
+        fetchData();
+    }, []);
+
+    async function handleChangeBookTitle(e: any) {
+        setSelectedMajor(e.target.value);
+        const bookTitleData = await fetchBookTitle({ selectedMajor: e.target.value });
+        setBookTitle(bookTitleData);
+    }
+    async function handleChangeBookTopic(e: any) {
+        setSelectedBookTitle(e.target.value);
+        const bookTopicData = await fetchBookTopic({ selectedBookTitle: e.target.value });
+        setBookTopic(bookTopicData);
+    }
+
+    async function handleChangeTopic(e: any) {
+        setSelectedBookTopic(e.target.value);
+    }
+
     return (
         <div className="max-w-[1300px] mx-auto h-full pt-[0px]" id="shipping-information">
             <header className="p-6">
@@ -20,52 +55,43 @@ export default async function FormProgramPrivate(props: { data: any, user: User 
 
                     <div className="mb-2" id="form-customer-name">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fullname">Nama Lengkap beserta Gelar</label>
-                        <input type="text" name="fullname" id="fullname" className="input" readOnly value={user?.full_name}/>
+                        <input type="text" name="fullname" id="fullname" className="input" readOnly value={user?.full_name} />
                     </div>
                     <div className="mb-2" id="form-customer-phone">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="phone">No. Telepon</label>
-                        <input type="number" name="phone" id="phone" className="input" readOnly value={user?.phone_number}/>
+                        <input type="number" name="phone" id="phone" className="input" readOnly value={user?.phone_number} />
                     </div>
                     <div className="mb-2" id="form-major">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="major">Jurusan</label>
-                        <select className="select" name="major" id="major">
+                        <select className="select" name="major" id="major" onChange={handleChangeBookTitle} value={selectedMajor}>
                             <option value="">Pilih Jurusan</option>
-                            <option value="1">Kebidanan</option>
-                            <option value="2">Keperawatan</option>
+                            {
+                                major.map((item: any) => {
+                                    return <option key={item.id} value={item.id}>{item.major_name}</option>
+                                })
+                            }
                         </select>
                     </div>
                     <div className="mb-2" id="form-customer-book_title">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="book_title">Judul Buku</label>
-                        <select className="select" name="book_title" id="book_title">
+                        <select className="select" name="book_title" id="book_title" onChange={handleChangeBookTopic} value={selectedBookTitle}>
                             <option value="">Pilih Judul Buku</option>
-                            <option value="1">Etika Dan Hukum Kesehatan Kebidanan</option>
-                            <option value="2">Biologi Reproduksi</option>
-                            <option value="3">Farmakologi dalam Asuhan Kebidanan</option>
-                            <option value="4">Fisiologi Kehamilan, Persalinan, Nifas, dan BBL</option>
-                            <option value="5">Psikologi Kehamilan, Persalinan, Nifas</option>
-                            <option value="6">Keterampilan Dasar praktik Kebidanan</option>
-                            <option value="7">Pemeriksaan Fisik Ibu dan Bayi</option>
-                            <option value="8">Asuhan Kebidanan pada Remaja dan Perimenopause</option>
-                            <option value="9">Asuhan Kebidanan pada pranikah dan prakonsepsi</option>
-                            <option value="10">KB dan Pelayanan</option>
-                            <option value="11">Pelayanan Kebidanan Komunitas</option>
-                            <option value="12">Masalah dan Gangguan pada Sistem Reproduksi</option>
-                            <option value="13">Kegawatdaruratan Maternal dan Neonatal</option>
+                            {
+                                bookTitle.map((item: any) => {
+                                    return <option key={item.id} value={item.id}>{item.title}</option>
+                                })
+                            }
                         </select>
                     </div>
                     <div className="mb-2 col-span-2" id="form-customer-book_topic">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="book_topic">Topik</label>
-                        <select className="select" name="book_topic" id="book_topic">
+                        <select className="select" name="book_topic" id="book_topic" onChange={handleChangeTopic} value={selectedBookTopic}>
                             <option value="">Pilih Topik</option>
-                            <option value="1">Keterampilan Dasar praktik Kebidanan: 1. Sejarah dan dasar pelaksanaan kewaspadaan universal, 2. Pengenalan lingkungan fisik dalam pelayanan kebidanan</option>
-                            <option value="2">Keterampilan Dasar praktik Kebidanan: 3. Patient safety, 4. Prinsip dalam pencegahan Infeksi</option>
-                            <option value="3">Kebutuhan Dasar Manusia: 1. Kebutuhan Oksigenasi, 2. Kebutuhan nutrisi, istirahat, seksualitas</option>
-                            <option value="4">Kebutuhan Dasar Manusia: 3. Personal hygiene dalam kebidanan, 4. Konsep dasar eliminasi</option>
-                            <option value="5">Kebutuhan Dasar Manusia: 5. Tatalaksana gangguan eliminasi pada kehamilan, persalinan dan nifas, 6. Pengambilan spesimen urine dan feces dan urinalysis</option>
-                            <option value="6">Pemberian Obat dalam Praktik Kebidanan: 1. Plebotomi, Venapunkture dan terapi IV, 2. Tranfuse darah, 3. Hidrasi dan rehidrasi</option>
-                            <option value="7">Pemberian Obat dalam Praktik Kebidanan: 4. Injeksi (jenis, mekanisme penyimpanan, macam-macam ijection, dll), 5. Peran bidan dalam perawatan luka</option>
-                            <option value="8">Bantuan Hidup Dasar (BLS): 1. Basic Life Support, 2. Basic Life Saving, 3. Resusitasi infant dan dewasa</option>
-                            <option value="9">Bantuan Hidup Dasar (BLS): 4. Pertolongan pertama: a. Tersedak, b. Tidak dapat bernafas, c. Perdarahan, d. Luka bakar, e. Terkena racun, f. Cedera kepala dan leher, g. Korban tenggelam</option>
+                            {
+                                bookTopic.map((item: any) => {
+                                    return <option key={item.id} value={item.id}>{item.topic_name}</option>
+                                })
+                            }
                         </select>
                     </div>
                     <div className="col-span-full" id="form-customer-address">

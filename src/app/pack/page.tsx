@@ -4,6 +4,7 @@ import Pack from "./pack";
 import getProgramPackage from "@/lib/data/package";
 import { getSession } from "@/lib/auth/session";
 import { redirect } from "next/navigation";
+import { fetchMajor } from "@/lib/data/program";
 
 
 export default async function Page({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {

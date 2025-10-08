@@ -1,46 +1,44 @@
 'use client';
 
-import AuthHeader from "@/components/header/auth";
-import { Icon } from "@iconify/react/dist/iconify.js";
-import { useEffect, useState, useRef,useActionState } from "react";
-import {  useFormStatus } from "react-dom";
-import { PersonalInformation, Institution } from "./form";
+import { useEffect, useState, useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import { useSearchParams } from "next/navigation";
-import Alert, { useAlert } from '@/components/ui/Alert';
-import { HSStepper } from "flyonui/flyonui";
 import Image from "next/image";
 
-// Import functions from our new lib files
+// Local components
+import { PersonalInformation, Institution } from "./form";
+import AuthHeader from "@/components/header/auth";
+import Alert, { useAlert } from '@/components/ui/Alert';
+import { Stepper } from '@/components/ui/stepper';
+import { Icon } from "@iconify/react/dist/iconify.js";
+
+// Server Actions & Data
 import { getInstitutions, getMajors } from "@/lib/data/auth";
 import { register } from "@/lib/actions/auth";
 
-declare global {
-    interface Window {
-        HSStepper: typeof HSStepper
-    }
-}
-
-// A new component to handle the submit button's state
-function SubmitButton() {
+// A submit button that can be disabled by both form pending status and parent validation state.
+function FinalSubmitButton({ isValid }: { isValid: boolean }) {
     const { pending } = useFormStatus();
-
     return (
-        <button type="submit" data-stepper-finish-btn='' style={{ display: "none" }} disabled={pending} className="btn justify-center rounded-sm w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-2 px-4 border-none outline-none shadow-outline focus:outline-none focus:shadow-outline">
+        <button
+            type="submit"
+            disabled={pending || !isValid}
+            className="btn justify-center rounded-sm w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-2 px-4 border-none outline-none shadow-outline focus:outline-none focus:shadow-outline disabled:bg-fuchsia-400"
+        >
             {pending ? (
                 <>
                     <Icon icon="tabler:loader-2" width="24" height="24" className="text-primary-content size-5 rtl:rotate-180 animate-spin" />
-                    <span className="">Loading...</span>
+                    <span>Loading...</span>
                 </>
             ) : (
                 <>
                     <Icon icon="tabler:send" width="24" height="24" className="text-primary-content size-5 rtl:rotate-180" />
-                    <span className="">Daftar</span>
+                    <span>Daftar</span>
                 </>
             )}
         </button>
     );
 }
-
 
 export default function Register() {
     const router = useSearchParams();
@@ -48,46 +46,44 @@ export default function Register() {
     const eventType = router.get("event");
 
     const { alertProps, showAlert, closeAlert } = useAlert();
-    
-    // useActionState hook to manage form state with the server action
+
     const initialState = { success: false, message: null };
     const [state, formAction] = useActionState(register, initialState);
 
-    const [isValidated, setIsValidated] = useState(false);
-    const [finalValidate, setFinalValidate] = useState(false);
+    // --- Centralized State Management ---
+    const [activeStep, setActiveStep] = useState(1);
+    const [stepsValidity, setStepsValidity] = useState<{ [key: number]: boolean }>({ 1: false, 2: false });
+
+    // Data fetching state
     const [institution, setInstitution] = useState([]);
     const [major, setMajor] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const isFetched = useRef(false);
 
+    // --- Stepper Configuration ---
+    const stepsConfig = [
+        { title: 'Account Details' },
+        { title: 'Personal Info' }
+    ];
+
+    // Handler to update the centralized validation state
+    const handleValidationChange = (step: number, isValid: boolean) => {
+        setStepsValidity(prev => ({ ...prev, [step]: isValid }));
+    };
+
+    // Fetch initial data
     useEffect(() => {
-        if (isFetched.current) return;
-        isFetched.current = true;
-
         document.title = "Register";
-        
-        setTimeout(() => {
-            if (window.HSStepper) {
-                window.HSStepper.autoInit();
-            }
-        }, 100);
-
-        // Fetch initial data using functions from lib/data
         async function fetchInitialData() {
             setIsLoading(true);
-            const [instData, majorData] = await Promise.all([
-                getInstitutions(),
-                getMajors()
-            ]);
+            const [instData, majorData] = await Promise.all([getInstitutions(), getMajors()]);
             setInstitution(instData);
             setMajor(majorData);
             setIsLoading(false);
         }
-
         fetchInitialData();
     }, []);
 
-    // useEffect to show alerts when the server action returns a message
+    // Show alert on form action result
     useEffect(() => {
         if (state?.message) {
             showAlert({
@@ -98,7 +94,6 @@ export default function Register() {
             });
         }
     }, [state]);
-
 
     if (isLoading) {
         return (
@@ -116,47 +111,60 @@ export default function Register() {
                         <div className="fixed right-0 top-0 z-10 max-lg:w-full w-sm md:w-sm lg:w-md xl:w-lg h-screen flex items-center justify-center overflow-hidden">
                             <div className="flex flex-col items-center justify-center bg-white/80 shadow-md backdrop-blur-2xl px-8 w-full h-full mx-auto py-6 overflow-y-auto hidden-scroll">
                                 <AuthHeader title="Registrasi" subtitle="Buat akun baru anda." />
-                                <div data-stepper="" className="flex w-full items-start gap-10 rounded-lg p-4 shadow-none max-sm:flex-wrap max-sm:justify-center" id="wizard-validation" >
-                                    {/* Stepper navigation remains the same */}
-                                    <ul className="relative flex flex-col gap-2 md:flex-row hidden">
-                                        {/* ... Stepper li items ... */}
-                                    </ul>
 
-                                    {/* The form now uses the formAction */}
-                                    <form action={formAction} className="max-w-sm mx-auto w-full needs-validation peer" id="wizard-validation-form" noValidate>
-                                        {/* Hidden inputs to pass along query params */}
-                                        <input type="hidden" name="type" value={type ?? ''} />
-                                        <input type="hidden" name="event" value={eventType ?? ''} />
+                                <div className="w-full p-4">
+                                    <Stepper
+                                        totalSteps={stepsConfig.length}
+                                        steps={stepsConfig}
+                                        onStepChange={setActiveStep} // <-- Using the callback to sync active step
+                                    >
+                                        {/* Hidden Nav, as per original design. Can be shown by removing `hidden` */}
+                                        <Stepper.Nav className="hidden" />
 
-                                        <div id="account-details-validation" className="space-y-5" data-stepper-content-item='{ "index": 1 }'>
-                                            <PersonalInformation setIsValid={setIsValidated} />
-                                        </div>
-                                        <div id="personal-info-validation" className="space-y-5" data-stepper-content-item='{ "index": 2 ,"isFinal": true }' style={{ display: "none" }} >
-                                            <Institution type={type} setIsValid={setFinalValidate} institution={institution} major={major} />
-                                        </div>
-                                        
-                                        <div className="mt-5 flex items-center justify-between gap-x-2">
-                                            <button type="button" className="btn btn-prev hidden" data-stepper-back-btn="">
-                                                <Icon icon="tabler:chevron-left" width="24" height="24" className="text-primary-content size-5 rtl:rotate-180" />
-                                                <span className="">Kembali</span>
-                                            </button>
-                                            <button type="button" className={`btn btn-next w-full justify-between rounded-sm `} disabled={!isValidated} data-stepper-next-btn="">
-                                                <span className="">Lanjutkan</span>
-                                                <Icon icon="tabler:chevron-right" width="24" height="24" className="text-primary-content size-5 rtl:rotate-180" />
-                                            </button>
-                                            {/* The submit button is now its own component */}
-                                            <SubmitButton />
-                                        </div>
-                                    </form>
+                                        <form action={formAction} className="max-w-sm mx-auto w-full needs-validation peer" noValidate>
+                                            <input type="hidden" name="type" value={type ?? ''} />
+                                            <input type="hidden" name="event" value={eventType ?? ''} />
+
+                                            <Stepper.Content>
+                                                <Stepper.Step index={1}>
+                                                    <div className="space-y-5">
+                                                        <PersonalInformation
+                                                            onValidationChange={(isValid: boolean) => handleValidationChange(1, isValid)}
+                                                        />
+                                                    </div>
+                                                </Stepper.Step>
+                                                <Stepper.Step index={2}>
+                                                    <div className="space-y-5">
+                                                        <Institution
+                                                            type={type}
+                                                            onValidationChange={(isValid: boolean) => handleValidationChange(2, isValid)}
+                                                            institution={institution}
+                                                            major={major}
+                                                        />
+                                                    </div>
+                                                </Stepper.Step>
+                                            </Stepper.Content>
+
+                                            <Stepper.Controls>
+                                                <Stepper.PrevButton />
+                                                {/* Disable button based on the current active step's validity */}
+                                                <Stepper.NextButton disabled={!stepsValidity[activeStep]} />
+                                                <Stepper.FinishButton>
+                                                    <FinalSubmitButton isValid={stepsValidity[activeStep]} />
+                                                </Stepper.FinishButton>
+                                            </Stepper.Controls>
+                                        </form>
+                                    </Stepper>
                                 </div>
+
                                 <div className="w-full h-12 flex items-center justify-center gap-1">
                                     Sudah punya akun? <a href={`/auth/signin?type=${type}`} className="text-fuchsia-800 hover:text-fuchsia-700">Login disini</a>
                                 </div>
                             </div>
                         </div>
                     </section>
-                </div >
-            </div >
+                </div>
+            </div>
             <Alert {...alertProps} />
         </>
     );
