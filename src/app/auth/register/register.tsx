@@ -105,7 +105,7 @@ export default function Register() {
         <>
             <div className="relative w-screen min-h-screen h-full flex items-center justify-center bg-gray-50 dark:bg-gray-700 overflow-x-hidden">
                 <div className="relative w-full h-screen overflow-hidden">
-                    <Image src="/images/1.png" alt="Underline" width={2000} height={0} className="absolute left-0 top-0 h-screen z-1 object-cover" />
+                    <Image priority={true}src="/images/1.png" alt="Underline" width={2000} height={0} className="absolute left-0 top-0 h-screen z-1 object-cover" />
                     <div className="absolute w-full h-full bg-purple-900/50 z-2"></div>
                     <section className="w-full h-full">
                         <div className="fixed right-0 top-0 z-10 max-lg:w-full w-sm md:w-sm lg:w-md xl:w-lg h-screen flex items-center justify-center overflow-hidden">

@@ -9,7 +9,7 @@ export default function Article() {
             <h1 className="max-md:text-2xl text-4xl font-semibold pb-12 mt-0">Artikel Kesehatan Terbaru</h1>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
                 <div className="relative w-full h-[300px] bg-black max-md:rounded-2xl rounded-4xl">
-                    <Image priority={true} src="/images/article-1.png" alt="services" width={6000} height={4000} className="w-full h-full object-cover opacity-70  max-md:rounded-2xl rounded-4xl" />
+                    <Image priority={true}priority={true} src="/images/article-1.png" alt="services" width={6000} height={4000} className="w-full h-full object-cover opacity-70  max-md:rounded-2xl rounded-4xl" />
                     <div className="absolute bottom-6 left-0 w-full h-1/2 px-4 py-2">
                         <div className="flex flex-col gap-2 text-white">
                             <span className="text-xs bg-white text-gray-700 py-1 px-2 rounded-full w-fit">Homecare, Kesehatan</span>
@@ -19,7 +19,7 @@ export default function Article() {
                     </div>
                 </div>
                 <div className="relative w-full h-[300px] bg-black  max-md:rounded-2xl rounded-4xl">
-                    <Image priority={true} src="/images/article-1.png" alt="services" width={6000} height={4000} className="w-full h-full object-cover opacity-70  max-md:rounded-2xl rounded-4xl" />
+                    <Image priority={true}priority={true} src="/images/article-1.png" alt="services" width={6000} height={4000} className="w-full h-full object-cover opacity-70  max-md:rounded-2xl rounded-4xl" />
                     <div className="absolute bottom-6 left-0 w-full h-1/2 px-4 py-2">
                         <div className="flex flex-col gap-2 text-white">
                             <span className="text-xs bg-white text-gray-700 py-1 px-2 rounded-full w-fit">Homecare, Kesehatan</span>
@@ -29,7 +29,7 @@ export default function Article() {
                     </div>
                 </div>
                 <div className="relative w-full h-[300px] bg-black  max-md:rounded-2xl rounded-4xl">
-                    <Image priority={true} src="/images/article-1.png" alt="services" width={6000} height={4000} className="w-full h-full object-cover opacity-70  max-md:rounded-2xl rounded-4xl " />
+                    <Image priority={true}priority={true} src="/images/article-1.png" alt="services" width={6000} height={4000} className="w-full h-full object-cover opacity-70  max-md:rounded-2xl rounded-4xl " />
                     <div className="absolute bottom-6 left-0 w-full h-1/2 px-4 py-2">
                         <div className="flex flex-col gap-2 text-white">
                             <span className="text-xs bg-white text-gray-700 py-1 px-2 rounded-full w-fit">Homecare, Kesehatan</span>

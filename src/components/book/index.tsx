@@ -7,7 +7,7 @@ export default function Book() {
             <div className="max-w-[1300px] mx-auto h-full">
                 <div className="flex max-md:flex-col md:flex-row items-center h-full w-full gap-12 py-12">
                     <div className="flex-1">
-                        <Image src="/images/book-recommended.png" alt="Underline" width={2000} height={0} className="md:w-full lg:2/3 h-auto mx-auto" />
+                        <Image priority={true}src="/images/book-recommended.png" alt="Underline" width={2000} height={0} className="md:w-full lg:2/3 h-auto mx-auto" />
                     </div>
                     <div className="flex-1">
                         <h1 className="text-6xl font-semibold mb-3 dark:text-gray-50">Temukan Buku yang Sesuai Untukmu</h1>

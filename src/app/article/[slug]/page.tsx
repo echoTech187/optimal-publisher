@@ -48,7 +48,7 @@ export default async function DetailArticle() {
                         })}</p>
 
                     </div>
-                    <Image src={image} alt={title} width={0} height={0} className="size-full" />
+                    <Image priority={true}src={image} alt={title} width={0} height={0} className="size-full" />
                     <div className="text-center text-gray-600 mb-12 dark:text-gray-50 py-12 html_content" dangerouslySetInnerHTML={{ __html: description }}></div>
                 </div>
             </div>

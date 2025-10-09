@@ -1,3 +1,4 @@
+"use server";
 import 'server-only';
 import { cookies } from 'next/headers';
 import { baseUrl } from '@/lib/utils/api';
@@ -32,3 +33,5 @@ export default async function getProgramPackage(props: any) {
         return [];
     }
 }
+
+

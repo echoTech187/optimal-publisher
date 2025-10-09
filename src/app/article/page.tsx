@@ -19,7 +19,7 @@ export default function Article() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         <div className="bg-white shadow-xs hover:shadow-2xl rounded-lg hover:cursor-pointer">
                             <div className="p-4 flex flex-col gap-4">
-                                <Image src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
+                                <Image priority={true}src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
                                 <div>
                                     <h3 className="text-lg ">Mengenal CAPD: Cuci Darah Mandiri dan Perawatannya di Rumah </h3>
                                     <span className="flex items-center text-sm text-gray-500">
@@ -31,7 +31,7 @@ export default function Article() {
                         </div>
                         <div className="bg-white shadow-xs hover:shadow-2xl rounded-lg hover:cursor-pointer">
                             <div className="p-4 flex flex-col gap-4">
-                                <Image src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
+                                <Image priority={true}src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
                                 <div>
                                     <h3 className="text-lg ">Mengenal CAPD: Cuci Darah Mandiri dan Perawatannya di Rumah </h3>
                                     <span className="flex items-center text-sm text-gray-500">
@@ -43,7 +43,7 @@ export default function Article() {
                         </div>
                         <div className="bg-white shadow-xs hover:shadow-2xl rounded-lg hover:cursor-pointer">
                             <div className="p-4 flex flex-col gap-4">
-                                <Image src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
+                                <Image priority={true}src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
                                 <div>
                                     <h3 className="text-lg ">Mengenal CAPD: Cuci Darah Mandiri dan Perawatannya di Rumah </h3>
                                     <span className="flex items-center text-sm text-gray-500">
@@ -55,7 +55,7 @@ export default function Article() {
                         </div>
                         <div className="bg-white shadow-xs hover:shadow-2xl rounded-lg hover:cursor-pointer">
                             <div className="p-4 flex flex-col gap-4">
-                                <Image src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
+                                <Image priority={true}src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
                                 <div>
                                     <h3 className="text-lg ">Mengenal CAPD: Cuci Darah Mandiri dan Perawatannya di Rumah </h3>
                                     <span className="flex items-center text-sm text-gray-500">
@@ -67,7 +67,7 @@ export default function Article() {
                         </div>
                         <div className="bg-white shadow-xs hover:shadow-2xl rounded-lg hover:cursor-pointer">
                             <div className="p-4 flex flex-col gap-4">
-                                <Image src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
+                                <Image priority={true}src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
                                 <div>
                                     <h3 className="text-lg ">Mengenal CAPD: Cuci Darah Mandiri dan Perawatannya di Rumah </h3>
                                     <span className="flex items-center text-sm text-gray-500">
@@ -79,7 +79,7 @@ export default function Article() {
                         </div>
                         <div className="bg-white shadow-xs hover:shadow-2xl rounded-lg hover:cursor-pointer">
                             <div className="p-4 flex flex-col gap-4">
-                                <Image src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
+                                <Image priority={true}src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
                                 <div>
                                     <h3 className="text-lg ">Mengenal CAPD: Cuci Darah Mandiri dan Perawatannya di Rumah </h3>
                                     <span className="flex items-center text-sm text-gray-500">
@@ -91,7 +91,7 @@ export default function Article() {
                         </div>
                         <div className="bg-white shadow-xs hover:shadow-2xl rounded-lg hover:cursor-pointer">
                             <div className="p-4 flex flex-col gap-4">
-                                <Image src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
+                                <Image priority={true}src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
                                 <div>
                                     <h3 className="text-lg ">Mengenal CAPD: Cuci Darah Mandiri dan Perawatannya di Rumah </h3>
                                     <span className="flex items-center text-sm text-gray-500">
@@ -103,7 +103,7 @@ export default function Article() {
                         </div>
                         <div className="bg-white shadow-xs hover:shadow-2xl rounded-lg hover:cursor-pointer">
                             <div className="p-4 flex flex-col gap-4">
-                                <Image src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
+                                <Image priority={true}src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
                                 <div>
                                     <h3 className="text-lg ">Mengenal CAPD: Cuci Darah Mandiri dan Perawatannya di Rumah </h3>
                                     <span className="flex items-center text-sm text-gray-500">
@@ -115,7 +115,7 @@ export default function Article() {
                         </div>
                         <div className="bg-white shadow-xs hover:shadow-2xl rounded-lg hover:cursor-pointer">
                             <div className="p-4 flex flex-col gap-4">
-                                <Image src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
+                                <Image priority={true}src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
                                 <div>
                                     <h3 className="text-lg ">Mengenal CAPD: Cuci Darah Mandiri dan Perawatannya di Rumah </h3>
                                     <span className="flex items-center text-sm text-gray-500">
@@ -127,7 +127,7 @@ export default function Article() {
                         </div>
                         <div className="bg-white shadow-xs hover:shadow-2xl rounded-lg hover:cursor-pointer">
                             <div className="p-4 flex flex-col gap-4">
-                                <Image src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
+                                <Image priority={true}src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
                                 <div>
                                     <h3 className="text-lg ">Mengenal CAPD: Cuci Darah Mandiri dan Perawatannya di Rumah </h3>
                                     <span className="flex items-center text-sm text-gray-500">
@@ -139,7 +139,7 @@ export default function Article() {
                         </div>
                         <div className="bg-white shadow-xs hover:shadow-2xl rounded-lg hover:cursor-pointer">
                             <div className="p-4 flex flex-col gap-4">
-                                <Image src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
+                                <Image priority={true}src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
                                 <div>
                                     <h3 className="text-lg ">Mengenal CAPD: Cuci Darah Mandiri dan Perawatannya di Rumah </h3>
                                     <span className="flex items-center text-sm text-gray-500">
@@ -151,7 +151,7 @@ export default function Article() {
                         </div>
                         <div className="bg-white shadow-xs hover:shadow-2xl rounded-lg hover:cursor-pointer">
                             <div className="p-4 flex flex-col gap-4">
-                                <Image src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
+                                <Image priority={true}src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
                                 <div>
                                     <h3 className="text-lg ">Mengenal CAPD: Cuci Darah Mandiri dan Perawatannya di Rumah </h3>
                                     <span className="flex items-center text-sm text-gray-500">
@@ -163,7 +163,7 @@ export default function Article() {
                         </div>
                         <div className="bg-white shadow-xs hover:shadow-2xl rounded-lg hover:cursor-pointer">
                             <div className="p-4 flex flex-col gap-4">
-                                <Image src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
+                                <Image priority={true}src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
                                 <div>
                                     <h3 className="text-lg ">Mengenal CAPD: Cuci Darah Mandiri dan Perawatannya di Rumah </h3>
                                     <span className="flex items-center text-sm text-gray-500">
@@ -175,7 +175,7 @@ export default function Article() {
                         </div>
                         <div className="bg-white shadow-xs hover:shadow-2xl rounded-lg hover:cursor-pointer">
                             <div className="p-4 flex flex-col gap-4">
-                                <Image src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
+                                <Image priority={true}src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
                                 <div>
                                     <h3 className="text-lg ">Mengenal CAPD: Cuci Darah Mandiri dan Perawatannya di Rumah </h3>
                                     <span className="flex items-center text-sm text-gray-500">
@@ -187,7 +187,7 @@ export default function Article() {
                         </div>
                         <div className="bg-white shadow-xs hover:shadow-2xl rounded-lg hover:cursor-pointer">
                             <div className="p-4 flex flex-col gap-4">
-                                <Image src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
+                                <Image priority={true}src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
                                 <div>
                                     <h3 className="text-lg ">Mengenal CAPD: Cuci Darah Mandiri dan Perawatannya di Rumah </h3>
                                     <span className="flex items-center text-sm text-gray-500">
@@ -199,7 +199,7 @@ export default function Article() {
                         </div>
                         <div className="bg-white shadow-xs hover:shadow-2xl rounded-lg hover:cursor-pointer">
                             <div className="p-4 flex flex-col gap-4">
-                                <Image src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
+                                <Image priority={true}src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
                                 <div>
                                     <h3 className="text-lg ">Mengenal CAPD: Cuci Darah Mandiri dan Perawatannya di Rumah </h3>
                                     <span className="flex items-center text-sm text-gray-500">
@@ -211,7 +211,7 @@ export default function Article() {
                         </div>
                         <div className="bg-white shadow-xs hover:shadow-2xl rounded-lg hover:cursor-pointer">
                             <div className="p-4 flex flex-col gap-4">
-                                <Image src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
+                                <Image priority={true}src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
                                 <div>
                                     <h3 className="text-lg ">Mengenal CAPD: Cuci Darah Mandiri dan Perawatannya di Rumah </h3>
                                     <span className="flex items-center text-sm text-gray-500">
@@ -223,7 +223,7 @@ export default function Article() {
                         </div>
                         <div className="bg-white shadow-xs hover:shadow-2xl rounded-lg hover:cursor-pointer">
                             <div className="p-4 flex flex-col gap-4">
-                                <Image src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
+                                <Image priority={true}src="images/article-1.png" alt="" width={0} height={0} className="size-full rounded-lg" />
                                 <div>
                                     <h3 className="text-lg ">Mengenal CAPD: Cuci Darah Mandiri dan Perawatannya di Rumah </h3>
                                     <span className="flex items-center text-sm text-gray-500">

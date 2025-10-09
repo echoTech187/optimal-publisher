@@ -1,3 +1,4 @@
+"use server";
 import 'server-only'; // Ensures this code only runs on the server
 import { cookies } from 'next/headers';
 import { User } from '@/types/user'; // <-- Import the centralized User type

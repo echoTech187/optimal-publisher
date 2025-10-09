@@ -68,7 +68,7 @@ const DashboardSidebar = () => {
                 <div className="drawer-header p-4">
                     <div className={`text-lg font-bold`}>
                         <Link href="/" className="flex items-center gap-2">
-                            <Image src="/penerbit-logo.png" alt="logo" width={100} height={80} className="h-12 w-fit" />
+                            <Image priority={true}src="/penerbit-logo.png" alt="logo" width={100} height={80} className="h-12 w-fit" />
                         </Link>
                     </div>
                     <button className="btn btn-sm overlay-close lg:hidden" aria-label="Close" type="button">

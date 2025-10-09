@@ -27,7 +27,7 @@ export default function Header() {
                         <p className="mt-2">Sudah Punya Akun?  <Link href="/" className='text-amber-600'>Silahkan Masuk</Link></p>
                     </div>
                     <div className="w-1/2 max-lg:hidden">
-                        <Image src="/images/banner.svg" alt="Hero Image" width={500} height={300} className="mx-auto" />
+                        <Image priority={true}src="/images/banner.svg" alt="Hero Image" width={500} height={300} className="mx-auto" />
                     </div>
                 </div>
             </section>

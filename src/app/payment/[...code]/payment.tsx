@@ -1,6 +1,7 @@
 'use client';
 import { Icon } from '@iconify/react';
 import { useSearchParams } from 'next/navigation';
+import Image from 'next/image';
 export default function Payment() {
     const router = useSearchParams();
     const type = router.get("type");
@@ -46,7 +47,7 @@ export default function Payment() {
                             <div className="flex gap-4">
                                 <div className="avatar">
                                     <div className="size-12 rounded-md">
-                                        <img src="/icon/bri.png" alt="avatar" />
+                                        <Image priority={true}src="/icon/bri.png" alt="avatar" width={100} height={100}  className='size-auto' />
                                     </div>
                                 </div>
                                 <div>
@@ -71,7 +72,7 @@ export default function Payment() {
                             <div className="flex gap-4">
                                 <div className="avatar">
                                     <div className="size-12 rounded-md">
-                                        <img src="/icon/bca.png" alt="avatar" />
+                                        <Image priority={true}src="/icon/bca.png" alt="avatar" width={100} height={100} className='size-auto'/>
                                     </div>
                                 </div>
                                 <div>

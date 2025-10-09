@@ -3,6 +3,9 @@
 import { useState, useRef, useEffect } from "react";
 import { logout } from "@/lib/actions/auth"; // <-- Import server action
 import { User } from "@/types/user";
+import Image from "next/image";
+
+// --- User Profile Component ---
 
 export default function UserProfile({ user }: { user: User }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +34,7 @@ export default function UserProfile({ user }: { user: User }) {
             >
                 <div className="avatar">
                     <div className="size-9.5 rounded-full">
-                        <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png" alt="avatar 1" />
+                        <Image priority={true}src="https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png" alt="avatar 1" width={0} height={0} className="size-full object-cover"/>
                     </div>
                 </div>
             </button>
@@ -42,7 +45,7 @@ export default function UserProfile({ user }: { user: User }) {
                 <li className="dropdown-header gap-2">
                     <div className="avatar">
                         <div className="w-10 rounded-full">
-                            <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png" alt="avatar" />
+                            <Image priority={true}src="https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png" alt="avatar" width={0} height={0} className="size-full object-cover"/>
                         </div>
                     </div>
                     <div>

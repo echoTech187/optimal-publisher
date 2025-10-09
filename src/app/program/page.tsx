@@ -2,6 +2,7 @@
 import { imageUrl } from "@/lib/utils/api";
 import { getPrograms } from "@/lib/data/program";
 import Link from "next/link";
+import Image from "next/image";
 
 // This is now a Server Component
 export default async function ProgramListPage() {
@@ -24,9 +25,12 @@ export default async function ProgramListPage() {
                     programs.map((program: any) => (
                         <div className="card w-full bg-base-100 shadow-xl" key={program.id}>
                             <figure style={{ height: '400px' }}>
-                                <img 
+                                <Image priority={true}
                                     src={`${program.images ? imageUrl() + '/' + program.images : '/images/placeholder.png'}`}
                                     alt={program.program_name} 
+                                    width={0} 
+                                    height={0} 
+                                   
                                     className="size-full object-cover" 
                                 />
                             </figure>

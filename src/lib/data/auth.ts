@@ -1,4 +1,4 @@
-
+"use server";
 import { baseUrl } from "@/lib/utils/api";
 
 export async function getInstitutions() {

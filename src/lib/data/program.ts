@@ -17,6 +17,7 @@ export async function getPrograms() {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
             },
+            method: 'GET',
             cache: 'no-store', // Use 'no-store' for dynamic, user-specific data
         });
 
@@ -86,4 +87,22 @@ export async function fetchBookTopic({ selectedBookTitle }: { selectedBookTitle:
     });
     const bookTopic = await response.json();
     return bookTopic;
+}
+
+export async function fetchTransaction({ slug }: { slug: string | null; }) {
+    const token = (await cookies()).get('token')?.value;
+
+    if (!token) {
+        // Or handle this case as per your app's logic
+        return [];
+    }
+    const response = await fetch(baseUrl() + "/transaction/" + slug, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        }
+    });
+    const transaction = await response.json();
+    return transaction;
 }
