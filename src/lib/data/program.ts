@@ -42,7 +42,7 @@ export async function fetchMajor() {
         // Or handle this case as per your app's logic
         return [];
     }
-    const response = await fetch(baseUrl() + "/majors",{
+    const response = await fetch(baseUrl() + "/majors", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -60,7 +60,7 @@ export async function fetchBookTitle({ selectedMajor }: { selectedMajor: string;
         // Or handle this case as per your app's logic
         return [];
     }
-    const response = await fetch(baseUrl() + "/book-title/" + selectedMajor,{
+    const response = await fetch(baseUrl() + "/book-title/" + selectedMajor, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -78,7 +78,7 @@ export async function fetchBookTopic({ selectedBookTitle }: { selectedBookTitle:
         // Or handle this case as per your app's logic
         return [];
     }
-    const response = await fetch(baseUrl() + "/book-topic/" + selectedBookTitle,{
+    const response = await fetch(baseUrl() + "/book-topic/" + selectedBookTitle, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -105,4 +105,23 @@ export async function fetchTransaction({ slug }: { slug: string | null; }) {
     });
     const transaction = await response.json();
     return transaction;
+}
+
+export async function fetchPayment() {
+    const token = (await cookies()).get('token')?.value;
+
+    if (!token) {
+        // Or handle this case as per your app's logic
+        return [];
+    }
+    const response = await fetch(baseUrl() + "/payment-methods", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        }
+    });
+    const payment = await response.json();
+    return payment;
+
 }

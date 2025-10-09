@@ -80,7 +80,7 @@ const BookRecomend = async ({ bookList, isLoading }: { bookList: any[], isLoadin
                                     return (
                                         <div className="carousel-slide" key={index}>
                                             <div className='h-[250px] w-auto flex justify-center '>
-                                                <Image priority={true}priority={true} src={`http://127.0.0.1:8000/${item.book_image}`} alt={item.book_title} className="object-contain w-[250px] h-full" width={0} height={0} />
+                                                <Image priority={true} src={`http://127.0.0.1:8000/${item.book_image}`} alt={item.book_title} className="object-contain w-[250px] h-full" width={0} height={0} />
                                             </div>
                                             <div className="card-body justify-between ">
                                                 <span className="text-xs text-[var(--primary)] font-normal bg-purple-50 w-fit px-4 py-1 rounded-full">{item.categories.book_category_title}</span>
@@ -196,7 +196,7 @@ const BookListItems = ({ data }: { data: any }) => {
     const { slug, book_image, book_title, categories, book_price } = data;
     return (
         <div className="flex flex-col items-start justify-start gap-4 text-center h-full border border-gray-200 rounded-lg">
-            <Image priority={true}priority={true} src={`http://127.0.0.1:8000/${book_image}`} alt={book_title} className="object-contain w-full" width={124} height={124} title={book_title} sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw' />
+            <Image priority={true} src={`http://127.0.0.1:8000/${book_image}`} alt={book_title} className="object-contain w-full" width={124} height={124} title={book_title} sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw' />
             <div className='p-4 flex flex-col items-start justify-start gap-2'>
                 <h6 className="text-xs text-[var(--primary)] font-normal bg-purple-50 w-fit px-4 py-1 rounded-full">{categories.book_category_title}</h6>
                 <Link href={`/book/${slug}`} className="max-sm:text-xs text-gray-600 w-full truncate overflow-hidden text-ellipsis text-left line-clamp-3 whitespace-normal flex-1 capitalize lowercase " title={book_title}>{book_title}</Link>

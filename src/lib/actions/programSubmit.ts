@@ -29,7 +29,7 @@ export async function submitPrivateProgram(prevState: FormState, formData: FormD
     }
 
     try {
-        const response = await fetch(`${baseUrl()}/upload`, {
+        const response = await fetch(`${baseUrl()}/order`, {
             method: 'POST',
             body: formData,
             headers: {
@@ -44,14 +44,14 @@ export async function submitPrivateProgram(prevState: FormState, formData: FormD
 
         if (!response.ok) {
             // You might want to handle errors more gracefully
-            
-                // If there's no transaction code, return the original response
-                return {
-                    success: false,
-                    message: result.message || "Terjadi kesalahan pada server.",
-                    errors: result.errors,
-                };
-        }else if (response.ok && !result.transactionCode) {
+
+            // If there's no transaction code, return the original response
+            return {
+                success: false,
+                message: result.message || "Terjadi kesalahan pada server.",
+                errors: result.errors,
+            };
+        } else if (response.ok && !result.transactionCode) {
             return {
                 success: false,
                 message: result.message || "Terjadi kesalahan pada server.",
