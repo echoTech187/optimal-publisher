@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect,useActionState } from 'react';
-import {  useFormStatus } from 'react-dom';
+import React, { useEffect, useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 import { User } from "@/types/user";
 
 import { useProgramPrivateForm } from '@/lib/hooks/useProgramPrivateForm';
@@ -44,7 +44,6 @@ export default function FormProgramPrivate(props: { data: any, user: User }) {
     useEffect(() => {
         if (formState.message) {
             if (formState.success) {
-                // console.log("Success:", formState.message);
                 showAlert(
                     {
                         type: 'success',
@@ -70,42 +69,41 @@ export default function FormProgramPrivate(props: { data: any, user: User }) {
             }
         }
     }, [formState]);
-    
     return (
         <>
-        <div className="max-w-[1300px] mx-auto h-full pt-[0px]" id="shipping-information">
-            <FormHeader />
-            <div className="flex flex-col gap-6 p-6">
-                
-                {dataError && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">{dataError}</div>}
+            <div className="max-w-[1300px] mx-auto h-full pt-[0px]" id="shipping-information">
+                <FormHeader title="Informasi Pemesanan" description="Program Penerbitan Mandiri" />
+                <div className="flex flex-col gap-6 p-6">
 
-                {formState.message && !formState.success && (
-                    <div className="bg-red-100 border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                        <strong className="font-bold">Gagal!</strong>
-                        <span className="block sm:inline"> {formState.message}</span>
-                    </div>
-                )}
+                    {dataError && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">{dataError}</div>}
 
-                {formState.success && (
-                     <div className="bg-green-100 border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-                        <strong className="font-bold">Berhasil!</strong>
-                        <span className="block sm:inline"> {formState.message}</span>
-                    </div>
-                )}
+                    {formState.message && !formState.success && (
+                        <div className="bg-red-100 border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                            <strong className="font-bold">Gagal!</strong>
+                            <span className="block sm:inline"> {formState.message}</span>
+                        </div>
+                    )}
 
-                <form action={formAction} className="w-full grid grid-cols-1 md:grid-cols-2 gap-6" id="form-customer">
-                    
-                    <HiddenInputs data={data} user={user}  />
-                    <UserInfo user={user} />
-                    <BookInfo majors={majors} bookTitles={bookTitles} selectedMajor={selectedMajor} loading={dataLoading} handleMajorChange={handleMajorChange} setBookTitle={handleBookTitleChange} />
-                    <Address />
-                    <FileUpload name="manuscript" />
-                    <Agreement />
-                    <FormSubmitter />
-                </form>
+                    {formState.success && (
+                        <div className="bg-green-100 border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                            <strong className="font-bold">Berhasil!</strong>
+                            <span className="block sm:inline"> {formState.message}</span>
+                        </div>
+                    )}
+
+                    <form action={formAction} className="w-full grid grid-cols-1 md:grid-cols-2 gap-6" id="form-customer">
+
+                        <HiddenInputs data={data} user={user} />
+                        <UserInfo user={user} />
+                        <BookInfo majors={majors} bookTitles={bookTitles} selectedMajor={selectedMajor} loading={dataLoading} handleMajorChange={handleMajorChange} setBookTitle={handleBookTitleChange} />
+                        <Address />
+                        <FileUpload name="manuscript" />
+                        <Agreement />
+                        <FormSubmitter />
+                    </form>
+                </div>
             </div>
-        </div>
-        <Alert {...alertProps} />
+            <Alert {...alertProps} />
         </>
     );
 }

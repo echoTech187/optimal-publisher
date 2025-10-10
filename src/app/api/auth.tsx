@@ -11,9 +11,7 @@ async function signInAction(data: any) {
         });
         const result = await response.json();
         const res = await result.original;
-        console.log(res);
         if (res?.code === 200) {
-            console.log(res.user);
             localStorage.setItem("token", res.token);
             localStorage.setItem("user", JSON.stringify(res.user));
             const exp = Date.now() + res.expires_in;

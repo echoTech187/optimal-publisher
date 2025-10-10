@@ -1,47 +1,82 @@
+"use client";
 import FormProgramPrivate from "@/components/program/private";
 import FormProgramReference from "@/components/program/reference";
 import FormProgramTextbook from "@/components/program/textbook";
 import FormProgramChapter from "@/components/program/chapter";
 import FormProgramMonograf from "@/components/program/monograf";
 import { User } from "@/types/user";
+import Image from "next/image";
+import { useState } from "react";
 
-export default function Pack(props: { data: any, user: User }) {
+function SinglePack(props: { data: any, user: User }) {
     const { data, user } = props;
     const isbn = data[0].isbn_program_id;
 
-    // const [showCustomer, setShowCustomer] = useState(false);
-    // const [showAdress, setShowAdress] = useState(false);
-    // const [packName, setPackName] = useState("");
-    // const [selected, setSelected] = useState("");
-
-    // function showFormCustomer(selected: string, pack: string) {
-    //     setShowCustomer(true);
-    //     setPackName(pack);
-    //     if (parseInt(selected) > 0)
-    //         setSelected(selected);
-    //     else
-    //         setSelected("");
-    //     if (selected === "full") setShowAdress(true);
-    //     else setShowAdress(false);
-    //     if (showCustomer) {
-    //         location.href = "#shipping-information";
-    //     }
-
-    // }
-    if (!user) {
-        return <div>Loading user data...</div>; // Or some other placeholder
-    }
     return (
         <section className="w-full h-full py-[150px]">
-            {
-                (isbn === 1) ? <FormProgramPrivate data={data[0]} user={user} /> :
-                    (isbn === 2) ? <FormProgramReference data={data[0]} user={user} /> :
-                        (isbn === 3) ? <FormProgramTextbook data={data[0]} user={user} /> :
-                            (isbn === 4) ? <FormProgramChapter data={data[0]} user={user} /> :
-                                <FormProgramMonograf data={data[0]} user={user} />
-            }
-
+            <FormProgramPrivate data={data[0]} user={user} />
         </section>
 
     )
 }
+
+function MultiPack(props: { data: any, user: User }) {
+    const { data, user } = props;
+    const [showCustomerForm, setShowCustomerForm] = useState(false);
+    const [showAdress, setShowAdress] = useState(false);
+    const [itemSelected, setItemSelected] = useState("");
+
+    function showFormCustomer(data: any) {
+        setItemSelected(data);
+        setShowCustomerForm(true);
+        if (data.package_type_id === 3) setShowAdress(true);
+    }
+    return (
+        <section className="w-full h-full py-[150px]">
+            <header className={`max-w-[1300px] mx-auto px-4 text-center`}>
+                <h1 className="text-4xl anton z-10 text-gray-700 dark:text-gray-50 leading-tight text-center">Pilih Paket Optimal</h1>
+                <p>Pilih paket yang sesuai dengan kebutuhanmu</p>
+            </header>
+            <div className={`max-w-[1300px] mx-auto px-4 mt-12`}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {
+                        data.map((item: any, index: number) => {
+                            return (
+                                <div key={item.slug} className="flex flex-col rounded-xl shadow-xs bg-gradient-to-b from-[#ffeaa4] to-white dark:from-[#111] dark:to-[#333] dark:text-gray-50 text-[#333] hover:shadow-2xl hover:shadow-black/20 backdrop-blur-md">
+                                    <div className="flex items-center gap-2 text-xl p-6">
+                                        <div className="size-[60px]">
+                                            <Image priority={true} src="/penerbit-logo.png" alt="Icon Nurse" width={4800} height={3800} className="object-contain size-full -z-1 rounded-t-lg" />
+                                        </div>
+                                        <div>
+                                            <p className="text-sm">{item.package_type.name}</p>
+                                            <h5 className="font-bold">{item.name}</h5>
+                                        </div>
+                                    </div>
+                                    <div className=" w-full px-6 flex-1">
+                                        <p className="text-sm">{item.description}</p>
+                                    </div>
+                                    <div className="flex justify-between items-center p-6">
+                                        <div className="flex justify-center">
+                                            <span className="text-black dark:text-gray-50 font-bold">{parseInt(item.price).toLocaleString("id-ID", { style: "currency", currency: "IDR" })}/Penulis/Topik</span>
+                                        </div>
+                                        <button onClick={() => showFormCustomer(item)} className="w-fit font-bold py-2 px-4 rounded transition-colors bg-black dark:bg-black/80 dark:text-amber-500 dark:hover:text-amber-400 text-white hover:font-semibold text-sm hover:bg-transparent border border-transparent hover:border-black hover:text-black flex items-center justify-center">
+                                            Pilih Paket
+                                        </button>
+                                    </div>
+                                </div>
+                            );
+                        })
+                    }
+                </div>
+            </div>
+
+            {
+                showCustomerForm && (<FormProgramReference data={itemSelected} user={user} showAdress={showAdress} />)
+
+            }
+        </section>
+    )
+}
+
+export { SinglePack, MultiPack };
+

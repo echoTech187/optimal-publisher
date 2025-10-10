@@ -145,7 +145,6 @@ export async function validateOrRefreshToken() {
             },
         });
         const result = await response.json();
-        console.log(result);
         if (response.ok && response.status === 200) {
             if (result.token) {
                 (await cookies()).set('token', result.token, {

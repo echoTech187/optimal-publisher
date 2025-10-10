@@ -4,7 +4,6 @@ import { useEffect } from "react";
 
 export default function FormCustomer({ type, showAdress, packName, selectedPack }: { type?: string | null, showAdress: boolean, packName: string, selectedPack?: string | null }) {
     useEffect(() => {
-        console.log(parseInt(selectedPack || "0") > 0);
         if (typeof window !== "undefined" && parseInt(selectedPack || "0") > 0) {
             let members = document.getElementById("members");
             if (!members) return;

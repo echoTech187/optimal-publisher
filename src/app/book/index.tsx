@@ -199,7 +199,7 @@ const BookListItems = ({ data }: { data: any }) => {
             <Image priority={true} src={`http://127.0.0.1:8000/${book_image}`} alt={book_title} className="object-contain w-full" width={124} height={124} title={book_title} sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw' />
             <div className='p-4 flex flex-col items-start justify-start gap-2'>
                 <h6 className="text-xs text-[var(--primary)] font-normal bg-purple-50 w-fit px-4 py-1 rounded-full">{categories.book_category_title}</h6>
-                <Link href={`/book/${slug}`} className="max-sm:text-xs text-gray-600 w-full truncate overflow-hidden text-ellipsis text-left line-clamp-3 whitespace-normal flex-1 capitalize lowercase " title={book_title}>{book_title}</Link>
+                <Link href={`/book/${slug}`} className="max-sm:text-xs text-gray-600 w-full truncate overflow-hidden text-ellipsis text-left line-clamp-3 whitespace-normal flex-1 capitalize " title={book_title}>{book_title}</Link>
             </div>
         </div>
     );

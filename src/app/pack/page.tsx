@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import Pack from "./pack";
+import { MultiPack, SinglePack } from "./pack";
 import getProgramPackage from "@/lib/data/package";
 import { getSession } from "@/lib/auth/session";
 import { redirect } from "next/navigation";
@@ -11,11 +11,19 @@ async function PackPageContent({ packageKey }: { packageKey: number }) {
     if (!session) {
         redirect('/auth/signin');
     }
-    return <Pack data={packages} user={session} />;
+    if (packages.length === 0) {
+        redirect('/error/404');
+    }
+    if (packages.length > 1) {
+        return <MultiPack data={packages} user={session} />;
+    }
+
+
+    return <SinglePack data={packages} user={session} />;
 }
 
 // Komponen Page utama sekarang menjadi sinkronus
-export default  async function Page({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
+export default async function Page({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
     // Menggunakan URLSearchParams untuk mengakses parameter, sebagai upaya terakhir
     const params = await searchParams;
     const packageKey = params.key ? parseInt(Array.isArray(params.key) ? params.key[0] : params.key, 10) : NaN;
@@ -25,7 +33,11 @@ export default  async function Page({ searchParams }: { searchParams: { [key: st
         redirect('/error/404'); // Atau halaman error lainnya
     }
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<>
+            <div className='flex justify-center items-center h-screen'>
+                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+            </div>
+        </>}>
             <PackPageContent packageKey={packageKey} />
         </Suspense>
     );

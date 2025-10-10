@@ -58,7 +58,7 @@ const DetailBook = () => {
                 <div className="container mx-auto px-4 py-8">
                     <div className="flex flex-col md:flex-row items-start">
                         <div className="md:w-1/2 md:mr-8">
-                            <Image priority={true}priority={true} sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw' src={`http://127.0.0.1:8000/${data.book_image ? data.book_image : "no-image.png"}`} title={data?.book_title} alt={data.book_title} className="w-full h-full object-cover rounded-lg" width={100} height={100} />
+                            <Image priority={true} sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw' src={`http://127.0.0.1:8000/${data.book_image ? data.book_image : "no-image.png"}`} title={data?.book_title} alt={data.book_title} className="w-full h-full object-cover rounded-lg" width={100} height={100} />
                         </div>
                         <div className="md:w-1/2">
                             <h2 className="text-3xl font-bold mb-4">{data.book_title}</h2>
