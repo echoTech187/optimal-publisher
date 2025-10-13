@@ -5,13 +5,12 @@ import { useFormStatus } from 'react-dom';
 import { User } from "@/types/user";
 
 import { useProgramReferenceForm } from '@/lib/hooks/useProgramReferenceForm';
-import { submitPrivateProgram } from '@/lib/actions/programSubmit';
+import { submitReferenceProgram } from '@/lib/actions/programSubmit';
 
 import FormHeader from './private/FormHeader';
 import HiddenInputs from './private/HiddenInputs';
 import UserInfo from './private/UserInfo';
 import ProgramSelection from './references/ProgramSelection';
-import FileUpload from './private/FileUpload';
 import Agreement from './private/Agreement';
 import SubmitButton from './private/SubmitButton';
 import Alert, { useAlert } from '../ui/Alert';
@@ -27,7 +26,7 @@ const initialState = {
 export default function FormProgramRefernce(props: { data: any, user: User, showAdress?: boolean }) {
     const { data, user } = props;
     // Form submission state and action
-    const [formState, formAction] = useActionState(submitPrivateProgram, initialState);
+    const [formState, formAction] = useActionState(submitReferenceProgram, initialState);
     const { alertProps, showAlert, closeAlert } = useAlert();
     const {
         majors,
@@ -52,6 +51,10 @@ export default function FormProgramRefernce(props: { data: any, user: User, show
                         type: 'success',
                         title: 'Berhasil!',
                         message: formState.message,
+                        onPrimaryClick: () => {
+                            window.location.href = '/payment/' + formState?.transactionCode; // Reload the page
+                        },
+                        primaryButtonText: 'Lanjutkan',
                         onCloseCallback: () => {
                             window.location.href = '/payment/' + formState?.transactionCode; // Reload the page
                         },
@@ -134,5 +137,5 @@ export default function FormProgramRefernce(props: { data: any, user: User, show
 // A new component to get the form status
 function FormSubmitter() {
     const { pending } = useFormStatus();
-    return <SubmitButton loading={pending} />;
+    return <SubmitButton loading={pending} title="Lanjutkan Pembayaran"/>;
 }

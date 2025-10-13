@@ -91,6 +91,10 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                 type: 'success',
                 title: 'Receipt Upload Successful',
                 message: 'Bukti pembayaran berhasil diunggah. Tim kami akan segera memverifikasi pembayaran Anda.',
+                primaryButtonText: 'Lanjutkan',
+                onPrimaryClick: () => {
+                    window.location.reload(); // Reload the page
+                },
                 onCloseCallback: () => {
 
                     window.location.reload();
@@ -365,12 +369,15 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                             <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}</span>
                         </div>
                     </div>
-                    <Link href="/" className="w-full mb-4 bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-300 inline-block">
-                        Kembali ke Beranda
-                    </Link>
-                    <Link href="" className="w-full bg-green-800 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-300 inline-block">
-                        Cek Status Pembayaran
-                    </Link>
+                    <div className='flex justify-between items-center mb-4 gap-8'>
+                        <Link href="/" className="w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-300 inline-block">
+                            Kembali ke Beranda
+                        </Link>
+                        <Link href="https://wa.link/pe0iuj" className="w-full bg-green-800 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-300 inline-block">
+                            Konfirmasi Pembayaran
+                        </Link>
+                    </div>
+
                 </div>
             </div>
         );

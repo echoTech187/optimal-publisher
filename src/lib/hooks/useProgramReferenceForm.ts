@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { fetchMajor, fetchBookTitle, fetchBookTopic } from '@/lib/data/program';
-import type { Major, BookTitle, BookTopic } from '@/types/program';
+import { fetchMajor, fetchBookTitle, fetchBookTopic, fetchInstitution } from '@/lib/data/program';
+import type { Major, BookTitle, BookTopic, Institution } from '@/types/program';
 
 export const useProgramReferenceForm = () => {
     const [majors, setMajors] = useState<Major[]>([]);
@@ -88,5 +88,39 @@ export const useProgramReferenceForm = () => {
         handleMajorChange,
         handleBookTitleChange,
         handleBookTopicChange,
+    };
+};
+
+export const useProgramMonografForm = () => {
+    const [majors, setMajors] = useState<Major[]>([]);
+    const [institutions, setInstitutions] = useState<Institution[]>([]);
+
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                const majorData = await fetchMajor();
+                setMajors(majorData);
+                const institutionData = await fetchInstitution();
+                setInstitutions(institutionData);
+            } catch (err) {
+                setError("Gagal memuat data jurusan. Silakan coba lagi.");
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
+
+
+    return {
+        majors,
+        institutions,
+        loading,
+        error,
     };
 };

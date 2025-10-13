@@ -49,6 +49,10 @@ export default function FormProgramPrivate(props: { data: any, user: User }) {
                         type: 'success',
                         title: 'Berhasil!',
                         message: formState.message,
+                        onPrimaryClick: () => {
+                            window.location.href = '/payment/' + formState?.transactionCode; // Reload the page
+                        },
+                        primaryButtonText: 'Lanjutkan',
                         onCloseCallback: () => {
                             window.location.href = '/payment/' + formState?.transactionCode; // Reload the page
                         },
@@ -111,5 +115,5 @@ export default function FormProgramPrivate(props: { data: any, user: User }) {
 // A new component to get the form status
 function FormSubmitter() {
     const { pending } = useFormStatus();
-    return <SubmitButton loading={pending} />;
+    return <SubmitButton loading={pending} title="Lanjutkan Pembayaran dan Kirim Naskah" />;
 }

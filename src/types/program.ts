@@ -12,3 +12,8 @@ export interface BookTopic {
     id: number;
     topic_name: string;
 }
+
+export interface Institution {
+    id: number;
+    name: string;
+}

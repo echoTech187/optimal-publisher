@@ -121,7 +121,7 @@ const Content: FC<{ children: ReactNode }> = ({ children }) => <>{children}</>;
 
 const Step: FC<StepProps> = ({ index, children }) => {
     const { currentStep } = useStepper();
-    return currentStep === index ? <>{children}</> : null;
+    return <div className={currentStep === index ? '' : 'invisible h-0 overflow-hidden'}>{children}</div>;
 };
 
 const Controls: FC<{ children: ReactNode, className?: string }> = ({ children, className }) => (

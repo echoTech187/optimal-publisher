@@ -32,7 +32,9 @@ export function useForm<T extends Record<string, any>>(
     });
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const { name, value } = event.target;
+        const target = event.target;
+        const value = target.type === 'checkbox' ? (target as HTMLInputElement).checked : target.value;
+        const { name } = target;
 
         setForm((prevForm) => ({
             ...prevForm,

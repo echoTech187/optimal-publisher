@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useActionState } from "react";
+import { useEffect, useState, useActionState, useCallback } from "react";
 import { useFormStatus } from "react-dom";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
@@ -65,10 +65,17 @@ export default function Register() {
         { title: 'Personal Info' }
     ];
 
-    // Handler to update the centralized validation state
-    const handleValidationChange = (step: number, isValid: boolean) => {
+    const handleValidationChange = useCallback((step: number, isValid: boolean) => {
         setStepsValidity(prev => ({ ...prev, [step]: isValid }));
-    };
+    }, []);
+
+    const onValidationChangeStep1 = useCallback((isValid: boolean) => {
+        handleValidationChange(1, isValid);
+    }, [handleValidationChange]);
+
+    const onValidationChangeStep2 = useCallback((isValid: boolean) => {
+        handleValidationChange(2, isValid);
+    }, [handleValidationChange]);
 
     // Fetch initial data
     useEffect(() => {
@@ -97,10 +104,11 @@ export default function Register() {
 
     if (isLoading) {
         return (
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full flex items-center justify-center bg-white z-50 dark:bg-gray-800 dark:text-gray-50 overflow-hidden">Loading...</div>
-        );
+            <div className='flex justify-center items-center h-screen'>
+                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+            </div>
+        )
     }
-
     return (
         <>
             <div className="relative w-screen min-h-screen h-full flex items-center justify-center bg-gray-50 dark:bg-gray-700 overflow-x-hidden">
@@ -129,7 +137,7 @@ export default function Register() {
                                                 <Stepper.Step index={1}>
                                                     <div className="space-y-5">
                                                         <PersonalInformation
-                                                            onValidationChange={(isValid: boolean) => handleValidationChange(1, isValid)}
+                                                            onValidationChange={onValidationChangeStep1}
                                                         />
                                                     </div>
                                                 </Stepper.Step>
@@ -137,7 +145,7 @@ export default function Register() {
                                                     <div className="space-y-5">
                                                         <Institution
                                                             type={type}
-                                                            onValidationChange={(isValid: boolean) => handleValidationChange(2, isValid)}
+                                                            onValidationChange={onValidationChangeStep2}
                                                             institution={institution}
                                                             major={major}
                                                         />
@@ -146,7 +154,7 @@ export default function Register() {
                                             </Stepper.Content>
 
                                             <Stepper.Controls>
-                                                <Stepper.PrevButton />
+                                                {/* <Stepper.PrevButton /> */}
                                                 {/* Disable button based on the current active step's validity */}
                                                 <Stepper.NextButton disabled={!stepsValidity[activeStep]} />
                                                 <Stepper.FinishButton>

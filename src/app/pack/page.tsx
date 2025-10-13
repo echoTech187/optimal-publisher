@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { MultiPack, SinglePack } from "./pack";
+import { MonografPack, MultiPack, SinglePack } from "./pack";
 import getProgramPackage from "@/lib/data/package";
 import { getSession } from "@/lib/auth/session";
 import { redirect } from "next/navigation";
@@ -14,12 +14,13 @@ async function PackPageContent({ packageKey }: { packageKey: number }) {
     if (packages.length === 0) {
         redirect('/error/404');
     }
-    if (packages.length > 1) {
+    if (packages[0].category_id === 2) {
         return <MultiPack data={packages} user={session} />;
+    }else if (packages[0].category_id === 3) {
+        return <MonografPack data={packages} user={session} />;
+    }else{
+        return <SinglePack data={packages} user={session} />;
     }
-
-
-    return <SinglePack data={packages} user={session} />;
 }
 
 // Komponen Page utama sekarang menjadi sinkronus
@@ -27,7 +28,6 @@ export default async function Page({ searchParams }: { searchParams: { [key: str
     // Menggunakan URLSearchParams untuk mengakses parameter, sebagai upaya terakhir
     const params = await searchParams;
     const packageKey = params.key ? parseInt(Array.isArray(params.key) ? params.key[0] : params.key, 10) : NaN;
-
     if (isNaN(packageKey)) {
         // Jika packageKey tidak valid, redirect atau tampilkan pesan error
         redirect('/error/404'); // Atau halaman error lainnya

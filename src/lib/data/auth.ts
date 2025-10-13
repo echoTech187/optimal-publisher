@@ -21,7 +21,7 @@ export async function getInstitutions() {
 
 export async function getMajors() {
     try {
-        const response = await fetch(baseUrl() + "/majors", {
+        const response = await fetch(baseUrl() + "/major", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
