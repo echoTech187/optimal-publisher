@@ -58,7 +58,7 @@ export async function register(previousState: any, formData: FormData) {
 
     if (type === "event") {
         redirect(`/event/${eventType}`);
-    } else if (type === "program") {
+    } else if (type === "isbn") {
         redirect('/program');
     }
 
@@ -116,7 +116,7 @@ export async function login(previousState: any, formData: FormData) {
 
     if (type === "event") {
         redirect(`/event/${eventType}`);
-    } else if (type === "program") {
+    } else if (type === "isbn") {
         redirect('/program');
     } else {
         redirect('/');
