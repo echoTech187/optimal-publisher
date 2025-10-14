@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 // Helper component to fetch data and render the list
 // This pattern helps keep the main page component clean
-// {/* @ts-expect-error Server Component */}
+// 
 async function ProgramListFetcher() {
     const programs = await getPrograms();
     return <ProgramList programs={programs} />;

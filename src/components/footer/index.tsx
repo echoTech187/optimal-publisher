@@ -7,7 +7,7 @@ export default function Footer() {
             <div className="flex justify-between items-center w-full max-w-[1300px] mx-auto max-sm:px-4 py-8">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                     <div className="flex flex-col gap-2">
-                        <Image priority={true}priority={true} src="/white-logo.png" alt="services" width={4000} height={4000} className="h-12 w-fit mb-2" />
+                        <Image priority={true} src="/white-logo.png" alt="services" width={4000} height={4000} className="h-12 w-fit mb-2" />
                         <p className="text-sm font-bold">Optimal Untuk Negeri</p>
                         <p className="text-sm">Kami adalah wadah yang menginspirasi para Dosen dan Mahasiswa untuk mengeksplorasi karya dan inovasi dalam bidangnya masing-masing.</p>
                     </div>

@@ -53,7 +53,7 @@ export default function ArticlePage({
                 </div>
 
                 <Suspense fallback={<ArticleListLoading />}>
-                    {/* @ts-expect-error Server Component */}
+                    
                     <ArticleListFetcher params={params} />
                 </Suspense>
             </div>

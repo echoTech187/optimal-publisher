@@ -47,7 +47,7 @@ export default function Page({ searchParams }: { searchParams: { [key: string]: 
 
     return (
         <Suspense fallback={<PackLoading />}>
-            {/* @ts-expect-error Server Component */}
+            
             <PackDataFetcher packageKey={packageKey} />
         </Suspense>
     );

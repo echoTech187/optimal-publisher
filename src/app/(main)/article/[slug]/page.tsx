@@ -53,7 +53,7 @@ export default function DetailArticlePage({ params }: Props) {
     return (
         <>
             <Suspense fallback={<ArticleDetailLoading />}>
-                {/* @ts-expect-error Server Component */}
+                
                 <ArticleDetailFetcher slug={params.slug} />
             </Suspense>
             

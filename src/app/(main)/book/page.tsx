@@ -41,13 +41,13 @@ export default async function BookPage({
     <>
       {/* The main book list section */}
       <Suspense fallback={<BookSectionLoading />}>
-        {/* @ts-expect-error Server Component */}
+        
         <BookListFetcher promise={booksPromise} />
       </Suspense>
 
       {/* The recommended books carousel at the bottom */}
       <Suspense fallback={<BookRecomendLoading />}>
-        {/* @ts-expect-error Server Component */}
+        
         <RecommendedBooksFetcher promise={recommendedBooksPromise} />
       </Suspense>
     </>

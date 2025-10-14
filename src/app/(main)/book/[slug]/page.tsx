@@ -4,9 +4,7 @@ import React from "react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { BookRecomend } from "../index";
 import { Icon } from '@iconify/react';
-import WebLayout from "@/app/layout/web";
 
 const DetailBook = () => {
     const router = useParams();
