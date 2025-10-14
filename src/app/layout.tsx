@@ -21,13 +21,7 @@ export default function RootLayout({
     }, 100);
 
   }, []);
-  return (
-    <html lang="en">
-      <body>
-        {children}
-      </body>
-    </html>
-  ) ;
+  return (children) ;
 
   
 }
