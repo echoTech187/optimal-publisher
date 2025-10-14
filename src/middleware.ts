@@ -23,6 +23,6 @@ export async function middleware(request: NextRequest) {
 // This config specifies which paths the middleware should run on
 export const config = {
   matcher: [
-    '/dashboard/:path*',
+    // '/dashboard/:path*',
   ],
 };
