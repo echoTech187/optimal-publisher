@@ -1,8 +1,8 @@
-import { baseUrl } from "@/lib/utils/api";
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 async function signInAction(data: any) {
     try {
-        const response = await fetch(baseUrl() + '/login', {
+        const response = await fetch(`${apiBaseUrl}/api/v1/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

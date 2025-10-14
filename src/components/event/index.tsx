@@ -11,7 +11,7 @@ export default function NewsEvents() {
                 <div className="carousel h-[690px] rounded-none">
                     <div className="carousel-body max-md:gap-0 gap-4 h-full carousel-dragging:transition-none carousel-dragging:cursor-grabbing cursor-grab opacity-0" >
                         <div className="carousel-slide">
-                            <div className="flex flex-col size-full justify-center border border-gray-200" onClick={() => window.open("/auth/signin?type=event", "_parent")}>
+                            <div className="flex flex-col size-full justify-center border border-gray-200" onClick={() => window.open("/signin?type=event", "_parent")}>
                                 <Image priority={true}src="/browser/Menulis Artikel Ilmiah.png" alt="Event 1" width={0} height={0} className="size-full object-cover" />
                                 <div className="flex size-full items-center justify-between bg-white p-6 h-20 rounded-t-xl -mt-2">
                                     <span className="text-lg font-bold">Rp. 100.000/acara</span>
@@ -21,7 +21,7 @@ export default function NewsEvents() {
 
                         </div>
                         <div className="carousel-slide">
-                            <div className="flex flex-col size-full justify-center border border-gray-200" onClick={() => window.open("/auth/signin?type=event", "_parent")}>
+                            <div className="flex flex-col size-full justify-center border border-gray-200" onClick={() => window.open("/signin?type=event", "_parent")}>
                                 <Image priority={true}src="/browser/9.png" alt="Event 1" width={0} height={0} className="size-full object-cover" />
                                 <div className="flex size-full items-center justify-between bg-white p-6 h-20 rounded-t-xl -mt-2">
                                     <span className="text-lg font-bold">Rp. 100.000/acara</span>
@@ -30,7 +30,7 @@ export default function NewsEvents() {
                             </div>
                         </div>
                         <div className="carousel-slide">
-                            <div className="flex flex-col size-full justify-center border border-gray-200" onClick={() => window.open("/auth/signin?type=event", "_parent")}>
+                            <div className="flex flex-col size-full justify-center border border-gray-200" onClick={() => window.open("/signin?type=event", "_parent")}>
                                 <Image priority={true}src="/browser/Cerdas Cermat.png" alt="Event 1" width={0} height={0} className="size-full object-cover" />
                                 <div className="flex size-full items-center justify-between bg-white p-6 h-20 rounded-t-xl -mt-2">
                                     <span className="text-lg font-bold">Rp. 100.000/acara</span>
@@ -39,7 +39,7 @@ export default function NewsEvents() {
                             </div>
                         </div>
                         <div className="carousel-slide">
-                            <div className="flex flex-col size-full justify-center border border-gray-200" onClick={() => window.open("/auth/signin?type=event", "_parent")}>
+                            <div className="flex flex-col size-full justify-center border border-gray-200" onClick={() => window.open("/signin?type=event", "_parent")}>
                                 <Image priority={true}src="/browser/Cipta Poster Kesehatan.png" alt="Event 1" width={0} height={0} className="size-full object-cover" />
                                 <div className="flex size-full items-center justify-between bg-white p-6 h-20 rounded-t-xl -mt-2">
                                     <span className="text-lg font-bold">Rp. 100.000/acara</span>
@@ -48,7 +48,7 @@ export default function NewsEvents() {
                             </div>
                         </div>
                         <div className="carousel-slide">
-                            <div className="flex flex-col size-full justify-center border border-gray-200" onClick={() => window.open("/auth/signin?type=event", "_parent")}>
+                            <div className="flex flex-col size-full justify-center border border-gray-200" onClick={() => window.open("/signin?type=event", "_parent")}>
                                 <Image priority={true}src="/browser/Kreasi Cuci Tangan.png" alt="Event 1" width={0} height={0} className="size-full object-cover" />
                                 <div className="flex size-full items-center justify-between bg-white p-6 h-20 rounded-t-xl -mt-2">
                                     <span className="text-lg font-bold">Rp. 100.000/acara</span>
@@ -57,7 +57,7 @@ export default function NewsEvents() {
                             </div>
                         </div>
                         <div className="carousel-slide">
-                            <div className="flex flex-col size-full justify-center border border-gray-200" onClick={() => window.open("/auth/signin?type=event", "_parent")}>
+                            <div className="flex flex-col size-full justify-center border border-gray-200" onClick={() => window.open("/signin?type=event", "_parent")}>
                                 <Image priority={true}src="/browser/Lomba Puisi.png" alt="Event 1" width={0} height={0} className="size-full object-cover" />
                                 <div className="flex size-full items-center justify-between bg-white p-6 h-20 rounded-t-xl -mt-2">
                                     <span className="text-lg font-bold">Rp. 100.000/acara</span>

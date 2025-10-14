@@ -70,10 +70,10 @@ const Header = () => {
                         <UserProfile user={user} />
                     ) : (
                         <div className="md:flex items-center space-x-4 hidden">
-                            <button onClick={() => window.open('/auth/register', '_parent')} className="py-2 px-4 rounded-md transition-colors border font-semibold border-orange-400 text-black dark:text-orange-400 hover:bg-gray-900 hover:border-gray-900 hover:text-orange-400">
+                            <button onClick={() => window.open('/register', '_parent')} className="py-2 px-4 rounded-md transition-colors border font-semibold border-orange-400 text-black dark:text-orange-400 hover:bg-gray-900 hover:border-gray-900 hover:text-orange-400">
                                 Daftar
                             </button>
-                            <button onClick={() => window.open('/auth/signin', '_parent')} className={`py-2 px-4 rounded-md transition-colors font-semibold border ${isVisible ? 'bg-orange-400 border-orange-400 text-black' : 'bg-orange-400 border-orange-400 text-black'} hover:bg-gray-900 hover:border-gray-900 hover:text-orange-400`}>
+                            <button onClick={() => window.open('/signin', '_parent')} className={`py-2 px-4 rounded-md transition-colors font-semibold border ${isVisible ? 'bg-orange-400 border-orange-400 text-black' : 'bg-orange-400 border-orange-400 text-black'} hover:bg-gray-900 hover:border-gray-900 hover:text-orange-400`}>
                                 Masuk
                             </button>
                         </div>

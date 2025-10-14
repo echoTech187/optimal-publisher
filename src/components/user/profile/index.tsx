@@ -1,7 +1,7 @@
 
 "use client";
 import { useState, useRef, useEffect } from "react";
-import { logout } from "@/lib/actions/auth"; // <-- Import server action
+import { logout } from "@/features/auth/actions"; // <-- Import server action
 import { User } from "@/types/user";
 import Image from "next/image";
 

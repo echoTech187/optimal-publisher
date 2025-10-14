@@ -1,0 +1,61 @@
+const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1`;
+
+interface Book {
+  // Define your book properties here based on the API response
+  // Example:
+  id: number;
+  book_title: string;
+  slug: string;
+  book_image: string;
+  categories: {
+    book_category_title: string;
+  };
+  // ... other properties
+}
+
+interface ApiResponse {
+  data: Book[];
+  // ... other API response properties
+}
+
+/**
+ * Fetches a list of books from the API.
+ * @param params - Optional URL search parameters to filter the results.
+ * @returns A promise that resolves to an array of books.
+ */
+export async function getBooks(params?: URLSearchParams): Promise<Book[]> {
+  try {
+    const url = `${API_BASE_URL}/book?${params?.toString() || ''}`;
+    const response = await fetch(url, {
+      // Using no-cache to ensure fresh data on every request,
+      // or revalidate for periodic refetching.
+      cache: 'no-store', 
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch books');
+    }
+
+    const result: ApiResponse = await response.json();
+    
+    // The API returns an empty `data` array when there are no results,
+    // which is fine. No need to return an empty array explicitly.
+    return result.data;
+
+  } catch (error) {
+    console.error("Error fetching books:", error);
+    // In case of an error, return an empty array to prevent the UI from crashing.
+    return [];
+  }
+}
+
+/**
+ * Fetches a limited number of recommended books.
+ * @param limit - The number of books to fetch.
+ * @returns A promise that resolves to an array of recommended books.
+ */
+export async function getRecommendedBooks(limit: number = 5): Promise<Book[]> {
+    const params = new URLSearchParams();
+    params.set('length', limit.toString());
+    return getBooks(params);
+}

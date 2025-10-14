@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
-import WebLayout from "./layout/web";
-import AuthLayout from "./layout/auth";
+import WebLayout from "@/app/(main)/layout";
+import AuthLayout from "@/app/(auth)/layout";
 import { usePathname} from "next/navigation";
 
 
@@ -21,7 +21,13 @@ export default function RootLayout({
     }, 100);
 
   }, []);
-  return pathname.includes("auth") ? (<AuthLayout>{children}</AuthLayout>) : (<WebLayout>{children}</WebLayout>) ;
+  return (
+    <html lang="en">
+      <body>
+        {children}
+      </body>
+    </html>
+  ) ;
 
   
 }

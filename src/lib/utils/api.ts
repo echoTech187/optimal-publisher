@@ -1,6 +1,0 @@
-
-// Centralized API constants
-
-export const baseUrl = (): string => "http://127.0.0.1:8000/api/v1";
-
-export const imageUrl = (): string => "http://127.0.0.1:8000/storage";
