@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Major, BookTitle, BookTopic } from '@/types/program';
+import type { Major, BookTitle, BookTopic } from '@/features/program/types';
 
 interface ProgramSelectionProps {
     majors: Major[];

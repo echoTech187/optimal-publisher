@@ -4,8 +4,8 @@ import React, { useEffect, useActionState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { User } from "@/types/user";
 
-import { useProgramPrivateForm } from '@/lib/hooks/useProgramPrivateForm';
-import { submitPrivateProgram } from '@/lib/actions/programSubmit';
+import { useProgramPrivateForm } from '@/features/program/hooks/use-program-private-form';
+import { submitPrivateProgram } from '@/features/program/actions/submit';
 
 import FormHeader from './private/FormHeader';
 import HiddenInputs from './private/HiddenInputs';
@@ -13,7 +13,7 @@ import UserInfo from './private/UserInfo';
 import FileUpload from './private/FileUpload';
 import Agreement from './private/Agreement';
 import SubmitButton from './private/SubmitButton';
-import Alert, { useAlert } from '../ui/Alert';
+import Alert, { useAlert } from '@/components/ui/Alert';
 import BookInfo from './private/BookInfo';
 import Address from './private/Address';
 

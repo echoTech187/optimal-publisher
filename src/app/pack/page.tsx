@@ -1,6 +1,6 @@
 import { Suspense } from "react";
-import { MonografPack, MultiPack, SinglePack } from "./pack";
-import getProgramPackage from "@/lib/data/package";
+import { MonografPack, MultiPack, SinglePack } from "@/features/pack/components/views/pack";
+import getProgramPackage from "@/features/pack/data-access";
 import { getSession } from "@/lib/auth/session";
 import { redirect } from "next/navigation";
 

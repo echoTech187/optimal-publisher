@@ -1,4 +1,4 @@
-import { Major } from "@/types/program";
+import { Major } from "@/features/program/types";
 
 interface BookInfoProps {
     majors: Major[];

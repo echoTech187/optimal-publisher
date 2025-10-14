@@ -11,7 +11,7 @@ export default function Package() {
             <section className="w-full h-auto mt-8 flex flex-wrap justify-center gap-6">
                 <div className="flex flex-col rounded-xl shadow-md bg-gradient-to-r from-[#e7e7e7] to-[#fff] dark:from-[#111] dark:to-[#333] dark:text-gray-50 text-black hover:cursor-pointer hover:shadow-2xl backdrop-blur-md max-w-sm">
                     <div className="relative text-xl font-bold mb-36 p-6">
-                        <Image priority={true}priority={true} src="/courses/Bimbel-Perawat.png" alt="Icon Nurse" width={4800} height={3800} className="mb-2 absolute top-0 left-0 object-contain w-full -z-1 rounded-t-lg" />
+                        <Image priority={true} src="/courses/Bimbel-Perawat.png" alt="Icon Nurse" width={4800} height={3800} className="mb-2 absolute top-0 left-0 object-contain w-full -z-1 rounded-t-lg" />
                     </div>
                     <div className=" w-full">
                         <h5 className="text-xl font-bold text-center p-6 h-24">Bimbingan Belajar Intensif untuk Perawat</h5>
@@ -34,7 +34,7 @@ export default function Package() {
                 </div>
                 <div className="flex flex-col rounded-xl shadow-md bg-gradient-to-r from-[#e7e7e7] to-[#fff] dark:from-[#111] dark:to-[#333] dark:text-gray-50 text-black hover:cursor-pointer hover:shadow-2xl backdrop-blur-md max-w-sm">
                     <div className="relative text-xl font-bold mb-36 p-6">
-                        <Image priority={true}priority={true} src="/courses/Bimbel-Bidan.png" alt="Icon Nurse" width={4800} height={3800} className="mb-2 absolute top-0 left-0 object-contain w-full -z-1 rounded-t-lg" />
+                        <Image priority={true} src="/courses/Bimbel-Bidan.png" alt="Icon Nurse" width={4800} height={3800} className="mb-2 absolute top-0 left-0 object-contain w-full -z-1 rounded-t-lg" />
                     </div>
                     <div className="w-full">
                         <h5 className="text-xl font-bold text-center p-6 h-24">Bimbingan Belajar Intensif untuk Bidan</h5>

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { fetchMajor, fetchBookTitle, fetchBookTopic } from '@/lib/data/program';
-import type { Major, BookTitle, BookTopic } from '@/types/program';
+import { fetchMajor, fetchBookTitle, fetchBookTopic } from '@/features/program/data-access';
+import type { Major, BookTitle, BookTopic } from '@/features/program/types';
 
 export const useProgramPrivateForm = () => {
     const [majors, setMajors] = useState<Major[]>([]);

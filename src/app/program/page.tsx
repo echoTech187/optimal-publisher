@@ -1,6 +1,6 @@
 
 import { imageUrl } from "@/lib/utils/api";
-import { getPrograms } from "@/lib/data/program";
+import { getPrograms } from "@/features/program/data-access";
 import Link from "next/link";
 import Image from "next/image";
 import { Suspense } from "react";

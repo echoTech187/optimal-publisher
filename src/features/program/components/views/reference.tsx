@@ -4,8 +4,8 @@ import React, { useEffect, useActionState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { User } from "@/types/user";
 
-import { useProgramReferenceForm } from '@/lib/hooks/useProgramReferenceForm';
-import { submitReferenceProgram } from '@/lib/actions/programSubmit';
+import { useProgramReferenceForm } from '@/features/program/hooks/use-program-reference-form';
+import { submitReferenceProgram } from '@/features/program/actions/submit';
 
 import FormHeader from './private/FormHeader';
 import HiddenInputs from './private/HiddenInputs';
@@ -13,7 +13,7 @@ import UserInfo from './private/UserInfo';
 import ProgramSelection from './references/ProgramSelection';
 import Agreement from './private/Agreement';
 import SubmitButton from './private/SubmitButton';
-import Alert, { useAlert } from '../ui/Alert';
+import Alert, { useAlert } from '@/components/ui/Alert';
 
 const initialState = {
     success: false,

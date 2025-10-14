@@ -1,7 +1,7 @@
 "use client";
-import FormProgramPrivate from "@/components/program/private";
-import FormProgramReference from "@/components/program/reference";
-import FormProgramMonograf from "@/components/program/monograf";
+import FormProgramPrivate from "@/features/program/components/views/private";
+import FormProgramReference from "@/features/program/components/views/reference";
+import FormProgramMonograf from "@/features/program/components/views/monograf";
 import { User } from "@/types/user";
 import Image from "next/image";
 import { useState } from "react";

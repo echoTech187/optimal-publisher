@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Major, Institution} from '@/types/program';
+import type { Major, Institution} from '@/features/program/types';
 
 interface ProgramSelectionProps {
     institution: Institution[];

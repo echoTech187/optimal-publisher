@@ -4,15 +4,15 @@ import React, { useEffect, useActionState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { User } from "@/types/user";
 
-import { useProgramMonografForm } from '@/lib/hooks/useProgramReferenceForm';
-import { submitMonografProgram } from '@/lib/actions/programSubmit';
+import { useProgramMonografForm } from '@/features/program/hooks/use-program-reference-form';
+import { submitMonografProgram } from '@/features/program/actions/submit';
 
 import FormHeader from './private/FormHeader';
 import HiddenInputs from './private/HiddenInputs';
 import UserInfoMonograf from './private/UserInfoMonograf';
 import Agreement from './private/Agreement';
 import SubmitButton from './private/SubmitButton';
-import Alert, { useAlert } from '../ui/Alert';
+import Alert, { useAlert } from '@/components/ui/Alert';
 import Address from './private/Address';
 import InfoOther from './monograf/InfoOther';
 
