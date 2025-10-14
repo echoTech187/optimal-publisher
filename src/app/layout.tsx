@@ -1,28 +1,29 @@
-"use client";
-import { useEffect } from "react";
-import WebLayout from "@/app/(main)/layout";
-import AuthLayout from "@/app/(auth)/layout";
-import { usePathname} from "next/navigation";
+import { Inter } from 'next/font/google'
+import './globals.css'
+import FlyonuiScript from '@/components/FlyonuiScript'
 
+const interFont = Inter({
+    variable: "--font-inter",
+    subsets: ["latin"],
+    weight: "300"
+})
+
+export const metadata = {
+  title: 'Optimal Publisher',
+  description: 'Optimal Untuk Negeri - Platform Kursus Online Terbaik di Indonesia.',
+}
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-
-  const pathname = usePathname();
-  useEffect(() => {
-    setTimeout(() => {
-      if (window.HSStaticMethods) {
-        window.HSStaticMethods.autoInit();
-        
-      }
-    }, 100);
-
-  }, []);
-  return (children) ;
-
-  
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="en">
+      <body className={`${interFont.variable} ${interFont.variable} antialiased`}>
+        {children}
+        <FlyonuiScript />
+      </body>
+    </html>
+  )
 }
-

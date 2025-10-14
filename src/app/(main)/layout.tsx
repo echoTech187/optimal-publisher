@@ -24,17 +24,8 @@ const interFont = Inter({
 
 export default function WebLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en">
-            <head>
-                <title>Optimal - Platform Penerbitan</title>
-                <link rel="icon" href="/favicon.ico" />
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <meta name="description" content="Optimal Untuk Negeri - Platform Kursus Online Terbaik di Indonesia. Tingkatkan keterampilan Anda dengan kursus berkualitas dari instruktur ahli. Mulai perjalanan belajar Anda hari ini!" />
-                <meta name="keywords" content="Optimal Untuk Negeri, kursus online, belajar online, pendidikan, keterampilan, pelatihan, instruktur ahli, platform pembelajaran, kursus berkualitas" />
-                <meta name="author" content="Optimal Untuk Negeri" />
-            </head>
-            <body
-                className={`${interFont.variable} ${interFont.variable} antialiased`}
+            <div
+                className={`${interFont.variable} ${encodeSansCondensed.variable} ${anton.variable} h-full w-full antialiased`}
             >
                 <MobileSidebar />
                 <Header />
@@ -43,7 +34,6 @@ export default function WebLayout({ children }: { children: React.ReactNode }) {
                 </div>
                 <Footer />
                 <FlyonuiScript />
-            </body>
-        </html>
+            </div>
     );
 }
