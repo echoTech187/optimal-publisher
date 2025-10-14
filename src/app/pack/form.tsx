@@ -23,12 +23,12 @@ export default function FormCustomer({ type, showAdress, packName, selectedPack 
         member.className = 'grid grid-cols-1 md:grid-cols-2 gap-6 w-full member-item mb-4';
 
         member.innerHTML = `<div className="mb-2 w-full">
-            <label class="block text-gray-700 text-sm font-bold mb-2" htmlFor="members_name_${rowLength}">Nama Lengkap beserta Gelar (Anggota ${rowLength + 1})</label>
-            <input type="text" name="members_name[]" id="members_name_${rowLength}" class="input" placeholder="Masukan Nama Anggota" />
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="members_name_${rowLength}">Nama Lengkap beserta Gelar (Anggota ${rowLength + 1})</label>
+            <input type="text" name="members_name[]" id="members_name_${rowLength}" className="input" placeholder="Masukan Nama Anggota" />
         </div>
-        <div class="mb-2">
-            <label class="block text-gray-700 text-sm font-bold mb-2" htmlFor="members_phone_${rowLength}">No. Telepon</label>
-            <input type="text" name="members_phone[]" id="members_phone_${rowLength}" class="input" placeholder="Masukan No. Telepon Anggota" />
+        <div className="mb-2">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="members_phone_${rowLength}">No. Telepon</label>
+            <input type="text" name="members_phone[]" id="members_phone_${rowLength}" className="input" placeholder="Masukan No. Telepon Anggota" />
         </div>`;
         members.appendChild(member);
     }
