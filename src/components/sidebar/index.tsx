@@ -61,77 +61,78 @@ const MobileSidebar = () => {
         </aside>
     )
 }
-const DashboardSidebar = () => {
-    return (<>
-        <div className="relative h-screen max-lg:w-0 w-96 bg-gradient-to-r from-gray-200 to-white backdrop-blur-xl dark:bg-gradient-to-r dark:from-gray-800 dark:to-gray-900">
-            <aside id="collapsible-sidebar" className="overlay bg-transparent border-none text-white [--body-scroll:true] border-base-content/20 overlay-open:translate-x-0 drawer drawer-start sm:overlay-layout-open:translate-x-0 hidden w-full border-e [--auto-close:sm] [--is-layout-affect:true] [--opened:lg] sm:absolute sm:z-0 sm:flex sm:shadow-none lg:[--overlay-backdrop:false]" role="dialog" tabIndex={-1} >
-                <div className="drawer-header p-4">
-                    <div className={`text-lg font-bold`}>
-                        <Link href="/" className="flex items-center gap-2">
-                            <Image priority={true}src="/penerbit-logo.png" alt="logo" width={100} height={80} className="h-12 w-fit" />
-                        </Link>
-                    </div>
-                    <button className="btn btn-sm overlay-close lg:hidden" aria-label="Close" type="button">
+const DashboardSidebar = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => {
+    return (
+        <>
+            {/* Overlay */}
+            <div
+                className={`fixed inset-0 bg-black bg-opacity-50 z-30 transition-opacity lg:hidden ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+                onClick={onClose}
+            ></div>
+
+            {/* Sidebar */}
+            <aside
+                className={`bg-fuchsia-900 text-white w-64 min-h-screen p-4 fixed top-0 left-0 z-40 transform transition-transform lg:relative lg:translate-x-0 ${isOpen ? 'translate-x-0 w-full md:w-1/2 lg:w-0' : '-translate-x-full'}`}
+            >
+                <div className="flex items-center justify-between mb-8">
+                    <Image src="/penerbit-logo.png" alt="Optimal Publisher Logo" width={80} height={80} className="filter grayscale brightness-0 invert" />
+                    <button className="lg:hidden" onClick={onClose}>
                         <Icon icon="tabler:x" width="24" height="24" />
                     </button>
                 </div>
-                <div className="drawer-body p-4">
-                    <ul className="menu p-0">
-                        <li>
-                            <a href="#">
-                                <Icon icon="tabler:home" width="24" height="24" />
-                                Beranda
-                            </a>
+                <nav>
+                    <ul>
+                        <li className="mb-4">
+                            <Link href="/dashboard" className="flex items-center p-2 active:bg-fuchsia-800 *:active:bg-fuchsia-800 hover:bg-fuchsia-800 rounded-lg">
+                                <Icon icon="tabler:dashboard" width="24" height="24" />
+                                <span className="ml-3">Dashboard</span>
+                            </Link>
                         </li>
-                        <li>
-                            <a href="#">
+                        <li className="mb-4">
+                            <Link href="#" className="flex items-center p-2  active:bg-fuchsia-800 *:active:bg-fuchsia-800 hover:bg-fuchsia-800 rounded-lg">
                                 <Icon icon="tabler:books" width="24" height="24" />
-                                Repositori
-                            </a>
+                                <span className="ml-3">All Programs</span>
+                            </Link>
                         </li>
-                        <li>
-                            <a href="#">
-                                <Icon icon="tabler:wallet" width="24" height="24" />
-                                Riwayat Pembayaran
-                            </a>
+                        <li className="mb-4">
+                            <Link href="#" className="flex items-center p-2  active:bg-fuchsia-800 *:active:bg-fuchsia-800 hover:bg-fuchsia-800 rounded-lg">
+                                <Icon icon="tabler:message-circle" width="24" height="24" />
+                                <span className="ml-3">Messages</span>
+                            </Link>
                         </li>
-                        <li>
-                            <a href="#">
-                                <Icon icon="tabler:shopping-cart" width="24" height="24" />
-                                Riwayat Pesanan
-                            </a>
+                        <li className="mb-4">
+                            <Link href="#" className="flex items-center p-2  active:bg-fuchsia-800 *:active:bg-fuchsia-800 hover:bg-fuchsia-800 rounded-lg">
+                                <Icon icon="tabler:users" width="24" height="24" />
+                                <span className="ml-3">Friends</span>
+                            </Link>
                         </li>
-                        <li>
-                            <a href="#">
-                                <Icon icon="tabler:settings" width="24" height="24" />
-                                Pengaturan
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <Icon icon="tabler:logout" width="24" height="24" />
-                                Keluar
-                            </a>
+                        <li className="mb-4">
+                            <Link href="#" className="flex items-center p-2  active:bg-fuchsia-800 *:active:bg-fuchsia-800 hover:bg-fuchsia-800 rounded-lg">
+                                <Icon icon="tabler:calendar" width="24" height="24" />
+                                <span className="ml-3">Schedule</span>
+                            </Link>
                         </li>
                     </ul>
-                    
-                </div>
-                <div className="drawer-footer justify-center p-4">
-                    <div className="bg-base-200/30 border-base-content/10 rounded-md border p-3">
-                        <div className="avatar avatar-placeholder">
-                            <div className="bg-neutral text-neutral-content w-10 rounded-full">
-                                <span className="icon-[tabler--crown] size-6 shrink-0"></span>
-                            </div>
-                        </div>
-                        <h5 className="text-base-content mt-4 text-lg font-semibold">Upgrade to Pro</h5>
-                        <p className="text-base-content/80 text-xs">Reminder, extra projects, advanced search and more</p>
-                        <button className="btn btn-primary btn-block mt-2">Upgrade Now</button>
-                    </div>
+                </nav>
+                <div className="absolute bottom-4 w-[calc(100%-32px)]">
+                    <ul>
+                        <li className="mb-4 w-full">
+                            <Link href="#" className="flex items-center p-2  active:bg-fuchsia-800 *:active:bg-fuchsia-800 hover:bg-fuchsia-800 rounded-lg">
+                                <Icon icon="tabler:settings" width="24" height="24" />
+                                <span className="ml-3">Settings</span>
+                            </Link>
+                        </li>
+                        <li className="mb-4 w-full">
+                            <Link href="#" className="flex items-center p-2  active:bg-fuchsia-800 *:active:bg-fuchsia-800 hover:bg-fuchsia-800 rounded-lg">
+                                <Icon icon="tabler:logout" width="24" height="24" />
+                                <span className="ml-3">Logout</span>
+                            </Link>
+                        </li>
+                    </ul>
                 </div>
             </aside>
-        </div>
-
-    </>)
+        </>
+    )
 }
 
 export { MobileSidebar, DashboardSidebar }

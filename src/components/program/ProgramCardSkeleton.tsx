@@ -1,16 +1,18 @@
+'use client';
 
-const ProgramCardSkeleton = () => (
-    <div className="card w-full bg-base-100 shadow-xl">
-        <div className="h-96 bg-gray-300 animate-pulse"></div>
-        <div className="card-body">
-            <div className="h-8 bg-gray-300 rounded w-3/4 animate-pulse mb-4"></div>
-            <div className="h-4 bg-gray-300 rounded w-full animate-pulse"></div>
-            <div className="h-4 bg-gray-300 rounded w-5/6 animate-pulse mt-2"></div>
-            <div className="card-actions justify-center mt-4">
-                <div className="h-12 bg-gray-300 rounded w-full animate-pulse"></div>
+const ProgramCardSkeleton = () => {
+    return (
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6 flex flex-col sm:flex-row items-center sm:justify-between">
+            <div className="flex flex-col sm:flex-row items-center text-center sm:text-left mb-4 sm:mb-0">
+                <div className="w-20 h-20 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse mb-4 sm:mb-0"></div>
+                <div className="sm:ml-6 flex-1">
+                    <div className="h-6 w-3/4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-2"></div>
+                    <div className="h-4 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-2"></div>
+                </div>
             </div>
+            <div className="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse mt-4 sm:mt-0"></div>
         </div>
-    </div>
-);
+    );
+}
 
 export default ProgramCardSkeleton;
