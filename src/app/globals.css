@@ -82,3 +82,11 @@ body {
 button.active {
   @apply bg-blue-800 text-white;
 }
+
+.fi-inline .fi-fo-radio-label .fi-fo-radio-label-description{
+  font-size: 10px !important;
+  line-height: 12px !important;
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+}

@@ -36,7 +36,7 @@ export default function DashboardPage() {
                     ) : programs.length > 0 ? (
                         programs.map(program => <ProgramCard key={program.id} program={program} />)
                     ) : (
-                        <p>No programs found.</p>
+                         Array.from({ length: 5 }).map((_, index) => <ProgramCardSkeleton key={index} />)
                     )}
                 </div>
             </div>
