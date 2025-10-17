@@ -1,17 +1,9 @@
+"use server";
+import { cookies } from "next/headers";
+
 const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1`;
 
-interface Book {
-  // Define your book properties here based on the API response
-  // Example:
-  id: number;
-  book_title: string;
-  slug: string;
-  book_image: string;
-  categories: {
-    book_category_title: string;
-  };
-  // ... other properties
-}
+import { Book } from '@/types/book';
 
 interface ApiResponse {
   data: Book[];
@@ -25,11 +17,18 @@ interface ApiResponse {
  */
 export async function getBooks(params?: URLSearchParams): Promise<Book[]> {
   try {
-    const url = `${API_BASE_URL}/book?${params?.toString() || ''}`;
+    const $token = (await cookies()).get('token')?.value || '';
+    const url = `${API_BASE_URL}/books?${params?.toString() || ''}`;
     const response = await fetch(url, {
       // Using no-cache to ensure fresh data on every request,
       // or revalidate for periodic refetching.
       cache: 'no-store', 
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer `+$token,
+      },
+
     });
 
     if (!response.ok) {

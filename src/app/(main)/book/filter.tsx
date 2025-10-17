@@ -1170,7 +1170,7 @@ const FilterBook: React.FC<FilterBookProps> = ({ onUpdateParams }) => {
             data.data.map((catagory: any) => {
                 categoriesData.push({
                     value: catagory.slug,
-                    label: catagory.book_category_title
+                    label: catagory.category
                 });
             });
             setCatagoryData(categoriesData);

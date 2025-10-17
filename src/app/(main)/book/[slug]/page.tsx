@@ -5,11 +5,15 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Icon } from '@iconify/react';
-
+import { Book } from "@/types/book";
+interface BookWritter {
+    name: string;
+    // other properties
+}
 const DetailBook = () => {
     const router = useParams();
     const slug = router.slug;
-    const [data, setData] = useState<any>({});
+    const [bookDetail, setData] = useState<Book>([]);
     const [recommendedBooks, setRecommendedBooks] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -28,57 +32,62 @@ const DetailBook = () => {
         async function getData() {
             const response = await fetch("http://127.0.0.1:8000/api/v1/book/" + slug);
 
-            const book = await response.json();
-            if (book.data.length === 0) {
-                setData(book.data);
-                setIsLoading(false);
-            } else {
-                setData({});
-                setIsLoading(false);
-            }
+            const book: { data: Book[] } = await response.json();
+
+            setData(book.data);
+            setIsLoading(false);
+
 
         }
 
         getData();
-        getRecommendedBooks();
+        // getRecommendedBooks();
     }, [slug]);
 
     if (isLoading) {
-        return <section>Loading...</section>;
+        return <div className='flex justify-center items-center h-screen'>
+                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+            </div>;
     }
-    if (!isLoading) {
-        document.title = data?.book_title || "Buku | Optimal Untuk Negeri";
-    }
+    // document.title = bookDetail.length > 0 ? bookDetail.title : "Buku | Optimal Untuk Negeri";
 
+    console.log('data', bookDetail);
     return (
         <>
             <section>
-                <div className="container mx-auto px-4 py-8">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 my-[150px]">
                     <div className="flex flex-col md:flex-row items-start">
-                        <div className="md:w-1/2 md:mr-8">
-                            <Image priority={true} sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw' src={`http://127.0.0.1:8000/${data.book_image ? data.book_image : "no-image.png"}`} title={data?.book_title} alt={data.book_title} className="w-full h-full object-cover rounded-lg" width={100} height={100} />
+                        <div className="md:w-1/3 md:mr-8">
+                            <Image priority={true} src={`http://127.0.0.1:8000/storage/${bookDetail.cover ? bookDetail.cover : "no-image.png"}`} title={bookDetail.title} alt={bookDetail.title.toString()} className="w-full h-full object-cover rounded-lg" width={100} height={100} />
                         </div>
-                        <div className="md:w-1/2">
-                            <h2 className="text-3xl font-bold mb-4">{data.book_title}</h2>
-
+                        <div className="md:w-full">
+                            <h2 className="text-3xl font-bold mb-4">{bookDetail.title}</h2>
+<div className="mb-4" dangerouslySetInnerHTML={{ __html: bookDetail.description }}></div>
                             <p className="text-gray-600">Penulis :</p>
-                            {Array.isArray(data.author) ? (
-                                <ul className="mb-4">{data.author.map((author: any, index: number) => <li key={index}>{`${author.author_name}, ${author.author_title}`}</li>)}</ul>
+                            {Array.isArray(bookDetail.book_authors) ? (
+                                <ul className="mb-4">{
+                                    bookDetail.book_authors.map((author: any, index: number)=>{
+                                        return <li key={index}>{author.book_writter.name}</li>
+                                    })
+                                }
+                                </ul>
                             ) : (
-                                <div className="mb-4">{`${data.author.author_name}, ${data.author.author_title}`}</div>
-                            )}
-                            <p className="text-gray-600 mb-4">Kategori : {data.categories.book_category_title}</p>
+                                <p className="text-gray-600 mb-4">tidak ada penulis</p>
+                            )
+                            }
+                            <p className="text-gray-600">Kategori :</p> <p className="mb-4">{bookDetail.category.category}</p>
 
 
-                            <p className="text-gray-600 mb-4">Harga : {parseInt(data.book_price).toLocaleString("id-ID", { style: "currency", currency: "IDR" })}</p>
+                            <p className="text-gray-600 mb-4">Harga : {(bookDetail.price ? bookDetail.price : 0).toLocaleString()}</p>
+                            
                             <button className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded flex items-center gap-2 font-bold"><Icon icon="tabler:brand-whatsapp" className="size-6" /> <span>Beli Sekarang</span></button>
                         </div>
 
                     </div>
 
-                </div>
-                <div className="mb-4" dangerouslySetInnerHTML={{ __html: data.book_description }}></div>
 
+                </div>
+                
             </section>
             {/* <BookRecomend bookList={recommendedBooks} isLoading={isLoading} /> */}
 
