@@ -2,23 +2,31 @@
 
 import { getImageUrl } from "@/lib/utils/image";
 import { Program } from "@/types/program";
-import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
+import { useState } from "react";
+import { useRouter } from "next/navigation"; // Import useRouter
 
 const ProgramCard = ({ program }: { program: Program }) => {
-    return (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6 flex flex-col sm:flex-row items-center sm:justify-between">
-            <div className="flex flex-col sm:flex-row items-center text-center sm:text-left mb-4 sm:mb-0 flex-1">
-                <Image src={getImageUrl(program.images)} loading="lazy" alt={program.program_name} width={80} height={80} className="rounded-lg mb-4 sm:mb-0 sim:w-20 sm:h-20" />
-                <div className="sm:ml-6 flex-1">
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">{program.program_name}</h3>
-                    <p className="text-gray-600 dark:text-gray-400">{program.program_description}</p>
-                    <button className="text-indigo-600 hover:text-indigo-800 self-center mt-4 sm:mt-0 flex items-center gap-2 justify-end w-full">
-                        <Icon icon="lineicons:chevron-right-circle" width="42" height="42" />
-                    </button>
-                </div>
-            </div>
+    const [selected, setSelected] = useState(false);
+    const router = useRouter(); // Initialize useRouter
 
+    const handleClick = () => {
+        setSelected(!selected);
+        // Assuming the old program page URL is /program/[id]
+        // You might need to adjust this URL based on your actual routing
+        router.push(`/pack?key=${program.id}`);
+    };
+
+    return (
+        <div
+            className={`program-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6 flex flex-col items-start text-left cursor-pointer group ${selected ? 'selected' : ''}`}
+            onClick={handleClick} // Use the new handleClick function
+        >
+            <Image src={getImageUrl(program.images)} loading="lazy" alt={program.program_name} width={150} height={150} className="mb-4" />
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">{program.program_name}</h3>
+            <p className="text-gray-600 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                {program.program_description}
+            </p>
         </div>
     )
 }

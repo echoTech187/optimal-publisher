@@ -12,6 +12,12 @@
   --background: #ffffff;
   --foreground: #171717;
 
+  .text-editor>*,
+  .text-editor> :after,
+  .text-editor> :before {
+    margin: auto !important;
+    padding: 0.5rem 0 !important;
+  }
 }
 
 .hidden-scroll {
@@ -83,10 +89,24 @@ button.active {
   @apply bg-blue-800 text-white;
 }
 
-.fi-inline .fi-fo-radio-label .fi-fo-radio-label-description{
+.fi-inline .fi-fo-radio-label .fi-fo-radio-label-description {
   font-size: 10px !important;
   line-height: 12px !important;
   text-overflow: ellipsis !important;
   overflow: hidden !important;
   white-space: nowrap !important;
+}
+
+.program-card {
+    border: 1px solid #e5e7eb;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.program-card:hover {
+    border-color: #3b82f6;
+}
+
+.program-card.selected {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px #3b82f6;
 }

@@ -17,13 +17,13 @@ const BookRecomend = ({ bookList }: { bookList: Book[] }) => {
         if (slider) {
             const HSCarouselComponent: any = (window as any).HSCarousel;
             if (HSCarouselComponent) {
-                new HSCarouselComponent(slider, { currentIndex: 0, loadingClasses: "opacity-0", slidesQty: {xs: 2, sm: 3, md: 3, lg: 4 , xl: 5 } });
+                new HSCarouselComponent(slider, { currentIndex: 0, loadingClasses: "opacity-0", slidesQty: { xs: 2, sm: 3, md: 3, lg: 4, xl: 5 } });
             }
         }
     }, []); // Empty dependency array ensures this runs only once on mount
 
     return (
-        <section className="max-w-[1300px] mx-auto px-4 text-center pb-[150px]">
+        <section className="mx-auto max-w-7xl my-[150px]">
             <div className="flex flex-col items-center justify-center">
                 <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold z-10 text-gray-700 dark:text-gray-50">Buku Pilihan</h2>
                 <p className=" font-bold text-gray-800 mt-4 w-full text-center">Dapatkan buku terbaru dari Optimal Untuk Negeri</p>
@@ -35,22 +35,22 @@ const BookRecomend = ({ bookList }: { bookList: Book[] }) => {
             >
                 <div className="carousel rounded-none">
                     <div className="carousel-body h-full opacity-0 gap-4">
-                        {bookList.map((item,index) => {
+                        {bookList.map((item, index) => {
                             const imageUrl = getImageUrl(item.cover);
                             return (
-                                <div className={`carousel-slide ${index === 0 ? "sm:[&]:ml-4 " :  ""}`} key={item.id}>
+                                <div className={`carousel-slide ${index === 0 ? "sm:[&]:ml-4 " : ""}`} key={item.id}>
                                     <div className=' w-full mb-3'>
                                         <Image priority={true} src={imageUrl} alt={item.title} className="object-cover w-full h-[320px]" width={250} height={250} />
                                     </div>
                                     <div className="flex flex-col items-start justify-between gap-3 ">
                                         <span className="text-xs text-[var(--primary)] font-normal bg-purple-50 w-fit px-4 py-1 rounded-full">{item.category?.category}</span>
-                                        <h5 className={`uppercase max-sm:text-xs font-semibold text-gray-600 w-full truncate overflow-hidden text-ellipsis text-left line-clamp-2 whitespace-normal flex-1 min-h-12`}>{item.title}</h5>
+                                        <a href={`/book/${item.slug}`} className={`max-sm:text-xs cursor-pointer font-semibold text-gray-600 w-full truncate overflow-hidden text-ellipsis text-left line-clamp-2 whitespace-normal flex-1 min-h-12`}>{item.title}</a>
                                         <div className={`flex items-center justify-between w-full`}>
                                             <span className=""></span>
                                             {/* Using a Link is better for navigation than window.location.href */}
-                                            <a href={`/book/${item.slug}`} className="flex items-center justify-center w-full px-4 py-2 bg-green-700 gap-2 text-white text-xs font-normal rounded-md  hover:bg-yellow-500 hover:text-gray-900 transition-colors duration-300 cursor-pointer">
+                                            <a href={`/book/${item.slug}`} className="flex items-center justify-center w-full px-4 py-2 bg-fuchsia-700 gap-2 text-white text-sm font-normal rounded-md  hover:bg-fuchsia-900 hover:font-semibold transition-colors duration-300 cursor-pointer">
                                                 <Icon icon="tabler:brand-whatsapp" className='size-5' />
-                                                <span>Pesan</span>
+                                                <span>Pesan via WhatsApp</span>
                                             </a>
                                         </div>
                                     </div>

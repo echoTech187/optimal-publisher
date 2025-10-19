@@ -23,7 +23,7 @@ export default function BookPage() {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
-  
+
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Semua Kategori');
 
@@ -44,9 +44,8 @@ export default function BookPage() {
     if (selectedCategory !== 'Semua Kategori') {
       params.append('category', selectedCategory);
     }
-
     const newBooks = await getBooks(params);
-    
+    console.log(newBooks);
     setBooks((prevBooks) => (page === 1 ? newBooks : [...prevBooks, ...newBooks]));
     setHasMore(newBooks.length === BOOKS_PER_PAGE);
     setLoading(false);
@@ -83,7 +82,6 @@ export default function BookPage() {
       }
     };
   }, [loader, hasMore, loading]);
-
   return (
     <div className="bg-white">
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 my-[150px]">
@@ -96,36 +94,36 @@ export default function BookPage() {
 
         {/* Filters */}
         <div className="mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="w-full sm:w-1/2 lg:w-1/3">
-                <input
-                    type="text"
-                    placeholder="Cari berdasarkan judul atau penulis..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="input w-full"
-                />
-            </div>
-            <div className="w-full sm:w-auto">
-                <select
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="select w-full"
-                >
-                    {categories.map(cat => (
-                        <option key={cat.id} value={cat.category}>{cat.category}</option>
-                    ))}
-                </select>
-            </div>
+          <div className="w-full sm:w-1/2 lg:w-1/3">
+            <input
+              type="text"
+              placeholder="Cari berdasarkan judul atau penulis..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="input w-full"
+            />
+          </div>
+          <div className="w-full sm:w-auto">
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="select w-full"
+            >
+              {categories.map(cat => (
+                <option key={cat.id} value={cat.category}>{cat.category}</option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <BookList data={books} loading={loading} />
 
-        
+
         {/* Loading indicators */}
         {loading && page === 1 && <BookListLoading />}
         {loading && page > 1 && <p className="text-center text-gray-500 py-8">Memuat lebih banyak buku...</p>}
         {/* {!hasMore && books.length > 0 && <p className="text-center text-gray-500 py-8">Semua buku telah ditampilkan.</p>} */}
-        
+
         <div ref={loader} className="text-center py-8" />
 
         {/* <hr className="my-12" /> */}

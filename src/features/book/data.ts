@@ -15,18 +15,21 @@ interface ApiResponse {
  * @param params - Optional URL search parameters to filter the results.
  * @returns A promise that resolves to an array of books.
  */
-export async function getBooks(params?: URLSearchParams): Promise<Book[]> {
+export async function getBooks(params?: URLSearchParams | Record<string, string> | string): Promise<Book[]> {
   try {
     const $token = (await cookies()).get('token')?.value || '';
-    const url = `${API_BASE_URL}/books?${params?.toString() || ''}`;
+    // Ensure params are correctly stringified into a query string.
+    const queryString = new URLSearchParams(params).toString();
+    const url = `${API_BASE_URL}/books${queryString ? `?${queryString}` : ''}`;
+    console.log(url);
+
     const response = await fetch(url, {
       // Using no-cache to ensure fresh data on every request,
       // or revalidate for periodic refetching.
-      cache: 'no-store', 
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer `+$token,
+        'Authorization': `Bearer ` + $token,
       },
 
     });
@@ -36,7 +39,6 @@ export async function getBooks(params?: URLSearchParams): Promise<Book[]> {
     }
 
     const result: ApiResponse = await response.json();
-    
     // The API returns an empty `data` array when there are no results,
     // which is fine. No need to return an empty array explicitly.
     return result.data;
@@ -54,7 +56,7 @@ export async function getBooks(params?: URLSearchParams): Promise<Book[]> {
  * @returns A promise that resolves to an array of recommended books.
  */
 export async function getRecommendedBooks(limit: number = 5): Promise<Book[]> {
-    const params = new URLSearchParams();
-    params.set('length', limit.toString());
-    return getBooks(params);
+  const params = new URLSearchParams();
+  params.set('length', limit.toString());
+  return getBooks(params);
 }

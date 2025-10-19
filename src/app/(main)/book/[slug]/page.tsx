@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Icon } from '@iconify/react';
 import { Book } from "@/types/book";
+import NotFound from "@/components/ui/NotFound";
 interface BookWritter {
     name: string;
     // other properties
@@ -13,8 +14,42 @@ interface BookWritter {
 const DetailBook = () => {
     const router = useParams();
     const slug = router.slug;
-    const [bookDetail, setData] = useState<Book>([]);
-    const [recommendedBooks, setRecommendedBooks] = useState<any[]>([]);
+    const [bookDetail, setData] = useState<Book>({
+        book_authors: [],
+        id: 0,
+        isbn: "",
+        title: "",
+        slug: "",
+        book_writters: [],
+        author: "",
+        cover: "",
+        cover_size: "",
+        edition: "",
+        series: "",
+        page_length: 0,
+        description: "",
+        price: 0,
+        type: {
+            name: "",
+        },
+        category: {
+            id: 0,
+            category: "",
+        },
+        reading: {
+            name: ""
+        },
+        media: {
+            name: "",
+        },
+        library: {
+            name: "",
+        },
+        publisher: {
+            name: ""
+        }
+    });
+    const [recommendedBooks, setRecommendedBooks] = useState<Book[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -32,7 +67,7 @@ const DetailBook = () => {
         async function getData() {
             const response = await fetch("http://127.0.0.1:8000/api/v1/book/" + slug);
 
-            const book: { data: Book[] } = await response.json();
+            const book = await response.json();
 
             setData(book.data);
             setIsLoading(false);
@@ -46,53 +81,109 @@ const DetailBook = () => {
 
     if (isLoading) {
         return <div className='flex justify-center items-center h-screen'>
-                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-            </div>;
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+        </div>;
     }
-    // document.title = bookDetail.length > 0 ? bookDetail.title : "Buku | Optimal Untuk Negeri";
+
+    if (!bookDetail) {
+        return (
+            <NotFound />
+        );
+    }
+
+    document.title = bookDetail ? bookDetail.title : "Buku | Optimal Untuk Negeri";
 
     console.log('data', bookDetail);
     return (
         <>
-            <section>
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 my-[150px]">
-                    <div className="flex flex-col md:flex-row items-start">
-                        <div className="md:w-1/3 md:mr-8">
-                            <Image priority={true} src={`http://127.0.0.1:8000/storage/${bookDetail.cover ? bookDetail.cover : "no-image.png"}`} title={bookDetail.title} alt={bookDetail.title.toString()} className="w-full h-full object-cover rounded-lg" width={100} height={100} />
-                        </div>
-                        <div className="md:w-full">
-                            <h2 className="text-3xl font-bold mb-4">{bookDetail.title}</h2>
-<div className="mb-4" dangerouslySetInnerHTML={{ __html: bookDetail.description }}></div>
-                            <p className="text-gray-600">Penulis :</p>
-                            {Array.isArray(bookDetail.book_authors) ? (
-                                <ul className="mb-4">{
-                                    bookDetail.book_authors.map((author: any, index: number)=>{
-                                        return <li key={index}>{author.book_writter.name}</li>
-                                    })
-                                }
-                                </ul>
-                            ) : (
-                                <p className="text-gray-600 mb-4">tidak ada penulis</p>
-                            )
-                            }
-                            <p className="text-gray-600">Kategori :</p> <p className="mb-4">{bookDetail.category.category}</p>
-
-
-                            <p className="text-gray-600 mb-4">Harga : {(bookDetail.price ? bookDetail.price : 0).toLocaleString()}</p>
-                            
-                            <button className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded flex items-center gap-2 font-bold"><Icon icon="tabler:brand-whatsapp" className="size-6" /> <span>Beli Sekarang</span></button>
+            <section className="py-16 md:py-32 bg-gray-50">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="flex flex-col lg:flex-row gap-12">
+                        {/* Book Cover */}
+                        <div className="w-full lg:w-1/3">
+                            <div className="sticky top-28">
+                                <Image
+                                    priority
+                                    src={`http://127.0.0.1:8000/storage/${bookDetail.cover || "no-image.png"}`}
+                                    title={bookDetail.title}
+                                    alt={bookDetail.title}
+                                    className="w-full h-auto object-cover rounded-lg shadow-lg"
+                                    width={500}
+                                    height={750}
+                                />
+                            </div>
                         </div>
 
+                        {/* Book Details */}
+                        <div className="w-full lg:w-2/3">
+                            <h1 className="max-sm:text-xl text-2xl md:text-4xl font-bold text-gray-900 mb-3">{bookDetail.title}</h1>
+                            <div className="mb-6">
+                                {Array.isArray(bookDetail.book_authors) && bookDetail.book_authors.length > 0 && (
+                                    <p className="max-sm:text-sm text-lg text-gray-600">
+                                        oleh <span className="font-semibold text-gray-800">{bookDetail.book_authors.map((author: any) => author.book_writter.name).join(', ')}</span>
+                                    </p>
+                                )}
+                            </div>
+
+                            <div className="mb-8">
+                                <span className="max-sm:text-xl max-xl:text-3xl text-4xl font-bold text-fuchsia-800">
+                                    {(bookDetail.price ? bookDetail.price : 0).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}
+                                </span>
+                            </div>
+
+                            <a
+                                href={`https://wa.me/6285156172215?text=Halo, saya tertarik dengan buku "${bookDetail.title}"`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center justify-center gap-3 w-full md:w-auto rounded-md bg-fuchsia-800 px-8 py-3 text-lg font-semibold text-white shadow-sm hover:bg-fuchsia-900 focus:outline-none focus:ring-2 focus:ring-fuchsia-700 focus:ring-offset-2 transition-colors duration-300"
+                            >
+                                <Icon icon="tabler:brand-whatsapp" className="size-6" />
+                                <span className="max-sm:text-sm">Pesan via WhatsApp</span>
+                            </a>
+
+                            <hr className="my-8 border-gray-200" />
+
+                            {/* Book Specs */}
+                            <h2 className="max-sm:text-lgtext-2xl font-bold text-gray-800 mb-6">Detail Buku</h2>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
+                                <DetailItem label="ISBN" value={bookDetail.isbn} />
+                                <DetailItem label="Jenis Pustaka" value={bookDetail.library.name} />
+                                <DetailItem label="Kategori" value={bookDetail.category.category} />
+                                <DetailItem label="Penerbit" value={bookDetail.publisher.name} />
+                                <DetailItem label="Media" value={bookDetail.media.name} />
+                                <DetailItem label="Jenis ISBN" value={bookDetail.type.name} />
+                                <DetailItem label="Kelompok Pembaca" value={bookDetail.reading.name} />
+                                <DetailItem label="Jumlah Halaman" value={bookDetail.page_length} />
+                                <DetailItem label="Ukuran" value={bookDetail.cover_size} />
+                                <DetailItem label="Edisi" value={bookDetail.edition} />
+                                <DetailItem label="Seri" value={bookDetail.series} />
+                            </div>
+
+                            {bookDetail.description && (
+                                <>
+                                    <hr className="my-8 border-gray-200" />
+                                    <h2 className="max-sm:text-lg text-2xl font-bold text-gray-800 mb-4">Deskripsi</h2>
+                                    <div className="prose prose-lg max-w-none text-gray-600 text-editor" dangerouslySetInnerHTML={{ __html: bookDetail.description }}></div>
+                                </>
+                            )}
+                        </div>
                     </div>
-
-
                 </div>
-                
             </section>
             {/* <BookRecomend bookList={recommendedBooks} isLoading={isLoading} /> */}
-
         </>
     );
 }
+
+const DetailItem = ({ label, value }: { label: string, value: string | number | null | undefined }) => {
+    if (!value) return null;
+    return (
+        <div>
+            <p className="text-sm text-gray-500">{label}</p>
+            <p className="text-base font-semibold text-gray-800">{value}</p>
+        </div>
+    );
+};
+
 
 export default DetailBook
