@@ -19,7 +19,7 @@ const ProgramCard = ({ program }: { program: Program }) => {
 
     return (
         <div
-            className={`program-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6 flex flex-col items-start text-left cursor-pointer group ${selected ? 'selected' : ''}`}
+            className={`program-card bg-white dark:bg-gray-800 rounded-lg hover:shadow-2xl p-6 mb-6 flex flex-col items-center justify-center text-left cursor-pointer group ${selected ? 'selected' : ''}`}
             onClick={handleClick} // Use the new handleClick function
         >
             <Image src={getImageUrl(program.images)} loading="lazy" alt={program.program_name} width={150} height={150} className="mb-4" />
