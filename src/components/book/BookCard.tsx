@@ -22,7 +22,7 @@ const BookCard = ({ book }: { book: Book }) => {
           />
         </div>
       </Link>
-      <div className="flex flex-1 flex-col space-y-2 gap-1 px-2 py-4">
+      <div className="flex flex-1 flex-col space-y-2 gap-1 px-2 py-4 justify-between">
         <h3 className="max-sm:text-xs text-gray-900 mb-0">
           <Link href={`/book/${slug}`} className='overflow-hidden line-clamp-2 font-semibold'>
             {title}
@@ -30,8 +30,8 @@ const BookCard = ({ book }: { book: Book }) => {
         </h3>
         <div className="mb-1">
           {Array.isArray(book_authors) && book_authors.length > 0 && (
-            <p className="text-sm text-gray-600">
-              oleh <span className="text-xs font-bold text-gray-800">{book_authors.map((author: any) => author.book_writter.name).join(', ')}</span>
+            <p className="text-sm text-gray-600 line-clamp-2 overflow-hidden w-full">
+              <b>Oleh</b> {book_authors.map((author: any) => author.book_writter.name).join(', ')}
             </p>
           )}
         </div>
