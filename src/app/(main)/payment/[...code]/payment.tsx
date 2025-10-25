@@ -466,7 +466,7 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                         <div className="accordion  *:accordion-item-active:shadow-2xl *:accordion-item-active:bg-[#7a2985] *:accordion-item-active:backdrop-blur-md *:accordion-item-active:text-white grid grid-cols-1 md:grid-cols-2 gap-4 cursor-pointer">
                             {payment.map((option: any, index: number) => (
                                 <div
-                                    key={self.crypto.randomUUID()}
+                                    key={index}
                                     className={`accordion-item ${index === selectedOptionIndex ? 'active' : 'bg-gray-100 border border-gray-200'} rounded-[12px] `}
                                     onClick={() => setSelectedOptionIndex(index)}
                                 >

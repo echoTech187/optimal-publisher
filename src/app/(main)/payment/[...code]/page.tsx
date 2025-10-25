@@ -8,7 +8,7 @@ import { fetchTransaction } from "@/features/payment/data";
 import { fetchPaymentMethods } from "@/features/payment/data";
 
 export const metadata: Metadata = {
-  title: 'Selesaikan Pembayaran | Optimal Untuk Negeri',
+    title: 'Selesaikan Pembayaran | Optimal Untuk Negeri',
 };
 
 // Helper component to fetch data and handle loading/errors
@@ -27,12 +27,13 @@ async function PaymentFetcher({ slug }: { slug: string | null }) {
         notFound();
     }
 
-    return <Payment data={transactionData} payment={paymentMethods} loading={false} />;
+    return <div className="my-[80px]"><Payment data={transactionData} payment={paymentMethods} loading={false} /></div>;
 }
 
 // The main page component is now clean and simple
-export default function Page({ params }: { params: { code: string | string[] } }) {
-    const slug = Array.isArray(params.code) ? params.code[0] : params.code;
+export default async function Page({ params }: { params: { code: string | null } }) {
+    const { code } = await params
+    const slug = code;
 
     return (
         <Suspense fallback={
