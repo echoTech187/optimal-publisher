@@ -1,3 +1,5 @@
+import { JSX } from "react";
+
 export interface Book {
   book_authors: any;
   isbn?: string;
@@ -15,7 +17,7 @@ export interface Book {
   publisher: {
     name: ""
   },
-  category: {
+  categories: {
     id: number;
     category: string;
   };
@@ -31,5 +33,18 @@ export interface Book {
   },
   library: {
     name: string;
-  }
+  },
+  created_at?: string;
+  updated_at?: string;
+  created_by?: string;
+}
+
+export interface BookCategories {
+  id: number;
+  category: string;
+}
+
+export interface BookAuthors {
+  id: number;
+  name: string;
 }

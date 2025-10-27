@@ -19,7 +19,7 @@ export default async function Home() {
 
   // Determine the correct URLs based on authentication status
   const isbnUrl = session ? '/program' : '/signin?type=isbn';
-  const issnUrl = session ? '/program' : '/signin?type=issn'; // Assuming same logic
+  const issnUrl = '/book?feature=ISSN'; // Assuming same logic
   const hkiUrl = session ? '/program' : '/signin?type=hki';   // Assuming same logic
 
   return (

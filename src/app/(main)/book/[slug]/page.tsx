@@ -32,7 +32,7 @@ const DetailBook = () => {
         type: {
             name: "",
         },
-        category: {
+        categories: {
             id: 0,
             category: "",
         },
@@ -116,18 +116,31 @@ const DetailBook = () => {
 
                         {/* Book Details */}
                         <div className="w-full lg:w-2/3">
-                            <h1 className="max-sm:text-xl text-2xl md:text-4xl font-bold text-gray-900 mb-3">{bookDetail.title}</h1>
+                            <h1 className="max-sm:text-xl text-2xl md:text-4xl font-bold text-gray-900 mb-2">{bookDetail.title}</h1>
                             <div className="mb-6">
+                                <p className="mb-2 text-sm text-gray-600">
+                                    {bookDetail.created_at && new Date(bookDetail.created_at).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })} {bookDetail.isbn ? ' | ISBN: ' + bookDetail.isbn : ""}
+                                </p>
+
+                                {Array.isArray(bookDetail.categories) && bookDetail.categories.length > 0 && (
+                                    <div className="flex gap-2 mb-2">
+                                        {
+                                            bookDetail.categories.map((category: any) => (
+                                                <span key={category.id} className="badge badge-outline badge-primary max-sm:text-sm text-fuchsia-800">{category.category}</span>
+                                            ))
+                                        }
+                                    </div>
+                                )}
                                 {Array.isArray(bookDetail.book_authors) && bookDetail.book_authors.length > 0 && (
-                                    <p className="max-sm:text-sm text-lg text-gray-600">
-                                        oleh <span className="font-semibold text-gray-800">{bookDetail.book_authors.map((author: any) => author.book_writter.name).join(', ')}</span>
+                                    <p className="max-sm:text-sm text-md text-gray-600 mb-3">
+                                        ditulis oleh <span className="font-semibold text-gray-800">{bookDetail.book_authors.map((author: any) => author.book_writter.name).join(', ')}</span>
                                     </p>
                                 )}
                             </div>
 
                             <div className="mb-8">
                                 <span className="max-sm:text-xl max-xl:text-3xl text-4xl font-bold text-fuchsia-800">
-                                    {(bookDetail.price ? bookDetail.price : 0).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}
+                                    {(bookDetail.price ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(bookDetail.price) : '0')}
                                 </span>
                             </div>
 
@@ -141,10 +154,10 @@ const DetailBook = () => {
                                 <span className="max-sm:text-sm">Pesan via WhatsApp</span>
                             </a>
 
-                            <hr className="my-8 border-gray-200" />
+                            {/* <hr className="my-8 border-gray-200" /> */}
 
                             {/* Book Specs */}
-                            <h2 className="max-sm:text-lgtext-2xl font-bold text-gray-800 mb-6">Detail Buku</h2>
+                            {/* <h2 className="max-sm:text-lgtext-2xl font-bold text-gray-800 mb-6">Detail Buku</h2>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
                                 <DetailItem label="ISBN" value={bookDetail.isbn} />
                                 <DetailItem label="Jenis Pustaka" value={bookDetail.library.name} />
@@ -157,7 +170,7 @@ const DetailBook = () => {
                                 <DetailItem label="Ukuran" value={bookDetail.cover_size} />
                                 <DetailItem label="Edisi" value={bookDetail.edition} />
                                 <DetailItem label="Seri" value={bookDetail.series} />
-                            </div>
+                            </div> */}
 
                             {bookDetail.description && (
                                 <>

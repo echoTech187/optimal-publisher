@@ -1,20 +1,16 @@
 'use client';
 
+import { useSearchParams } from 'next/navigation';
+
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Book } from '@/types/book';
-import { getBooks } from '@/features/book/data';
+import { Book, BookAuthors, BookCategories } from '@/types/book';
+import { fetchBookAuthors, fetchBookCategories, getBooks } from '@/features/book/data';
 import BookList from '@/components/book/BookList';
 import PopularBooks from '@/components/book/PopularBooks';
 import { useDebounce } from '@/lib/hooks/useDebounce';
 import BookListLoading from '@/components/book/BookListLoading';
 
-// Mock categories as seen in the screenshot
-const categories = [
-  { id: 0, category: 'Semua Kategori' },
-  { id: 1, category: 'Buku Ajar' },
-  { id: 2, category: 'Buku Monograf' },
-  { id: 3, category: 'Buku Referensi' },
-];
+
 
 const BOOKS_PER_PAGE = 20;
 
@@ -27,14 +23,34 @@ export default function BookPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Semua Kategori');
 
+  const [authorSelected, setAuthorSelected] = useState('Semua Penulis');
+  const [bookCategories, setBookCategories] = useState<BookCategories[]>([]);
+  const [bookAuthors, setBookAuthors] = useState<BookAuthors[]>([]);
+
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const searchParams = useSearchParams();
 
   const loader = useRef<HTMLDivElement>(null);
 
+  const loadAuthorBooks=async ()=>{
+    const params = new URLSearchParams();
+    params.append('program_category', searchParams.get('feature') || 'ISBN');
+    // Mock categories as seen in the screenshot
+    const author = await fetchBookAuthors(params);
+    setBookAuthors(author);
+  }
+  const loadCategoryBooks=async ()=>{
+    const params = new URLSearchParams();
+    params.append('program_category', searchParams.get('feature') || 'ISBN');
+    // Mock categories as seen in the screenshot
+    const categories = await fetchBookCategories(params);
+    setBookCategories(categories);
+  }
   const loadBooks = useCallback(async () => {
     if (loading || !hasMore) return;
     setLoading(true);
-
+    
+    
     const params = new URLSearchParams();
     params.append('page', page.toString());
     params.append('limit', BOOKS_PER_PAGE.toString());
@@ -44,12 +60,15 @@ export default function BookPage() {
     if (selectedCategory !== 'Semua Kategori') {
       params.append('category', selectedCategory);
     }
+    if(authorSelected !== 'Semua Penulis'){
+      params.append('author', authorSelected)
+    }
+    params.append('program_category', searchParams.get('feature') || '');
     const newBooks = await getBooks(params);
-    console.log(newBooks);
     setBooks((prevBooks) => (page === 1 ? newBooks : [...prevBooks, ...newBooks]));
     setHasMore(newBooks.length === BOOKS_PER_PAGE);
     setLoading(false);
-  }, [page, debouncedSearchTerm, selectedCategory, loading, hasMore]);
+  }, [page, debouncedSearchTerm, selectedCategory, loading, hasMore, searchParams]);
 
   useEffect(() => {
     setPage(1);
@@ -58,6 +77,8 @@ export default function BookPage() {
   }, [debouncedSearchTerm, selectedCategory]);
 
   useEffect(() => {
+    loadAuthorBooks();
+    loadCategoryBooks();
     loadBooks();
   }, [loadBooks]);
 
@@ -103,14 +124,27 @@ export default function BookPage() {
               className="input w-full"
             />
           </div>
-          <div className="w-full sm:w-auto">
+          <div className="w-full sm:w-auto flex items-center gap-4 justify-end">
+            <select
+              value={authorSelected}
+              onChange={(e) => setAuthorSelected(e.target.value)}
+              className="select w-full"
+            >
+              <option value="">Semua Penulis</option>
+              {bookAuthors.map((author) => (
+                <option key={author.id} value={author.id}>
+                  {author.name}
+                </option>
+              ))}
+            </select>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
               className="select w-full"
             >
-              {categories.map(cat => (
-                <option key={cat.id} value={cat.category}>{cat.category}</option>
+              <option value="">Semua Kategori</option>
+              {bookCategories.map(cat => (
+                <option key={cat.id} value={cat.id}>{cat.category}</option>
               ))}
             </select>
           </div>
