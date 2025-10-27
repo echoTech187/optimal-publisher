@@ -26,7 +26,6 @@ async function PaymentFetcher({ slug }: { slug: string | null }) {
     if (!transactionData) {
         notFound();
     }
-
     return <div className="my-[80px]"><Payment data={transactionData} payment={paymentMethods} loading={false} /></div>;
 }
 

@@ -20,6 +20,12 @@ interface Transaction {
     transaction_code: string;
     pack_name: string;
     book_title: string | null;
+    title?: string;
+    payment_method_id: string;
+    payment_method: PaymentMethod;
+    created_at: string;
+    updated_at: string;
+    
     // ... other properties
 }
 
@@ -69,7 +75,7 @@ export async function fetchPaymentMethods(): Promise<PaymentMethod[]> {
  * @param slug - The unique identifier for the transaction.
  * @returns A promise that resolves to the transaction data.
  */
-export async function fetchTransaction(slug: string | null): Promise<Transaction | null> {
+export async function fetchTransaction(slug: string | null): Promise<any | null> {
     const token = (await cookies()).get('token')?.value || ''; // const token = (await cookies()).get('token')?.value;
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 

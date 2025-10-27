@@ -129,17 +129,32 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                         <div className="mb-4 flex flex-col gap-2">
                             <h6 className=" text-[var(--primary)] font-bold w-full rounded-full">Pesanan</h6>
                             <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-sm dark:text-gray-400">Jenis Paket</label>
+                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Jenis Paket</label>
                                 <div className="font-normal text-gray-700 dark:text-white">{data.pack_name}</div>
                             </div>
                             <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-sm dark:text-gray-400">Judul Naskah</label>
-                                <div className="font-normal text-gray-700 dark:text-white">{data.book_title || '-'}</div>
+                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Judul Naskah</label>
+                                <div className="font-normal text-gray-700 dark:text-white">
+                                {
+                                    data.isbn_program_id === 5 ? (
+                                        data.transactionable.title || '-'
+                                    ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
+                                        <>
+                                            <span>{data.transactionable.book_title.title || '-'}</span>
+                                            <br />
+                                            <span>{data.transactionable.topic.topic_name || '-'}</span>
+                                        </>
+                                    ) : (
+                                        data?.transactionable?.book_title || '-'
+                                    )
+                                }
+                                </div>
                             </div>
                         </div>
                         <div className="flex justify-between items-center">
                             <span className="text-gray-600 dark:text-gray-400">Jumlah Pembayaran:</span>
-                            <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}</span>
+                            <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}<br />
+                                <span className="text-gray-600 dark:text-gray-400 text-sm">({data.payment_method.description})</span></span>
                         </div>
                     </div>
                     <Link href="/" className="w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-300 inline-block">
@@ -167,17 +182,32 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                         <div className="mb-4 flex flex-col gap-2">
                             <h6 className=" text-[var(--primary)] font-bold w-full rounded-full">Pesanan</h6>
                             <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-sm dark:text-gray-400">Jenis Paket</label>
+                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Jenis Paket</label>
                                 <div className="font-normal text-gray-700 dark:text-white">{data.pack_name}</div>
                             </div>
                             <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-sm dark:text-gray-400">Judul Naskah</label>
-                                <div className="font-normal text-gray-700 dark:text-white">{data.book_title || '-'}</div>
+                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Judul Naskah</label>
+                                <div className="font-normal text-gray-700 dark:text-white">
+                                {
+                                    data.isbn_program_id === 5 ? (
+                                        data.transactionable.title || '-'
+                                    ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
+                                        <>
+                                            <span>{data.transactionable.book_title.title || '-'}</span>
+                                            <br />
+                                            <span>{data.transactionable.topic.topic_name || '-'}</span>
+                                        </>
+                                    ) : (
+                                        data?.transactionable?.book_title || '-'
+                                    )
+                                }
+                                </div>
                             </div>
                         </div>
                         <div className="flex justify-between items-center">
                             <span className="text-gray-600 dark:text-gray-400">Jumlah Pembayaran:</span>
-                            <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}</span>
+                            <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}<br />
+                                <span className="text-gray-600 dark:text-gray-400 text-sm">({data.payment_method.description})</span></span>
                         </div>
                     </div>
                     <Link href="/" className="w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-300 inline-block">
@@ -204,17 +234,32 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                         <div className="mb-4 flex flex-col gap-2">
                             <h6 className=" text-[var(--primary)] font-bold w-full rounded-full">Pesanan</h6>
                             <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-sm dark:text-gray-400">Jenis Paket</label>
+                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Jenis Paket</label>
                                 <div className="font-normal text-gray-700 dark:text-white">{data.pack_name}</div>
                             </div>
                             <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-sm dark:text-gray-400">Judul Naskah</label>
-                                <div className="font-normal text-gray-700 dark:text-white">{data.book_title || '-'}</div>
+                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Judul Naskah</label>
+                                <div className="font-normal text-gray-700 dark:text-white">
+                                {
+                                    data.isbn_program_id === 5 ? (
+                                        data.transactionable.title || '-'
+                                    ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
+                                        <>
+                                            <span>{data.transactionable.book_title.title || '-'}</span>
+                                            <br />
+                                            <span>{data.transactionable.topic.topic_name || '-'}</span>
+                                        </>
+                                    ) : (
+                                        data?.transactionable?.book_title || '-'
+                                    )
+                                }
+                                </div>
                             </div>
                         </div>
                         <div className="flex justify-between items-center">
                             <span className="text-gray-600 dark:text-gray-400">Jumlah Pembayaran:</span>
-                            <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}</span>
+                            <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}<br />
+                                <span className="text-gray-600 dark:text-gray-400 text-sm">({data.payment_method.description})</span></span>
                         </div>
                     </div>
                     <Link href="/" className="w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-300 inline-block">
@@ -242,17 +287,32 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                         <div className="mb-4 flex flex-col gap-2">
                             <h6 className=" text-[var(--primary)] font-bold w-full rounded-full">Pesanan</h6>
                             <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-sm dark:text-gray-400">Jenis Paket</label>
+                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Jenis Paket</label>
                                 <div className="font-normal text-gray-700 dark:text-white">{data.pack_name}</div>
                             </div>
                             <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-sm dark:text-gray-400">Judul Naskah</label>
-                                <div className="font-normal text-gray-700 dark:text-white">{data.book_title || '-'}</div>
+                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Judul Naskah</label>
+                                <div className="font-normal text-gray-700 dark:text-white">
+                                {
+                                    data.isbn_program_id === 5 ? (
+                                        data.transactionable.title || '-'
+                                    ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
+                                        <>
+                                            <span>{data.transactionable.book_title.title || '-'}</span>
+                                            <br />
+                                            <span>{data.transactionable.topic.topic_name || '-'}</span>
+                                        </>
+                                    ) : (
+                                        data?.transactionable?.book_title || '-'
+                                    )
+                                }
+                                </div>
                             </div>
                         </div>
                         <div className="flex justify-between items-center">
                             <span className="text-gray-600 dark:text-gray-400">Jumlah Pembayaran:</span>
-                            <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}</span>
+                            <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}<br />
+                                <span className="text-gray-600 dark:text-gray-400 text-sm">({data.payment_method.description})</span></span>
                         </div>
                     </div>
                     <Link href="/" className="w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-300 inline-block">
@@ -280,17 +340,32 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                         <div className="mb-4 flex flex-col gap-2">
                             <h6 className=" text-[var(--primary)] font-bold w-full rounded-full">Pesanan</h6>
                             <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-sm dark:text-gray-400">Jenis Paket</label>
+                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Jenis Paket</label>
                                 <div className="font-normal text-gray-700 dark:text-white">{data.pack_name}</div>
                             </div>
                             <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-sm dark:text-gray-400">Judul Naskah</label>
-                                <div className="font-normal text-gray-700 dark:text-white">{data.book_title || '-'}</div>
+                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Judul Naskah</label>
+                                <div className="font-normal text-gray-700 dark:text-white">
+                                {
+                                    data.isbn_program_id === 5 ? (
+                                        data.transactionable.title || '-'
+                                    ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
+                                        <>
+                                            <span>{data.transactionable.book_title.title || '-'}</span>
+                                            <br />
+                                            <span>{data.transactionable.topic.topic_name || '-'}</span>
+                                        </>
+                                    ) : (
+                                        data?.transactionable?.book_title || '-'
+                                    )
+                                }
+                                </div>
                             </div>
                         </div>
                         <div className="flex justify-between items-center">
                             <span className="text-gray-600 dark:text-gray-400">Jumlah Pembayaran:</span>
-                            <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}</span>
+                            <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}<br />
+                                <span className="text-gray-600 dark:text-gray-400 text-sm">({data.payment_method.description})</span></span>
                         </div>
                     </div>
                     <Link href="/" className="w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-300 inline-block">
@@ -318,17 +393,32 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                         <div className="mb-4 flex flex-col gap-2">
                             <h6 className=" text-[var(--primary)] font-bold w-full rounded-full">Pesanan</h6>
                             <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-sm dark:text-gray-400">Jenis Paket</label>
+                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Jenis Paket</label>
                                 <div className="font-normal text-gray-700 dark:text-white">{data.pack_name}</div>
                             </div>
                             <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-sm dark:text-gray-400">Judul Naskah</label>
-                                <div className="font-normal text-gray-700 dark:text-white">{data.book_title || '-'}</div>
+                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Judul Naskah</label>
+                                <div className="font-normal text-gray-700 dark:text-white">
+                                {
+                                    data.isbn_program_id === 5 ? (
+                                        data.transactionable.title || '-'
+                                    ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
+                                        <>
+                                            <span>{data.transactionable.book_title.title || '-'}</span>
+                                            <br />
+                                            <span>{data.transactionable.topic.topic_name || '-'}</span>
+                                        </>
+                                    ) : (
+                                        data?.transactionable?.book_title || '-'
+                                    )
+                                }
+                                </div>
                             </div>
                         </div>
                         <div className="flex justify-between items-center">
                             <span className="text-gray-600 dark:text-gray-400">Jumlah Pembayaran:</span>
-                            <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}</span>
+                            <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}<br />
+                                <span className="text-gray-600 dark:text-gray-400 text-sm">({data.payment_method.description})</span></span>
                         </div>
                     </div>
                     <Link href="/" className="w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-300 inline-block">
@@ -356,17 +446,32 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                         <div className="mb-4 flex flex-col gap-2">
                             <h6 className=" text-[var(--primary)] font-bold w-full rounded-full">Pesanan</h6>
                             <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-sm dark:text-gray-400">Jenis Paket</label>
+                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Jenis Paket</label>
                                 <div className="font-normal text-gray-700 dark:text-white">{data.pack_name}</div>
                             </div>
                             <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-sm dark:text-gray-400">Judul Naskah</label>
-                                <div className="font-normal text-gray-700 dark:text-white">{data.book_title || '-'}</div>
+                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Judul Naskah</label>
+                                <div className="font-normal text-gray-700 dark:text-white">
+                                {
+                                    data.isbn_program_id === 5 ? (
+                                        data.transactionable.title || '-'
+                                    ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
+                                        <>
+                                            <span>{data.transactionable.book_title.title || '-'}</span>
+                                            <br />
+                                            <span>{data.transactionable.topic.topic_name || '-'}</span>
+                                        </>
+                                    ) : (
+                                        data?.transactionable?.book_title || '-'
+                                    )
+                                }
+                                </div>
                             </div>
                         </div>
                         <div className="flex justify-between items-center">
                             <span className="text-gray-600 dark:text-gray-400">Jumlah Pembayaran:</span>
-                            <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}</span>
+                            <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}<br />
+                                <span className="text-gray-600 dark:text-gray-400 text-sm">({data.payment_method.description})</span></span>
                         </div>
                     </div>
                     <div className='flex justify-between items-center mb-4 gap-8'>
@@ -401,17 +506,32 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                         <div className="mb-4 flex flex-col gap-2">
                             <h6 className=" text-[var(--primary)] font-bold w-full rounded-full">Pesanan</h6>
                             <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-sm dark:text-gray-400">Jenis Paket</label>
+                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Jenis Paket</label>
                                 <div className="font-normal text-gray-700 dark:text-white">{data.pack_name}</div>
                             </div>
                             <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-sm dark:text-gray-400">Judul Naskah</label>
-                                <div className="font-normal text-gray-700 dark:text-white">{data.book_title || '-'}</div>
+                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Judul Naskah</label>
+                                <div className="font-normal text-gray-700 dark:text-white">
+                                {
+                                    data.isbn_program_id === 5 ? (
+                                        data.transactionable.title || '-'
+                                    ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
+                                        <>
+                                            <span>{data.transactionable.book_title.title || '-'}</span>
+                                            <br />
+                                            <span>{data.transactionable.topic.topic_name || '-'}</span>
+                                        </>
+                                    ) : (
+                                        data?.transactionable?.book_title || '-'
+                                    )
+                                }
+                                </div>
                             </div>
                         </div>
                         <div className="flex justify-between items-center">
                             <span className="text-gray-600 dark:text-gray-400">Jumlah Pembayaran:</span>
-                            <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}</span>
+                            <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}<br />
+                                <span className="text-gray-600 dark:text-gray-400 text-sm">({data.payment_method.description})</span></span>
                         </div>
                     </div>
                     <Link href="/" className="w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-300 inline-block">
