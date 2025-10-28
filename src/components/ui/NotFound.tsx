@@ -3,7 +3,7 @@ import Link from "next/link";
 const NotFound = () => {
     return (
         <section>
-            <div className="mx-auto max-w-7xl my-[150px] flex flex-col items-center justify-center gap-24">
+            <div className="mx-auto container my-[150px] flex flex-col items-center justify-center gap-24">
                 <div className="w-full h-full flex flex-col items-center justify-center size-80">
                     <Image src="../images/404.png" alt="404" width={0} height={0} className=" w-80 object-cover" />
                 </div>

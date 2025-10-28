@@ -21,7 +21,6 @@ export async function getBooks(params?: URLSearchParams | Record<string, string>
     // Ensure params are correctly stringified into a query string.
     const queryString = new URLSearchParams(params).toString();
     const url = `${API_BASE_URL}/books${queryString ? `?${queryString}` : ''}`;
-    console.log(url);
 
     const response = await fetch(url, {
       // Using no-cache to ensure fresh data on every request,
@@ -43,7 +42,6 @@ export async function getBooks(params?: URLSearchParams | Record<string, string>
     return result.data;
 
   } catch (error) {
-    console.error("Error fetching books:", error);
     // In case of an error, return an empty array to prevent the UI from crashing.
     return [];
   }
@@ -68,7 +66,6 @@ export async function fetchBookCategories(params?: URLSearchParams | Record<stri
   try {
     const queryString = new URLSearchParams(params).toString();
     const url = `${API_BASE_URL}/categories/book${queryString ? `?${queryString}` : ''}`;
-    console.log(url);
     const response = await fetch(url, {
       // Using no-cache to ensure fresh data on every request,
       // or revalidate for periodic refetching.

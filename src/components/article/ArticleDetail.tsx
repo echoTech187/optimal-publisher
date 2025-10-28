@@ -23,7 +23,7 @@ const ArticleDetail = ({ article }: { article: Article }) => {
 
     return (
         <div className="bg-gray-50 dark:bg-gray-700 min-h-screen">
-            <div className="max-w-[1300px] mx-auto px-4 py-[100px] rounded-lg mt-12">
+            <div className="container mx-auto px-4 py-[100px] rounded-lg mt-12">
                 <div className="mb-12">
                     <h1 className="text-5xl font-bold text-gray-800 dark:text-gray-100 leading-tight">{article.title}</h1>
                     <p className="text-lg text-gray-500 font-normal my-2">Oleh {article.author} | {displayDate}</p>

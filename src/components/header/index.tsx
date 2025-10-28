@@ -58,7 +58,7 @@ const Header = () => {
     
     return (
         <header className={`fixed top-0 left-0 z-50 w-full  py-4 transition-all ${isVisible ? 'bg-white dark:bg-black/20 backdrop-blur-md border-b border-black/5' : 'bg-white dark:bg-black/40 backdrop-blur-md  border-b border-white/10'}`}>
-            <div className="flex items-center justify-between w-full max-w-[1300px] mx-auto px-4 2xl:px-0">
+            <div className="flex items-center justify-between w-full container mx-auto px-4 2xl:px-0">
                 <Brand isVisible={isVisible} isMobile={isMobile} />
                 <MenuNavigation isVisible={isVisible} />
                 {

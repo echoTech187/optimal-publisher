@@ -22,7 +22,6 @@ async function PackDataFetcher({ packageKey }: { packageKey: number }) {
         getProgramPackage(packageKey),
         getSession(),
     ]);
-    console.log(packages);
 
     if (!session) {
         // Middleware should handle this, but as a fallback:
@@ -40,7 +39,6 @@ async function PackDataFetcher({ packageKey }: { packageKey: number }) {
 
 export default function Page({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
     const packageKey = Number(searchParams?.key);
-    console.log(packageKey);
     if (isNaN(packageKey)) {
         // Redirect if the key is missing or not a number
         redirect('/not-found');

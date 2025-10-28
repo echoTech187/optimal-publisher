@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react";
 export default function ArticleBanner() {
     return (
         <div className="bg-[url('/images/Banner-1.jpg')] bg-cover bg-center h-[580px] ">
-            <section className="max-w-[1300px] mx-auto flex flex-col justify-center items-center h-full text-white gap-12">
+            <section className="container mx-auto flex flex-col justify-center items-center h-full text-white gap-12">
                 <div className="text-center w-full">
                     <h1 className="text-3xl font-semibold mb-3">Jadilah Praktisi Kesehatan Profesional</h1>
                     <p className="text-xl">Berikan pelayanan kesehatan yang terbaik untuk masyarakat Indonesia dengan belajar dari para tenaga kesehatan yang berpengalaman.</p>

@@ -1,8 +1,8 @@
 
 const BookSectionLoading = () => {
     return (
-        <section className="max-w-[1300px] mx-auto px-4 text-center py-[150px]">
-            <header className="max-w-[1300px] mx-auto px-4 text-center mb-12">
+        <section className="container mx-auto px-4 text-center py-[150px]">
+            <header className="container mx-auto px-4 text-center mb-12">
                 <div className="h-10 bg-gray-300 rounded w-1/2 mx-auto animate-pulse"></div>
                 <div className="h-6 bg-gray-300 rounded w-1/3 mx-auto mt-4 animate-pulse"></div>
             </header>

@@ -71,7 +71,6 @@ export async function getPrograms(): Promise<Program[]> {
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
     if (!token) {
-        console.log("No auth token found, returning empty array.");
         return [];
     }
 

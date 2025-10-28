@@ -3,11 +3,11 @@ import Image from "next/image";
 export default function Testimoni() {
     return (
         <section className="w-full h-auto py-[100px] bg-gradient-to-r from-[#f4c573] to-[#f5be5f] text-black dark:text-white " id="reviews">
-            <div className="px-4 max-w-[1300px] mx-auto 2xl:px-0">
+            <div className="px-4 container mx-auto 2xl:px-0">
                 <h2 className="text-4xl anton mb-12 z-10 text-gray-700 dark:text-gray-50 leading-tight text-center">Apa Kata Mereka?</h2>
             </div>
             <div data-carousel='{"currentIndex": 0, "loadingClasses": "opacity-0", "slidesQty": { "xs": 1, "md": 2, "lg":3 },  "isAutoPlay": true, "speed": 5000 ,"isInfiniteLoop": true }'
-                data-carousel-initialized='true' className='relative w-full px-4 max-w-[1300px] mx-auto 2xl:px-0'>
+                data-carousel-initialized='true' className='relative w-full px-4 container mx-auto 2xl:px-0'>
                 <div className='carousel min-h-80' >
                     <div className="carousel-body h-full w-full gap-8 flex items-stretch">
                         <div className="carousel-slide w-full p-6 my-6 rounded-lg shadow-xs flex flex-col items-center text-center">

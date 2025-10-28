@@ -105,7 +105,7 @@ export default function BookPage() {
   }, [loader, hasMore, loading]);
   return (
     <div className="bg-white">
-      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 my-[150px]">
+      <main className="mx-auto container px-4 sm:px-6 lg:px-8 my-[150px]">
         <div className="text-center pb-8">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900">Daftar Buku</h1>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-500">
@@ -149,7 +149,7 @@ export default function BookPage() {
             </select>
           </div>
         </div>
-
+        
         <BookList data={books} loading={loading} />
 
 

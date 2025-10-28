@@ -19,11 +19,11 @@ export default function MonografPack(props: { data: any, user: User }) {
 
     return (
         <section className="w-full h-full py-[150px]">
-            <header className={`max-w-[1300px] mx-auto px-4 text-center`}>
+            <header className={`container mx-auto px-4 text-center`}>
                 <h1 className="text-4xl anton z-10 text-gray-700 dark:text-gray-50 leading-tight text-center">Pilih Paket Optimal</h1>
                 <p>Pilih paket yang sesuai dengan kebutuhanmu</p>
             </header>
-            <div className={`max-w-[1300px] mx-auto px-4 mt-12`}>
+            <div className={`container mx-auto px-4 mt-12`}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {
                         data.map((item: any, index: number) => (

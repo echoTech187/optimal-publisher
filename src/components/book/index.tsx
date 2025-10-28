@@ -4,7 +4,7 @@ import Image from "next/image"
 export default function Book() {
     return (
         <section id="book" className="min-h-full w-full px-5 lg:px-0 bg-gradient-to-r from-[#f4c573] to-[#f5be5f] text-black dark:text-white dark:bg-gray-800  py-[100px]">
-            <div className="max-w-[1300px] mx-auto h-full">
+            <div className="container mx-auto h-full">
                 <div className="flex max-md:flex-col md:flex-row items-center h-full w-full gap-12 py-12">
                     <div className="flex-1">
                         <Image priority={true}src="/images/book-recommended.png" alt="Underline" width={2000} height={0} className="md:w-full lg:2/3 h-auto mx-auto" />

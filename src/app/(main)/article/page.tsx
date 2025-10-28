@@ -41,7 +41,7 @@ export default function ArticlePage({
             <ArticleBanner />
             <div className="bg-gray-50 dark:bg-gray-700 min-h-screen">
                 {/* TODO: Implement filter functionality */}
-                <div className="max-w-[1300px] mx-auto px-4 rounded-lg pt-12">
+                <div className="container mx-auto px-4 rounded-lg pt-12">
                     <div className="flex items-center justify-center gap-4 inter flex-wrap">
                         <button type="button" className="px-4 py-2 border border-gray-300 rounded-lg active">Semua</button>
                         <button type="button" className="px-4 py-2 border border-gray-300 rounded-lg">Homecare</button>

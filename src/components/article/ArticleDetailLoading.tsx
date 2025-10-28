@@ -2,7 +2,7 @@
 const ArticleDetailLoading = () => {
     return (
         <div className="bg-gray-50 dark:bg-gray-700 min-h-screen">
-            <div className="max-w-[1300px] mx-auto px-4 py-[100px] rounded-lg mt-12 animate-pulse">
+            <div className="container mx-auto px-4 py-[100px] rounded-lg mt-12 animate-pulse">
                 <div className="mb-12">
                     <div className="h-14 bg-gray-300 rounded w-3/4 mb-4"></div>
                     <div className="h-6 bg-gray-300 rounded w-1/3"></div>

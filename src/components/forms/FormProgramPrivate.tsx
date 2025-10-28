@@ -64,7 +64,7 @@ export default function FormProgramPrivate(props: { data: any, user: User }) {
 
     return (
         <>
-            <div className="max-w-[1300px] mx-auto h-full pt-[0px]" id="shipping-information">
+            <div className="container mx-auto h-full pt-[0px]" id="shipping-information">
                 <FormHeader title="Informasi Pemesanan" description="Program Penerbitan Mandiri" />
                 <div className="flex flex-col gap-6 p-6">
 

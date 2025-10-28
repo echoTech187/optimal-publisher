@@ -92,12 +92,10 @@ const DetailBook = () => {
     }
 
     document.title = bookDetail ? bookDetail.title : "Buku | Optimal Untuk Negeri";
-
-    console.log('data', bookDetail);
     return (
         <>
             <section className="py-16 md:py-32 bg-gray-50">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto container px-4 sm:px-6 lg:px-8">
                     <div className="flex flex-col lg:flex-row gap-12">
                         {/* Book Cover */}
                         <div className="w-full lg:w-1/3">
@@ -154,23 +152,23 @@ const DetailBook = () => {
                                 <span className="max-sm:text-sm">Pesan via WhatsApp</span>
                             </a>
 
-                            {/* <hr className="my-8 border-gray-200" /> */}
+                            <hr className="my-8 border-gray-200" />
 
                             {/* Book Specs */}
-                            {/* <h2 className="max-sm:text-lgtext-2xl font-bold text-gray-800 mb-6">Detail Buku</h2>
+                            <h2 className="max-sm:text-lgtext-2xl font-bold text-gray-800 mb-6">Detail Buku</h2>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
                                 <DetailItem label="ISBN" value={bookDetail.isbn} />
-                                <DetailItem label="Jenis Pustaka" value={bookDetail.library.name} />
-                                <DetailItem label="Kategori" value={bookDetail.category.category} />
-                                <DetailItem label="Penerbit" value={bookDetail.publisher.name} />
-                                <DetailItem label="Media" value={bookDetail.media.name} />
-                                <DetailItem label="Jenis ISBN" value={bookDetail.type.name} />
-                                <DetailItem label="Kelompok Pembaca" value={bookDetail.reading.name} />
-                                <DetailItem label="Jumlah Halaman" value={bookDetail.page_length} />
-                                <DetailItem label="Ukuran" value={bookDetail.cover_size} />
-                                <DetailItem label="Edisi" value={bookDetail.edition} />
-                                <DetailItem label="Seri" value={bookDetail.series} />
-                            </div> */}
+                                {/* <DetailItem label="Jenis Pustaka" value={bookDetail.library.name} /> */}
+                                <DetailItem label="Kategori" value={bookDetail.categories.category} />
+                                {/* <DetailItem label="Penerbit" value={bookDetail.publisher.name} /> */}
+                                {/* <DetailItem label="Media" value={bookDetail.media.name} /> */}
+                                {/* <DetailItem label="Jenis ISBN" value={bookDetail.type.name} /> */}
+                                {/* <DetailItem label="Kelompok Pembaca" value={bookDetail.reading.name} /> */}
+                                {/* <DetailItem label="Jumlah Halaman" value={bookDetail.page_length} /> */}
+                                {/* <DetailItem label="Ukuran" value={bookDetail.cover_size} /> */}
+                                {/* <DetailItem label="Edisi" value={bookDetail.edition} /> */}
+                                {/* <DetailItem label="Seri" value={bookDetail.series} /> */}
+                            </div>
 
                             {bookDetail.description && (
                                 <>

@@ -16,7 +16,7 @@ const ArticleCardSkeleton = () => (
 
 const ArticleListLoading = () => {
     return (
-        <div className="max-w-[1300px] mx-auto px-4 py-[40px] rounded-lg mt-6">
+        <div className="container mx-auto px-4 py-[40px] rounded-lg mt-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[...Array(9)].map((_, index) => (
                     <ArticleCardSkeleton key={index} />

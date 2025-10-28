@@ -65,7 +65,7 @@ export default function FormProgramReference(props: { data: any, user: User, sho
 
     return (
         <>
-            <div className="max-w-[1300px] mx-auto h-full pt-[0px]" id="shipping-information">
+            <div className="container mx-auto h-full pt-[0px]" id="shipping-information">
                 <FormHeader title="Informasi Pemesanan" description={data.description} />
                 <div className="flex flex-col gap-6 p-6">
 

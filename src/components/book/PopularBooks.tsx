@@ -15,8 +15,8 @@ export default function PopularBooks() {
     const fetchBooks = async () => {
       setLoading(true);
       const params = new URLSearchParams();
-    params.append('limit', '10');
-    params.append('program_category', searchParams.get('feature') || '');
+      params.append('limit', '10');
+      params.append('program_category', searchParams.get('feature') || '');
       const recommendedBooks = await getRecommendedBooks(params); // Fetch 10 popular books
       setBooks(recommendedBooks);
       setLoading(false);

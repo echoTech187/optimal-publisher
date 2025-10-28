@@ -82,9 +82,14 @@ body {
 .html_content:after,
 .html_content:before {
   padding: revert !important;
-  font-family: var(--font-inter)
+  font-family: var(--font-inter);
+  margin: revert !important;
 }
-
+.html_content ul, .html_content ol {
+  margin: revert !important;
+  padding: revert !important;
+  list-style: revert !important;
+}
 button.active {
   @apply bg-blue-800 text-white;
 }

@@ -10,7 +10,7 @@ interface Program {
 
 const ProgramList = ({ programs }: { programs: Program[] }) => {
     return (
-        <section className="w-full h-auto py-[150px] px-4 max-w-[1300px] mx-auto">
+        <section className="w-full h-auto py-[150px] px-4 container mx-auto">
             <header className="relative mb-24 text-center">
                 <h1 className="text-4xl anton mb-4 z-10 text-gray-700 dark:text-gray-50 leading-tight">Pilih jenis program</h1>
             </header>

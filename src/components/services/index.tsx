@@ -16,7 +16,7 @@ export default function Services({ isbnUrl, issnUrl, hkiUrl }: ServicesProps) {
     return (
         <>
             <section id="services" className="h-auto w-full px-5 lg:px-0 dark:bg-gray-800 pt-[100px]">
-                <div className="max-w-[1300px] mx-auto h-full">
+                <div className="container mx-auto h-full">
                     <header className="relative text-2xl font-extrabold text-center mb-24">
                         <Image priority={true}src="/stock/underline.png" alt="Underline" width={2000} height={0} className="absolute left-1/2 -translate-x-1/2 top-1 mx-auto h-auto w-1/4 mt-9 z-1" />
                         <h1 className="text-4xl anton mb-4 z-10 text-gray-700 dark:text-gray-50 leading-tight">Apa yang Anda Cari?</h1>
@@ -40,7 +40,7 @@ export default function Services({ isbnUrl, issnUrl, hkiUrl }: ServicesProps) {
                 </div>
             </section>
             <section className="h-auto w-full px-5 lg:px-0 bg-gradient-to-r from-[#f4c573] to-[#f5be5f] text-black dark:text-gray-50 dark:bg-gray-800">
-                <div className="max-w-[1300px] mx-auto h-full">
+                <div className="container mx-auto h-full">
                     <div className="flex items-center h-full w-full gap-12 py-12">
                         <div className="flex-1">
                             <h1 className="text-6xl font-semibold mb-3">Publikasi ISSN</h1>
@@ -59,7 +59,7 @@ export default function Services({ isbnUrl, issnUrl, hkiUrl }: ServicesProps) {
                 </div>
             </section>
             <section className="h-auto w-full px-5 lg:px-0 dark:bg-gray-800">
-                <div className="max-w-[1300px] mx-auto h-full">
+                <div className="container mx-auto h-full">
                     <div className="flex items-center h-full w-full gap-12 py-12">
                         <div className="flex-1 max-md:hidden">
                             <Image priority={true}src="/images/HKI.png" alt="Underline" width={2000} height={0} className="md:w-full lg:w-2/3  h-auto mx-auto" />

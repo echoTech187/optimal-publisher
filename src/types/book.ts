@@ -17,6 +17,7 @@ export interface Book {
   publisher: {
     name: ""
   },
+  
   categories: {
     id: number;
     category: string;

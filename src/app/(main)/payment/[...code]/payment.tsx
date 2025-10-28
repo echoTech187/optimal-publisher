@@ -548,7 +548,7 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                 <input type="hidden" name="member_id" id='member_id' value={data.member_id} />
                 <input type="hidden" name="amount" id='amount' value={data.amount} />
 
-                <section className="w-full h-auto py-[100px] px-4 max-w-[1300px] mx-auto 2xl:px-0" id="payment">
+                <section className="w-full h-auto py-[100px] px-4 container mx-auto 2xl:px-0" id="payment">
                     <header className="relative text-2xl font-extrabold text-center mt-12 mb-12">
                         <h1 className="text-4xl anton mb-4 z-10 text-gray-700 dark:text-gray-50 leading-tight">Selesaikan Pembayaran</h1>
                     </header>

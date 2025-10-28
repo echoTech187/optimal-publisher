@@ -23,7 +23,7 @@ const BookRecomend = ({ bookList }: { bookList: Book[] }) => {
     }, []); // Empty dependency array ensures this runs only once on mount
 
     return (
-        <section className="mx-auto max-w-7xl my-[150px]">
+        <section className="mx-auto container my-[150px]">
             <div className="flex flex-col items-center justify-center">
                 <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold z-10 text-gray-700 dark:text-gray-50">Buku Pilihan</h2>
                 <p className=" font-bold text-gray-800 mt-4 w-full text-center">Dapatkan buku terbaru dari Optimal Untuk Negeri</p>
@@ -43,7 +43,7 @@ const BookRecomend = ({ bookList }: { bookList: Book[] }) => {
                                         <Image priority={true} src={imageUrl} alt={item.title} className="object-cover w-full h-[320px]" width={250} height={250} />
                                     </div>
                                     <div className="flex flex-col items-start justify-between gap-3 ">
-                                        <span className="text-xs text-[var(--primary)] font-normal bg-purple-50 w-fit px-4 py-1 rounded-full">{item.category?.category}</span>
+                                        <span className="text-xs text-[var(--primary)] font-normal bg-purple-50 w-fit px-4 py-1 rounded-full">{item.categories?.category}</span>
                                         <a href={`/book/${item.slug}`} className={`max-sm:text-xs cursor-pointer font-semibold text-gray-600 w-full truncate overflow-hidden text-ellipsis text-left line-clamp-2 whitespace-normal flex-1 min-h-12`}>{item.title}</a>
                                         <div className={`flex items-center justify-between w-full`}>
                                             <span className=""></span>
@@ -74,7 +74,7 @@ const BookRecomend = ({ bookList }: { bookList: Book[] }) => {
 };
 
 export const BookRecomendLoading = () => (
-    <section className="max-w-[1300px] mx-auto px-4 text-center pb-[150px]">
+    <section className="container mx-auto px-4 text-center pb-[150px]">
         <div className="flex flex-col items-center justify-center">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold z-10 text-gray-700 dark:text-gray-50">Buku Pilihan</h2>
             <p className="font-bold text-gray-800 mt-4 w-full text-center">Dapatkan buku terbaru dari Optimal Untuk Negeri</p>

@@ -22,7 +22,7 @@ const BookCard = ({ book }: { book: Book }) => {
           />
         </div>
       </Link>
-      <div className="flex flex-1 flex-col space-y-2 gap-1 px-2 py-4 justify-between">
+      <div className="flex flex-1 flex-col space-y-2 gap-1 px-2 py-2 justify-between">
         <h3 className="max-sm:text-xs text-gray-900 mb-0">
           <Link href={`/book/${slug}`} className='overflow-hidden line-clamp-2 font-semibold'>
             {title}
@@ -42,7 +42,7 @@ const BookCard = ({ book }: { book: Book }) => {
           </p>
         </div>
       </div>
-      <div className="absolute bottom-4 right-2 left-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+      <div className="p-2">
         <Link
           href={`/book/${slug}`}
           className="flex items-center justify-center rounded-md border border-transparent bg-fuchsia-800 px-8 py-2 text-sm font-medium text-white hover:bg-fuchsia-950"

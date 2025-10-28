@@ -7,7 +7,7 @@ export default function Header() {
         <>
             <section className="relative w-full h-[800px] flex items-center justify-center" id="hero">
                 <div className="absolute top-0 left-0 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-[100%] w-full -z-0"></div>
-                <div className="flex gap-4 max-w-[1300px] mx-auto px-4 2xl:px-0 w-full z-10">
+                <div className="flex gap-4 container mx-auto px-4 2xl:px-0 w-full z-10">
                     <div className="w-1/2 max-lg:w-full flex flex-col gap-4">
                         <h1 className=" text-[2rem] md:text-[2.5rem] lg:text-[3.8rem] xl:text-[4.5rem] 2xl:text-[5rem] font-bold leading-tight flex flex-col"><p>Solusi Digital</p> <p>Belajar Test CPNS</p></h1>
                         <p className=" md:text-lg">Hai! Apakah kamu sedang mempersiapkan diri untuk tes CPNS?
