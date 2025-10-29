@@ -33,7 +33,7 @@ export default async function Home() {
             issnUrl={issnUrl} 
             hkiUrl={hkiUrl} 
           />
-          <NewsEvents />
+          <NewsEvents  />
           <Contact />
           <Testimoni />
           <Article />

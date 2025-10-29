@@ -6,6 +6,7 @@ import { useFormStatus } from "react-dom";
 import { useSearchParams } from "next/navigation";
 import { login } from "@/features/auth/actions";
 import Alert, { useAlert } from "@/components/ui/Alert";
+import Link from "next/link";
 
 // Submit button that is aware of the form's pending state
 function SubmitButton() {
@@ -73,7 +74,7 @@ export default function SignInForm() {
             </form>
 
             <div className="w-full max-w-sm mx-auto h-12 flex items-center justify-center gap-1">
-                Belum memiliki akun? <a href={`/register?type=${type}`} className="text-fuchsia-800 hover:text-fuchsia-700">Daftar disini</a>
+                Belum memiliki akun? <Link href={`/register?type=${type}`} className="text-fuchsia-800 hover:text-fuchsia-700">Daftar disini</Link>
             </div>
 
             {/* Alert component to show feedback */}

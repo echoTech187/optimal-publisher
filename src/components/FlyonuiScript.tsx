@@ -21,14 +21,12 @@ export default function FlyonuiScript() {
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
-      if (
-        window.HSStaticMethods &&
-        typeof window.HSStaticMethods.autoInit === 'function'
-      ) {
-        window.HSStaticMethods.autoInit();
-      }
-    }, 100);
+    if (
+      window.HSStaticMethods &&
+      typeof window.HSStaticMethods.autoInit === 'function'
+    ) {
+      window.HSStaticMethods.autoInit();
+    }
   }, [path]);
 
   return null;

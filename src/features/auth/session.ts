@@ -10,6 +10,7 @@ import { User } from '@/types/user'; // <-- Import the centralized User type
 export async function getSession(): Promise<User | null> {
     // Read the user session from the cookies
     const sessionCookie = (await cookies()).get('user')?.value;
+    
     if (!sessionCookie) {
         return null;
     }

@@ -23,19 +23,19 @@ const MobileSidebar = () => {
                 <nav>
                     <ul className="menu" onClick={handleCloseSidebar}>
                         <li>
-                            <a href="/">Beranda</a>
+                            <Link href="/">Beranda</Link>
                         </li>
                         <li>
-                            <a href="/#book">Buku</a>
+                            <Link href="/#book">Buku</Link>
                         </li>
                         <li>
-                            <a href="/#package">Layanan</a>
+                            <Link href="/#package">Layanan</Link>
                         </li>
                         {/* <li>
                             <a href="/#reviews">Ulasan</a>
                         </li> */}
                         <li>
-                            <a href="/#news-events">Berita & Acara</a>
+                            <Link href="/#news-events">Berita & Acara</Link>
                         </li>
                         {/* <li>
                             <a href="/#articles">Artikel</a>
@@ -44,7 +44,7 @@ const MobileSidebar = () => {
                             <a href="/#faqs">FAQs</a>
                         </li> */}
                         <li>
-                            <a href="/#contact">Hubungi Kami</a>
+                            <Link href="/#contact">Hubungi Kami</Link>
                         </li>
                     </ul>
                 </nav>
