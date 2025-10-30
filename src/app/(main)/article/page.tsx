@@ -6,17 +6,20 @@ import { getArticles } from '@/features/article/data';
 import ArticleBanner from '@/components/article/banner';
 import ArticleList from '@/components/article/ArticleList';
 import ArticleListLoading from '@/components/article/ArticleListLoading';
+import type { Article as ArticleType } from '@/types/article';
 
 export const metadata: Metadata = {
   title: 'Artikel | Optimal Untuk Negeri',
   description: 'Baca artikel terbaru tentang kesehatan, keperawatan, teknologi, dan lainnya dari Optimal Untuk Negeri.',
 };
-
 // This component fetches the data and passes it to the presentation component.
 async function ArticleListFetcher({ params }: { params: URLSearchParams }) {
     const articles = await getArticles(params);
-    return <ArticleList articles={articles} />;
+    // Ensure the fetched data conforms to the app's Article type before passing down
+    const typedArticles = articles as unknown as ArticleType[];
+    return <ArticleList articles={typedArticles} />;
 }
+
 
 export default function ArticlePage({
     searchParams,

@@ -61,7 +61,7 @@ const Header = () => {
             <div className="flex items-center justify-between w-full container mx-auto px-4 2xl:px-0">
                 <Brand isVisible={isVisible} isMobile={isMobile} />
                 <MenuNavigation isVisible={isVisible} />
-                {
+                {!isLoading && (
                     isLoading ? (
                         <div className="">
                             <div className="size-9.5 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse"></div>
@@ -77,7 +77,7 @@ const Header = () => {
                                 Masuk
                             </button>
                         </div>
-                    )
+                    ))
                 }
             </div>
         </header>

@@ -1,51 +1,45 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-
-// Define the Article type based on our data fetching logic
-interface Article {
-  id: number;
-  title: string;
-  slug: string;
-  author: string;
-  publish_date: string;
-  image_url: string;
-  excerpt: string;
-}
+import { Article } from '@/types/article';
+import { getImageUrl } from '@/lib/utils/image';
 
 const ArticleCard = ({ article }: { article: Article }) => {
-  // Construct the full image URL from the environment variable
-  const imageUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/${article.image_url}`;
+  const imageUrl = getImageUrl(article.image);
 
-  // Format date for display if needed
-  const displayDate = new Date(article.publish_date).toLocaleDateString('id-ID', {
-    year: 'numeric', month: 'long', day: 'numeric'
+  const displayDate = new Date(article.created_at).toLocaleDateString('id-ID', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric'
   });
 
   return (
-    <Link href={`/article/${article.slug}`} className="bg-white shadow-xs hover:shadow-2xl rounded-lg hover:cursor-pointer block">
-      <div className="p-4 flex flex-col gap-4">
-        <div className="w-full h-48 relative">
-            <Image 
-                priority
-                src={imageUrl} 
-                alt={article.title}
-                fill
-                style={{ objectFit: 'cover' }}
-                className="rounded-lg"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
+    <Link href={`/article/${article.slug}`} className=" group flex max-md:flex-row flex-col max-md:gap-4">
+      <div className="relative max-md:w-[100px] w-full max-md:h-20 h-60 mb-4 max-md:flex-1">
+        <Image
+          priority
+          src={imageUrl}
+          alt={article.title}
+          width={0}
+          height={0}
+          style={{ objectFit: 'cover' }}
+          className="rounded-lg h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
+        />
+      </div>
+      <div className="max-md:w-2/3 w-full ">
+        <div className="flex items-center max-md:text-xs text-sm text-gray-500 mb-2">
+          <span>• {article.article_category.category}</span>
+          <span className="mx-2">•</span>
+          <span>{displayDate}</span>
         </div>
-        <div>
-          <h3 className="text-lg font-semibold text-gray-800 line-clamp-2">{article.title}</h3>
-          <span className="flex items-center text-sm text-gray-500 mt-1">
-            <small>Oleh {article.author}</small> . <small>{displayDate}</small>
-          </span>
-        </div>
-        <p className="text-xs font-normal text-gray-500 line-clamp-3">{article.excerpt}</p>
+        <h3 title={article.title} className="max-md:text-sm text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors duration-300 line-clamp-1 mb-2 flex-1">
+          {article.title}
+        </h3>
+        <div dangerouslySetInnerHTML={{ __html: article.description }} className="max-md:text-xs text-sm text-gray-600 max-md:line-clamp-2 line-clamp-3"></div>
+
       </div>
     </Link>
   );
-}
+};
 
 export default ArticleCard;

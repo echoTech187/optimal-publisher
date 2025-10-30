@@ -1,12 +1,21 @@
 // Import components from the correct top-level 'components' directory
-import Article from "@/components/article";
+import dynamic from 'next/dynamic';
 import Book from "@/components/book";
-import Contact from "@/components/contact";
-import NewsEvents from "@/components/event";
-import Faqs from "@/components/faqs";
-import Hero from "@/components/hero";
 import Services from "@/components/services";
-import Testimoni from  "@/components/testimoni";
+import Hero from "@/components/hero";
+
+// Import loading skeletons
+import ArticleListLoading from '@/components/article/ArticleListLoading';
+import NewsEventsLoading from '@/components/event/NewsEventsLoading';
+import TestimoniLoading from '@/components/testimoni/TestimoniLoading';
+import FaqsLoading from '@/components/faqs/FaqsLoading';
+
+// Lazy load components that are below the fold
+const NewsEvents = dynamic(() => import("@/components/event"), { loading: () => <NewsEventsLoading /> });
+const Contact = dynamic(() => import("@/components/contact"));
+const Testimoni = dynamic(() => import("@/components/testimoni"), { loading: () => <TestimoniLoading /> });
+const Article = dynamic(() => import("@/components/article"), { loading: () => <ArticleListLoading /> });
+const Faqs = dynamic(() => import("@/components/faqs"), { loading: () => <FaqsLoading /> });
 
 // Import the server-side authentication utility
 import { getSession } from "@/features/auth/session";

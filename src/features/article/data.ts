@@ -36,10 +36,11 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
     });
 
     if (!response.ok) {
-      // If the article is not found (404), Next.js will handle it.
-      // For other errors, we throw an exception.
       if (response.status !== 404) {
-          throw new Error('Failed to fetch article');
+        // Log more details for debugging
+        const errorBody = await response.text();
+        console.error(`API Error: ${response.status} ${response.statusText}`, { url, body: errorBody });
+        throw new Error(`Failed to fetch article with slug ${slug}`);
       }
       return null;
     }
@@ -59,15 +60,18 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
  * @param params - Optional URL search parameters for filtering, pagination, etc.
  * @returns A promise that resolves to an array of articles.
  */
-export async function getArticles(params?: URLSearchParams): Promise<Article[]> {
+export async function getArticles(params?: URLSearchParams): Promise<Article[] > {
   try {
-    const url = `${API_BASE_URL}/article?${params?.toString() || ''}`;
+    const url = `${API_BASE_URL}/articles?${params?.toString() || ''}`;
     const response = await fetch(url, {
       cache: 'no-store', // Use 'no-store' for dynamic content, or 'revalidate' for periodic updates
     });
 
     if (!response.ok) {
-      throw new Error('Failed to fetch articles');
+      // Log more details for debugging
+      const errorBody = await response.text();
+      console.error(`API Error: ${response.status} ${response.statusText}`, { url, body: errorBody });
+      throw new Error(`Failed to fetch articles. Status: ${response.status}`);
     }
 
     const result: ApiResponse = await response.json();

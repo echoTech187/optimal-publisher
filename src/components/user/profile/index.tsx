@@ -34,7 +34,7 @@ export default function UserProfile({ user }: { user: User }) {
             >
                 <div className="avatar">
                     <div className="size-9.5 rounded-full">
-                        <Image priority={true}src="/images/placeholder.png" alt="avatar 1" width={0} height={0} className="size-full object-cover"/>
+                        <Image priority={true} src="/images/placeholder.png" alt={`Avatar ${userData.full_name}`} width={38} height={38} className="size-full object-cover"/>
                     </div>
                 </div>
             </button>
@@ -45,7 +45,7 @@ export default function UserProfile({ user }: { user: User }) {
                 <li className="dropdown-header gap-2">
                     <div className="avatar">
                         <div className="w-10 rounded-full">
-                            <Image priority={true}src="/images/placeholder.png" alt="avatar" width={0} height={0} className="size-full object-cover"/>
+                            <Image priority={true} src="/images/placeholder.png" alt={`Avatar ${userData.full_name}`} width={40} height={40} className="size-full object-cover"/>
                         </div>
                     </div>
                     <div>

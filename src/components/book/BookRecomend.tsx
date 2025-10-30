@@ -12,14 +12,11 @@ import SkeletonCard from '@/components/ui/SkeletonCard';
 const BookRecomend = ({ bookList }: { bookList: Book[] }) => {
 
     useEffect(() => {
-        // Initialize the carousel after the component has mounted
-        const slider = document.getElementById("multi-slide-recomend");
-        if (slider) {
-            const HSCarouselComponent: any = (window as any).HSCarousel;
-            if (HSCarouselComponent) {
-                new HSCarouselComponent(slider, { currentIndex: 0, loadingClasses: "opacity-0", slidesQty: { xs: 2, sm: 3, md: 3, lg: 4, xl: 5 } });
+        requestAnimationFrame(() => {
+            if (window.HSStaticMethods && typeof window.HSStaticMethods.autoInit === 'function') {
+                window.HSStaticMethods.autoInit();
             }
-        }
+        });
     }, []); // Empty dependency array ensures this runs only once on mount
 
     return (
@@ -39,8 +36,8 @@ const BookRecomend = ({ bookList }: { bookList: Book[] }) => {
                             const imageUrl = getImageUrl(item.cover);
                             return (
                                 <div className={`carousel-slide ${index === 0 ? "sm:[&]:ml-4 " : ""}`} key={item.id}>
-                                    <div className=' w-full mb-3'>
-                                        <Image priority={true} src={imageUrl} alt={item.title} className="object-cover w-full h-[320px]" width={250} height={250} />
+                                    <div className='w-full mb-3'>
+                                        <Image src={imageUrl} alt={item.title} className="object-cover w-full h-[320px]" width={250} height={320} sizes="(max-width: 768px) 50vw, (max-width: 1200px) 20vw, 15vw" />
                                     </div>
                                     <div className="flex flex-col items-start justify-between gap-3 ">
                                         <span className="text-xs text-[var(--primary)] font-normal bg-purple-50 w-fit px-4 py-1 rounded-full">{item.categories?.category}</span>

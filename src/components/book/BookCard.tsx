@@ -12,7 +12,7 @@ const BookCard = ({ book }: { book: Book }) => {
     <div className="group relative flex flex-col overflow-hidden rounded-lg backdrop-blur-md bg-white transition-transform duration-300 hover:scale-105 hover:shadow-xl">
       <Link href={`/book/${slug}`} className="block">
 
-        <div className="h-80 bg-white p-2">
+        <div className="max-md:h-60 h-80 bg-white p-2">
           <Image
             src={imageUrl}
             alt={title}
@@ -37,7 +37,7 @@ const BookCard = ({ book }: { book: Book }) => {
         </div>
         <p className="text-sm text-gray-500">{author}</p>
         <div className="flex items-center justify-start">
-          <p className=" max-sm:text-md text-gray-900">
+          <p className="text-sm md:text-base font-semibold text-gray-900">
             {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(price)}
           </p>
         </div>

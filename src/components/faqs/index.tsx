@@ -5,32 +5,32 @@ export default function Faqs() {
     return (
         <div className="bg-gray-50 dark:bg-gray-700" id="faqs">
             <div className="container mx-auto px-4 py-[100px]  rounded-lg mt-6">
-                <h2 className="text-5xl anton z-10 text-gray-700 dark:text-gray-100 leading-tight text-center">FAQs</h2>
+                <h2 className="text-4xl anton z-10 text-gray-700 dark:text-gray-100 leading-tight text-center">FAQs</h2>
                 <p className="text-center text-gray-600 mb-12 dark:text-gray-50">Pertanyaan yang sering diajukan tentang Optimal Courses</p>
                 <div className="space-y-6">
                     <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                        <h3 className="text-xl font-semibold mb-2">Apa itu Optimal Courses?</h3>
-                        <p>Optimal Courses adalah platform bimbingan belajar online yang menyediakan materi persiapan UKOM untuk mahasiswa kesehatan.</p>
+                        <h3 className="text-lg md:text-xl font-semibold mb-2">Apa itu Optimal Courses?</h3>
+                        <p className="text-sm md:text-base">Optimal Courses adalah platform bimbingan belajar online yang menyediakan materi persiapan UKOM untuk mahasiswa kesehatan.</p>
                     </div>
                     <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                        <h3 className="text-xl font-semibold mb-2">Bagaimana cara mendaftar di Optimal Courses?</h3>
-                        <p>Anda dapat mendaftar dengan mengunjungi halaman pendaftaran di situs kami dan mengisi formulir yang tersedia.</p>
+                        <h3 className="text-lg md:text-xl font-semibold mb-2">Bagaimana cara mendaftar di Optimal Courses?</h3>
+                        <p className="text-sm md:text-base">Anda dapat mendaftar dengan mengunjungi halaman pendaftaran di situs kami dan mengisi formulir yang tersedia.</p>
                     </div>
                     <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                        <h3 className="text-xl font-semibold mb-2">Apakah Optimal Courses menyediakan materi persiapan UKOM gratis?</h3>
-                        <p>Ya, Optimal Courses menyediakan materi persiapan UKOM gratis untuk mahasiswa kesehatan.</p>
+                        <h3 className="text-lg md:text-xl font-semibold mb-2">Apakah Optimal Courses menyediakan materi persiapan UKOM gratis?</h3>
+                        <p className="text-sm md:text-base">Ya, Optimal Courses menyediakan materi persiapan UKOM gratis untuk mahasiswa kesehatan.</p>
                     </div>
                     <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                        <h3 className="text-xl font-semibold mb-2">Bagaimana cara mengakses materi pembelajaran?</h3>
-                        <p>Setelah mendaftar, Anda dapat mengakses materi pembelajaran melalui dashboard akun Anda di situs kami.</p>
+                        <h3 className="text-lg md:text-xl font-semibold mb-2">Bagaimana cara mengakses materi pembelajaran?</h3>
+                        <p className="text-sm md:text-base">Setelah mendaftar, Anda dapat mengakses materi pembelajaran melalui dashboard akun Anda di situs kami.</p>
                     </div>
                     <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                        <h3 className="text-xl font-semibold mb-2">Apakah ada dukungan atau bantuan jika saya mengalami kesulitan?</h3>
-                        <p>Ya, kami menyediakan dukungan pelanggan melalui email dan chat langsung untuk membantu Anda dengan pertanyaan atau masalah yang mungkin Anda hadapi.</p>
+                        <h3 className="text-lg md:text-xl font-semibold mb-2">Apakah ada dukungan atau bantuan jika saya mengalami kesulitan?</h3>
+                        <p className="text-sm md:text-base">Ya, kami menyediakan dukungan pelanggan melalui email dan chat langsung untuk membantu Anda dengan pertanyaan atau masalah yang mungkin Anda hadapi.</p>
                     </div>
                     <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                        <h3 className="text-xl font-semibold mb-2">Apakah ada jaminan lulus UKOM jika saya belajar di Optimal Courses?</h3>
-                        <p>Optimal Courses memberikan jaminan sampai lulus UKOM dengan mengikuti syarat dan ketentuan yang berlaku.</p>
+                        <h3 className="text-lg md:text-xl font-semibold mb-2">Apakah ada jaminan lulus UKOM jika saya belajar di Optimal Courses?</h3>
+                        <p className="text-sm md:text-base">Optimal Courses memberikan jaminan sampai lulus UKOM dengan mengikuti syarat dan ketentuan yang berlaku.</p>
                     </div>
                 </div>
 

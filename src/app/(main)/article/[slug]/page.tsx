@@ -9,7 +9,7 @@ import Article from '@/components/article'; // For the related articles section 
 
 // Props for the page component
 type Props = {
-    params: { slug: string };
+    params: { slug: string  };
 };
 
 // This function generates dynamic metadata for the page
@@ -17,7 +17,7 @@ export async function generateMetadata(
     { params }: Props,
     parent: ResolvingMetadata
 ): Promise<Metadata> {
-    const slug = params.slug;
+    const {slug} = await params;
     const article = await getArticleBySlug(slug);
 
     if (!article) {
@@ -45,16 +45,16 @@ async function ArticleDetailFetcher({ slug }: { slug: string }) {
         notFound(); // Triggers the not-found.tsx page
     }
 
-    return <ArticleDetail article={article} />;
+    return <ArticleDetail article={article as any} />;
 }
 
 // The main page component
-export default function DetailArticlePage({ params }: Props) {
+export default async function DetailArticlePage({ params }: Props) {
+    const { slug } = await params;
     return (
         <>
             <Suspense fallback={<ArticleDetailLoading />}>
-                
-                <ArticleDetailFetcher slug={params.slug} />
+                <ArticleDetailFetcher slug={slug} />
             </Suspense>
             
             {/* You can enhance this to show related articles instead of all articles */}

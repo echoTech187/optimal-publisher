@@ -107,8 +107,8 @@ export default function BookPage() {
     <div className="bg-white">
       <main className="mx-auto container px-4 sm:px-6 lg:px-8 my-[150px]">
         <div className="text-center pb-8">
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900">Daftar Buku</h1>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-500">
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">Daftar Buku</h1>
+          <p className="mt-4 max-w-2xl mx-auto text-base md:text-lg text-gray-500">
             Temukan buku-buku terbaik dari berbagai kategori.
           </p>
         </div>
