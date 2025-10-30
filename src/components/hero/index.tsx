@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function Header() {
     return (
         <>
-            <section className="relative max-md:h-screen w-full h-auto lg:h-full flex items-center justify-center pt-20 md:py-20 lg:py-0" id="hero">
+            <section className="relative max-md:h-screen w-full h-screen flex items-center justify-center pt-20 md:py-20 lg:py-0" id="hero">
                 <div className="absolute top-0 left-0 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-[100%] w-full -z-0"></div>
                 <div className="flex gap-4 container mx-auto px-4 2xl:px-0 w-full z-10 h-full justify-center items-center">
                     <div className="w-full lg:w-1/2 flex flex-col gap-4 text-center lg:text-left items-center lg:items-start">
@@ -32,7 +32,7 @@ export default function Header() {
                         <p className="mt-2">Sudah Punya Akun? <Link href="/signin" className='text-amber-600'>Silahkan Masuk</Link></p>
                     </div>
                     <div className="w-1/2 max-lg:hidden">
-                        <Image priority={true} src="/images/banner.svg" alt="Hero Image" width={500} height={300} className="mx-auto" />
+                        <Image priority={true} src="/images/banner.svg" alt="Hero Image" width={500} height={300} className="mx-auto size-full" />
                     </div>
                 </div>
             </section>
