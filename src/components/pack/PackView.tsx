@@ -16,7 +16,7 @@ interface ProgramPackage {
 export default function PackView({ packages, user }: { packages: ProgramPackage[], user: User }) {
     if (packages.length === 0) {
         // This can be a more user-friendly component
-        return <div className="text-center py-40">Paket tidak ditemukan.</div>;
+        return <div className="text-center py-40 text-lg text-gray-600 dark:text-gray-300">Paket tidak ditemukan.</div>;
     }
 
     const categoryId = packages[0].category_id;

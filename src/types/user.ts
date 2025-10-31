@@ -7,7 +7,10 @@ export interface User {
     slug: string;
     full_name: string;
     phone_number?: string;
-    institution?: string;
+    institution?: {
+        id: number;
+        name: string;
+    };
     major?: string;
     position?: string;
 }

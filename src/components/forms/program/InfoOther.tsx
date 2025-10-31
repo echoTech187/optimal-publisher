@@ -12,10 +12,11 @@ const InfoOther: React.FC<ProgramSelectionProps> = ({
     majors,
     loading,
 }) => {
-    return (<>
-        <div className="mb-2 col-span-2" id="form-institution">
+    return (
+    <>
+        <div id="form-institution" className="mb-4 max-md:col-span-2 md:col-span-1">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="institution">Asal Kampus/Institusi</label>
-            <select className="select" name="institution" id="institution" disabled={loading}>
+            <select className="select rounded-md" name="institution" id="institution" disabled={loading}>
                 <option value="">Pilih Asal Kampus/Institusi</option>
                 {institution.map((inst) => (
                     <option key={inst.id} value={inst.id}>
@@ -24,9 +25,9 @@ const InfoOther: React.FC<ProgramSelectionProps> = ({
                 ))}
             </select>
         </div>
-        <div className="mb-2 col-span-2" id="form-major">
+        <div id="form-major" className="mb-4 max-md:col-span-2 md:col-span-1">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="major">Jurusan</label>
-            <select className="select" name="major" id="major" disabled={loading}>
+            <select className="select rounded-md" name="major" id="major" disabled={loading}>
                 <option value="">Pilih Jurusan</option>
                 {majors.map((major) => (
                     <option key={major.id} value={major.id}>
@@ -35,9 +36,9 @@ const InfoOther: React.FC<ProgramSelectionProps> = ({
                 ))}
             </select>
         </div>
-        <div className="mb-2 col-span-2" id="form-city">
+        <div id="form-city" className="mb-4 max-md:col-span-2 md:col-span-1">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="city">Kota/Provinsi/Kabupaten</label>
-            <input type="text" name="city" id="city" className="input" />
+            <input type="text" name="city" id="city" className="input rounded-md" />
         </div>
     </>
     )

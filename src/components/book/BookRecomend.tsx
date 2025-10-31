@@ -21,9 +21,9 @@ const BookRecomend = ({ bookList }: { bookList: Book[] }) => {
 
     return (
         <section className="mx-auto container my-[150px]">
-            <div className="flex flex-col items-center justify-center">
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold z-10 text-gray-700 dark:text-gray-50">Buku Pilihan</h2>
-                <p className=" font-bold text-gray-800 mt-4 w-full text-center">Dapatkan buku terbaru dari Optimal Untuk Negeri</p>
+            <div className="flex flex-col items-center justify-center text-center">
+                <h2 className="text-3xl md:text-4xl font-bold z-10 text-gray-700 dark:text-gray-50">Buku Pilihan</h2>
+                <p className="text-lg text-gray-600 dark:text-gray-300 mt-4 max-w-2xl">Dapatkan buku terbaru dari Optimal Untuk Negeri</p>
             </div>
             <div
                 id="multi-slide-recomend" // Use a unique ID
@@ -41,13 +41,14 @@ const BookRecomend = ({ bookList }: { bookList: Book[] }) => {
                                     </div>
                                     <div className="flex flex-col items-start justify-between gap-3 ">
                                         <span className="text-xs text-[var(--primary)] font-normal bg-purple-50 w-fit px-4 py-1 rounded-full">{item.categories?.category}</span>
-                                        <a href={`/book/${item.slug}`} className={`max-sm:text-xs cursor-pointer font-semibold text-gray-600 w-full truncate overflow-hidden text-ellipsis text-left line-clamp-2 whitespace-normal flex-1 min-h-12`}>{item.title}</a>
+                                        <a href={`/book/${item.slug}`} className={`text-base font-bold text-gray-800 dark:text-gray-100 cursor-pointer w-full truncate overflow-hidden text-ellipsis text-left line-clamp-2 whitespace-normal flex-1 min-h-12`}>{item.title}</a>
                                         <div className={`flex items-center justify-between w-full`}>
                                             <span className=""></span>
                                             {/* Using a Link is better for navigation than window.location.href */}
                                             <a href={`/book/${item.slug}`} className="flex items-center justify-center w-full px-4 py-2 bg-fuchsia-700 gap-2 text-white text-sm font-normal rounded-md  hover:bg-fuchsia-900 hover:font-semibold transition-colors duration-300 cursor-pointer">
                                                 <Icon icon="tabler:brand-whatsapp" className='size-5' />
-                                                <span>Pesan via WhatsApp</span>
+                                                <span className='max-md:hidden'>Pesan via WhatsApp</span>
+                                                <span className='md:hidden'>Whatsapp</span>
                                             </a>
                                         </div>
                                     </div>
@@ -73,8 +74,8 @@ const BookRecomend = ({ bookList }: { bookList: Book[] }) => {
 export const BookRecomendLoading = () => (
     <section className="container mx-auto px-4 text-center pb-[150px]">
         <div className="flex flex-col items-center justify-center">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold z-10 text-gray-700 dark:text-gray-50">Buku Pilihan</h2>
-            <p className="font-bold text-gray-800 mt-4 w-full text-center">Dapatkan buku terbaru dari Optimal Untuk Negeri</p>
+            <h2 className="text-3xl md:text-4xl font-bold z-10 text-gray-700 dark:text-gray-50">Buku Pilihan</h2>
+            <p className="text-lg text-gray-600 dark:text-gray-300 mt-4 max-w-2xl">Dapatkan buku terbaru dari Optimal Untuk Negeri</p>
         </div>
         <div className="relative w-full mt-16">
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">

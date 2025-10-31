@@ -13,7 +13,7 @@ interface ProgramPackage {
 }
 
 // Define the Program type based on what the component expects
-interface Program {
+export interface Program {
     id: number;
     program_name: string;
     program_description: string;

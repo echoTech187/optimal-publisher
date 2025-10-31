@@ -17,7 +17,7 @@ export default function Footer() {
                         <a href="/#book" className="text-sm">Buku</a>
                         <a href="/#services" className="text-sm">Layanan</a>
                         <a href="/#news-events" className="text-sm">Berita Acara</a>
-                        <a href="/#contact" className="text-sm">Tentang Kami</a>
+                        <a href="/#contacts" className="text-sm">Tentang Kami</a>
                     </div>
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-col gap-2">

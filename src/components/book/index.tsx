@@ -3,15 +3,15 @@ import { Icon } from "@iconify/react"
 import Image from "next/image"
 export default function Book() {
     return (
-        <section id="book" className="min-h-full w-full px-5 lg:px-0 bg-gradient-to-r from-[#f4c573] to-[#f5be5f] text-black dark:text-white dark:bg-gray-800  py-[100px]">
+        <section id="book" className="min-h-full w-full px-5 lg:px-0 bg-gradient-to-r from-[#f4c573] to-[#f5be5f] text-black dark:text-white dark:bg-gray-800  py-[100px] scroll-mt-24">
             <div className="container mx-auto h-full">
                 <div className="flex max-md:flex-col md:flex-row items-center h-full w-full gap-12 py-12">
                     <div className="flex-1">
                         <Image src="/images/book-recommended.png" alt="Buku yang direkomendasikan" width={2000} height={1500} className="md:w-full lg:2/3 h-auto mx-auto" sizes="(max-width: 768px) 100vw, 50vw" />
                     </div>
                     <div className="flex-1 text-center md:text-left">
-                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold mb-3 dark:text-gray-50">Temukan Buku yang Sesuai Untukmu</h1>
-                        <p className="text-lg sm:text-xl md:text-2xl text-black/60 dark:text-gray-50">Temukan buku yang sesuai dengan kebutuhanmu dengan mudah dan cepat</p>
+                        <h2 className="text-3xl sm:text-4xl font-bold mb-3 dark:text-gray-50">Temukan Buku yang Sesuai Untukmu</h2>
+                        <p className="text-lg text-gray-600 dark:text-gray-300">Temukan buku yang sesuai dengan kebutuhanmu dengan mudah dan cepat</p>
                         <button onClick={() => window.open("/book", "_parent")} className="flex items-center justify-between gap-6 mt-6 py-3 px-6 rounded-md transition-colors bg-black/90 backdrop-blur-3xl text-white font-semibold hover:bg-yellow-700 hover:text-white mx-auto md:mx-0">
                             <span className="flex items-center gap-2">
                                 <Icon icon="tabler:books" className="size-6" width="32" height="32" />

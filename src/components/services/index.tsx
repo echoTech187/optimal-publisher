@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
@@ -15,19 +14,19 @@ interface ServicesProps {
 export default function Services({ isbnUrl, issnUrl, hkiUrl }: ServicesProps) {
     return (
         <>
-            <section id="services" className="h-auto w-full px-5 lg:px-0 dark:bg-gray-800 pt-[100px]">
+            <section id="services" className="h-auto w-full px-5 lg:px-0 dark:bg-gray-800 pt-[100px] scroll-mt-24">
                 <div className="container mx-auto h-full">
                     <header className="relative text-center mb-24">
                         <Image priority={true} src="/stock/underline.png" alt="Underline" width={500} height={50} className="absolute left-1/2 -translate-x-1/2 top-1 mx-auto h-auto w-1/2 md:w-1/4 mt-9 z-1" />
-                        <h1 className="text-3xl md:text-4xl anton mb-4 z-10 text-gray-700 dark:text-gray-50 leading-tight">Apa yang Anda Cari?</h1>
+                        <h2 className="text-3xl md:text-4xl font-bold mb-4 z-10 text-gray-700 dark:text-gray-50 leading-tight">Apa yang Anda Cari?</h2>
                     </header>
                     <div className="flex flex-col md:flex-row items-center h-full w-full gap-12 py-12">
                         <div className="flex-1 md:hidden">
                             <Image priority={true} src="/images/ISBN.png" alt="Underline" width={500} height={375} className="md:w-full lg:w-2/3 h-auto mx-auto" />
                         </div>
                         <div className="flex-1 text-center md:text-left">
-                            <h1 className="text-4xl md:text-6xl font-semibold mb-3 text-gray-700 dark:text-gray-50">Penulisan ISBN</h1>
-                            <p className="text-lg md:text-2xl text-black/80">Mulai petualangan menulis bersama Optimal, di mana kata-kata menjadi jembatan yang menghubungkan ide-ide cemerlang. Optimal membantu Anda mengungkap potensi terbaik dalam menulis dengan alat dan layanan canggih. Bersama Optimal, mulai menulis bersama dan jelajahi batas-batas tulisan yang tak terbatas.</p>
+                            <h3 className="text-3xl sm:text-4xl font-bold mb-3 text-gray-700 dark:text-gray-50">Penulisan ISBN</h3>
+                            <p className="text-lg text-gray-600 dark:text-gray-300">Mulai petualangan menulis bersama Optimal, di mana kata-kata menjadi jembatan yang menghubungkan ide-ide cemerlang. Optimal membantu Anda mengungkap potensi terbaik dalam menulis dengan alat dan layanan canggih. Bersama Optimal, mulai menulis bersama dan jelajahi batas-batas tulisan yang tak terbatas.</p>
                             {/* Use Link component with the provided URL prop */}
                             <Link href={isbnUrl} className="flex items-center justify-between gap-6 mt-12 py-3 px-6 rounded-md transition-colors bg-yellow-400 text-black font-semibold hover:bg-yellow-700 hover:text-white w-fit mx-auto md:mx-0">
                                 <span className="flex items-center gap-2">
@@ -49,8 +48,8 @@ export default function Services({ isbnUrl, issnUrl, hkiUrl }: ServicesProps) {
                             <Image priority={true} src="/images/ISSN.png" alt="Underline" width={500} height={375} className="md:w-full lg:w-2/3 h-auto mx-auto" />
                         </div>
                         <div className="flex-1 text-center md:text-left">
-                            <h1 className="text-4xl md:text-6xl font-semibold mb-3">Publikasi ISSN</h1>
-                            <p className="text-lg md:text-2xl text-black/80">Mulai petualangan publikasi bersama Optimal, di mana kata-kata Anda menggema dunia luar. Dengan Optimal, karya Anda dapat dijangkau oleh siapa pun di seluruh dunia. Mulai publikasi bersama dan bagikan karya Anda dengan dunia melalui Optimal.</p>
+                            <h3 className="text-3xl sm:text-4xl font-bold mb-3">Publikasi ISSN</h3>
+                            <p className="text-lg text-black/80">Mulai petualangan publikasi bersama Optimal, di mana kata-kata Anda menggema dunia luar. Dengan Optimal, karya Anda dapat dijangkau oleh siapa pun di seluruh dunia. Mulai publikasi bersama dan bagikan karya Anda dengan dunia melalui Optimal.</p>
                             <Link href={issnUrl} className="flex items-center justify-between gap-6 mt-12 py-3 px-6 rounded-md transition-colors bg-black/90 backdrop-blur-3xl text-white font-semibold hover:bg-yellow-700 hover:text-white w-fit mx-auto md:mx-0">
                                 <span className="flex items-center gap-2">
                                     Publikasikan
@@ -71,8 +70,8 @@ export default function Services({ isbnUrl, issnUrl, hkiUrl }: ServicesProps) {
                             <Image priority={true} src="/images/HKI.png" alt="Underline" width={500} height={375} className="md:w-full lg:w-2/3  h-auto mx-auto" />
                         </div>
                         <div className="flex-1 text-center md:text-left">
-                            <h1 className="text-4xl md:text-6xl font-semibold mb-3 text-gray-700 dark:text-gray-50">Hak Kekayaan Intelektual</h1>
-                            <p className="text-lg md:text-2xl text-black/80">Hak paten, merek, desain industri, hak cipta, indikasi geografis, rahasia dagang, dan desain tata letak sirkuit terpadu - semua ini menjadi bagian integral dari karya dan inovasi yang mengubah dunia. Dengan melindungi hak-hak ini, kita memastikan karya dan ide-ide cemerlang tetap terjaga dan terlindungi. Bersama-sama, kita mempromosikan kreativitas, inovasi, dan kemajuan dalam berbagai bidang.</p>
+                            <h3 className="text-3xl sm:text-4xl font-bold mb-3 text-gray-700 dark:text-gray-50">Hak Kekayaan Intelektual</h3>
+                            <p className="text-lg text-gray-600 dark:text-gray-300">Hak paten, merek, desain industri, hak cipta, indikasi geografis, rahasia dagang, dan desain tata letak sirkuit terpadu - semua ini menjadi bagian integral dari karya dan inovasi yang mengubah dunia. Dengan melindungi hak-hak ini, kita memastikan karya dan ide-ide cemerlang tetap terjaga dan terlindungi. Bersama-sama, kita mempromosikan kreativitas, inovasi, dan kemajuan dalam berbagai bidang.</p>
                             <Link href={hkiUrl} className="flex items-center justify-between gap-6 mt-12 py-3 px-6 rounded-md transition-colors bg-yellow-400 text-black font-semibold hover:bg-yellow-700 hover:text-white w-fit mx-auto md:mx-0">
                                 <span className="flex items-center gap-2">
                                     Daftarkan

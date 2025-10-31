@@ -11,17 +11,17 @@ const OnlineUsers = () => {
     return (
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6">
             <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-bold">Online Users</h3>
-                <a href="#" className="text-sm text-indigo-600">See all</a>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">Online Users</h3>
+                <a href="#" className="text-sm text-indigo-600 dark:text-indigo-400">See all</a>
             </div>
             <ul>
                 {users.map(user => (
                     <li key={user.id} className="flex items-center justify-between mb-4">
                         <div className="flex items-center">
-                            <div className="w-10 h-10 rounded-full bg-gray-300 mr-3"></div>
+                            <div className="w-10 h-10 rounded-full bg-gray-300 dark:bg-gray-700 mr-3"></div>
                             <div>
-                                <p className="font-bold">{user.name}</p>
-                                <p className="text-sm text-gray-500">{user.id}</p>
+                                <p className="font-bold text-gray-900 dark:text-gray-100">{user.name}</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">{user.id}</p>
                             </div>
                         </div>
                         <div className="w-2 h-2 rounded-full bg-green-500"></div>

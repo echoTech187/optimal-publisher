@@ -78,7 +78,7 @@ export default function FormProgramReference(props: { data: any, user: User, sho
                         </div>
                     )}
 
-                    <form action={formAction} className="w-full grid grid-cols-1 md:grid-cols-2 gap-6" id="form-customer">
+                    <form action={formAction} className="w-full grid grid-cols-1 lg:grid-cols-2 gap-6" id="form-customer">
                         <HiddenInputs data={data} user={user} />
                         <UserInfo user={user} />
                         <ProgramSelection

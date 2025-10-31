@@ -115,26 +115,26 @@ export default function Payment(props: { data: any, payment: any, loading: boole
     if (isPaymentSuccessful) {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 text-center px-4">
-                <div className="dark:bg-gray-800 p-8 md:p-12 rounded-2xl shadow-4xl backdrop-blur-2xl backdrop-filter backdrop-opacity-35 max-w-2xl w-full">
-                    <div className=' border-2 border-green-600 rounded-full w-24 h-24 p-4 mx-auto mb-6 flex items-center justify-center'>
+                <div className="dark:bg-gray-800 p-8 md:p-12 rounded-2xl shadow-lg max-w-2xl w-full">
+                    <div className='border-2 border-green-600 rounded-full w-24 h-24 p-4 mx-auto mb-6 flex items-center justify-center'>
                         <Icon icon="clarity:lightbulb-line" className="text-green-600 w-20 h-20" />
                     </div>
                     <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-3">Pembayaran Berhasil!</h1>
-                    <p className="text-gray-600 dark:text-gray-300 mb-8">Terima kasih! Bukti pembayaran Anda telah berhasil kami terima dan akan segera kami verifikasi.</p>
+                    <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">Terima kasih! Bukti pembayaran Anda telah berhasil kami terima dan akan segera kami verifikasi.</p>
                     <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-6 mb-8 text-left">
                         <div className="flex justify-between items-center mb-4">
-                            <span className="text-gray-600 dark:text-gray-400">Kode Transaksi:</span>
+                            <span className="text-sm text-gray-600 dark:text-gray-400">Kode Transaksi:</span>
                             <span className="font-mono text-sm bg-gray-200 dark:bg-gray-600 px-2 py-1 rounded">{data.transaction_code}</span>
                         </div>
                         <div className="mb-4 flex flex-col gap-2">
-                            <h6 className=" text-[var(--primary)] font-bold w-full rounded-full">Pesanan</h6>
+                            <h2 className="text-lg font-bold text-gray-800 dark:text-gray-100">Pesanan</h2>
                             <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Jenis Paket</label>
-                                <div className="font-normal text-gray-700 dark:text-white">{data.pack_name}</div>
+                                <label className="text-sm text-gray-600 dark:text-gray-400">Jenis Paket</label>
+                                <div className="font-semibold text-base text-gray-800 dark:text-white">{data.pack_name}</div>
                             </div>
                             <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Judul Naskah</label>
-                                <div className="font-normal text-gray-700 dark:text-white">
+                                <label className="text-sm text-gray-600 dark:text-gray-400">Judul Naskah</label>
+                                <div className="font-semibold text-base text-gray-800 dark:text-white">
                                 {
                                     data.isbn_program_id === 5 ? (
                                         data.transactionable.title || '-'
@@ -152,12 +152,12 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                             </div>
                         </div>
                         <div className="flex justify-between items-center">
-                            <span className="text-gray-600 dark:text-gray-400">Jumlah Pembayaran:</span>
+                            <span className="text-sm text-gray-600 dark:text-gray-400">Jumlah Pembayaran:</span>
                             <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}<br />
-                                <span className="text-gray-600 dark:text-gray-400 text-sm">({data.payment_method.description})</span></span>
+                                <span className="text-sm text-gray-500 dark:text-gray-400">({data.payment_method.description})</span></span>
                         </div>
                     </div>
-                    <Link href="/" className="w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-300 inline-block">
+                    <Link href="/" className="w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-300 inline-block text-center text-base">
                         Kembali ke Beranda
                     </Link>
                 </div>
@@ -549,8 +549,8 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                 <input type="hidden" name="amount" id='amount' value={data.amount} />
 
                 <section className="w-full h-auto py-[100px] px-4 container mx-auto 2xl:px-0" id="payment">
-                    <header className="relative text-2xl font-extrabold text-center mt-12 mb-12">
-                        <h1 className="text-4xl anton mb-4 z-10 text-gray-700 dark:text-gray-50 leading-tight">Selesaikan Pembayaran</h1>
+                    <header className="relative text-center mt-12 mb-12">
+                        <h1 className="text-3xl md:text-4xl font-bold z-10 text-gray-700 dark:text-gray-50 leading-tight">Selesaikan Pembayaran</h1>
                     </header>
                     <main>
 
@@ -558,26 +558,26 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                             (type === "event") ?
                                 <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 bg-amber-100 p-6 rounded-lg mb-12">
                                     <div className='w-full '>
-                                        <label className="block text-black " htmlFor="book_topic">Nama Acara</label>
-                                        <p className='text-black font-bold '>{event}</p>
+                                        <label className="block text-sm text-gray-600" htmlFor="book_topic">Nama Acara</label>
+                                        <p className='text-base font-bold text-black'>{event}</p>
                                     </div>
                                     <div className='w-full '>
-                                        <label className="block text-black " htmlFor="book_topic">Tanggal Acara</label>
-                                        <p className='text-black font-bold'>{new Date(Date.now()).toLocaleDateString('id', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                                        <label className="block text-sm text-gray-600" htmlFor="book_topic">Tanggal Acara</label>
+                                        <p className='text-base font-bold text-black'>{new Date(Date.now()).toLocaleDateString('id', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                                     </div>
                                     <div className='w-full '>
-                                        <label className="block text-black " htmlFor="book_topic">Waktu Acara</label>
-                                        <p className='text-black font-bold'>{new Date(Date.now()).toLocaleTimeString('id', { hour: 'numeric', minute: 'numeric' })}</p>
+                                        <label className="block text-sm text-gray-600" htmlFor="book_topic">Waktu Acara</label>
+                                        <p className='text-base font-bold text-black'>{new Date(Date.now()).toLocaleTimeString('id', { hour: 'numeric', minute: 'numeric' })}</p>
                                     </div>
                                     <div className='w-full'>
-                                        <label className='block text-black ' htmlFor="book_topic">Lokasi Acara</label>
-                                        <p className='text-black font-bold'>Optimal</p>
+                                        <label className='block text-sm text-gray-600' htmlFor="book_topic">Lokasi Acara</label>
+                                        <p className='text-base font-bold text-black'>Optimal</p>
                                     </div>
                                     <div className='w-full mb-4 col-span-full'>
-                                        <label className='block text-black  mb-2' htmlFor="book_topic">Ketentuan Acara</label>
-                                        <ol className="list-outside space-y-2 text-sm">
-                                            <li className='text-black '>1. Dilarang menyebarkan informasi acara kepada pihak lain</li>
-                                            <li className='text-black '>2. Dilarang mengundang pihak lain untuk mengikuti acara</li>
+                                        <label className='block text-sm text-gray-600 mb-2' htmlFor="book_topic">Ketentuan Acara</label>
+                                        <ol className="list-outside list-decimal pl-5 space-y-1 text-sm text-gray-800">
+                                            <li>Dilarang menyebarkan informasi acara kepada pihak lain</li>
+                                            <li>Dilarang mengundang pihak lain untuk mengikuti acara</li>
                                         </ol>
                                     </div>
                                 </div>
@@ -607,17 +607,17 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                                                 </div>
                                             </div>
                                             <div>
-                                                <p className="mb-0.5 font-bold">{option.name}</p>
-                                                <p className={`text-sm ${index === selectedOptionIndex ? 'text-white/50' : ''} font-normal`}>{option.description}</p>
+                                                <p className="mb-0.5 font-bold text-base">{option.name}</p>
+                                                <p className={`text-sm ${index === selectedOptionIndex ? 'text-white/50' : 'text-gray-500'} font-normal`}>{option.description}</p>
                                             </div>
                                         </div>
                                     </label>
                                     <div id="avatar1-arrow-right-collapse" className="accordion-content w-full overflow-hidden transition-[height] duration-300" aria-labelledby="avatar1-arrow-right" role="region">
                                         <div className="px-5 pb-4">
-                                            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-                                                <div className='col-span-1'>Pembayaran ke <br /><b>#{option.code}</b></div>
-                                                <div className='col-span-1'>Nama Penerima <br /> <b>Optimal Untuk Negeri</b></div>
-                                                <div className='col-span-1 md:col-span-2 lg:col-span-1 lg:text-right '>Total Bayar:<br /><strong>{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}</strong></div>
+                                            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm'>
+                                                <div className='col-span-1'>Pembayaran ke <br /><b className="text-base">#{option.code}</b></div>
+                                                <div className='col-span-1'>Nama Penerima <br /> <b className="text-base">Optimal Untuk Negeri</b></div>
+                                                <div className='col-span-1 md:col-span-2 lg:col-span-1 lg:text-right '>Total Bayar:<br /><strong className="text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}</strong></div>
                                             </div>
                                         </div>
                                     </div>
@@ -627,29 +627,29 @@ export default function Payment(props: { data: any, payment: any, loading: boole
 
                     </main>
                     <header className="relative mt-12">
-                        <h1 className="text-2xl mb-4 z-10 text-gray-900 dark:text-gray-50 leading-tight font-bold">Upload Bukti Pembayaran</h1>
+                        <h2 className="text-2xl mb-4 z-10 text-gray-900 dark:text-gray-50 leading-tight font-bold">Upload Bukti Pembayaran</h2>
                     </header>
                     <div className="col-span-full mb-6">
-                        <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                        <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 dark:border-gray-100/25 px-6 py-10">
                             <div className="text-center">
                                 <Icon icon="tabler:photo" className="w-12 h-12 text-gray-400 mx-auto" />
-                                <div className="mt-4 flex text-sm/6 text-gray-600">
-                                    <label htmlFor="receipted" className="relative cursor-pointer rounded-md bg-transparent font-semibold text-indigo-600 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-indigo-600 hover:text-indigo-500">
+                                <div className="mt-4 flex text-sm text-gray-600 dark:text-gray-400">
+                                    <label htmlFor="receipted" className="relative cursor-pointer rounded-md bg-transparent font-semibold text-indigo-600 dark:text-indigo-400 focus-within:outline-none hover:text-indigo-500">
                                         <span>Upload a file</span>
                                         <input id="receipted" type="file" name="receipted" className="sr-only" accept='image/jpeg, image/png' />
                                     </label>
                                     <p className="pl-1">or drag and drop</p>
                                 </div>
-                                <p className="text-xs/5 text-gray-600">PNG, JPG up to 2MB</p>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG up to 2MB</p>
                             </div>
                         </div>
                     </div>
                     <div className='col-span-full mb-12'>
-                        <label className="block text-black font-bold mb-4">*) Konfirmasi Pembayaran anda dengan menghubungi tim kami via Whatsapp</label>
+                        <label className="block text-gray-800 dark:text-gray-200 font-bold mb-4">*) Konfirmasi Pembayaran anda dengan menghubungi tim kami via Whatsapp</label>
                         <button type="button" className="px-4 py-2 text-sm border rounded-lg border-green-600 hover:border-green-600 text-green-600 hover:bg-green-600 hover:text-white join items-center font-bold" onClick={() => window.open('https://wa.link/pe0iuj', '_parent')}> <Icon icon="tabler:brand-whatsapp" className="mr-2 size-6" width="32" height="32" />Hubungi kami</button>
                     </div>
                     <div className="col-span-full">
-                        <button type="submit" className="block w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline">Upload Bukti Pembayaran</button>
+                        <button type="submit" className="block w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white text-base font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline">Upload Bukti Pembayaran</button>
                     </div>
                 </section>
             </form>

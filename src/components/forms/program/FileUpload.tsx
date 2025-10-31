@@ -3,7 +3,7 @@ import React from 'react';
 import { Icon } from '@iconify/react';
 
 const FileUpload = ({name}: {name: string}) => (
-    <div className="col-span-full mb-6">
+    <div className="col-span-full mb-4 max-md:col-span-2 md:col-span-2">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="receipted">Upload File Full Naskah Buku</label>
         <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
             <div className="text-center">

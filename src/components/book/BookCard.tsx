@@ -9,7 +9,7 @@ const BookCard = ({ book }: { book: Book }) => {
   const imageUrl = getImageUrl(cover);
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-lg backdrop-blur-md bg-white transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+    <div className="group relative flex flex-col overflow-hidden rounded-lg backdrop-blur-md bg-white dark:bg-gray-800 transition-transform duration-300 hover:scale-105 hover:shadow-xl">
       <Link href={`/book/${slug}`} className="block">
 
         <div className="max-md:h-60 h-80 bg-white p-2">
@@ -23,21 +23,21 @@ const BookCard = ({ book }: { book: Book }) => {
         </div>
       </Link>
       <div className="flex flex-1 flex-col space-y-2 gap-1 px-2 py-2 justify-between">
-        <h3 className="max-sm:text-xs text-gray-900 mb-0">
-          <Link href={`/book/${slug}`} className='overflow-hidden line-clamp-2 font-semibold'>
+        <h3 className="text-base font-bold text-gray-900 dark:text-gray-100">
+          <Link href={`/book/${slug}`} className='overflow-hidden line-clamp-2'>
             {title}
           </Link>
         </h3>
         <div className="mb-1">
           {Array.isArray(book_authors) && book_authors.length > 0 && (
-            <p className="text-sm text-gray-600 line-clamp-2 overflow-hidden w-full">
+            <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 overflow-hidden w-full">
               <b>Oleh</b> {book_authors.map((author: any) => author.book_writter.name).join(', ')}
             </p>
           )}
         </div>
-        <p className="text-sm text-gray-500">{author}</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400">{author}</p>
         <div className="flex items-center justify-start">
-          <p className="text-sm md:text-base font-semibold text-gray-900">
+          <p className="text-sm md:text-base font-semibold text-gray-900 dark:text-gray-100">
             {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(price)}
           </p>
         </div>

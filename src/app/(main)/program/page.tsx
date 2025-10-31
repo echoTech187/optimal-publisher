@@ -1,30 +1,34 @@
-import { Suspense } from 'react';
-import type { Metadata } from 'next';
+"use client";
+import { Suspense, useState, useEffect } from 'react';
 
 import { getPrograms } from '@/features/program/data';
+import  { Program } from '@/features/program/data';
 import ProgramList from '@/components/program/ProgramList';
 import ProgramListLoading from '@/components/program/ProgramListLoading';
 
-export const metadata: Metadata = {
-  title: 'Program Unggulan | Optimal Untuk Negeri',
-  description: 'Pilih program unggulan yang sesuai dengan kebutuhanmu dari Optimal Untuk Negeri.',
-};
 
-// Helper component to fetch data and render the list
-// This pattern helps keep the main page component clean
-// 
-async function ProgramListFetcher() {
-    const programs = await getPrograms();
-    return <ProgramList programs={programs} />;
+
+function ProgramListFetcher() {
+    'use client';
+    const [programs, setPrograms] = useState<Program[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetcher = async () => {
+            setIsLoading(true);
+            const fetchedPrograms = await getPrograms();
+            setPrograms(fetchedPrograms);
+            setIsLoading(false);
+        };
+        fetcher();
+    }, []);
+
+    return <ProgramList programs={programs} isLoading={isLoading} />;
 }
 
 export default function ProgramListPage() {
-    // Middleware handles authentication, so no need for checks here.
-    // The page is protected server-side.
-
     return (
         <Suspense fallback={<ProgramListLoading />}>
-            
             <ProgramListFetcher />
         </Suspense>
     );

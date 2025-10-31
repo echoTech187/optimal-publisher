@@ -1,4 +1,3 @@
-
 import Image from 'next/image';
 import Link from 'next/link';
 import { Article } from '@/types/article';
@@ -27,15 +26,15 @@ const ArticleCard = ({ article }: { article: Article }) => {
         />
       </div>
       <div className="max-md:w-2/3 w-full ">
-        <div className="flex items-center max-md:text-xs text-sm text-gray-500 mb-2">
+        <div className="flex items-center text-xs text-gray-500 mb-2">
           <span>• {article.article_category.category}</span>
           <span className="mx-2">•</span>
           <span>{displayDate}</span>
         </div>
-        <h3 title={article.title} className="max-md:text-sm text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors duration-300 line-clamp-1 mb-2 flex-1">
+        <h3 title={article.title} className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors duration-300 line-clamp-1 mb-2 flex-1">
           {article.title}
         </h3>
-        <div dangerouslySetInnerHTML={{ __html: article.description }} className="max-md:text-xs text-sm text-gray-600 max-md:line-clamp-2 line-clamp-3"></div>
+        <div dangerouslySetInnerHTML={{ __html: article.description }} className="text-sm text-gray-600 line-clamp-3"></div>
 
       </div>
     </Link>

@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 
 // Define the Article type to match the data it receives
@@ -31,10 +30,10 @@ const ArticleDetail = ({ article }: { article: Article }) => {
                         </div>
                     </div>
                     <div className="w-full lg:w-3/4 mx-auto mt-12">
-                        <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-gray-800 dark:text-gray-100 leading-tight text-center">{article.title}</h1>
-                        <p className="text-sm md:text-lg text-gray-500 font-normal my-4 text-center">Oleh {article?.create_by_user?.full_name} | {displayDate}</p>
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 dark:text-gray-100 leading-tight text-center">{article.title}</h1>
+                        <p className="text-base text-gray-500 dark:text-gray-400 font-normal my-4 text-center">Oleh {article?.create_by_user?.full_name} | {displayDate}</p>
                         <div
-                            className="prose dark:prose-invert lg:prose-xl max-w-none text-gray-600 dark:text-gray-50 html_content max-md:text-xs"
+                            className="prose dark:prose-invert lg:prose-xl max-w-none text-gray-700 dark:text-gray-200 html_content"
                             dangerouslySetInnerHTML={{ __html: article.description }}
                         />
                     </div>

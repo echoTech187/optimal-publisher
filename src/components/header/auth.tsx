@@ -10,8 +10,8 @@ const AuthHeader = ({ title, subtitle }: { title?: string, subtitle?: string }) 
                         <Image priority={true} src="/penerbit-logo.png" alt="Logo Optimal Publisher" width={100} height={80} className="h-18 w-fit" />
                     </Link>
                 </div>
-                <h2 className="text-5xl anton font-extrabold text-center leading-relaxed">{title}</h2>
-                <p className=" mb-4">{subtitle}</p>
+                <h2 className="text-4xl md:text-5xl font-bold text-center leading-relaxed text-gray-900 dark:text-gray-100">{title}</h2>
+                <p className="text-lg text-gray-600 dark:text-gray-300 mb-4">{subtitle}</p>
             </div>
         </header>
     );

@@ -27,7 +27,7 @@ export default function DashboardPage() {
         <div className="flex flex-col xl:flex-row">
             <div className="w-full xl:w-2/3">
                 <div className="flex justify-between items-center mb-6">
-                    <h1 className="text-3xl font-bold">My Programs</h1>
+                    <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100">My Programs</h1>
                 </div>
                 <ProgramFilters />
                 <div>

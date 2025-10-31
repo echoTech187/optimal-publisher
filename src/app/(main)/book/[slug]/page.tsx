@@ -94,7 +94,7 @@ const DetailBook = () => {
     document.title = bookDetail ? bookDetail.title : "Buku | Optimal Untuk Negeri";
     return (
         <>
-            <section className="py-16 md:py-32 bg-gray-50">
+            <section className="my-24 md:py-32 bg-gray-50">
                 <div className="mx-auto container px-4 sm:px-6 lg:px-8">
                     <div className="flex flex-col lg:flex-row gap-12">
                         {/* Book Cover */}

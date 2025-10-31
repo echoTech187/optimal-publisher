@@ -5,15 +5,15 @@ const Calendar = () => {
     return (
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
             <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-bold">November 2025</h3>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">November 2025</h3>
                 <div>
-                    <button className="mr-2">&lt;</button>
-                    <button>&gt;</button>
+                    <button className="mr-2 text-gray-600 dark:text-gray-300">&lt;</button>
+                    <button className="text-gray-600 dark:text-gray-300">&gt;</button>
                 </div>
             </div>
             <div className="grid grid-cols-7 gap-2 text-center">
-                {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => <div key={day} className="font-bold">{day}</div>)}
-                {Array.from({ length: 30 }, (_, i) => i + 1).map(day => <div key={day} className={`p-2 rounded-full ${[9, 10, 11, 12, 13].includes(day) ? 'bg-indigo-600 text-white' : ''}`}>{day}</div>)}
+                {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => <div key={day} className="font-bold text-gray-600 dark:text-gray-300 text-sm">{day}</div>)}
+                {Array.from({ length: 30 }, (_, i) => i + 1).map(day => <div key={day} className={`p-2 rounded-full text-sm ${[9, 10, 11, 12, 13].includes(day) ? 'bg-indigo-600 text-white' : 'text-gray-700 dark:text-gray-200'}`}>{day}</div>)}
             </div>
         </div>
     )

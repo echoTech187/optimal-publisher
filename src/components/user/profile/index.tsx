@@ -33,7 +33,7 @@ export default function UserProfile({ user }: { user: User }) {
                 onClick={() => setIsOpen(!isOpen)}
             >
                 <div className="avatar">
-                    <div className="size-9.5 rounded-full">
+                    <div className="size-8 lg:size-9.5 rounded-full">
                         <Image priority={true} src="/images/placeholder.png" alt={`Avatar ${userData.full_name}`} width={38} height={38} className="size-full object-cover"/>
                     </div>
                 </div>
@@ -48,15 +48,15 @@ export default function UserProfile({ user }: { user: User }) {
                             <Image priority={true} src="/images/placeholder.png" alt={`Avatar ${userData.full_name}`} width={40} height={40} className="size-full object-cover"/>
                         </div>
                     </div>
-                    <div>
-                        <h6 className="text-base-content text-base font-semibold">{userData.full_name}</h6>
+                    <div className="flex flex-col">
+                        <a href="/dashboard" className="text-base-content text-base font-semibold">{userData.full_name}</a>
                         <small className="text-base-content/50">{userData.position}</small>
                     </div>
                 </li>
                 <li>
-                    <a className="dropdown-item" href="#">
+                    <a className="dropdown-item" href="/dashboard">
                         <span className="icon-[tabler--user]"></span>
-                        My Profile
+                        Dashboard
                     </a>
                 </li>
                 <li>

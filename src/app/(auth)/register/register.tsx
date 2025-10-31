@@ -23,7 +23,7 @@ function FinalSubmitButton({ isValid }: { isValid: boolean }) {
         <button
             type="submit"
             disabled={pending || !isValid}
-            className="btn justify-center rounded-sm w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-2 px-4 border-none outline-none shadow-outline focus:outline-none focus:shadow-outline disabled:bg-fuchsia-400"
+            className="btn justify-center rounded-sm w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white text-base font-bold py-2 px-4 border-none outline-none shadow-outline focus:outline-none focus:shadow-outline disabled:bg-fuchsia-400"
         >
             {pending ? (
                 <>
@@ -167,7 +167,7 @@ export default function Register() {
                                     </Stepper>
                                 </div>
 
-                                <div className="w-full h-12 flex items-center justify-center gap-1">
+                                <div className="w-full h-12 flex items-center justify-center gap-1 text-sm text-gray-600 dark:text-gray-300">
                                     Sudah punya akun? <a href={`/signin?type=${type}`} className="text-fuchsia-800 hover:text-fuchsia-700">Login disini</a>
                                 </div>
                             </div>

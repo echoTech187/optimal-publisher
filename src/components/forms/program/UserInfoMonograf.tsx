@@ -19,15 +19,15 @@ const UserInfoMonograf = ({ user, memberCount }: { user: User | null, memberCoun
     return (<>
         <div className="mb-2 col-span-2" id="form-title">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">Judul Monograf</label>
-            <input type="text" name="title" id="title" className="input" autoFocus />
+            <input type="text" name="title" id="title" className="input rounded-md" autoFocus />
         </div>
         <div className="mb-2 col-span-2 md:col-span-1" id="form-chief-writer">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="chief_writer">Nama Lengkap beserta Gelar (Penulis Utama)</label>
-            <input type="text" name="chief_writer" id="chief_writer" className="input" />
+            <input type="text" name="chief_writer" id="chief_writer" className="input rounded-md" />
         </div>
         <div className="col-span-2 md:col-span-1" id="form-chief-phone">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="writter_phone">No. Telepon</label>
-            <input type="text" name="writter_phone" id="writter_phone" className="input" />
+            <input type="text" name="writter_phone" id="writter_phone" className="input rounded-md" />
         </div>
         <div className="mb-2 col-span-2 join items-center gap-4 -mt-4" id="form-members-too">
             <input type="checkbox" name="members_too" id="members_too" className="checkbox checkbox-sm" value={"true"} onChange={(e) => changeWritter(e.target.checked)} />
@@ -52,13 +52,13 @@ const UserInfoMonograf = ({ user, memberCount }: { user: User | null, memberCoun
                             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={`members_name_${i}`}>
                                 Nama Lengkap beserta Gelar (Anggota {i + 1})
                             </label>
-                            <input type="text" name="members_name[]" id={`members_name_${i}`} className="input" placeholder="Masukan Nama Anggota" />
+                            <input type="text" name="members_name[]" id={`members_name_${i}`} className="input rounded-md" placeholder="Masukan Nama Anggota" />
                         </div>
                         <div className="mb-2">
                             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={`members_phone_${i}`}>
                                 No. Telepon
                             </label>
-                            <input type="text" name="members_phone[]" id={`members_phone_${i}`} className="input" placeholder="Masukan No. Telepon Anggota" />
+                            <input type="text" name="members_phone[]" id={`members_phone_${i}`} className="input rounded-md" placeholder="Masukan No. Telepon Anggota" />
                         </div>
                     </div>
                 ))

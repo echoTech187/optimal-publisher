@@ -24,13 +24,13 @@ export default function MultiPack(props: { data: any, user: User }) {
     }
 
     return (
-        <section className="w-full h-full py-[150px]">
+        <section className="w-full h-full py-24 lg:py-32">
             <header className={`container mx-auto px-4 text-center`}>
-                <h1 className="text-4xl anton z-10 text-gray-700 dark:text-gray-50 leading-tight text-center">Pilih Paket Optimal</h1>
-                <p>Pilih paket yang sesuai dengan kebutuhanmu</p>
+                <h2 className="text-3xl md:text-4xl font-bold z-10 text-gray-700 dark:text-gray-50 leading-tight text-center">Pilih Paket Optimal</h2>
+                <p className="text-lg text-gray-600 dark:text-gray-300 mt-2">Pilih paket yang sesuai dengan kebutuhanmu</p>
             </header>
             <div className={`container mx-auto px-4 mt-12`}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {
                         data.map((item: any, index: number) => (
                             <div key={item.slug} className="flex flex-col rounded-xl shadow-xs bg-gradient-to-b from-[#ffeaa4] to-white dark:from-[#111] dark:to-[#333] dark:text-gray-50 text-[#333] hover:shadow-2xl hover:shadow-black/20 backdrop-blur-md">
@@ -40,7 +40,7 @@ export default function MultiPack(props: { data: any, user: User }) {
                                     </div>
                                     <div>
                                         <p className="text-sm">{item.package_type.name}</p>
-                                        <h5 className="font-bold">{item.name}</h5>
+                                        <h3 className="text-lg font-bold">{item.name}</h3>
                                     </div>
                                 </div>
                                 <div className=" w-full px-6 flex-1">
@@ -48,7 +48,7 @@ export default function MultiPack(props: { data: any, user: User }) {
                                 </div>
                                 <div className="flex justify-between items-center p-6">
                                     <div className="flex justify-center">
-                                        <span className="text-black dark:text-gray-50 font-bold">{parseInt(item.price).toLocaleString("id-ID", { style: "currency", currency: "IDR" })}/Penulis/Topik</span>
+                                        <span className="text-base text-black dark:text-gray-50 font-bold">{parseInt(item.price).toLocaleString("id-ID", { style: "currency", currency: "IDR" })}/Penulis/Topik</span>
                                     </div>
                                     <button onClick={() => showFormCustomer(item)} className="w-fit font-bold py-2 px-4 rounded transition-colors bg-black dark:bg-black/80 dark:text-amber-500 dark:hover:text-amber-400 text-white hover:font-semibold text-sm hover:bg-transparent border border-transparent hover:border-black hover:text-black flex items-center justify-center">
                                         Pilih Paket

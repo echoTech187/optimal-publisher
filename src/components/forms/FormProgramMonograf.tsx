@@ -72,7 +72,7 @@ export default function FormProgramMonograf(props: { data: any, user: User }) {
                         </div>
                     )}
 
-                    <form action={formAction} className="w-full grid grid-cols-1 md:grid-cols-2 gap-6" id="form-customer">
+                    <form action={formAction} className="w-full grid grid-cols-1 lg:grid-cols-2 gap-6" id="form-customer">
                         <HiddenInputs data={data} user={user} />
                         <UserInfoMonograf user={user} memberCount={data.package_type.member_total} />
                         <InfoOther institution={institutions} majors={majors} loading={dataLoading} />

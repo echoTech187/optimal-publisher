@@ -121,7 +121,7 @@ export default function BookPage() {
               placeholder="Cari berdasarkan judul atau penulis..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="input w-full"
+              className="input w-full rounded-md"
             />
           </div>
           <div className="w-full sm:w-auto flex items-center gap-4 justify-end">

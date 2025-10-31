@@ -5,7 +5,7 @@ import FlyonuiScript from '@/components/FlyonuiScript'
 const interFont = Inter({
     variable: "--font-inter",
     subsets: ["latin"],
-    weight: "300"
+    weight: ['300', '400', '500', '600', '700']
 })
 
 export const metadata = {
@@ -20,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${interFont.variable} ${interFont.variable} antialiased`}>
+      <body className={`${interFont.variable} font-sans antialiased`}>
         {children}
         <FlyonuiScript />
       </body>
