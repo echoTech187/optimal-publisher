@@ -28,11 +28,11 @@ export async function generateMetadata(
 
     return {
         title: `${article.title} | Optimal Untuk Negeri`,
-        description: article.excerpt,
+        description: article.description,
         openGraph: {
             title: article.title,
-            description: article.excerpt,
-            images: [`${process.env.NEXT_PUBLIC_API_BASE_URL}/${article.image_url}`],
+            description: article.description,
+            images: [`${process.env.NEXT_PUBLIC_API_BASE_URL}/${article.image}`],
         },
     };
 }

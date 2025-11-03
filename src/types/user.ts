@@ -13,4 +13,5 @@ export interface User {
     };
     major?: string;
     position?: string;
+    avatar?: string;
 }

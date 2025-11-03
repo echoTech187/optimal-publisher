@@ -1,18 +1,10 @@
+import { Article } from "@/types/article";
 
 const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1`;
 
 // Define a basic interface for an Article
 // You should adjust this to match your actual API response
-interface Article {
-  id: number;
-  title: string;
-  slug: string; // Assuming articles have slugs for detail pages
-  author: string;
-  publish_date: string;
-  image_url: string;
-  excerpt: string;
-  description: string; // For article detail
-}
+
 
 interface ApiSingleResponse {
   data: Article;

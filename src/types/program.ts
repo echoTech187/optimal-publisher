@@ -11,6 +11,9 @@ export interface EventNews {
     description: string;
     image: string;
     registration_cost?: string|number|null;
+    event_date: string;
+    event_time: string;
+    location: string;
     created_at: string;
     created_by: string;
 }

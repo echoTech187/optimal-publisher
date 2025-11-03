@@ -67,8 +67,9 @@ const Header = ({ onMenuClick }: { onMenuClick?: () => void }) => {
                             <div className="size-9.5 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse"></div>
                         </div>
                     ) : isLoggedIn && user ? (
-                        <></>
-                        // <UserProfile user={user} />
+                        <>
+                        <UserProfile user={user} />
+                        </>
                     ) : (
                         <div className="md:flex items-center space-x-4 hidden">
                             <button onClick={() => window.open('/register', '_parent')} className="py-2 px-4 rounded-md transition-colors border font-semibold border-orange-400 text-black dark:text-orange-400 hover:bg-gray-900 hover:border-gray-900 hover:text-orange-400">

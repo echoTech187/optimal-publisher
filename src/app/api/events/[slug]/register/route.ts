@@ -1,11 +1,11 @@
 // src/app/api/events/[slug]/register/route.ts
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import path from "path";
 import { writeFile } from "fs/promises";
 
-export async function POST(request: Request, { params }: { params: { slug: string } }) {
-  const { slug } = params;
+export async function POST(request: NextRequest, context: { params: Promise<{ slug: string }> }) {
+  const { slug } = await context.params;
 
   try {
     const formData = await request.formData();

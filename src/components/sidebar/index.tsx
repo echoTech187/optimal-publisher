@@ -6,8 +6,8 @@ import Image from "next/image";
 import { User } from "@/types/user";
 import { logout } from "@/features/auth/actions";
 
-const MobileSidebar = ({user, isOpen, onClose}: {user: User, isOpen: boolean, onClose: () => void }) => {
-    
+const MobileSidebar = ({ user, isOpen, onClose }: { user: User, isOpen: boolean, onClose: () => void }) => {
+
 
     const navLinks = [
         { href: "/", label: "Beranda", icon: "tabler:home" },
@@ -35,8 +35,25 @@ const MobileSidebar = ({user, isOpen, onClose}: {user: User, isOpen: boolean, on
                         <Icon icon="mdi:close" width="24" height="24" />
                     </button>
                 </div>
-                
+
                 <div className="flex flex-col h-[calc(100%-65px)]">
+
+                    {user ? (
+                        <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <Image src="/images/placeholder.png" alt={`Avatar ${user.full_name}`} width={40} height={40} className="rounded-full" />
+                                    <div className="flex flex-col">
+                                        <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">{user.full_name}</span>
+                                        <span className="text-xs text-gray-600 dark:text-gray-300">{user?.institution?.name}</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    ) : null
+                    }
+
                     <div className="p-4 flex-grow">
                         <nav>
                             <ul className="space-y-2">
@@ -51,30 +68,24 @@ const MobileSidebar = ({user, isOpen, onClose}: {user: User, isOpen: boolean, on
                             </ul>
                         </nav>
                     </div>
-
-                    <div className="p-4 border-t border-gray-200 dark:border-gray-700">
-                        {user ? (
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-3">
-                                    <Image src="/images/placeholder.png" alt={`Avatar ${user.full_name}`} width={40} height={40} className="rounded-full"/>
-                                    <div className="flex flex-col">
-                                        <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">{user.full_name}</span>
-                                        <span className="text-xs text-gray-600 dark:text-gray-300">{user?.institution?.name}</span>
-                                    </div>
-                                </div>
+                    {
+                        user ? (
+                            <div className="flex items-center justify-end p-4 border-t border-gray-200 dark:border-gray-700">
                                 <form action={logout}>
-                                    <button type="submit" className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Logout">
-                                        <Icon icon="tabler:logout" className="w-6 h-6 text-gray-600 dark:text-gray-300" />
+                                    <button type="submit" className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-2" aria-label="Logout">
+                                        <Icon icon="tabler:logout" className="w-6 h-6 text-gray-600 dark:text-gray-300" /> Keluar
                                     </button>
                                 </form>
                             </div>
                         ) : (
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-2 gap-2 p-4">
                                 <Link href="/signin" className="text-center p-3 rounded-lg text-sm font-semibold bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700">Login</Link>
                                 <Link href="/register" className="text-center p-3 rounded-lg text-sm font-semibold bg-fuchsia-800 text-white hover:bg-fuchsia-700">Register</Link>
                             </div>
-                        )}
-                    </div>
+                        )
+                    }
+
+
                 </div>
             </aside>
         </>

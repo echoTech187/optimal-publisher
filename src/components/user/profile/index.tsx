@@ -26,7 +26,7 @@ export default function UserProfile({ user }: { user: User }) {
     }, []);
 
     return (
-        <div className="dropdown relative inline-flex [--auto-close:inside] [--offset:8] [--placement:bottom-end]" ref={dropdownRef}>
+        <div className="dropdown max-md:hidden relative inline-flex [--auto-close:inside] [--offset:8] [--placement:bottom-end]" ref={dropdownRef}>
             <button 
                 type="button" 
                 className="dropdown-toggle flex items-center" 
