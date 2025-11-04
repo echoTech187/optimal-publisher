@@ -13,7 +13,7 @@ export default function Brand({ onMenuClick }: { onMenuClick?: () => void }) {
                 <Icon icon="mdi:menu" className='text-black dark:text-white' width="24" height="24" />
             </button>
             <Link href="/" className="flex items-center gap-2">
-                <Image priority={true} src="/penerbit-logo.png" alt="logo" width={100} height={80} className="h-10 lg:h-12 w-fit" />
+                <Image priority={true} src="/penerbit-logo.png" alt="logo" width={100} height={80} className="h-10 lg:h-12 w-auto object-contain" />
             </Link>
         </div>
     );

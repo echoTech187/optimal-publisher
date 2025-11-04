@@ -4,7 +4,7 @@ import type { Metadata, ResolvingMetadata } from 'next';
 
 import { getArticleBySlug } from '@/features/article/data';
 import ArticleDetail from '@/components/article/ArticleDetail';
-import ArticleDetailLoading from '@/components/article/ArticleDetailLoading';
+import FullPageLoader from '@/components/ui/FullPageLoader';
 import Article from '@/components/article'; // For the related articles section at the bottom
 
 // Props for the page component
@@ -53,7 +53,7 @@ export default async function DetailArticlePage({ params }: Props) {
     const { slug } = await params;
     return (
         <>
-            <Suspense fallback={<ArticleDetailLoading />}>
+            <Suspense fallback={<FullPageLoader />}>
                 <ArticleDetailFetcher slug={slug} />
             </Suspense>
             

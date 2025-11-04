@@ -7,7 +7,7 @@ import { getProgramPackage } from "@/features/program/data";
 import { getSession } from "@/features/auth/session";
 
 import PackView from "@/components/pack/PackView";
-import PackLoading from "@/components/pack/PackLoading";
+import FullPageLoader from '@/components/ui/FullPageLoader';
 
 export const metadata: Metadata = {
     title: 'Pilih Paket | Optimal Untuk Negeri',
@@ -45,7 +45,7 @@ export default function Page({ searchParams }: { searchParams: { [key: string]: 
     }
 
     return (
-        <Suspense fallback={<PackLoading />}>
+        <Suspense fallback={<FullPageLoader />}>
 
             <PackDataFetcher packageKey={packageKey} />
         </Suspense>

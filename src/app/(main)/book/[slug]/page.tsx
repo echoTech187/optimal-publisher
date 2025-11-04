@@ -1,3 +1,4 @@
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React from "react";
@@ -7,6 +8,7 @@ import Image from "next/image";
 import { Icon } from '@iconify/react';
 import { Book } from "@/types/book";
 import NotFound from "@/components/ui/NotFound";
+import FullPageLoader from '@/components/ui/FullPageLoader';
 interface BookWritter {
     name: string;
     // other properties
@@ -80,9 +82,7 @@ const DetailBook = () => {
     }, [slug]);
 
     if (isLoading) {
-        return <div className='flex justify-center items-center h-screen'>
-            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-        </div>;
+        return <FullPageLoader />;
     }
 
     if (!bookDetail) {

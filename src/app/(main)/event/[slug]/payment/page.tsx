@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import FullPageLoader from "@/components/ui/FullPageLoader";
 import { notFound, redirect } from "next/navigation";
 import { fetchPaymentMethods } from "@/features/payment/data";
 import { fetchEventDetail } from "@/features/event/data";
@@ -64,11 +65,7 @@ export default async function Page({ params }: { params: { slug: string | null }
     }
 
     return (
-        <Suspense fallback={
-            <div className='flex justify-center items-center h-screen my-[100px]'>
-                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-            </div>
-        }>
+        <Suspense fallback={<FullPageLoader />}>
             <PaymentForm transactionData={transactionData} paymentMethods={paymentMethods} user={session} />
 
         </Suspense>

@@ -8,7 +8,7 @@ import { fetchBookAuthors, fetchBookCategories, getBooks } from '@/features/book
 import BookList from '@/components/book/BookList';
 import PopularBooks from '@/components/book/PopularBooks';
 import { useDebounce } from '@/lib/hooks/useDebounce';
-import BookListLoading from '@/components/book/BookListLoading';
+import FullPageLoader from '@/components/ui/FullPageLoader';
 
 
 
@@ -154,7 +154,7 @@ export default function BookPage() {
 
 
         {/* Loading indicators */}
-        {loading && page === 1 && <BookListLoading />}
+        {loading && page === 1 && <FullPageLoader />}
         {loading && page > 1 && <p className="text-center text-gray-500 py-8">Memuat lebih banyak buku...</p>}
         {/* {!hasMore && books.length > 0 && <p className="text-center text-gray-500 py-8">Semua buku telah ditampilkan.</p>} */}
 

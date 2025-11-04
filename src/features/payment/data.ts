@@ -3,6 +3,8 @@
 
 import 'server-only';
 import { cookies } from 'next/headers';
+import { Session } from 'inspector/promises';
+import { getSession } from '../auth/session';
 
 // Define the Payment Method type
 interface PaymentMethod {
@@ -25,7 +27,7 @@ interface Transaction {
     payment_method: PaymentMethod;
     created_at: string;
     updated_at: string;
-    
+
     // ... other properties
 }
 
@@ -108,5 +110,42 @@ export async function fetchTransaction(slug: string | null): Promise<any | null>
     } catch (error) {
         console.error("Error fetching transaction:", error);
         return null;
+    }
+}
+
+export async function fetchTransactions(userId : string): Promise<Transaction[]> {
+    const token = (await cookies()).get('token')?.value || ''; // const token = (await cookies()).get('token')?.value;
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    
+
+    if (!token) {
+        return [];
+    }
+
+    if (!apiBaseUrl) {
+        throw new Error("API base URL is not configured.");
+    }
+
+    try {
+        const response = await fetch(`${apiBaseUrl}/api/v1/transactions?session=${userId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+            cache: 'no-store',
+        });
+
+        if (!response.ok) {
+            console.log("Failed to fetch transactions:", response.statusText);
+            return [];
+        }
+
+        const result = await response.json();
+        return result.data; // Assuming the API returns { data: [...] }
+
+    } catch (error) {
+        console.log("Error fetching transactions:", error);
+        return [];
     }
 }

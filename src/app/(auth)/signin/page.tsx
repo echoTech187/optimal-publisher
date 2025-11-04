@@ -3,6 +3,7 @@ import AuthHeader from "@/components/header/auth";
 import { getSession } from "@/features/auth/session";
 import { redirect } from "next/navigation";
 import SignInForm from "./SignInForm";
+import FullPageLoader from "@/components/ui/FullPageLoader";
 import { Suspense } from "react";
 
 async function SignInContent({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
@@ -33,7 +34,7 @@ async function SignInContent({ searchParams }: { searchParams: { [key: string]: 
 
 export default function SignInPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<FullPageLoader />}>
             <SignInContent searchParams={searchParams} />
         </Suspense>
     );

@@ -5,7 +5,7 @@ import type { Metadata } from 'next';
 import { getArticles } from '@/features/article/data';
 import ArticleBanner from '@/components/article/banner';
 import ArticleList from '@/components/article/ArticleList';
-import ArticleListLoading from '@/components/article/ArticleListLoading';
+import FullPageLoader from '@/components/ui/FullPageLoader';
 import type { Article as ArticleType } from '@/types/article';
 
 export const metadata: Metadata = {
@@ -55,7 +55,7 @@ export default function ArticlePage({
                     </div>
                 </div>
 
-                <Suspense fallback={<ArticleListLoading />}>
+                <Suspense fallback={<FullPageLoader />}>
                     
                     <ArticleListFetcher params={params} />
                 </Suspense>

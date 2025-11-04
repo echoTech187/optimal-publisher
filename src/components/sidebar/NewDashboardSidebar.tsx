@@ -4,24 +4,28 @@ import Link from "next/link";
 import Image from "next/image";
 import { User } from "@/types/user";
 
+import { usePathname } from "next/navigation";
+
 const navLinks = [
     { href: "/dashboard", label: "Dashboard", icon: "ic:round-dashboard" },
-    { href: "/transactions", label: "Transactions", icon: "ic:round-swap-horiz" },
+    { href: "/transactions", label: "Daftar Transaksi", icon: "ic:round-swap-horiz" },
+    { href: "/hki", label: "Daftar Hak Kekayaan Intelektual", icon: "ic:round-assignment" },
     { href: "/repository", label: "Repository", icon: "ic:round-assessment" },
+    { href: "/profile", label: "Profile", icon: "ic:round-person" },
     { href: "/settings", label: "Settings", icon: "ic:round-settings" },
-    { href: "/help", label: "Help", icon: "ic:round-help" },
     { href: "/logout", label: "Logout", icon: "ic:round-logout" },
 ];
 
 const SidebarContent = ({ user }: { user: User }) => {
     const today = new Date();
     const dateString = today.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    const pathname = usePathname();
 
     return (
         <div className="max-w-96 bg-white p-8 flex flex-col h-full">
             <div className="flex items-center gap-3 mb-12">
                 <a href="/dashboard" className="text-lg font-bold text-gray-800">
-                <Image src="/penerbit-logo.png" alt="Optimal Publisher Logo" width={60} height={60} />
+                <Image src="/penerbit-logo.png" alt="Optimal Publisher Logo" width={100} height={80} className="h-10 lg:h-12 w-auto object-contain" />
                 </a>
             </div>
 
@@ -45,10 +49,10 @@ const SidebarContent = ({ user }: { user: User }) => {
 
             <nav className="flex-grow">
                 <ul>
-                    {navLinks.map((link, index) => (
+                    {navLinks.map((link) => (
                         <li key={link.href} className="mb-1">
-                            <Link href={link.href} className={`flex items-center gap-3 p-3 rounded-lg text-base transition-colors ${
-                                index === 0 ? 'bg-blue-100 text-blue-600' : 'text-gray-500 hover:bg-gray-100'
+                            <Link href={link.href} className={`flex items-center gap-3 p-3 rounded-lg text-base transition-colors font-semibold ${
+                                pathname === link.href ? 'bg-fuchsia-100 text-fuchsia-800/60' : 'text-gray-500 hover:bg-gray-100'
                             }`}>
                                 <Icon icon={link.icon} className="w-6 h-6" />
                                 <span>{link.label}</span>
@@ -58,17 +62,7 @@ const SidebarContent = ({ user }: { user: User }) => {
                 </ul>
             </nav>
 
-            <div className="mt-8">
-                <button className="w-full bg-blue-600 text-white p-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors text-left">
-                    <div className="flex items-center gap-3">
-                        <Icon icon="ph:sparkle-bold" className="w-6 h-6" />
-                        <div>
-                            Activate NeuroBank Pro
-                            <span className="block text-sm font-normal">Elevate finances with AI</span>
-                        </div>
-                    </div>
-                </button>
-            </div>
+            
         </div>
     );
 };

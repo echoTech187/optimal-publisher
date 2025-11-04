@@ -1,5 +1,5 @@
 'use client';
-
+import FullPageLoader from '@/components/ui/FullPageLoader';
 import { useEffect, useState, useActionState, useCallback } from "react";
 import { useFormStatus } from "react-dom";
 import { useSearchParams } from "next/navigation";
@@ -16,21 +16,29 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { fetchInstitutions, fetchMajors } from "@/features/form/data";
 import { register } from "@/features/auth/actions";
 
+import { useLoading } from "@/context/LoadingContext";
+
 // A submit button that can be disabled by both form pending status and parent validation state.
 function FinalSubmitButton({ isValid }: { isValid: boolean }) {
     const { pending } = useFormStatus();
+    const { showLoader, hideLoader } = useLoading();
+
+    useEffect(() => {
+        if (pending) {
+            showLoader();
+        } else {
+            hideLoader();
+        }
+        return () => hideLoader();
+    }, [pending, showLoader, hideLoader]);
+
     return (
         <button
             type="submit"
             disabled={pending || !isValid}
             className="btn justify-center rounded-sm w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white text-base font-bold py-2 px-4 border-none outline-none shadow-outline focus:outline-none focus:shadow-outline disabled:bg-fuchsia-400"
         >
-            {pending ? (
-                <>
-                    <Icon icon="tabler:loader-2" width="24" height="24" className="text-primary-content size-5 rtl:rotate-180 animate-spin" />
-                    <span>Loading...</span>
-                </>
-            ) : (
+            {pending ? "Loading..." : (
                 <>
                     <Icon icon="tabler:send" width="24" height="24" className="text-primary-content size-5 rtl:rotate-180" />
                     <span>Daftar</span>
@@ -104,11 +112,7 @@ export default function Register() {
     }, [state]);
 
     if (isLoading) {
-        return (
-            <div className='flex justify-center items-center h-screen'>
-                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-            </div>
-        )
+        return <FullPageLoader />;
     }
     return (
         <>

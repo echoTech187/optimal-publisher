@@ -4,7 +4,7 @@ import { Suspense, useState, useEffect } from 'react';
 import { getPrograms } from '@/features/program/data';
 import  { Program } from '@/features/program/data';
 import ProgramList from '@/components/program/ProgramList';
-import ProgramListLoading from '@/components/program/ProgramListLoading';
+import FullPageLoader from '@/components/ui/FullPageLoader';
 
 
 
@@ -28,7 +28,7 @@ function ProgramListFetcher() {
 
 export default function ProgramListPage() {
     return (
-        <Suspense fallback={<ProgramListLoading />}>
+        <Suspense fallback={<FullPageLoader />}>
             <ProgramListFetcher />
         </Suspense>
     );

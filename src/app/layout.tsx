@@ -1,3 +1,4 @@
+import { LoadingProvider } from '@/context/LoadingContext';
 import { Inter } from 'next/font/google'
 import './globals.css'
 import FlyonuiScript from '@/components/FlyonuiScript'
@@ -21,7 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${interFont.variable} font-sans antialiased`}>
-        {children}
+        <LoadingProvider>
+          {children}
+        </LoadingProvider>
         <FlyonuiScript />
       </body>
     </html>

@@ -8,19 +8,24 @@ import { Icon } from "@iconify/react";
 import { submitPayment } from "@/features/event/actions";
 import { User } from "@/types/user";
 
+import { useLoading } from "@/context/LoadingContext";
+
 function SubmitButton() {
     const { pending } = useFormStatus();
+    const { showLoader, hideLoader } = useLoading();
+
+    useEffect(() => {
+        if (pending) {
+            showLoader();
+        } else {
+            hideLoader();
+        }
+        return () => hideLoader();
+    }, [pending, showLoader, hideLoader]);
 
     return (
         <button type="submit" disabled={pending} className="block w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline">
-            {pending ? (
-                <>
-                    <span className="animate-spin rounded-full h-5 w-5 border-b-2 border-white inline-block"></span>
-                    <span className="ml-2">Loading...</span>
-                </>
-            ) : (
-                <span>Upload Bukti Pembayaran</span>
-            )}
+            {pending ? "Loading..." : "Upload Bukti Pembayaran"}
         </button>
     );
 }
