@@ -17,7 +17,7 @@ export default function CopyableTransactionCode({ transactionCode }: { transacti
 
     return (
         <div className="flex items-center gap-2">
-            <p className="text-lg font-medium text-gray-900 dark:text-gray-100">{transactionCode}</p>
+            <p className="text-sm font-bold text-gray-900 dark:text-gray-100 pt-1">{transactionCode}</p>
             <button
                 onClick={() => handleCopy(transactionCode)}
                 className="text-gray-400 hover:text-gray-600 transition-colors relative group"
