@@ -74,7 +74,7 @@ export default function Services({ isbnUrl, issnUrl, hkiUrl }: ServicesProps) {
                             <p className="text-lg text-gray-600 dark:text-gray-300">Hak paten, merek, desain industri, hak cipta, indikasi geografis, rahasia dagang, dan desain tata letak sirkuit terpadu - semua ini menjadi bagian integral dari karya dan inovasi yang mengubah dunia. Dengan melindungi hak-hak ini, kita memastikan karya dan ide-ide cemerlang tetap terjaga dan terlindungi. Bersama-sama, kita mempromosikan kreativitas, inovasi, dan kemajuan dalam berbagai bidang.</p>
                             <Link href={hkiUrl} className="flex items-center justify-between gap-6 mt-12 py-3 px-6 rounded-md transition-colors bg-yellow-400 text-black font-semibold hover:bg-yellow-700 hover:text-white w-fit mx-auto md:mx-0">
                                 <span className="flex items-center gap-2">
-                                    Daftarkan
+                                    Telusuri
                                 </span>
                                 <Icon icon="tabler:arrow-right" className="size-6" width="32" height="32" />
                             </Link>

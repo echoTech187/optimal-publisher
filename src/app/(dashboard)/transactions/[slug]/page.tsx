@@ -41,28 +41,31 @@ export default async function TransactionDetailPage({ params }: { params: { slug
     // Condition 1: status.id === 1 (Success)
     if (transactionStatusId === 1) {
         rightCardContent = (
-            <div className="flex h-full w-full flex-col items-center justify-center">
-                            <Icon icon="ic:round-folder-open" className="w-12 h-12 mb-3" />
-                            <p className="text-base font-medium">Pesanan belum selesai.</p>
-                            <p className="text-xs">Silahkan lanjutkan dengan menekan tombol di bawah ini untuk melanjutkan.</p>
-                            <a href={`/payment/${slug}`} className="mt-4 px-4 py-2 border border-fuchsia-600 text-fuchsia-600 rounded-md hover:border-fuchsia-700 transition-colors flex items-center gap-2">
-                                Lanjutkan Pembayaran <Icon icon="tabler:arrow-right" className="size-6" width="24" height="24" />
-                            </a>
-                        </div>
+            <div className="flex h-full w-full flex-col items-center justify-center bg-white rounded-xl p-6">
+                <Icon icon="ic:round-folder-open" className="w-12 h-12 mb-3" />
+                <p className="text-lg font-bold text-gray-900 mb-4">Pesanan belum selesai.</p>
+                <p className="text-center text-gray-600">Silahkan lanjutkan dengan menekan tombol di bawah ini untuk melanjutkan.</p>
+                <a href={`/payment/${slug}`} className="mt-4 px-4 py-2 border border-fuchsia-600 text-fuchsia-600 rounded-md hover:border-fuchsia-700 transition-colors flex items-center gap-2">
+                    Lanjutkan Pembayaran <Icon icon="tabler:arrow-right" className="size-6" width="24" height="24" />
+                </a>
+            </div>
         );
     }
     // Condition 2: status.id === 2 or 8 (Pending/Processing)
     else if (transactionStatusId === 2 || transactionStatusId === 8) {
-        
+
         rightCardContent = (
-            <div className="bg-white shadow-lg rounded-xl p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-6">Dokumen</h2>
+            <div className="bg-white rounded-xl p-6">
+                <header className=' mb-6'>
+                    <h2 className="text-xl font-bold text-gray-900">Bukti Pembayaran</h2>
+                    <p className="text-gray-600">Bukti pembayaran dari pembayaran Anda.</p>
+                </header>
                 <div className="flex flex-col items-center justify-center text-gray-500 py-8 border border-dashed border-gray-300 rounded-lg">
                     {transaction.receipt_url ? (
                         <>
                             <Icon icon="ic:round-receipt" className="w-12 h-12 mb-3" />
-                            <p className="text-base font-medium">Resi Pembayaran</p>
-                            <p className="text-xs text-gray-600">Tanggal: {transaction.receipt_date ? new Date(transaction.receipt_date).toLocaleDateString('id-ID') : 'N/A'}</p>
+                            <p className="text-lg font-bold">Resi Pembayaran</p>
+                            <p className="text-center text-gray-600">Tanggal: {transaction.receipt_date ? new Date(transaction.receipt_date).toLocaleDateString('id-ID') : 'N/A'}</p>
                             <a href={getImageUrl(transaction.receipt_url)} target="_blank" rel="noopener noreferrer" className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors flex items-center gap-2">
                                 <Icon icon="ic:round-visibility" className="w-5 h-5" />
                                 Lihat Resi
@@ -85,8 +88,11 @@ export default async function TransactionDetailPage({ params }: { params: { slug
     // Condition 4: status.id === 5, 6, or 7 (Completed/Delivered)
     else if (transactionStatusId === 5 || transactionStatusId === 6 || transactionStatusId === 7) {
         rightCardContent = (
-            <div className="bg-white shadow-lg rounded-xl p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Dokumen</h2>
+            <div className="bg-white rounded-xl p-6">
+                <header className=' mb-6'>
+                    <h2 className="text-xl font-bold text-gray-900">Bukti Pembayaran</h2>
+                    <p className="text-gray-600">Bukti pembayaran dari pembayaran Anda.</p>
+                </header>
                 <div className="flex flex-col items-center justify-center text-gray-500 py-8 border border-dashed border-gray-300 rounded-lg">
                     {transaction.receipt_url || transaction.invoice_url ? (
                         <>
@@ -125,10 +131,13 @@ export default async function TransactionDetailPage({ params }: { params: { slug
     }
 
     return (
-        <div className="p-4 sm:p-6 lg:p-8 min-h-screen bg-[#F4F7FE]">
+        <div className="p-4 sm:p-6 lg:p-8 min-h-screen bg-gray-50">
             {/* Header Section */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 pb-4 border-b border-gray-200">
-                <h1 className="text-2xl md:text-4xl font-extrabold text-gray-900">Detail Transaksi</h1>
+                <header className="">
+                    <h2 className="text-xl font-bold">Detail Transaksi</h2>
+                    <p>Informasi lengkap tentang transaksi Anda di sini.</p>
+                </header>
                 <div className="flex items-center max-md:justify-between gap-3">
                     <span className={`px-4 py-2 text-xs font-semibold rounded-full ${statusClasses}`}>
                         {transactionStatusName || 'Status Tidak Diketahui'}
@@ -139,8 +148,11 @@ export default async function TransactionDetailPage({ params }: { params: { slug
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Left Column: Detail Transaksi */}
-                <div className="lg:col-span-2 bg-white shadow-lg rounded-xl p-6">
-                    <h2 className="text-xl font-bold text-gray-900 mb-6">Informasi Transaksi</h2>
+                <div className="lg:col-span-2 bg-white  rounded-xl p-6">
+                    <header className=' mb-6'>
+                        <h2 className="text-xl font-bold text-gray-900">Informasi Transaksi</h2>
+                        <p className="text-gray-600">Informasi lengkap tentang transaksi Anda di sini.</p>
+                    </header>
                     <div className="space-y-5">
                         {/* Transaction Code */}
                         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center border-b border-gray-100 pb-3">

@@ -9,7 +9,8 @@ import { useState, useEffect } from "react";
 import { fetchEventData } from "@/features/event/data";
 import { getImageUrl } from "@/lib/utils/image";
 import { getArticles } from "@/features/article/data";
-
+import TipsSection from "@/components/main/TipsSection";
+import Link from "next/link";
 const mockStats = [
     { value: "10+", label: "Program Unggulan" },
     { value: "500+", label: "Pengguna Terdaftar" },
@@ -74,19 +75,43 @@ const HeroSection = () => (
 
 const StatsSection = () => (
     <motion.section
-        className="my-12 p-8 lg:p-12"
+        className="p-8 lg:p-12"
         variants={sectionVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.5 }}
     >
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {mockStats.map((stat, index) => (
-                <motion.div key={stat.label} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: index * 0.1 }} viewport={{ once: true }}>
-                    <p className="text-4xl lg:text-5xl font-bold text-green-500 mb-2">{stat.value}</p>
-                    <p className="text-sm lg:text-base text-gray-600">{stat.label}</p>
-                </motion.div>
-            ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto">
+            <div className={`bg-white p-8 rounded-2xl border-3 border-amber-100 w-full relative `}>
+
+                <div className="flex items-center">
+                    <div className={`p-4 rounded-xl bg-yellow-100 mr-5`}>
+                        <Icon icon="ion:book-outline" className={`text-4xl text-gray-800`} />
+                    </div>
+                    <div className="flex-1">
+                        <h3 className="text-2xl font-bold text-gray-800">ISBN</h3>
+                        <p className="text-gray-600">Terbitkan karya anda dengan ISBN</p>
+                    </div>
+                    <Link href="/program">
+                        <Icon icon="ion:arrow-forward-circle-outline" className={`size-18 text-yellow-300`} />
+                    </Link>
+                </div>
+
+            </div>
+            <div className={`bg-white p-8 rounded-2xl border-3 border-fuchsia-100 w-full relative `}>
+                <div className="flex items-center">
+                    <div className={`p-4 rounded-xl bg-fuchsia-100 mr-5`}>
+                        <Icon icon="ion:library-outline" className={`text-4xl text-gray-800`} />
+                    </div>
+                    <div className="flex-1">
+                        <h3 className="text-2xl font-bold text-gray-800">Hak Kekayaan Intelektual</h3>
+                        <p className="text-gray-600">Lindungi karya anda dengan hak kekayaan intelektual</p>
+                    </div>
+                    <Link href="/hki/register">
+                        <Icon icon="ion:arrow-forward-circle-outline" className={`size-18 text-fuchsia-400`} />
+                    </Link>
+                </div>
+            </div>
         </div>
     </motion.section>
 );
@@ -265,8 +290,13 @@ const ArticlesSection = ({ articles }: { articles: Article[] }) => (
     </motion.section>
 );
 
-import TipsSection from "@/components/main/TipsSection";
 
+function HKIRegisterAction() {
+    window.location.href = "/hki/register";
+}
+function openWhatsappChat() {
+    window.location.href = "https://wa.link/gkfaqz";
+}
 export default function DashboardPage() {
     const [events, setEvents] = useState<EventNews[]>([]);
     const [articles, setArticles] = useState<Article[]>([]);
@@ -325,10 +355,81 @@ export default function DashboardPage() {
         </div>
     )
     return (
-        <div className="bg-[#F4F7FE]">
+        <div className="bg-white min-h-screen">
             <div className="">
-                <HeroSection />
-                {/* <StatsSection /> */}
+
+                {/* <div className="bg-gray-50 min-h-screen">
+                    <div className=" mx-auto p-8">
+                        <div className="mt-16 text-center">
+                            <div className="flex justify-center mb-8">
+                                <img src="/images/HKI.png" alt="Lindungi Karya Anda" className="max-w-sm" />
+                            </div>
+                            <h2 className="text-3xl font-bold text-gray-800">
+                                LINDUNGI KARYA ANDA SEKARANG
+                            </h2>
+                            <p className="text-gray-600 mt-2 mb-8">
+                                Daftarkan karya anda dan dapatkan perlindungan hukum yang kuat
+                                untuk hak kekayaan intelektual anda
+                            </p>
+
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 max-w-4xl mx-auto">
+                                <div className="flex flex-col items-center">
+                                    <div className="bg-blue-100 p-4 rounded-full mb-4">
+                                        <Icon icon="ion:shield-checkmark-outline" className="text-blue-600 text-3xl" />
+                                    </div>
+                                    <h3 className="font-semibold text-gray-800">Terjamin aman</h3>
+                                    <p className="text-gray-600 text-sm">
+                                        Perlindungan hukum resmi untuk karya anda
+                                    </p>
+                                </div>
+                                <div className="flex flex-col items-center">
+                                    <div className="bg-blue-100 p-4 rounded-full mb-4">
+                                        <Icon icon="ion:flash-outline" className="text-blue-600 text-3xl" />
+                                    </div>
+                                    <h3 className="font-semibold text-gray-800">Proses Cepat</h3>
+                                    <p className="text-gray-600 text-sm">Pendaftaran mudah</p>
+                                </div>
+                                <div className="flex flex-col items-center">
+                                    <div className="bg-blue-100 p-4 rounded-full mb-4">
+                                        <Icon icon="ion:people-outline" className="text-blue-600 text-3xl" />
+                                    </div>
+                                    <h3 className="font-semibold text-gray-800">Terpercaya</h3>
+                                    <p className="text-gray-600 text-sm">
+                                        Ribuan karya telah mendaftar
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="flex justify-center gap-4 mb-8">
+                                <button onClick={HKIRegisterAction} className="bg-gray-800 text-white font-semibold py-3 px-6 rounded-lg hover:bg-gray-700 transition-colors flex items-center">
+                                    Mulai Pendaftaran Sekarang
+                                    <Icon icon="ion:arrow-forward-outline" className="ml-2" />
+                                </button>
+                                <button onClick={openWhatsappChat} className="bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg hover:bg-gray-300 transition-colors flex items-center">
+                                    <Icon icon="ion:chatbubbles-outline" className="mr-2" />
+                                    Jadwalkan Konsultasi
+                                </button>
+                            </div>
+
+                            <div className="flex justify-center items-center gap-8 text-gray-500">
+                                <div className="flex items-center gap-2">
+                                    <Icon icon="ion:checkmark-circle-outline" className="text-green-500" />
+                                    <span>100% Legal dan Resmi</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Icon icon="ion:lock-closed-outline" className="text-green-500" />
+                                    <span>Data Aman & Terenkripsi</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Icon icon="ion:headset-outline" className="text-green-500" />
+                                    <span>Support 24/7</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <HeroSection /> */}
+                <StatsSection />
                 <div className="grid grid-cols-1 2xl:grid-cols-2 lg:gap-8 mb-12">
                     <EventsSection events={upcomingEvents} />
                     <ArticlesSection articles={articles} />

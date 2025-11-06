@@ -9,7 +9,7 @@ import { usePathname } from "next/navigation";
 const navLinks = [
     { href: "/dashboard", label: "Dashboard", icon: "ic:round-dashboard" },
     { href: "/transactions", label: "Daftar Transaksi", icon: "ic:round-swap-horiz" },
-    { href: "/hki", label: "Daftar Hak Kekayaan Intelektual", icon: "ic:round-assignment" },
+    { href: "/hki", label: "Hak Kekayaan Intelektual", icon: "ic:round-assignment" },
     { href: "/repository", label: "Repository", icon: "ic:round-assessment" },
     { href: "/profile", label: "Profile", icon: "ic:round-person" },
     { href: "/settings", label: "Settings", icon: "ic:round-settings" },
@@ -18,7 +18,7 @@ const navLinks = [
 
 const SidebarContent = ({ user }: { user: User }) => {
     const today = new Date();
-    const dateString = today.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    const dateString = today.toLocaleDateString('id-ID', { weekday: 'long',year: 'numeric', month: 'long', day: 'numeric' });
     const pathname = usePathname();
 
     return (
@@ -34,9 +34,9 @@ const SidebarContent = ({ user }: { user: User }) => {
                     <div className="flex items-center gap-3">
                         <Image src={user.avatar || "/images/placeholder.png"} alt={user.full_name} width={40} height={40} className="rounded-full" />
                         <div>
-                            <div className="text-xs text-gray-500">{dateString.toUpperCase().replace(/, \d{4}/, '')}</div>
-                            <div className="font-bold text-sm lg:text-lg text-gray-800">Welcome back,</div>
-                            <div className="font-bold text-sm lg:text-lg text-gray-800">{user.full_name}!</div>
+                            <div className="text-xs text-gray-500 mb-2">{dateString.toUpperCase().replace(/, \d{4}/, '')}</div>
+                            <div className="font-bold text-sm text-gray-800">Halo,</div>
+                            <div className="font-bold text-sm lg:text-base text-gray-800">{user.full_name}!</div>
                         </div>
                     </div>
                     <div className="flex gap-2">

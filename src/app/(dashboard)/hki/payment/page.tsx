@@ -68,7 +68,7 @@ const FileInput = ({ label, description, required, uploadState, onFileChange, in
 
     return (
         <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 mb-4">
                 {label} {required && <span className="text-red-500">*</span>}
             </label>
             <p className="text-xs text-gray-500 mb-2">{description}</p>
@@ -97,7 +97,7 @@ const FileInput = ({ label, description, required, uploadState, onFileChange, in
                 </div>
             ) : (
                 <div className="w-full bg-gray-100 border border-gray-200 rounded-lg py-3 px-4">
-                    <input type="file" className="text-sm" onChange={handleFileSelect} />
+                    <input type="file" className="text-sm" onChange={handleFileSelect} accept="image/*,application/pdf" required />
                 </div>
             )}
             {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
@@ -178,12 +178,13 @@ export default function HKIPaymentPage() {
         }
     };
     if(isLoading) return <FullPageLoader />
+    console.log(hkiData);
     return (
         <div className="bg-gray-50 min-h-screen">
             <div className="">
                 <div className="w-full">
                     <div className="bg-blue-600 text-white p-6 flex items-center">
-                        <Icon icon="ion:card-outline" className="text-2xl mr-3" />
+                        <Icon icon="ion:card-outline" className="size-14 mr-3" />
                         <div>
                             <h2 className="text-xl font-bold">Informasi Pembayaran</h2>
                             <p>{hkiData?.package.name} - {parseInt(hkiData?.package.price).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</p>
@@ -199,7 +200,8 @@ export default function HKIPaymentPage() {
                                 <p>
                                     Anda telah memilih paket <span className="font-bold">{hkiData?.package.name} </span>
                                     dengan waktu penerbitan dalam <span className="font-bold">{hkiData?.package.duration_days} Hari </span>
-                                    Total yang harus dibayar: <span className="font-bold">{parseInt(hkiData?.package.price).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span>
+                                    Total yang harus dibayar: <span className="font-bold">{parseInt(hkiData?.package.price).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })} </span>
+                                    sebelum <span className="font-bold">{new Date(hkiData?.expires_at).toLocaleDateString('id-ID', {weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' , hour: 'numeric', minute: 'numeric'})}</span>
                                 </p>
                             </div>
 
@@ -227,12 +229,10 @@ export default function HKIPaymentPage() {
                             </div>
 
                             <h3 className="text-lg font-bold text-gray-800 mb-4">Upload Bukti Transfer</h3>
-                            <p className="text-sm text-gray-500 mb-4">
-                                Upload Screenshot atau foto bukti transfer pembayaran [Format: JPG, PNG, atau PDF - Max 5MB]
-                            </p>
+                           
 
                             <div className="mb-8">
-                                <FileInput label="" description="" required inputName="transactionProof" uploadState={upload} onFileChange={handleFileChange} onReset={resetUpload} />
+                                <FileInput label="Upload Screenshot atau foto bukti transfer pembayaran [Format: JPG, PNG, atau PDF - Max 5MB]" description="" required inputName="transactionProof" uploadState={upload} onFileChange={handleFileChange} onReset={resetUpload} />
                             </div>
 
                             <button className="w-full bg-fuchsia-800 text-white font-semibold py-3 px-6 rounded-lg hover:bg-fuchsia-950 transition-colors flex items-center justify-center">

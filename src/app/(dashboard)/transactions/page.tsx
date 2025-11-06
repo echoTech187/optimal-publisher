@@ -1,24 +1,49 @@
+"use client";
 import { fetchTransactions } from '@/features/payment/data';
 import { getSession } from '@/features/auth/session';
 import { redirect } from 'next/navigation';
 import TransactionTable from './TransactionTable';
+import { useEffect, useState } from 'react';
+import { Transaction } from '@/types/transaction';
+import FullPageLoader from '@/components/ui/FullPageLoader';
 
 // This is the main Server Component for the page
-export default async function UserTransactionPage() {
-    const session = await getSession();
-    if (!session || !session.id) {
-        redirect('/signin');
+export default function UserTransactionPage() {
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const sessionResponse = await fetch('/api/session');
+            const session = await sessionResponse.json();
+
+            if (!session || !session.id) {
+                redirect('/signin');
+            } else {
+                const transactionsResponse = await fetch('/api/transactions');
+                const transactions = await transactionsResponse.json();
+                setTransactions(transactions);
+                setIsLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    if (isLoading) {
+        return <FullPageLoader />;
     }
 
-    const transactions = await fetchTransactions(session.id);
 
     return (
-        <div className="p-4 sm:p-6 lg:p-8 h-full">
-            <header className="mb-8">
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100">Riwayat Transaksi</h1>
-                <p className="mt-2 text-base text-gray-600 dark:text-gray-400">Lihat semua riwayat transaksi Anda di sini.</p>
+        <>
+            <header className="px-8 pt-8">
+                <h2 className="text-xl font-bold">Riwayat Transaksi</h2>
+                <p>Daftar riwayat transaksi Anda di sini.</p>
             </header>
-            <TransactionTable transactions={transactions} />
-        </div>
+            <div className="p-4 sm:p-6 lg:p-8 h-full">
+                <TransactionTable transactions={transactions} />
+            </div>
+        </>
     );
 }

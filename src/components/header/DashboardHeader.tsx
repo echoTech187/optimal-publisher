@@ -2,6 +2,7 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 const Breadcrumb = () => {
     const pathname = usePathname();
@@ -55,14 +56,19 @@ const Breadcrumb = () => {
 };
 
 const DashboardHeader = ({ onMenuClick }: { onMenuClick: () => void }) => {
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     return (
-        <header className="w-full py-8 px-4 lg:bg-[#F4F7FE] lg:rounded-t-lg">
+        <header className="w-full py-8 px-4 bg-white lg:rounded-t-lg">
             <div className="flex items-center justify-start w-full">
                 <button className="lg:hidden p-2" onClick={onMenuClick}>
                     <Icon icon="ic:round-menu" className="w-6 h-6 text-gray-500" />
                 </button>
-                <Breadcrumb />
+                {mounted && <Breadcrumb />}
             </div>
         </header>
     );

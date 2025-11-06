@@ -20,11 +20,11 @@ export default function DashboardLayoutClient({ children, user }: { children: Re
     }, [isSidebarOpen]);
 
     return (
-        <div className="flex bg-[#F4F7FE] min-h-screen font-sans">
+        <div className="flex bg-white min-h-screen font-sans">
             <NewDashboardSidebar user={user} isOpen={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
             <div className="flex-1 flex flex-col">
                 <DashboardHeader onMenuClick={() => setSidebarOpen(true)} />
-                <main className=" flex-grow lg:bg-[#F4F7FE] lg:rounded-b-lg">
+                <main className=" flex-grow lg:bg-gray-50 lg:rounded-b-lg">
                     {children}
                 </main>
             </div>

@@ -58,23 +58,10 @@ const TransactionRow = ({ trx }: { trx: Transaction }) => {
             <td className="p-4 text-gray-600 dark:text-gray-400">{new Date(trx.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</td>
             <td className="p-4 text-gray-800 dark:text-gray-200 text-right font-mono">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(trx.amount)}</td>
             <td className="p-4 text-center"><span className="px-2 py-1 text-xs font-medium rounded-full inline-block bg-gray-100 text-gray-800">{trx.payment_method?.name}</span></td>
-            <td className="p-4 text-center"><StatusBadge status={trx.status?.status} /></td>
+            <td className="p-4 text-center text-nowrap"><StatusBadge status={trx.status?.status} /></td>
             <td className="p-4 text-center">
                 <div className="relative inline-block text-left">
-                    <div>
-                        <button onClick={() => setDropdownOpen(!isDropdownOpen)} type="button" className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" aria-haspopup="true" aria-expanded={isDropdownOpen}>
-                            Pilih
-                            <span className="-mr-1 ml-2 h-5 w-5 icon-[tabler--chevron-down]" />
-                        </button>
-                    </div>
-                    {isDropdownOpen && (
-                        <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white z-100" role="menu">
-                            <div className="py-1" role="none">
-                                {trx.transaction_code && <a href={`/transactions/${trx.transaction_code}`} className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">Detail</a>}
-                                {/* Add other actions here */}
-                            </div>
-                        </div>
-                    )}
+                    {trx.transaction_code && <a href={`/transactions/${trx.transaction_code}`} className="text-gray-700 block px-4 py-2 text-sm" role="menuitem"><Icon icon="ion:arrow-forward-outline" className="size-6" /></a>}
                 </div>
             </td>
         </tr>
@@ -83,7 +70,7 @@ const TransactionRow = ({ trx }: { trx: Transaction }) => {
 
 export default function TransactionTable({ transactions }: { transactions: Transaction[] }) {
     return (
-        <div className="bg-white dark:bg-gray-800 shadow-lg rounded-xl overflow-hidden">
+        <div className="bg-white/60 dark:bg-gray-800 rounded-xl overflow-hidden">
             {/* Desktop Table */}
             <div className="hidden md:block">
                 <table className="w-full text-left">
