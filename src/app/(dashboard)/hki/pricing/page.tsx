@@ -3,6 +3,9 @@ import { Icon } from "@iconify/react";
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { getPricingPackages, updateHkiPackage } from "@/features/hki/actions/actions";
+import { PlanProps } from "@/types/transaction";
+import FullPageLoader from "@/components/ui/FullPageLoader";
+import { set } from "lodash";
 
 // Helper to map color names from API to Tailwind CSS classes
 const colorMap = {
@@ -20,7 +23,7 @@ const colorMap = {
     },
 };
 
-const PricingCard = ({ plan, onSelect, isUpdating }:{ plan: { color: string; icon: string; name: string; description: string; features: string[]; price: string; deliveryTime: string; popular: boolean; id: string; }; onSelect: (arg0: string) => void; isUpdating: boolean; }) => {
+const PricingCard = ({ plan, onSelect, isUpdating }: PlanProps) => {
     const theme = colorMap[plan.color as keyof typeof colorMap] || colorMap.blue; // Default to blue theme
 
     return (
@@ -63,7 +66,7 @@ const PricingCard = ({ plan, onSelect, isUpdating }:{ plan: { color: string; ico
             <div className="mt-8">
                 <button 
                     type="button" 
-                    onClick={() => onSelect(plan.id)} 
+                    onClick={() => onSelect(plan.id )} 
                     disabled={isUpdating}
                     className={`w-full text-white font-bold py-3 px-6 rounded-lg transition-colors ${theme.buttonColor} flex items-center justify-center disabled:bg-gray-400`}>
                     {isUpdating ? 'Memproses...' : `Pilih Paket ${plan.name}`}
@@ -75,7 +78,7 @@ const PricingCard = ({ plan, onSelect, isUpdating }:{ plan: { color: string; ico
 };
 
 function PricingPageContent() {
-    const [plans, setPlans] = useState([]);
+    const [plans, setPlans] = useState<any>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState("");
     const [updatingId, setUpdatingId] = useState(0); // To track which plan is being updated
@@ -101,6 +104,7 @@ function PricingPageContent() {
     }, []);
 
     const handlePlanSelection = async (package_id : number) => {
+        setIsLoading(true);
         if (!code_transaction) {
             alert("Error: code_transaction tidak ditemukan di URL.");
             return;
@@ -112,29 +116,32 @@ function PricingPageContent() {
         try {
             const result = await updateHkiPackage({ code_transaction, package_id });
             console.log("Update success:", result);
+            setIsLoading(false);
             // Redirect to payment page, passing the transaction code
             router.push(`/hki/payment?code_transaction=${code_transaction}`);
         } catch (e : any) {
             setError(e.message);
+            setIsLoading(false);
             console.error("Failed to update package:", e);
             alert(`Gagal memperbarui paket: ${e.message}`);
         } finally {
+            setIsLoading(false);
             setUpdatingId(0);
         }
     };
 
     const renderContent = () => {
         if (isLoading) {
-            return <p className="text-center">Loading pricing plans...</p>;
+            return <FullPageLoader />;
         }
 
         if (error && plans.length === 0) { // Only show main error if plans fail to load
-            return <p className="text-center text-red-500">Error: {error}</p>;
+            return <p className="text-center text-red-500">{error}</p>;
         }
 
         return (
             <div className="flex flex-wrap justify-center gap-8">
-                {plans.map((plan) => (
+                {plans.map((plan : any) => (
                     <PricingCard 
                         key={plan.id} 
                         plan={plan} 
@@ -145,9 +152,6 @@ function PricingPageContent() {
             </div>
         );
     };
-    console.log("Plans:", plans);
-    console.log("Updating ID:", updatingId);
-    console.log("Error:", error);
     return (
         <div className="bg-gray-50 min-h-screen py-16">
             <div className="container mx-auto px-4">
@@ -169,7 +173,7 @@ function PricingPageContent() {
 // Wrap the page with Suspense because useSearchParams requires it.
 export default function HKIPricingPage() {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<FullPageLoader />}>
             <PricingPageContent />
         </Suspense>
     );

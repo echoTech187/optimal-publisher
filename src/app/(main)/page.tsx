@@ -16,7 +16,7 @@ export default async function Home() {
   // Determine the correct URLs based on authentication status
   const isbnUrl = session ? '/program' : '/signin?type=isbn';
   const issnUrl = '/book?feature=ISSN'; // Assuming same logic
-  const hkiUrl = session ? '/program' : '/signin?type=hki';   // Assuming same logic
+  const hkiUrl = session ? '/hki/register' : '/signin?type=hki';   // Assuming same logic
 
   return (
         <main className="h-full w-full dark:bg-gray-800">

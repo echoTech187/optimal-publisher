@@ -25,6 +25,11 @@ export interface TransactionStatus {
 export interface PaymentMethod {
     id: string;
     name: string;
+    description: string;
+    icon: string;
+    icon_active: string;
+    code: string;
+    is_active: boolean;
 };
 
 export interface Transactionable {
@@ -34,4 +39,22 @@ export interface Transactionable {
     address?: string;
     book_upload?: string;
     is_active?: boolean;
+};
+
+export interface PlanDetail {
+    color: string;
+    icon: string;
+    name: string;
+    description: string;
+    features: string[];
+    price: string;
+    deliveryTime: string;
+    popular: boolean;
+    id: number;
+};
+
+export interface PlanProps {
+    plan: PlanDetail;
+    onSelect: (package_id: number) => Promise<void>;
+    isUpdating: boolean;
 };

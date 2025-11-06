@@ -3,6 +3,7 @@ import { Icon } from "@iconify/react";
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
 import { postRegister } from "@/features/hki/actions/actions";
+import FullPageLoader from "@/components/ui/FullPageLoader";
 
 
 // --- Helper Functions ---
@@ -222,7 +223,7 @@ export default function HKIRegisterPage() {
             setIsSubmitting(false);
         }
     };
-
+    if(isSubmitting) return <FullPageLoader />;
     return (
         <div className="bg-gray-50 min-h-screen">
             <div className="w-full">

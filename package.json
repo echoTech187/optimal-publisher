@@ -8,10 +8,12 @@
     "start": "next start"
   },
   "dependencies": {
+    "@types/js-cookie": "^3.0.6",
     "dropzone": "^6.0.0-beta.2",
     "flyonui": "^2.4.0",
     "framer-motion": "^12.23.24",
     "jquery": "^3.7.1",
+    "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
     "next": "15.5.3",
     "nouislider": "^15.8.1",

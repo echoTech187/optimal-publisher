@@ -25,3 +25,23 @@ export default async function uploadPaymentProof(data: FormData) {
     return result;
 }
 
+export async function uploadPaymentProofHki(data: FormData) {
+    const token = (await cookies()).get('token')?.value;
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+    if (!token) {
+        return { success: false, message: 'Unauthorized' };
+    }
+    if (!apiBaseUrl) {
+        return { success: false, message: 'API URL is not configured' };
+    }
+    const response = await fetch(`${apiBaseUrl}/api/v1/hki-transaction`, {
+        method: 'POST',
+        body: data,
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+    const result = await response.json();
+    return result;
+}

@@ -3,33 +3,13 @@
 
 import 'server-only';
 import { cookies } from 'next/headers';
-import { Session } from 'inspector/promises';
-import { getSession } from '../auth/session';
+import { PaymentMethod, Transaction } from '@/types/transaction';
 
 // Define the Payment Method type
-interface PaymentMethod {
-    // Add properties of a payment method object here
-    id: string;
-    name: string;
-    // ... other properties
-}
+
 
 // Define the Transaction type based on what the component expects
-interface Transaction {
-    id: string;
-    amount: number;
-    status_id: number;
-    transaction_code: string;
-    pack_name: string;
-    book_title: string | null;
-    title?: string;
-    payment_method_id: string;
-    payment_method: PaymentMethod;
-    created_at: string;
-    updated_at: string;
 
-    // ... other properties
-}
 
 /**
  * Fetches available payment methods from the API.
@@ -109,6 +89,42 @@ export async function fetchTransaction(slug: string | null): Promise<any | null>
 
     } catch (error) {
         console.error("Error fetching transaction:", error);
+        return null;
+    }
+}
+
+export async function fetchHkiDataTransaction(code_transaction: string | null): Promise<any | null> {
+    const token = (await cookies()).get('token')?.value || '';
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+    if (!token || !code_transaction) {
+        return null;
+    }
+
+    if (!apiBaseUrl) {
+        throw new Error("API base URL is not configured.");
+    }
+
+    try {
+        const response = await fetch(`${apiBaseUrl}/api/v1/hki-transaction/${code_transaction}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+            cache: 'no-store',
+        });
+
+        if (!response.ok) {
+            console.error("Failed to fetch hki data:", response.statusText);
+            return null;
+        }
+
+        const result = await response.json();
+        return result;
+
+    } catch (error) {
+        console.error("Error fetching hki data:", error);
         return null;
     }
 }
