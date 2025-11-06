@@ -129,6 +129,8 @@ export async function fetchHkiDataTransaction(code_transaction: string | null): 
     }
 }
 
+
+
 export async function fetchTransactions(userId : string): Promise<Transaction[]> {
     const token = (await cookies()).get('token')?.value || ''; // const token = (await cookies()).get('token')?.value;
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;

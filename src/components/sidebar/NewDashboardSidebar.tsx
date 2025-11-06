@@ -5,6 +5,7 @@ import Image from "next/image";
 import { User } from "@/types/user";
 
 import { usePathname } from "next/navigation";
+import { logout } from "@/features/auth/actions";
 
 const navLinks = [
     { href: "/dashboard", label: "Dashboard", icon: "ic:round-dashboard" },
@@ -12,8 +13,8 @@ const navLinks = [
     { href: "/hki", label: "Hak Kekayaan Intelektual", icon: "ic:round-assignment" },
     { href: "/repository", label: "Repository", icon: "ic:round-assessment" },
     { href: "/profile", label: "Profile", icon: "ic:round-person" },
-    { href: "/settings", label: "Settings", icon: "ic:round-settings" },
-    { href: "/logout", label: "Logout", icon: "ic:round-logout" },
+    // { href: "/settings", label: "Settings", icon: "ic:round-settings" },
+    // { href: "/logout", label: "Keluar", icon: "ic:round-logout" },
 ];
 
 const SidebarContent = ({ user }: { user: User }) => {
@@ -59,6 +60,14 @@ const SidebarContent = ({ user }: { user: User }) => {
                             </Link>
                         </li>
                     ))}
+                    <li className="mb-1">
+                        <form action={logout} className="w-full">
+                            <button type="submit" className="w-full flex items-center gap-3 p-3 rounded-lg text-base transition-colors font-semibold text-gray-500 hover:bg-gray-100">
+                            <Icon icon="ic:round-logout" className="w-6 h-6" />
+                            <span>Keluar</span>
+                            </button>
+                        </form>
+                    </li>
                 </ul>
             </nav>
 

@@ -1,6 +1,4 @@
 "use client";
-import { fetchTransactions } from '@/features/payment/data';
-import { getSession } from '@/features/auth/session';
 import { redirect } from 'next/navigation';
 import TransactionTable from './TransactionTable';
 import { useEffect, useState } from 'react';

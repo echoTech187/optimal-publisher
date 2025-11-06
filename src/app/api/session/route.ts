@@ -6,6 +6,6 @@ export async function GET() {
     const session = await getSession();
     return NextResponse.json(session);
   } catch (error) {
-    return new NextResponse('Error fetching session', { status: 500 });
+    return NextResponse.json({ error: 'Error fetching session' }, { status: 500 });
   }
 }

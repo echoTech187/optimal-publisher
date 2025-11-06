@@ -11,6 +11,6 @@ export async function GET() {
     const transactions = await fetchTransactions(session.id);
     return NextResponse.json(transactions);
   } catch (error) {
-    return new NextResponse('Error fetching transactions', { status: 500 });
+    return NextResponse.json({ error: 'Error fetching transactions' }, { status: 500 });
   }
 }
