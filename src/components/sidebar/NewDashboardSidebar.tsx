@@ -9,8 +9,9 @@ import { logout } from "@/features/auth/actions";
 
 const navLinks = [
     { href: "/dashboard", label: "Dashboard", icon: "ic:round-dashboard" },
-    { href: "/transactions", label: "Daftar Transaksi", icon: "ic:round-swap-horiz" },
+    { href: "/transactions", label: "Penulisan ISBN", icon: "ic:round-swap-horiz" },
     { href: "/hki", label: "Hak Kekayaan Intelektual", icon: "ic:round-assignment" },
+    { href: "/events", label: "Pendaftaran Acara", icon: "ic:round-event" },
     { href: "/repository", label: "Repository", icon: "ic:round-assessment" },
     { href: "/profile", label: "Profile", icon: "ic:round-person" },
     // { href: "/settings", label: "Settings", icon: "ic:round-settings" },

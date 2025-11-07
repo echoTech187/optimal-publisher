@@ -1,7 +1,4 @@
 "use client";
-import FullPageLoader from "@/components/ui/FullPageLoader";
-
-
 import { useEffect, useState } from "react";
 import { fetchEventDetail, fetchUserEventTransaction } from "@/features/event/data";
 import { EventNews } from "@/types/program";
@@ -11,7 +8,7 @@ import { Icon } from "@iconify/react";
 import { getSession } from "@/features/auth/session";
 import { User } from "@/types/user";
 import { useRouter } from "next/navigation";
-
+import FullPageLoader from "@/components/ui/FullPageLoader";
 interface EventDetailClientPageProps {
   initialEvent: EventNews | null;
   slug: string;
@@ -52,7 +49,7 @@ export default function EventDetailClientPage({ initialEvent, slug }: EventDetai
 
   const handleRegistration = () => {
     if (!event) return;
-    const registrationUrl = userSession?.full_name ? `/event/${event.slug}/payment` : `/signin?redirectedFrom=${encodeURIComponent(`/event/${event.slug}/payment`)}`;
+    const registrationUrl = userSession?.full_name ? `/events/${event.slug}/payment` : `/signin?redirectedFrom=${encodeURIComponent(`/events/${event.slug}/payment`)}`;
     router.push(registrationUrl);
   };
 
@@ -64,7 +61,7 @@ export default function EventDetailClientPage({ initialEvent, slug }: EventDetai
     return <div>Event not found.</div>;
   }
   return (
-    <div className="container mx-auto my-[100px] p-4">
+    <div className="mx-auto p-8">
       <div className="flex max-sm:flex-col justify-between w-full gap-12">
         <Image priority={true} alt={event.title} src={getImageUrl(event.image)} width={0} height={0} className="max-sm:size-full size-1/3 object-cover mb-4" />
         <div className="w-full">

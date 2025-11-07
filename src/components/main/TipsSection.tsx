@@ -1,10 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion , Variants} from 'framer-motion';
 
 // Animation variants can be reused or defined here
-const sectionVariants = {
+const sectionVariants : Variants= {
     hidden: { opacity: 0, y: 50 },
     visible: {
         opacity: 1,
@@ -20,7 +20,7 @@ export default function TipsSection({ images }: { images: string[] }) {
 
     return (
         <motion.section
-            className="my-12 p-8 lg:p-12"
+            className="mt-12 p-8 lg:p-12"
             variants={sectionVariants}
             initial="hidden"
             whileInView="visible"

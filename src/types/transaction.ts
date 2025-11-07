@@ -1,7 +1,9 @@
 export interface Transaction {
     id: string;
+    isbn_program_id: number;
     created_at: string; // Assuming date is a string that can be parsed by Date
     pack_name: string;
+    pack: Package;
     amount: number;
     transactionable?: Transactionable | undefined | null;
     transaction_code: string;
@@ -16,6 +18,12 @@ export interface Transaction {
     invoice_date?: string | null;
     is_active?: boolean;
 };
+export interface Package {
+    id: number;
+    name: string;
+    description: string;
+    price: number;
+}
 
 export interface TransactionStatus {
     id: number;
@@ -35,10 +43,21 @@ export interface PaymentMethod {
 export interface Transactionable {
     id: number;
     title?: string;
-    book_title?: string;
+    book_title?: string | BookTitle[] | null;
     address?: string;
     book_upload?: string;
+    topic?: Topic;
     is_active?: boolean;
+};
+
+export interface Topic {
+    id: number;
+    topic_name: string;
+};
+
+export interface BookTitle {
+    id: number;
+    title: string;
 };
 
 export interface PlanDetail {

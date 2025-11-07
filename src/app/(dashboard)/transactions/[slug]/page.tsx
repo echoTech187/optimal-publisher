@@ -45,9 +45,17 @@ export default async function TransactionDetailPage({ params }: { params: { slug
                 <Icon icon="ic:round-folder-open" className="w-12 h-12 mb-3" />
                 <p className="text-lg font-bold text-gray-900 mb-4">Pesanan belum selesai.</p>
                 <p className="text-center text-gray-600">Silahkan lanjutkan dengan menekan tombol di bawah ini untuk melanjutkan.</p>
-                <a href={`/payment/${slug}`} className="mt-4 px-4 py-2 border border-fuchsia-600 text-fuchsia-600 rounded-md hover:border-fuchsia-700 transition-colors flex items-center gap-2">
-                    Lanjutkan Pembayaran <Icon icon="tabler:arrow-right" className="size-6" width="24" height="24" />
-                </a>
+                <div className="flex justify-center gap-4 my-8">
+                    <a href="#" className="bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg hover:bg-gray-300 transition-colors flex items-center">
+                        <Icon icon="ion:close-outline" className="mr-2" />
+                        Batalkan Pesanan
+                    </a>
+                    <a href={`/payment/${slug}`} className="bg-gray-800 text-white font-semibold py-3 px-6 rounded-lg hover:bg-gray-700 transition-colors flex items-center">
+                        Lanjutkan Pembayaran
+                        <Icon icon="ion:arrow-forward-outline" className="ml-2" />
+                    </a>
+                    
+                </div>
             </div>
         );
     }

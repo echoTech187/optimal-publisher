@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import type { Transaction } from '@/types/transaction';
 import { Icon } from "@iconify/react"; // Added Icon import
+import Pagination from '@/components/ui/Pagination';
 
 // --- Helper Components ---
 const StatusBadge = ({ status }: { status: string | undefined }) => {
@@ -27,7 +28,6 @@ const StatusBadge = ({ status }: { status: string | undefined }) => {
 const TransactionRow = ({ trx }: { trx: Transaction }) => {
     const [isDropdownOpen, setDropdownOpen] = useState(false);
     const [copied, setCopied] = useState(false);
-
     const handleCopy = (text: string) => {
         navigator.clipboard.writeText(text).then(() => {
             setCopied(true);
@@ -54,7 +54,23 @@ const TransactionRow = ({ trx }: { trx: Transaction }) => {
                     </button>
                 </div>
             </td>
-            <td className="p-4 text-gray-800 dark:text-gray-200">{trx.pack_name}<br />{String(trx.transactionable?.title || trx.transactionable?.book_title)}</td>
+            <td className="p-4 text-gray-800 dark:text-gray-200">
+                <p className='font-semibold'>
+                    {
+                        trx.pack_name ? `${trx.pack_name}` : '-'
+                    }
+                </p>
+
+
+            </td>
+            <td className="p-4 text-gray-600 dark:text-gray-400">
+                <div className='text-capitalize text-sm text-gray-600' dangerouslySetInnerHTML={{
+                    __html: (trx.isbn_program_id === 1) ? (trx.transactionable as any)?.book_title :
+                        (trx.isbn_program_id === 5) ? (trx.transactionable as any)?.title :
+                            (trx.transactionable as any)?.book_title?.title ? (trx.transactionable as any)?.book_title?.title + '<br/> ' + (trx.transactionable as any)?.topic?.topic_name : 'N/A'
+                }} />
+            </td>
+            <td className="p-4 text-gray-600 dark:text-gray-400">{(trx.transactionable as any)?.address}</td>
             <td className="p-4 text-gray-600 dark:text-gray-400">{new Date(trx.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</td>
             <td className="p-4 text-gray-800 dark:text-gray-200 text-right font-mono">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(trx.amount)}</td>
             <td className="p-4 text-center"><span className="px-2 py-1 text-xs font-medium rounded-full inline-block bg-gray-100 text-gray-800">{trx.payment_method?.name}</span></td>
@@ -68,7 +84,7 @@ const TransactionRow = ({ trx }: { trx: Transaction }) => {
     );
 };
 
-export default function TransactionTable({ transactions }: { transactions: Transaction[] }) {
+export default function TransactionTable({ transactions, totalItems, itemsPerPage, currentPage, onPageChange, isLoading }: { transactions: Transaction[], totalItems: number, itemsPerPage: number, currentPage: number, onPageChange: (page: number) => void, isLoading: boolean }) {
     return (
         <div className="bg-white/60 dark:bg-gray-800 rounded-xl overflow-hidden">
             {/* Desktop Table */}
@@ -78,41 +94,74 @@ export default function TransactionTable({ transactions }: { transactions: Trans
                         <tr>
                             <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300">Kode Transaksi</th>
                             <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300 max-w-1/6">Paket Pembelian</th>
+                            <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300">Judul</th>
+                            <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300">Alamat Pengiriman</th>
                             <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300">Tanggal</th>
                             <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300 text-right">Jumlah</th>
-                            <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300 text-center">Metode Pembayaran</th>
+                            <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300 text-center">Pembayaran Melalui</th>
                             <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300 text-center">Status</th>
                             <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300 text-center">#</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {transactions.map((trx) => (
-                            <TransactionRow key={trx.id} trx={trx} />
-                        ))}
-                    </tbody>
+
+                    {isLoading ? (
+                        <tbody>
+                            <tr>
+                                <td colSpan={9} className="text-center p-4 ">
+                                    <p className='flex items-center justify-center gap-2'>
+                                        <Icon icon="line-md:loading-twotone-loop" className="mx-auto text-4xl" />
+                                    </p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    ) : (
+                        <tbody>
+                            {transactions.map((trx) => (
+                                <TransactionRow key={trx.id} trx={trx} />
+                            ))}
+                        </tbody>
+                    )}
                 </table>
             </div>
 
             {/* Mobile Card List */}
             <div className="md:hidden space-y-4 p-4">
-                {transactions.map((trx) => (
-                    <div key={trx.id} className="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg shadow">
-                        <div className="flex justify-between items-start mb-2">
-                            <span className="font-bold text-lg text-gray-800 dark:text-gray-200">{trx.pack_name}</span>
-                            <StatusBadge status={trx.status?.status} />
-                        </div>
-                        <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                            <span>{trx.transaction_code}</span> &bull; <span>{new Date(trx.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
-                        </div>
-                        <div className="text-right text-lg font-bold text-gray-900 dark:text-gray-100">
-                            {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(trx.amount)}
-                        </div>
-                        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-600 text-right">
-                             {trx.transaction_code && <a href={`/transactions/${trx.transaction_code}`} className="text-blue-600 hover:underline">Lihat Detail</a>}
-                        </div>
+                {isLoading ? (
+                    <div className="text-center p-8">
+                        <Icon icon="line-md:loading-twotone-loop" className="mx-auto text-4xl" />
                     </div>
-                ))}
+                ) : (
+                    transactions.map((trx) => (
+                        <div key={trx.id} className="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg shadow">
+                            <div className="flex justify-between items-start mb-2">
+                                <span className="font-bold text-lg text-gray-800 dark:text-gray-200">
+                                    {
+                                        (trx.isbn_program_id === 1) ? (trx.transactionable as any)?.book_title?.title :
+                                            (trx.isbn_program_id === 5) ? (trx.transactionable as any)?.title :
+                                                (trx.transactionable as any)?.book_title?.title ?? (trx.transactionable as any)?.title ?? 'N/A'
+                                    }
+                                </span>
+                                <StatusBadge status={trx.status?.status} />
+                            </div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                                <span>{trx.transaction_code}</span> &bull; <span>{new Date(trx.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                            </div>
+                            <div className="text-right text-lg font-bold text-gray-900 dark:text-gray-100">
+                                {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(trx.amount)}
+                            </div>
+                            <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-600 text-right">
+                                {trx.transaction_code && <a href={`/transactions/${trx.transaction_code}`} className="text-blue-600 hover:underline">Lihat Detail</a>}
+                            </div>
+                        </div>
+                    ))
+                )}
             </div>
+            <Pagination
+                totalItems={totalItems}
+                itemsPerPage={itemsPerPage}
+                currentPage={currentPage}
+                onPageChange={onPageChange}
+            />
         </div>
     );
 }
