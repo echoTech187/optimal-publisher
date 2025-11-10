@@ -120,7 +120,8 @@ export default function FormProgramPrivate(props: { data: any, user: User }) {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (validateForm(true)) {
-            formAction(new FormData(e.currentTarget));
+            const formData = new FormData(e.currentTarget);
+            formAction(formData);
         }
     };
 

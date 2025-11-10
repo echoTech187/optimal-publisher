@@ -69,7 +69,8 @@ export default function FormProgramReference(props: { data: any, user: User, sho
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (validateForm(true)) {
-            formAction(new FormData(e.currentTarget));
+            const formData = new FormData(e.currentTarget);
+            formAction(formData);
         }
     };
 
