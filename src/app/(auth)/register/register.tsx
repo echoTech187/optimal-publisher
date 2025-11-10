@@ -92,6 +92,7 @@ export default function Register() {
         async function fetchInitialData() {
             setIsLoading(true);
             const [instData, majorData] = await Promise.all([fetchInstitutions(), fetchMajors()]);
+            console.log(instData, majorData);
             setInstitution(instData);
             setMajor(majorData);
             setIsLoading(false);

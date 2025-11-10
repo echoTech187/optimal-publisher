@@ -93,11 +93,11 @@ export async function fetchTransaction(slug: string | null): Promise<any | null>
     }
 }
 
-export async function fetchHkiDataTransaction(code_transaction: string | null): Promise<any | null> {
+export async function fetchHkiTransaction(slug: string | null): Promise<any | null> {
     const token = (await cookies()).get('token')?.value || '';
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-    if (!token || !code_transaction) {
+    if (!token || !slug) {
         return null;
     }
 
@@ -106,7 +106,7 @@ export async function fetchHkiDataTransaction(code_transaction: string | null): 
     }
 
     try {
-        const response = await fetch(`${apiBaseUrl}/api/v1/hki-transaction/${code_transaction}`, {
+        const response = await fetch(`${apiBaseUrl}/api/v1/hki-transaction/${slug}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

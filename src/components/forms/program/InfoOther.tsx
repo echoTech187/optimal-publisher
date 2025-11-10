@@ -1,44 +1,71 @@
 
 import React from 'react';
 import type { Major, Institution} from '@/types/form';
+import StyledSelectField from './StyledSelectField';
+import StyledInputField from './StyledInputField';
 
 interface ProgramSelectionProps {
     institution: Institution[];
     majors: Major[];
     loading: boolean;
+    form: any;
+    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+    error: any;
 }
 const InfoOther: React.FC<ProgramSelectionProps> = ({
     institution,
     majors,
     loading,
+    form,
+    onChange,
+    error,
 }) => {
     return (
     <>
         <div id="form-institution" className="mb-4 max-md:col-span-2 md:col-span-1">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="institution">Asal Kampus/Institusi</label>
-            <select className="select rounded-md" name="institution" id="institution" disabled={loading}>
+            <StyledSelectField
+                label="Asal Kampus/Institusi"
+                name="institution"
+                value={form.institution}
+                onChange={onChange}
+                disabled={loading}
+            >
                 <option value="">Pilih Asal Kampus/Institusi</option>
                 {institution.map((inst) => (
                     <option key={inst.id} value={inst.id}>
                         {inst.name}
                     </option>
                 ))}
-            </select>
+            </StyledSelectField>
+            {error.institution && <p className="text-red-500 text-sm mt-1">{error.institution}</p>}
         </div>
         <div id="form-major" className="mb-4 max-md:col-span-2 md:col-span-1">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="major">Jurusan</label>
-            <select className="select rounded-md" name="major" id="major" disabled={loading}>
+            <StyledSelectField
+                label="Jurusan"
+                name="major"
+                value={form.major}
+                onChange={onChange}
+                disabled={loading}
+            >
                 <option value="">Pilih Jurusan</option>
                 {majors.map((major) => (
                     <option key={major.id} value={major.id}>
                         {major.major_name}
                     </option>
                 ))}
-            </select>
+            </StyledSelectField>
+            {error.major && <p className="text-red-500 text-sm mt-1">{error.major}</p>}
         </div>
         <div id="form-city" className="mb-4 max-md:col-span-2 md:col-span-1">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="city">Kota/Provinsi/Kabupaten</label>
-            <input type="text" name="city" id="city" className="input rounded-md" />
+            <StyledInputField
+                label="Kota/Provinsi/Kabupaten"
+                name="city"
+                placeholder="Kota/Provinsi/Kabupaten"
+                value={form.city}
+                onChange={onChange}
+                required
+            />
+            {error.city && <p className="text-red-500 text-sm mt-1">{error.city}</p>}
         </div>
     </>
     )

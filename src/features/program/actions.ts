@@ -63,8 +63,8 @@ export async function submitPrivateProgram(prevState: FormState, formData: FormD
     if (!manuscript || manuscript.size === 0) {
         return { success: false, message: "Naskah wajib diunggah." };
     }
-    if (manuscript.size > 5 * 1024 * 1024) { // 5MB
-        return { success: false, message: "Ukuran file tidak boleh lebih dari 5MB." };
+    if (manuscript.size > 10 * 1024 * 1024) { // 10MB
+        return { success: false, message: "Ukuran file tidak boleh lebih dari 10MB." };
     }
 
     return submitProgram(formData);

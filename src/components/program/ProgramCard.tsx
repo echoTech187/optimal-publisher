@@ -25,7 +25,7 @@ const ProgramCard = ({ program }: { program: Program }) => {
             >
                 <Image src={getImageUrl(program.images)} loading="lazy" alt={program.program_name} width={150} height={150} className="mb-4" />
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white">{program.program_name}</h3>
-                <p className="text-base text-gray-600 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <p className="text-center text-gray-600 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     {program.program_description}
                 </p>
             </div>

@@ -1,7 +1,7 @@
 'use client';
 import { Icon } from '@iconify/react';
 import { useEffect, useState } from 'react';
-import { fetchHkiDataTransaction, fetchPaymentMethods } from '@/features/payment/data';
+import { fetchHkiTransaction, fetchPaymentMethods } from '@/features/payment/data';
 import { useSearchParams } from 'next/navigation';
 import { getImageUrl } from '@/lib/utils/image';
 import FullPageLoader from '@/components/ui/FullPageLoader';
@@ -117,7 +117,7 @@ export default function HKIPaymentPage() {
     useEffect(() => {
         const fetchHkiData = async () => {
             if (code_transaction) {
-                const response = await fetchHkiDataTransaction(code_transaction);
+                const response = await fetchHkiTransaction(code_transaction);
                 const response2 = await fetchPaymentMethods();
                 setPaymentMethods(response2);
                 setHkiData(response);
@@ -158,11 +158,11 @@ export default function HKIPaymentPage() {
         }
 
         const formData = new FormData();
-        formData.append('registration_id', hkiData.id);
+        formData.append('registration_id', hkiData.registration_id);
         formData.append('package_id', hkiData.package.id);
         formData.append('amount', hkiData.package.price);
         formData.append('payment_method', selectedPaymentMethod.toString());
-        formData.append('transaction_proof_path', upload.uploadedId);
+        formData.append('transaction_proof_path', 'documents/hki/' + upload.uploadedId);
 
         try {
             const response = await uploadPaymentProofHki(formData);
@@ -170,15 +170,23 @@ export default function HKIPaymentPage() {
             if (response.status === 'success') {
                 window.location.href = `/hki/payment/${code_transaction}?status=waiting_confirmation`;
             } else {
-                setError(response.message);
+                if (typeof response.message === 'object') {
+                    setError(JSON.stringify(response.message));
+                } else {
+                    setError(response.message);
+                }
                 setIsLoading(false);
             }
         } catch (error: any) {
-                            setError(JSON.stringify(error.message));            setIsLoading(false);
+            if (typeof error.message === 'object') {
+                setError(JSON.stringify(error.message));
+            } else {
+                setError(error.message);
+            }
+            setIsLoading(false);
         }
     };
     if(isLoading) return <FullPageLoader />
-    console.log(hkiData);
     return (
         <div className="bg-gray-50 min-h-screen">
             <div className="">

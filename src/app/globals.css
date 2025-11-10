@@ -119,3 +119,30 @@ button.active {
     border-color: #3b82f6;
     box-shadow: 0 0 0 2px #3b82f6;
 }
+
+.select-field-large {
+    --size-field: calc(var(--size, .25rem) * 1.5);
+}
+
+.popular-card::before {
+    content: 'Popular';
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #fb923c;
+    color: white;
+    padding: 0.5rem 2.5rem;
+    transform: rotate(45deg) translate(25%, -100%);
+    transform-origin: top left;
+    font-size: 0.75rem;
+    font-weight: 600;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+    .popular-card::before {
+        padding: 0.25rem 1.5rem;
+        transform: rotate(45deg) translate(20%, -100%);
+    }
+}

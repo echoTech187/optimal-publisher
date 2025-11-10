@@ -7,21 +7,20 @@ import { cookies } from 'next/headers';
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 async function fetchData(endpoint: string) {
-    const token = (await cookies()).get('token')?.value;
+    // const token = (await cookies()).get('token')?.value;
 
-    if (!token) {
-        return [];
-    }
+    // if (!token) {
+    //     return [];
+    // }
     if (!API_BASE_URL) {
         throw new Error("API base URL is not configured.");
     }
-
+    console.log('Fetching from endpoint:', `${API_BASE_URL}/api/v1${endpoint}`);
     try {
         const response = await fetch(`${API_BASE_URL}/api/v1${endpoint}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
             },
             cache: 'no-store',
         });
@@ -44,7 +43,7 @@ export async function fetchInstitutions() {
 }
 
 export async function fetchMajors() {
-    return fetchData("/majors");
+    return fetchData("/major");
 }
 
 export async function fetchBookTitles(selectedMajor: string) {

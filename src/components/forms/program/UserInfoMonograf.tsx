@@ -2,8 +2,9 @@
 "use client";
 import React from 'react';
 import { User } from '@/types/user';
+import StyledInputField from './StyledInputField';
 
-const UserInfoMonograf = ({ user, memberCount }: { user: User | null, memberCount: number | 1 }) => {
+const UserInfoMonograf = ({ user, memberCount, form, onChange, error }: { user: User | null, memberCount: number | 1, form: any, onChange: (e: React.ChangeEvent<HTMLInputElement>) => void, error: any }) => {
 
     const changeWritter = (checked: boolean) => {
         if (checked) {
@@ -18,16 +19,37 @@ const UserInfoMonograf = ({ user, memberCount }: { user: User | null, memberCoun
     }
     return (<>
         <div className="mb-2 col-span-2" id="form-title">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">Judul Monograf</label>
-            <input type="text" name="title" id="title" className="input rounded-md" autoFocus />
+            <StyledInputField
+                label="Judul Monograf"
+                name="title"
+                placeholder="Judul Monograf"
+                value={form.title}
+                onChange={onChange}
+                required
+            />
+            {error.title && <p className="text-red-500 text-sm mt-1">{error.title}</p>}
         </div>
         <div className="mb-2 col-span-2 md:col-span-1" id="form-chief-writer">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="chief_writer">Nama Lengkap beserta Gelar (Penulis Utama)</label>
-            <input type="text" name="chief_writer" id="chief_writer" className="input rounded-md" />
+            <StyledInputField
+                label="Nama Lengkap beserta Gelar (Penulis Utama)"
+                name="chief_writer"
+                placeholder="Nama Lengkap"
+                value={form.chief_writer}
+                onChange={onChange}
+                required
+            />
+            {error.chief_writer && <p className="text-red-500 text-sm mt-1">{error.chief_writer}</p>}
         </div>
         <div className="col-span-2 md:col-span-1" id="form-chief-phone">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="writter_phone">No. Telepon</label>
-            <input type="text" name="writter_phone" id="writter_phone" className="input rounded-md" />
+            <StyledInputField
+                label="No. Telepon"
+                name="writter_phone"
+                placeholder="No. Telepon"
+                value={form.writter_phone}
+                onChange={onChange}
+                required
+            />
+            {error.writter_phone && <p className="text-red-500 text-sm mt-1">{error.writter_phone}</p>}
         </div>
         <div className="mb-2 col-span-2 join items-center gap-4 -mt-4" id="form-members-too">
             <input type="checkbox" name="members_too" id="members_too" className="checkbox checkbox-sm" value={"true"} onChange={(e) => changeWritter(e.target.checked)} />
@@ -49,16 +71,22 @@ const UserInfoMonograf = ({ user, memberCount }: { user: User | null, memberCoun
                 Array.from({ length: memberCount }, (_, i) => (
                     <div key={i} className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full member-item mb-4">
                         <div className="mb-2 w-full">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={`members_name_${i}`}>
-                                Nama Lengkap beserta Gelar (Anggota {i + 1})
-                            </label>
-                            <input type="text" name="members_name[]" id={`members_name_${i}`} className="input rounded-md" placeholder="Masukan Nama Anggota" />
+                            <StyledInputField
+                                label={`Nama Lengkap beserta Gelar (Anggota ${i + 1})`}
+                                name={`members_name_${i}`}
+                                placeholder="Masukan Nama Anggota"
+                                value={form[`members_name_${i}`]}
+                                onChange={onChange}
+                            />
                         </div>
                         <div className="mb-2">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={`members_phone_${i}`}>
-                                No. Telepon
-                            </label>
-                            <input type="text" name="members_phone[]" id={`members_phone_${i}`} className="input rounded-md" placeholder="Masukan No. Telepon Anggota" />
+                            <StyledInputField
+                                label="No. Telepon"
+                                name={`members_phone_${i}`}
+                                placeholder="Masukan No. Telepon Anggota"
+                                value={form[`members_phone_${i}`]}
+                                onChange={onChange}
+                            />
                         </div>
                     </div>
                 ))

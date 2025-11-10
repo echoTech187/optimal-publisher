@@ -33,8 +33,8 @@ export default function EventRegistrationTable({ events, totalItems, itemsPerPag
                         <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300">Tanggal</th>
                         <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300">Waktu</th>
                         <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300">Lokasi</th>
+                        <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300">Total Bayar</th>
                         <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300 text-center">Status</th>
-                        <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300 text-center">#</th>
                     </tr>
                 </thead>
                 {isLoading ? (
@@ -51,14 +51,12 @@ export default function EventRegistrationTable({ events, totalItems, itemsPerPag
                     <tbody>
                         {events.map((event) => (
                             <tr key={event.id} className="border-b border-gray-200 dark:border-gray-700 last:border-b-0 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-                                <td className="p-4 font-medium text-gray-800 dark:text-gray-200">{event.event_name}</td>
+                                <td className="p-4 font-medium text-gray-800 dark:text-gray-200"><a href={`/events/${event.event.slug}`}>{event.event_name}</a></td>
                                 <td className="p-4 text-gray-600 dark:text-gray-400">{new Date(event.event_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</td>
                                 <td className="p-4 text-gray-600 dark:text-gray-400">{event.event_time}</td>
                                 <td className="p-4 text-gray-600 dark:text-gray-400">{event.event_location}</td>
+                                <td className="p-4 text-gray-600 dark:text-gray-400">{parseInt(event.event_price) > 0 ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(parseInt(event.event_price)) : 'Gratis'}</td>
                                 <td className="p-4 text-center text-nowrap"><StatusBadge status={event.event_status?.name} /></td>
-                                <td className="p-4 text-right">
-                                    <a href={`/event/${event.slug}`} className="text-gray-700 block px-4 py-2 text-sm" role="menuitem"><Icon icon="ion:arrow-forward-outline" className="size-6" /></a>
-                                </td>
                             </tr>
                         ))}
                     </tbody>

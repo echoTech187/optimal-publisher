@@ -1,15 +1,24 @@
-
 "use client";
 
 import FormProgramMonograf from "@/components/forms/FormProgramMonograf";
 import { User } from "@/types/user";
-import Image from "next/image";
+import { Icon } from "@iconify/react";
+import React from "react";
 import { useState } from "react";
 
 export default function MonografPack(props: { data: any, user: User }) {
     const { data, user } = props;
     const [showCustomerForm, setShowCustomerForm] = useState(false);
     const [itemSelected, setItemSelected] = useState("");
+    const scrollContainer = React.useRef<HTMLDivElement>(null);
+    const cardColors = [
+        { bg: 'bg-white', text: 'text-gray-800' },
+        { bg: 'bg-gray-100', text: 'text-gray-800' },
+        { bg: 'bg-blue-500', text: 'text-white' },
+        { bg: 'bg-green-500', text: 'text-white' },
+        { bg: 'bg-purple-500', text: 'text-white' },
+        { bg: 'bg-yellow-500', text: 'text-white' },
+    ];
 
     function showFormCustomer(data: any) {
         setItemSelected(data);
@@ -17,40 +26,66 @@ export default function MonografPack(props: { data: any, user: User }) {
         window.scrollTo({ top: window.innerHeight * 0.6, behavior: 'smooth' });
     }
 
+    const scroll = (scrollOffset: number) => {
+        if (scrollContainer.current) {
+            scrollContainer.current.scrollLeft += scrollOffset;
+        }
+    };
+
     return (
         <section className="w-full h-full py-24 lg:py-32">
             <header className={`container mx-auto px-4 text-center`}>
                 <h2 className="text-3xl md:text-4xl font-bold z-10 text-gray-700 dark:text-gray-50 leading-tight text-center">Pilih Paket Optimal</h2>
                 <p className="text-lg text-gray-600 dark:text-gray-300 mt-2">Pilih paket yang sesuai dengan kebutuhanmu</p>
             </header>
-            <div className={`container mx-auto px-4 mt-12`}>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {
-                        data.map((item: any, index: number) => (
-                            <div key={item.slug} className="flex flex-col rounded-xl shadow-xs bg-gradient-to-b from-[#ffeaa4] to-white dark:from-[#111] dark:to-[#333] dark:text-gray-50 text-[#333] hover:shadow-2xl hover:shadow-black/20 backdrop-blur-md">
-                                <div className="flex items-center gap-2 text-xl p-6">
-                                    <div className="size-[60px]">
-                                        <Image priority={true} src="/penerbit-logo.png" alt="Icon Nurse" width={4800} height={3800} className="object-contain size-full -z-1 rounded-t-lg" />
-                                    </div>
-                                    <div>
-                                        <p className="text-sm">{item.package_type.name}</p>
-                                        <h3 className="text-lg font-bold">{item.name}</h3>
-                                    </div>
-                                </div>
-                                <div className=" w-full px-6 flex-1">
-                                    <p className="text-sm">{item.description}</p>
-                                </div>
-                                <div className="flex justify-between items-center p-6">
-                                    <div className="flex justify-center">
-                                        <span className="text-base text-black dark:text-gray-50 font-bold">{parseInt(item.price).toLocaleString("id-ID", { style: "currency", currency: "IDR" })}/Penulis/Topik</span>
-                                    </div>
-                                    <button onClick={() => showFormCustomer(item)} className="w-fit font-bold py-2 px-4 rounded transition-colors bg-black dark:bg-black/80 dark:text-amber-500 dark:hover:text-amber-400 text-white hover:font-semibold text-sm hover:bg-transparent border border-transparent hover:border-black hover:text-black flex items-center justify-center">
-                                        Pilih Paket
-                                    </button>
-                                </div>
-                            </div>
-                        ))
-                    }
+            <div className="container mx-auto px-4 my-12">
+                <div className="relative">
+                    <button onClick={() => scroll(-300)} className="absolute left-0 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-md z-10">
+                        <Icon icon="ion:chevron-back" />
+                    </button>
+                    <div ref={scrollContainer} className="overflow-x-auto pb-4 -mb-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                        <div className="grid grid-flow-col auto-cols-max gap-6 mx-auto px-12">
+                            {
+                                data.map((item: any, index: number) => {
+                                    const cardStyle = cardColors[index % cardColors.length];
+                                    return (
+                                        <div key={item.slug} className="relative w-85">
+                                            {index === 0 && (
+                                                <div className="absolute top-0 right-0 overflow-hidden w-24 h-24">
+                                                    <div className="absolute transform rotate-45 bg-orange-400 text-center text-white font-semibold py-1 right-[-50px] top-[20px] w-[170px] shadow-md">
+                                                        Popular
+                                                    </div>
+                                                </div>
+                                            )}
+                                            <div className={`flex flex-col rounded-xl border border-gray-200 dark:border-gray-700 h-full ${cardStyle.bg} ${cardStyle.text}`}>
+                                                <div className="p-6">
+                                                    <h3 className="text-xl font-bold">{item.name}</h3>
+                                                    <p className="text-sm mt-2">{item.description}</p>
+                                                    <div className="my-8">
+                                                        <span className="text-2xl font-bold">{parseInt(item.price).toLocaleString("id-ID", { style: "currency", currency: "IDR" })}</span>
+                                                        <span className="text-sm text-gray-400">/Penulis/Topik</span>
+                                                    </div>
+                                                    <button onClick={() => showFormCustomer(item)} className={`w-full font-bold py-3 px-4 rounded-lg transition-colors ${cardStyle.bg === 'bg-gray-800' || cardStyle.bg === 'bg-blue-500' || cardStyle.bg === 'bg-green-500' || cardStyle.bg === 'bg-purple-500' || cardStyle.bg === 'bg-yellow-500' ? 'bg-white text-black' : 'bg-orange-500 text-white'} hover:bg-opacity-90`}>
+                                                        Pilih Paket
+                                                    </button>
+                                                </div>
+                                                <div className="border-t border-gray-200 dark:border-gray-700 p-6">
+                                                    <h4 className="font-bold mb-4">What's included</h4>
+                                                    <ul className="space-y-2 text-sm">
+                                                        <li className="flex items-center"><Icon icon="ion:checkmark" className="text-green-500 mr-2" /> Unlimited requests</li>
+                                                        <li className="flex items-center"><Icon icon="ion:checkmark" className="text-green-500 mr-2" /> Unlimited brands</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })
+                            }
+                        </div>
+                    </div>
+                    <button onClick={() => scroll(300)} className="absolute right-0 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-md z-10">
+                        <Icon icon="ion:chevron-forward" />
+                    </button>
                 </div>
             </div>
 

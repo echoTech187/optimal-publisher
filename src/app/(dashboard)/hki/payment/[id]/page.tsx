@@ -1,7 +1,7 @@
 "use client";
 import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
-import { fetchHkiDataTransaction, fetchPaymentMethods } from "@/features/payment/data";
+import { fetchHkiTransaction, fetchPaymentMethods } from "@/features/payment/data";
 import { PaymentMethod } from "@/types/transaction";
 import FullPageLoader from "@/components/ui/FullPageLoader";
 
@@ -28,7 +28,7 @@ const StatusCard = ({ status, hkiData, paymentMethods }: { status: string, hkiDa
         }
 
         const formData = new FormData();
-        formData.append('registration_id', hkiData.id);
+        formData.append('registration_id', hkiData.registration_id);
         formData.append('package_id', hkiData.package.id);
         formData.append('amount', hkiData.package.price);
         formData.append('payment_method', selectedPaymentMethod);
@@ -223,7 +223,7 @@ export default function TransactionStatusPage({ searchParams }: { searchParams: 
 
     useEffect(() => {
         const fetchHkiData = async () => {
-            const response = await fetchHkiDataTransaction(id as string);
+            const response = await fetchHkiTransaction(id as string);
             const methods : PaymentMethod[] = await fetchPaymentMethods();
             setPaymentMethods(methods);
             setHkiData(response);
