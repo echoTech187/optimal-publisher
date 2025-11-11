@@ -35,7 +35,14 @@ export default function FormProgramMonograf(props: { data: any, user: User }) {
         error: dataError,
     } = useProgramMonografForm();
 
-    const [form, setForm] = useState<any>({});
+    const [form, setForm] = useState<any>({
+        title: '',
+        chief_writer: '',
+        writter_phone: '',
+        institution: '',
+        major: '',
+        city: '',
+    });
     const [address, setAddress] = useState('');
     const [agreement, setAgreement] = useState(false);
     const [errors, setErrors] = useState<any>({});
