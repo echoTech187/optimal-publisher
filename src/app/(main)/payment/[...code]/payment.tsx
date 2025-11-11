@@ -7,6 +7,7 @@ import { getImageUrl } from '@/lib/utils/image';
 import uploadPaymentProof from '@/features/payment/actions';
 import Alert, { useAlert } from '@/components/ui/Alert';
 import Link from 'next/link';
+import FormHeader from '@/components/forms/program/FormHeader';
 export default function Payment(props: { data: any, payment: any, loading: boolean }) {
     const router = useSearchParams();
     const type = router.get("type");
@@ -135,19 +136,19 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                             <div className='flex flex-col gap-1'>
                                 <label className="text-sm text-gray-600 dark:text-gray-400">Judul Naskah</label>
                                 <div className="font-semibold text-base text-gray-800 dark:text-white">
-                                {
-                                    data.isbn_program_id === 5 ? (
-                                        data.transactionable.title || '-'
-                                    ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
-                                        <>
-                                            <span>{data.transactionable.book_title.title || '-'}</span>
-                                            <br />
-                                            <span>{data.transactionable.topic.topic_name || '-'}</span>
-                                        </>
-                                    ) : (
-                                        data?.transactionable?.book_title || '-'
-                                    )
-                                }
+                                    {
+                                        data.isbn_program_id === 5 ? (
+                                            data.transactionable.title || '-'
+                                        ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
+                                            <>
+                                                <span>{data.transactionable.book_title.title || '-'}</span>
+                                                <br />
+                                                <span>{data.transactionable.topic.topic_name || '-'}</span>
+                                            </>
+                                        ) : (
+                                            data?.transactionable?.book_title || '-'
+                                        )
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -188,19 +189,19 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                             <div className='flex flex-col gap-1'>
                                 <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Judul Naskah</label>
                                 <div className="font-normal text-gray-700 dark:text-white">
-                                {
-                                    data.isbn_program_id === 5 ? (
-                                        data.transactionable.title || '-'
-                                    ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
-                                        <>
-                                            <span>{data.transactionable.book_title.title || '-'}</span>
-                                            <br />
-                                            <span>{data.transactionable.topic.topic_name || '-'}</span>
-                                        </>
-                                    ) : (
-                                        data?.transactionable?.book_title || '-'
-                                    )
-                                }
+                                    {
+                                        data.isbn_program_id === 5 ? (
+                                            data.transactionable.title || '-'
+                                        ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
+                                            <>
+                                                <span>{data.transactionable.book_title.title || '-'}</span>
+                                                <br />
+                                                <span>{data.transactionable.topic.topic_name || '-'}</span>
+                                            </>
+                                        ) : (
+                                            data?.transactionable?.book_title || '-'
+                                        )
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -240,19 +241,19 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                             <div className='flex flex-col gap-1'>
                                 <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Judul Naskah</label>
                                 <div className="font-normal text-gray-700 dark:text-white">
-                                {
-                                    data.isbn_program_id === 5 ? (
-                                        data.transactionable.title || '-'
-                                    ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
-                                        <>
-                                            <span>{data.transactionable.book_title.title || '-'}</span>
-                                            <br />
-                                            <span>{data.transactionable.topic.topic_name || '-'}</span>
-                                        </>
-                                    ) : (
-                                        data?.transactionable?.book_title || '-'
-                                    )
-                                }
+                                    {
+                                        data.isbn_program_id === 5 ? (
+                                            data.transactionable.title || '-'
+                                        ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
+                                            <>
+                                                <span>{data.transactionable.book_title.title || '-'}</span>
+                                                <br />
+                                                <span>{data.transactionable.topic.topic_name || '-'}</span>
+                                            </>
+                                        ) : (
+                                            data?.transactionable?.book_title || '-'
+                                        )
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -293,19 +294,19 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                             <div className='flex flex-col gap-1'>
                                 <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Judul Naskah</label>
                                 <div className="font-normal text-gray-700 dark:text-white">
-                                {
-                                    data.isbn_program_id === 5 ? (
-                                        data.transactionable.title || '-'
-                                    ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
-                                        <>
-                                            <span>{data.transactionable.book_title.title || '-'}</span>
-                                            <br />
-                                            <span>{data.transactionable.topic.topic_name || '-'}</span>
-                                        </>
-                                    ) : (
-                                        data?.transactionable?.book_title || '-'
-                                    )
-                                }
+                                    {
+                                        data.isbn_program_id === 5 ? (
+                                            data.transactionable.title || '-'
+                                        ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
+                                            <>
+                                                <span>{data.transactionable.book_title.title || '-'}</span>
+                                                <br />
+                                                <span>{data.transactionable.topic.topic_name || '-'}</span>
+                                            </>
+                                        ) : (
+                                            data?.transactionable?.book_title || '-'
+                                        )
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -346,19 +347,19 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                             <div className='flex flex-col gap-1'>
                                 <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Judul Naskah</label>
                                 <div className="font-normal text-gray-700 dark:text-white">
-                                {
-                                    data.isbn_program_id === 5 ? (
-                                        data.transactionable.title || '-'
-                                    ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
-                                        <>
-                                            <span>{data.transactionable.book_title.title || '-'}</span>
-                                            <br />
-                                            <span>{data.transactionable.topic.topic_name || '-'}</span>
-                                        </>
-                                    ) : (
-                                        data?.transactionable?.book_title || '-'
-                                    )
-                                }
+                                    {
+                                        data.isbn_program_id === 5 ? (
+                                            data.transactionable.title || '-'
+                                        ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
+                                            <>
+                                                <span>{data.transactionable.book_title.title || '-'}</span>
+                                                <br />
+                                                <span>{data.transactionable.topic.topic_name || '-'}</span>
+                                            </>
+                                        ) : (
+                                            data?.transactionable?.book_title || '-'
+                                        )
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -399,19 +400,19 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                             <div className='flex flex-col gap-1'>
                                 <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Judul Naskah</label>
                                 <div className="font-normal text-gray-700 dark:text-white">
-                                {
-                                    data.isbn_program_id === 5 ? (
-                                        data.transactionable.title || '-'
-                                    ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
-                                        <>
-                                            <span>{data.transactionable.book_title.title || '-'}</span>
-                                            <br />
-                                            <span>{data.transactionable.topic.topic_name || '-'}</span>
-                                        </>
-                                    ) : (
-                                        data?.transactionable?.book_title || '-'
-                                    )
-                                }
+                                    {
+                                        data.isbn_program_id === 5 ? (
+                                            data.transactionable.title || '-'
+                                        ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
+                                            <>
+                                                <span>{data.transactionable.book_title.title || '-'}</span>
+                                                <br />
+                                                <span>{data.transactionable.topic.topic_name || '-'}</span>
+                                            </>
+                                        ) : (
+                                            data?.transactionable?.book_title || '-'
+                                        )
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -452,19 +453,19 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                             <div className='flex flex-col gap-1'>
                                 <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Judul Naskah</label>
                                 <div className="font-normal text-gray-700 dark:text-white">
-                                {
-                                    data.isbn_program_id === 5 ? (
-                                        data.transactionable.title || '-'
-                                    ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
-                                        <>
-                                            <span>{data.transactionable.book_title.title || '-'}</span>
-                                            <br />
-                                            <span>{data.transactionable.topic.topic_name || '-'}</span>
-                                        </>
-                                    ) : (
-                                        data?.transactionable?.book_title || '-'
-                                    )
-                                }
+                                    {
+                                        data.isbn_program_id === 5 ? (
+                                            data.transactionable.title || '-'
+                                        ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
+                                            <>
+                                                <span>{data.transactionable.book_title.title || '-'}</span>
+                                                <br />
+                                                <span>{data.transactionable.topic.topic_name || '-'}</span>
+                                            </>
+                                        ) : (
+                                            data?.transactionable?.book_title || '-'
+                                        )
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -512,19 +513,19 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                             <div className='flex flex-col gap-1'>
                                 <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Judul Naskah</label>
                                 <div className="font-normal text-gray-700 dark:text-white">
-                                {
-                                    data.isbn_program_id === 5 ? (
-                                        data.transactionable.title || '-'
-                                    ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
-                                        <>
-                                            <span>{data.transactionable.book_title.title || '-'}</span>
-                                            <br />
-                                            <span>{data.transactionable.topic.topic_name || '-'}</span>
-                                        </>
-                                    ) : (
-                                        data?.transactionable?.book_title || '-'
-                                    )
-                                }
+                                    {
+                                        data.isbn_program_id === 5 ? (
+                                            data.transactionable.title || '-'
+                                        ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
+                                            <>
+                                                <span>{data.transactionable.book_title.title || '-'}</span>
+                                                <br />
+                                                <span>{data.transactionable.topic.topic_name || '-'}</span>
+                                            </>
+                                        ) : (
+                                            data?.transactionable?.book_title || '-'
+                                        )
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -548,10 +549,13 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                 <input type="hidden" name="member_id" id='member_id' value={data.member_id} />
                 <input type="hidden" name="amount" id='amount' value={data.amount} />
 
-                <section className="w-full h-auto py-[100px] px-4 container mx-auto 2xl:px-0" id="payment">
-                    <header className="relative text-center mt-12 mb-12">
-                        <h1 className="text-3xl md:text-4xl font-bold z-10 text-gray-700 dark:text-gray-50 leading-tight">Selesaikan Pembayaran</h1>
-                    </header>
+                <section className="w-full h-auto py-12 px-4 container mx-auto 2xl:px-0" id="payment">
+                    <FormHeader title="Selesaikan Pembayaran" description="Segera selesaikan pembayaran anda sebelum waktu habis" />
+                    
+                    <div className="bg-blue-50 border border-blue-200 text-blue-800 text-sm p-4 rounded-lg flex items-start lg:col-span-2 mb-8">
+                        <Icon icon="ion:bulb-outline" className="text-xl mr-3 flex-shrink-0" />
+                        <p>Silahkan melakukan pembayaran sebesar <span className='font-bold'>{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 , maximumFractionDigits: 0})}</span> sebelum <b>{new Date(data.expires_at).toLocaleDateString('id', { day: 'numeric', month: 'long', year: 'numeric' , hour: 'numeric', minute: 'numeric' })}</b> ke rekening berikut:</p>
+                    </div>
                     <main>
 
                         {

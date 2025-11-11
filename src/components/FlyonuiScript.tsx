@@ -20,14 +20,16 @@ export default function FlyonuiScript() {
     initFlyonUI();
   }, []);
 
-  useEffect(() => {
-    if (
-      window.HSStaticMethods &&
-      typeof window.HSStaticMethods.autoInit === 'function'
-    ) {
-      window.HSStaticMethods.autoInit();
-    }
-  }, [path]);
-
+      useEffect(() => {
+          if (
+              window.HSStaticMethods &&
+              typeof window.HSStaticMethods.autoInit === 'function'
+          ) {
+              // Delay the initialization to ensure DOM is fully loaded
+              setTimeout(() => {
+                  window.HSStaticMethods.autoInit();
+              }, 100); // 100ms delay
+          }
+      }, [path]);
   return null;
 }
