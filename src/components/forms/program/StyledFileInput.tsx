@@ -82,7 +82,7 @@ const StyledFileInput = ({ label, description, accepted, required, uploadState, 
                     <span className="text-sm text-gray-500 ml-2 truncate">
                         {file ? file.name : 'Tidak ada file yang dipilih'}
                     </span>
-                    <input id={inputName} type="file" className="hidden" onChange={handleFileSelect} accept={accepted || ''} />
+                    <input id={inputName} name={inputName} type="file" className="hidden" onChange={handleFileSelect} accept={accepted || ''} />
                 </div>
             )}
             {(error || internalError) && <p className="text-red-500 text-sm mt-1">{error || internalError}</p>}

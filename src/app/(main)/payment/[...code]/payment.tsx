@@ -82,6 +82,10 @@ export default function Payment(props: { data: any, payment: any, loading: boole
         receipt: { file: null, progress: 0, uploadedId: null, error: null },
     });
 
+    useEffect(() => {
+        console.log('Current uploads state:', uploads); // Log uploads state on change
+    }, [uploads]);
+
     const resetUpload = (inputName: any) => {
         setUploads(prev => ({
             ...prev,
@@ -96,6 +100,7 @@ export default function Payment(props: { data: any, payment: any, loading: boole
             setUploads(prev => ({ ...prev, [inputName]: { ...prev[inputName as keyof typeof prev], file: file, progress } }));
         })
             .then(fileId => {
+                console.log('File uploaded successfully, fileId:', fileId); // Add this log
                 setUploads(prev => ({ ...prev, [inputName]: { ...prev[inputName as keyof typeof prev], file: file, uploadedId: fileId, progress: 100 } }));
             })
             .catch(err => {
@@ -707,7 +712,7 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                     <header className="relative mt-12">
                         <h2 className="text-2xl mb-4 z-10 text-gray-900 dark:text-gray-50 leading-tight font-bold">Upload Bukti Pembayaran</h2>
                     </header>
-                    <FileUpload name="receipted" label="Upload Bukti Pembayaran" description="Format gambar yang diterima: .jpg, .png, .jpeg. Ukuran maksimal 5MB" accept=".jpg,.png,.jpeg" uploadState={uploads.receipt} onFileChange={handleFileChange} onReset={resetUpload} error={undefined} />
+                    <FileUpload name="receipt" label="Upload Bukti Pembayaran" description="Format gambar yang diterima: .jpg, .png, .jpeg. Ukuran maksimal 5MB" accept=".jpg,.png,.jpeg" uploadState={uploads.receipt} onFileChange={handleFileChange} onReset={resetUpload} error={undefined} />
                     <div className='col-span-full mb-12'>
                         <label className="block text-gray-800 dark:text-gray-200 font-bold mb-4">*) Konfirmasi Pembayaran anda dengan menghubungi tim kami via Whatsapp</label>
                         <button type="button" className="px-4 py-2 text-sm border rounded-lg border-green-600 hover:border-green-600 text-green-600 hover:bg-green-600 hover:text-white join items-center font-bold" onClick={() => window.open('https://wa.link/pe0iuj', '_parent')}> <Icon icon="tabler:brand-whatsapp" className="mr-2 size-6" width="32" height="32" />Hubungi kami</button>
