@@ -41,7 +41,8 @@ export default function WebLayout({ children }: { children: React.ReactNode }) {
 
     if (isLoading) return (
         <div className="fixed h-screen w-screen bg-white/20 backdrop-blur-3xl shadow-xl z-50 flex justify-center items-center">
-            <Image src="/penerbit-logo.png" alt="logo" width={200} height={100} priority={true}  className="animate-pulse w-24"/>
+            <Image src="/penerbit-logo.png" alt="Logo Optimal Penerbit" width={200} height={100} priority={true}  className="animate-pulse w-24"/>
+            <p className="absolute mt-24 text-lg font-semibold text-gray-800 dark:text-white">Memuat...</p>
         </div>
     )
     return (
