@@ -17,12 +17,12 @@ export default function Services({ isbnUrl, issnUrl, hkiUrl }: ServicesProps) {
             <section id="services" className="h-auto w-full px-5 lg:px-0 dark:bg-gray-800 pt-[100px] scroll-mt-24">
                 <div className="container mx-auto h-full">
                     <header className="relative text-center mb-24">
-                        <Image priority={true} src="/stock/underline.png" alt="Underline" width={500} height={50} className="absolute left-1/2 -translate-x-1/2 top-1 mx-auto h-auto w-1/2 md:w-1/4 mt-9 z-1" />
+                        <Image priority={true} src="/stock/underline.png" alt="Garis bawah dekoratif" width={500} height={50} className="absolute left-1/2 -translate-x-1/2 top-1 mx-auto h-auto w-1/2 md:w-1/4 mt-9 z-1" />
                         <h2 className="text-3xl md:text-4xl font-bold mb-4 z-10 text-gray-700 dark:text-gray-50 leading-tight">Apa yang Anda Cari?</h2>
                     </header>
                     <div className="flex flex-col md:flex-row items-center h-full w-full gap-12 py-12">
                         <div className="flex-1 md:hidden">
-                            <Image priority={true} src="/images/ISBN.png" alt="Underline" width={500} height={375} className="md:w-full lg:w-2/3 h-auto mx-auto" />
+                            <Image priority={true} src="/images/ISBN.png" alt="Ilustrasi Penulisan ISBN" width={500} height={375} className="md:w-full lg:w-2/3 h-auto mx-auto" />
                         </div>
                         <div className="flex-1 text-center md:text-left">
                             <h3 className="text-3xl sm:text-4xl font-bold mb-3 text-gray-700 dark:text-gray-50">Penulisan ISBN</h3>
@@ -36,7 +36,7 @@ export default function Services({ isbnUrl, issnUrl, hkiUrl }: ServicesProps) {
                             </Link>
                         </div>
                         <div className="flex-1 hidden md:block">
-                            <Image priority={true} src="/images/ISBN.png" alt="Underline" width={500} height={375} className="md:w-full lg:w-2/3 h-auto mx-auto" />
+                            <Image priority={true} src="/images/ISBN.png" alt="Ilustrasi Penulisan ISBN" width={500} height={375} className="md:w-full lg:w-2/3 h-auto mx-auto" />
                         </div>
                     </div>
                 </div>
@@ -45,7 +45,7 @@ export default function Services({ isbnUrl, issnUrl, hkiUrl }: ServicesProps) {
                 <div className="container mx-auto h-full">
                     <div className="flex flex-col md:flex-row-reverse items-center h-full w-full gap-12 py-12">
                         <div className="flex-1 md:hidden">
-                            <Image priority={true} src="/images/ISSN.png" alt="Underline" width={500} height={375} className="md:w-full lg:w-2/3 h-auto mx-auto" />
+                            <Image priority={true} src="/images/ISSN.png" alt="Ilustrasi Publikasi ISSN" width={500} height={375} className="md:w-full lg:w-2/3 h-auto mx-auto" />
                         </div>
                         <div className="flex-1 text-center md:text-left">
                             <h3 className="text-3xl sm:text-4xl font-bold mb-3">Publikasi ISSN</h3>
@@ -58,7 +58,7 @@ export default function Services({ isbnUrl, issnUrl, hkiUrl }: ServicesProps) {
                             </Link>
                         </div>
                         <div className="flex-1 hidden md:block">
-                            <Image priority={true} src="/images/ISSN.png" alt="Underline" width={500} height={375} className="md:w-full lg:w-2/3 h-auto mx-auto" />
+                            <Image priority={true} src="/images/ISSN.png" alt="Ilustrasi Publikasi ISSN" width={500} height={375} className="md:w-full lg:w-2/3 h-auto mx-auto" />
                         </div>
                     </div>
                 </div>
@@ -67,7 +67,7 @@ export default function Services({ isbnUrl, issnUrl, hkiUrl }: ServicesProps) {
                 <div className="container mx-auto h-full">
                     <div className="flex flex-col md:flex-row items-center h-full w-full gap-12 py-12">
                         <div className="flex-1 md:hidden">
-                            <Image priority={true} src="/images/HKI.png" alt="Underline" width={500} height={375} className="md:w-full lg:w-2/3  h-auto mx-auto" />
+                            <Image priority={true} src="/images/HKI.png" alt="Ilustrasi Hak Kekayaan Intelektual" width={500} height={375} className="md:w-full lg:w-2/3  h-auto mx-auto" />
                         </div>
                         <div className="flex-1 text-center md:text-left">
                             <h3 className="text-3xl sm:text-4xl font-bold mb-3 text-gray-700 dark:text-gray-50">Hak Kekayaan Intelektual</h3>
@@ -80,7 +80,7 @@ export default function Services({ isbnUrl, issnUrl, hkiUrl }: ServicesProps) {
                             </Link>
                         </div>
                         <div className="flex-1 hidden md:block">
-                            <Image priority={true} src="/images/HKI.png" alt="Underline" width={500} height={375} className="md:w-full lg:w-2/3  h-auto mx-auto" />
+                            <Image priority={true} src="/images/HKI.png" alt="Ilustrasi Hak Kekayaan Intelektual" width={500} height={375} className="md:w-full lg:w-2/3  h-auto mx-auto" />
                         </div>
                     </div>
                 </div>

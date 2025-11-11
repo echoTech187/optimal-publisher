@@ -6,7 +6,7 @@ export default function Faqs() {
         <div className="bg-gray-50 dark:bg-gray-700 scroll-mt-24" id="faqs">
             <div className="container mx-auto px-4 py-[100px]  rounded-lg mt-6">
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold z-10 text-gray-700 dark:text-gray-100 leading-tight">FAQs</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold z-10 text-gray-700 dark:text-gray-100 leading-tight">Pertanyaan Umum</h2>
                     <p className="text-lg text-gray-600 dark:text-gray-300">Pertanyaan yang sering diajukan tentang Optimal Courses</p>
                 </div>
                 <div className="space-y-6 max-w-4xl mx-auto">

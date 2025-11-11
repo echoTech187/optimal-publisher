@@ -42,7 +42,7 @@ const ArticleList = ({ articles }: { articles: Article[] }) => {
                     ))}
                 </div>
             ) : (
-                <p className="text-center text-gray-500">No articles found.</p>
+                <p className="text-center text-gray-500">Tidak ada artikel ditemukan.</p>
             )}
         </div>
     );

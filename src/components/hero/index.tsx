@@ -31,7 +31,7 @@ export default function Hero() {
                         <p className="mt-2">Sudah Punya Akun? <Link href="/signin" className='text-amber-600'>Silahkan Masuk</Link></p>
                     </div>
                     <div className="w-1/2 max-lg:hidden">
-                        <Image priority={true} src="/images/banner.svg" alt="Hero Image" width={500} height={300} className="mx-auto size-full" />
+                        <Image priority={true} src="/images/banner.svg" alt="Ilustrasi Belajar Test CPNS Optimal" width={500} height={300} className="mx-auto size-full" />
                     </div>
                 </div>
             </section>

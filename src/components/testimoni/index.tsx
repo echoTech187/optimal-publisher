@@ -39,11 +39,11 @@ export default function Testimoni() {
                 </div>
                 <button type="button" className="carousel-prev start-5 max-sm:start-3 carousel-disabled:opacity-50 size-9.5 bg-base-100/20 flex items-center justify-center rounded-full shadow-base-300/20 shadow-sm">
                     <Icon icon="tabler:chevron-left" className="size-5" width="32" height="32" />
-                    <span className="sr-only">Previous</span>
+                    <span className="sr-only">Sebelumnya</span>
                 </button>
                 <button type="button" className="carousel-next end-5 max-sm:end-3 carousel-disabled:opacity-50 size-9.5 bg-base-100/20 flex items-center justify-center rounded-full shadow-base-300/20 shadow-sm">
                     <Icon icon="tabler:chevron-right" className="size-5" width="32" height="32" />
-                    <span className="sr-only">Next</span>
+                    <span className="sr-only">Berikutnya</span>
                 </button>
             </div>
         </section>

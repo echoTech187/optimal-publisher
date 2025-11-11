@@ -61,7 +61,7 @@ export default function NewsEvents() {
     return (
         <section className="w-full h-auto py-12 px-4 container mx-auto 2xl:px-0 scroll-mt-24" id="news-events">
             <header className="relative text-center mb-12">
-                <Image priority={true} src="/stock/underline.png" alt="" width={500} height={50} className="absolute left-1/2 -translate-x-1/2 top-1 mx-auto h-auto w-1/2 md:w-1/4 mt-8 md:mt-9 z-1" />
+                <Image priority={true} src="/stock/underline.png" alt="Garis bawah dekoratif" width={500} height={50} className="absolute left-1/2 -translate-x-1/2 top-1 mx-auto h-auto w-1/2 md:w-1/4 mt-8 md:mt-9 z-1" />
                 <h2 className="text-3xl md:text-4xl font-bold mb-4 z-10 text-gray-700 dark:text-gray-50 leading-tight">Berita & Acara</h2>
             </header>
 
@@ -124,11 +124,11 @@ const CarouselButtons = () => (
     <>
         <button type="button" className="carousel-prev start-5 max-sm:start-3 carousel-disabled:opacity-0 opacity-80 size-9.5 bg-white/10 backdrop-blur-3xl flex items-center justify-center rounded-full shadow-base-300/20 shadow-sm">
             <Icon icon="tabler:chevron-left" width="24" height="24" className="text-fuchsia-500 size-5" />
-            <span className="sr-only">Previous</span>
+            <span className="sr-only">Sebelumnya</span>
         </button>
         <button type="button" className="carousel-next end-5 max-sm:end-3 carousel-disabled:opacity-0 opacity-80 size-9.5 bg-white/10 backdrop-blur-3xl flex items-center justify-center rounded-full shadow-base-300/20 shadow-sm">
             <Icon icon="tabler:chevron-right" width="24" height="24" className="text-fuchsia-500 size-5" />
-            <span className="sr-only">Next</span>
+            <span className="sr-only">Berikutnya</span>
         </button>
     </>
 );
