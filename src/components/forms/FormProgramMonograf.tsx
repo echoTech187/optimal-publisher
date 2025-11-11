@@ -85,7 +85,7 @@ export default function FormProgramMonograf(props: { data: any, user: User }) {
     };
 
     const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
+        setForm((prevForm: any) => ({ ...prevForm, [e.target.name]: e.target.value }));
     };
 
     const handleAddressChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
