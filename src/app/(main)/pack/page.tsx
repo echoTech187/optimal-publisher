@@ -36,8 +36,9 @@ async function PackDataFetcher({ packageKey }: { packageKey: number }) {
 }
 
 
-export default function Page({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
-    const packageKey = Number(searchParams?.key);
+export default async function Page({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
+    const awaitedSearchParams = await searchParams;
+    const packageKey = Number(awaitedSearchParams?.key);
     if (isNaN(packageKey)) {
         // Redirect if the key is missing or not a number
         redirect('/not-found');
