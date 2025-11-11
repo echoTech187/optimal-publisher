@@ -39,15 +39,16 @@ export async function getProgramPackage(programId: number): Promise<ProgramPacka
     }
 
     try {
-        const response = await fetch(`${apiBaseUrl}/api/v1/program/package/${programId}`, {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-            },
-            cache: 'no-store',
-        });
-
+            console.log(`Fetching program package from: ${apiBaseUrl}/api/v1/program/package/${programId}`);
+            const response = await fetch(`${apiBaseUrl}/api/v1/program/package/${programId}`, {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                cache: 'no-store',
+            });
+            console.log(`Response status for program package: ${response.status}`);
         if (!response.ok) {
             console.error("Failed to fetch program package:", response.statusText);
             return [];

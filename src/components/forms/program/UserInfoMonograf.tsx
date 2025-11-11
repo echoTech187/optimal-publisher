@@ -4,17 +4,20 @@ import React from 'react';
 import { User } from '@/types/user';
 import StyledInputField from './StyledInputField';
 
-const UserInfoMonograf = ({ user, memberCount, form, onChange, error }: { user: User | null, memberCount: number | 1, form: any, onChange: (e: React.ChangeEvent<HTMLInputElement>) => void, error: any }) => {
+const UserInfoMonograf = ({ user, memberCount, form, onChange, error }: { user: User | null, memberCount: number | 1, form: any, onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void, error: any }) => {
 
     const changeWritter = (checked: boolean) => {
         if (checked) {
-            const chiefName = (document.getElementById('chief_writer') as HTMLInputElement).value;
-            const chiefPhone = (document.getElementById('writter_phone') as HTMLInputElement).value;
-            (document.getElementById('members_name_0') as HTMLInputElement).value = chiefName;
-            (document.getElementById('members_phone_0') as HTMLInputElement).value = chiefPhone;
+            // Use the form state directly instead of document.getElementById
+            const chiefName = form.chief_writer;
+            const chiefPhone = form.writter_phone;
+
+            // Simulate change events to update the form state
+            onChange({ target: { name: 'members_name_0', value: chiefName } } as React.ChangeEvent<HTMLInputElement>);
+            onChange({ target: { name: 'members_phone_0', value: chiefPhone } } as React.ChangeEvent<HTMLInputElement>);
         } else {
-            (document.getElementById('members_name_0') as HTMLInputElement).value = "";
-            (document.getElementById('members_phone_0') as HTMLInputElement).value = "";
+            onChange({ target: { name: 'members_name_0', value: "" } } as React.ChangeEvent<HTMLInputElement>);
+            onChange({ target: { name: 'members_phone_0', value: "" } } as React.ChangeEvent<HTMLInputElement>);
         }
     }
     return (<>
@@ -22,6 +25,7 @@ const UserInfoMonograf = ({ user, memberCount, form, onChange, error }: { user: 
             <StyledInputField
                 label="Judul Monograf"
                 name="title"
+                id="title"
                 placeholder="Judul Monograf"
                 value={form.title}
                 onChange={onChange}
@@ -33,6 +37,7 @@ const UserInfoMonograf = ({ user, memberCount, form, onChange, error }: { user: 
             <StyledInputField
                 label="Nama Lengkap beserta Gelar (Penulis Utama)"
                 name="chief_writer"
+                id="chief_writer"
                 placeholder="Nama Lengkap"
                 value={form.chief_writer}
                 onChange={onChange}
@@ -44,6 +49,7 @@ const UserInfoMonograf = ({ user, memberCount, form, onChange, error }: { user: 
             <StyledInputField
                 label="No. Telepon"
                 name="writter_phone"
+                id="writter_phone"
                 placeholder="No. Telepon"
                 value={form.writter_phone}
                 onChange={onChange}
@@ -74,6 +80,7 @@ const UserInfoMonograf = ({ user, memberCount, form, onChange, error }: { user: 
                             <StyledInputField
                                 label={`Nama Lengkap beserta Gelar (Anggota ${i + 1})`}
                                 name={`members_name_${i}`}
+                                id={`members_name_${i}`}
                                 placeholder="Masukan Nama Anggota"
                                 value={form[`members_name_${i}`]}
                                 onChange={onChange}
@@ -83,6 +90,7 @@ const UserInfoMonograf = ({ user, memberCount, form, onChange, error }: { user: 
                             <StyledInputField
                                 label="No. Telepon"
                                 name={`members_phone_${i}`}
+                                id={`members_phone_${i}`}
                                 placeholder="Masukan No. Telepon Anggota"
                                 value={form[`members_phone_${i}`]}
                                 onChange={onChange}
