@@ -2,14 +2,47 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
 
-const StyledFileInput = ({ label, description, accepted, required, uploadState, onFileChange, inputName, onReset }: { label: string; description: string; accepted?: string; required: boolean; uploadState: any; onFileChange: (arg0: string, arg1: File) => void; inputName: string; onReset: (arg0: string) => void; }) => {
-    const { file, progress, uploadedId, error } = uploadState;
+import { useState } from 'react'; // Import useState
 
-    const handleFileSelect = (event: any) => {
-        const selectedFile = event.target.files[0];
-        if (selectedFile) {
-            onFileChange(inputName, selectedFile);
+const StyledFileInput = ({ label, description, accepted, required, uploadState, onFileChange, inputName, onReset, maxFileSize = 5 * 1024 * 1024 }: { label: string; description: string; accepted?: string; required: boolean; uploadState: any; onFileChange: (arg0: string, arg1: File) => void; inputName: string; onReset: (arg0: string) => void; maxFileSize?: number; }) => {
+    const { file, progress, uploadedId, error } = uploadState;
+    const [internalError, setInternalError] = useState<string | null>(null); // State for internal validation errors
+
+    const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedFile = event.target.files?.[0];
+        setInternalError(null); // Clear previous errors
+
+        if (!selectedFile) {
+            return;
         }
+
+        // File Type Validation
+        if (accepted) {
+            const acceptedTypes = accepted.split(',').map(type => type.trim());
+            const fileExtension = '.' + selectedFile.name.split('.').pop();
+            const isTypeAccepted = acceptedTypes.some(type => {
+                if (type.startsWith('.')) { // Check by extension
+                    return fileExtension.toLowerCase() === type.toLowerCase();
+                } else { // Check by MIME type
+                    return selectedFile.type.toLowerCase().startsWith(type.toLowerCase());
+                }
+            });
+
+            if (!isTypeAccepted) {
+                setInternalError(`Tipe file tidak didukung. Hanya menerima: ${acceptedTypes.join(', ')}`);
+                event.target.value = ''; // Clear the input
+                return;
+            }
+        }
+
+        // File Size Validation
+        if (selectedFile.size > maxFileSize) {
+            setInternalError(`Ukuran file terlalu besar. Maksimal ${maxFileSize / (1024 * 1024)} MB.`);
+            event.target.value = ''; // Clear the input
+            return;
+        }
+
+        onFileChange(inputName, selectedFile);
     };
 
     return (
@@ -52,7 +85,7 @@ const StyledFileInput = ({ label, description, accepted, required, uploadState, 
                     <input id={inputName} type="file" className="hidden" onChange={handleFileSelect} accept={accepted || ''} />
                 </div>
             )}
-            {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+            {(error || internalError) && <p className="text-red-500 text-sm mt-1">{error || internalError}</p>}
         </div>
     );
 };
