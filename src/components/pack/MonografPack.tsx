@@ -13,11 +13,11 @@ export default function MonografPack(props: { data: any, user: User }) {
     const scrollContainer = React.useRef<HTMLDivElement>(null);
     const cardColors = [
         { bg: 'bg-white', text: 'text-gray-800' },
-        { bg: 'bg-gray-100', text: 'text-gray-800' },
-        { bg: 'bg-blue-500', text: 'text-white' },
-        { bg: 'bg-green-500', text: 'text-white' },
-        { bg: 'bg-purple-500', text: 'text-white' },
-        { bg: 'bg-yellow-500', text: 'text-white' },
+        { bg: 'bg-gray-50', text: 'text-gray-800' },
+        { bg: 'bg-blue-50', text: 'text-gray-800' },
+        { bg: 'bg-green-50', text: 'text-gray-800' },
+        { bg: 'bg-purple-50', text: 'text-gray-800' },
+        { bg: 'bg-yellow-50', text: 'text-gray-800' },
     ];
 
     function showFormCustomer(data: any) {
@@ -40,19 +40,19 @@ export default function MonografPack(props: { data: any, user: User }) {
             </header>
             <div className="container mx-auto px-4 my-12">
                 <div className="relative">
-                    <button onClick={() => scroll(-300)} className="absolute left-0 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-md z-10">
+                    <button onClick={() => scroll(-400)} className="absolute left-0 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-md z-10">
                         <Icon icon="ion:chevron-back" />
                     </button>
                     <div ref={scrollContainer} className="overflow-x-auto pb-4 -mb-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                        <div className="grid grid-flow-col auto-cols-max gap-6 mx-auto px-12">
+                        <div className="grid grid-flow-col auto-cols-max gap-5 max-w-full">
                             {
                                 data.map((item: any, index: number) => {
                                     const cardStyle = cardColors[index % cardColors.length];
                                     return (
-                                        <div key={item.slug} className="relative w-85">
+                                        <div key={item.slug} className="relative min-w-80 max-md:min-w-80 max-md:max-w-95 max-w-90">
                                             {index === 0 && (
                                                 <div className="absolute top-0 right-0 overflow-hidden w-24 h-24">
-                                                    <div className="absolute transform rotate-45 bg-orange-400 text-center text-white font-semibold py-1 right-[-50px] top-[20px] w-[170px] shadow-md">
+                                                    <div className="absolute transform rotate-45 bg-orange-400 text-center text-white font-semibold py-1 right-[-50px] top-[20px] min-w-[170px] shadow-md">
                                                         Popular
                                                     </div>
                                                 </div>
@@ -83,7 +83,7 @@ export default function MonografPack(props: { data: any, user: User }) {
                             }
                         </div>
                     </div>
-                    <button onClick={() => scroll(300)} className="absolute right-0 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-md z-10">
+                    <button onClick={() => scroll(400)} className="absolute right-0 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-md z-10">
                         <Icon icon="ion:chevron-forward" />
                     </button>
                 </div>

@@ -14,7 +14,7 @@ export default function UserTransactionPage() {
     const [isTableLoading, setIsTableLoading] = useState(false);
     const [totalItems, setTotalItems] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 1;
+    const itemsPerPage = 10;
 
     useEffect(() => {
         const fetchData = async () => {

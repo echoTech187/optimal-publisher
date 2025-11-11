@@ -35,6 +35,7 @@ export default function EventRegistrationTable({ events, totalItems, itemsPerPag
                         <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300">Lokasi</th>
                         <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300">Total Bayar</th>
                         <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300 text-center">Status</th>
+                        <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300 text-center">#</th>
                     </tr>
                 </thead>
                 {isLoading ? (
@@ -57,6 +58,11 @@ export default function EventRegistrationTable({ events, totalItems, itemsPerPag
                                 <td className="p-4 text-gray-600 dark:text-gray-400">{event.event_location}</td>
                                 <td className="p-4 text-gray-600 dark:text-gray-400">{parseInt(event.event_price) > 0 ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(parseInt(event.event_price)) : 'Gratis'}</td>
                                 <td className="p-4 text-center text-nowrap"><StatusBadge status={event.event_status?.name} /></td>
+                                <td className="p-4 text-center">
+                                    <div className="relative inline-block text-left">
+                                         <a href={event.event.group_url} className="text-gray-700 block px-4 py-2 text-sm cursor-pointer" role="menuitem"><Icon icon="tabler:brand-whatsapp" className="size-6" /></a>
+                                    </div>
+                                </td>
                             </tr>
                         ))}
                     </tbody>

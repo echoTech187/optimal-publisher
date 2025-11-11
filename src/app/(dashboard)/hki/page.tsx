@@ -121,7 +121,7 @@ export default function HKIPage() {
     const [isTableLoading, setIsTableLoading] = useState(true);
     const [userEventsTotal, setUserEventsTotal] = useState(0);
     const [userEventsCurrentPage, setUserEventsCurrentPage] = useState(1);
-    const userEventsItemsPerPage = 5;
+    const userEventsItemsPerPage = 10;
 
     useEffect(() => {
 

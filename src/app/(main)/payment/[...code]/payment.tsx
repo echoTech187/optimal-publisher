@@ -189,52 +189,61 @@ export default function Payment(props: { data: any, payment: any, loading: boole
     }
     if (isPaymentSuccessful) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 text-center px-4">
-                <div className="dark:bg-gray-800 p-8 md:p-12 rounded-2xl shadow-lg max-w-2xl w-full">
-                    <div className='border-2 border-green-600 rounded-full w-24 h-24 p-4 mx-auto mb-6 flex items-center justify-center'>
-                        <Icon icon="clarity:lightbulb-line" className="text-green-600 w-20 h-20" />
-                    </div>
-                    <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-3">Pembayaran Berhasil!</h1>
-                    <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">Terima kasih! Bukti pembayaran Anda telah berhasil kami terima dan akan segera kami verifikasi.</p>
-                    <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-6 mb-8 text-left">
-                        <div className="flex justify-between items-center mb-4">
-                            <span className="text-sm text-gray-600 dark:text-gray-400">Kode Transaksi:</span>
-                            <span className="font-mono text-sm bg-gray-200 dark:bg-gray-600 px-2 py-1 rounded">{data.transaction_code}</span>
-                        </div>
-                        <div className="mb-4 flex flex-col gap-2">
-                            <h2 className="text-lg font-bold text-gray-800 dark:text-gray-100">Pesanan</h2>
-                            <div className='flex flex-col gap-1'>
-                                <label className="text-sm text-gray-600 dark:text-gray-400">Jenis Paket</label>
-                                <div className="font-semibold text-base text-gray-800 dark:text-white">{data.pack_name}</div>
-                            </div>
-                            <div className='flex flex-col gap-1'>
-                                <label className="text-sm text-gray-600 dark:text-gray-400">Judul Naskah</label>
-                                <div className="font-semibold text-base text-gray-800 dark:text-white">
-                                    {
-                                        data.isbn_program_id === 5 ? (
-                                            data.transactionable.title || '-'
-                                        ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
-                                            <>
-                                                <span>{data.transactionable.book_title.title || '-'}</span>
-                                                <br />
-                                                <span>{data.transactionable.topic.topic_name || '-'}</span>
-                                            </>
-                                        ) : (
-                                            data?.transactionable?.book_title || '-'
-                                        )
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <span className="text-sm text-gray-600 dark:text-gray-400">Jumlah Pembayaran:</span>
-                            <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}<br />
-                                <span className="text-sm text-gray-500 dark:text-gray-400">({data.payment_method.description})</span></span>
+            <div className="flex flex-col items-center justify-center min-h-screen bg-slate-100 text-center px-4 py-8">
+                <div className="bg-white p-8 rounded-2xl shadow-lg max-w-lg w-full">
+                    <div className='flex justify-center items-center mb-4'>
+                        <div className='bg-black rounded-full w-10 h-10 flex items-center justify-center'>
+                            <Icon icon="ph:check-bold" className="text-white w-5 h-5" />
                         </div>
                     </div>
-                    <Link href="/" className="w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-300 inline-block text-center text-base">
-                        Kembali ke Beranda
-                    </Link>
+                    <h1 className="text-xl font-bold text-gray-800 mb-4">Pembayaran berhasil Dikonfirmasi!</h1>
+                    <div className="bg-slate-100 rounded-lg p-4 mb-6">
+                        <p className="text-sm text-gray-500">Nomor Pesanan Anda</p>
+                        <p className="text-2xl font-bold text-gray-800">{data.transaction_code}</p>
+                    </div>
+
+                    <div className="text-left mb-6 space-y-3">
+                        <div>
+                            <span className="text-sm font-bold">Paket:</span>
+                            <span className="text-sm ml-2">{data.pack_name}</span>
+                        </div>
+                        <div>
+                            <span className="text-sm font-bold">Total Pembayaran:</span>
+                            <span className="text-sm ml-2">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span>
+                        </div>
+                        <div>
+                            <span className="text-sm font-bold">Judul/Topik:</span>
+                            <div className='text-capitalize text-sm text-gray-600' dangerouslySetInnerHTML={{
+                                __html: (data.isbn_program_id === 1) ? (data.transactionable as any)?.book_title :
+                                    (data.isbn_program_id === 5) ? (data.transactionable as any)?.title :
+                                        (data.transactionable as any)?.book_title?.title ? (data.transactionable as any)?.book_title?.title + '<br/> ' + (data.transactionable as any)?.topic?.topic_name : 'N/A'
+                            }} />
+                        </div>
+                    </div>
+
+                    <div className="bg-green-100 text-green-800 rounded-lg p-3 mb-6 flex items-center gap-3">
+                        <Icon icon="ph:check-circle-bold" className="w-5 h-5 flex-shrink-0" />
+                        <p className="text-sm text-left">Terima kasih, Pembayaran Anda telah dikonfirmasi.</p>
+                    </div>
+
+                    <div className="bg-slate-100 rounded-lg p-4 mb-8 text-left">
+                        <h2 className="font-bold text-sm mb-2">Langkah Selanjutnya:</h2>
+                        <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
+                            <li>Tim Optimal akan menghubungi anda melalui whatsapp</li>
+                            <li>Pastikan semua pencipta sudah melengkapi biodatanya</li>
+                            <li>E-Sertifikat akan diumumkan sesuai waktu paket</li>
+                        </ul>
+                    </div>
+
+                    <div className="flex justify-between items-center gap-4">
+                        <button type="button" className="text-sm text-gray-600 font-semibold flex items-center gap-2">
+                            <Icon icon="ph:download-simple-bold" className="w-5 h-5" />
+                            Simpan Detail
+                        </button>
+                        <Link href="/transactions" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg text-sm">
+                            Selesai
+                        </Link>
+                    </div>
                 </div>
             </div>
         );
@@ -242,104 +251,97 @@ export default function Payment(props: { data: any, payment: any, loading: boole
 
     if (isCancelled) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 text-center px-4">
-                <div className="dark:bg-gray-800 p-8 md:p-12 rounded-2xl shadow-4xl backdrop-blur-2xl backdrop-filter backdrop-opacity-35 max-w-2xl w-full">
-                    <div className=' border-2 border-red-700 rounded-full w-24 h-24 p-4 mx-auto mb-6 flex items-center justify-center'>
-                        <Icon icon="clarity:close-line" className="text-red-700 w-20 h-20" />
-                    </div>
-                    <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-3">Pembayaran Dibatalkan!</h1>
-                    <p className="text-gray-600 dark:text-gray-300 mb-8">Pembayaran Anda telah dibatalkan oleh pihak Optimal Untuk Negeri.</p>
-                    <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-6 mb-8 text-left">
-                        <div className="flex justify-between items-center mb-4">
-                            <span className="text-gray-600 dark:text-gray-400">Kode Transaksi:</span>
-                            <span className="font-mono text-sm bg-gray-200 dark:bg-gray-600 px-2 py-1 rounded">{data.transaction_code}</span>
-                        </div>
-                        <div className="mb-4 flex flex-col gap-2">
-                            <h6 className=" text-[var(--primary)] font-bold w-full rounded-full">Pesanan</h6>
-                            <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Jenis Paket</label>
-                                <div className="font-normal text-gray-700 dark:text-white">{data.pack_name}</div>
-                            </div>
-                            <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Judul Naskah</label>
-                                <div className="font-normal text-gray-700 dark:text-white">
-                                    {
-                                        data.isbn_program_id === 5 ? (
-                                            data.transactionable.title || '-'
-                                        ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
-                                            <>
-                                                <span>{data.transactionable.book_title.title || '-'}</span>
-                                                <br />
-                                                <span>{data.transactionable.topic.topic_name || '-'}</span>
-                                            </>
-                                        ) : (
-                                            data?.transactionable?.book_title || '-'
-                                        )
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <span className="text-gray-600 dark:text-gray-400">Jumlah Pembayaran:</span>
-                            <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}<br />
-                                <span className="text-gray-600 dark:text-gray-400 text-sm">({data.payment_method.description})</span></span>
+            <div className="flex flex-col items-center justify-center min-h-screen bg-slate-100 text-center px-4 py-8">
+                <div className="bg-white p-8 rounded-2xl shadow-lg max-w-lg w-full">
+                    <div className='flex justify-center items-center mb-4'>
+                        <div className='bg-red-600 rounded-full w-10 h-10 flex items-center justify-center'>
+                            <Icon icon="ph:x-bold" className="text-white w-5 h-5" />
                         </div>
                     </div>
-                    <Link href="/" className="w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-300 inline-block">
-                        Kembali ke Beranda
-                    </Link>
+                    <h1 className="text-xl font-bold text-gray-800 mb-4">Pembayaran Dibatalkan</h1>
+                    <div className="bg-slate-100 rounded-lg p-4 mb-6">
+                        <p className="text-sm text-gray-500">Nomor Pesanan Anda</p>
+                        <p className="text-2xl font-bold text-gray-800">{data.transaction_code}</p>
+                    </div>
+
+                    <div className="text-left mb-6 space-y-3">
+                        <div>
+                            <span className="text-sm font-bold">Paket:</span>
+                            <span className="text-sm ml-2">{data.pack_name}</span>
+                        </div>
+                        <div>
+                            <span className="text-sm font-bold">Total Pembayaran:</span>
+                            <span className="text-sm ml-2">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span>
+                        </div>
+                        <div>
+                            <span className="text-sm font-bold">Judul/Topik:</span>
+                            <div className='text-capitalize text-sm text-gray-600' dangerouslySetInnerHTML={{
+                                __html: (data.isbn_program_id === 1) ? (data.transactionable as any)?.book_title :
+                                    (data.isbn_program_id === 5) ? (data.transactionable as any)?.title :
+                                        (data.transactionable as any)?.book_title?.title ? (data.transactionable as any)?.book_title?.title + '<br/> ' + (data.transactionable as any)?.topic?.topic_name : 'N/A'
+                            }} />
+                        </div>
+                    </div>
+
+                    <div className="bg-red-100 text-red-800 rounded-lg p-3 mb-8 text-left">
+                        <p className="text-sm">Pesanan ini telah dibatalkan. Jika Anda merasa ini adalah sebuah kesalahan, silakan hubungi dukungan pelanggan kami.</p>
+                    </div>
+
+                    <div className="flex justify-end items-center gap-4">
+                        <Link href="/transactions" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg text-sm">
+                            Kembali
+                        </Link>
+                    </div>
                 </div>
             </div>
         );
     }
     if (isDeclined) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 text-center px-4">
-                <div className="dark:bg-gray-800 p-8 md:p-12 rounded-2xl shadow-4xl backdrop-blur-2xl backdrop-filter backdrop-opacity-35 max-w-2xl w-full">
-                    <div className=' border-2 border-red-700 rounded-full w-24 h-24 p-4 mx-auto mb-6 flex items-center justify-center'>
-                        <Icon icon="clarity:close-line" className="text-red-700 w-20 h-20" />
-                    </div>
-                    <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-3">Pembayaran Ditolak!</h1>
-                    <p className="text-gray-600 dark:text-gray-300 mb-8">Pembayaran Anda telah ditolak. Silakan hubungi tim kami untuk informasi lebih lanjut.</p>
-                    <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-6 mb-8 text-left">
-                        <div className="flex justify-between items-center mb-4">
-                            <span className="text-gray-600 dark:text-gray-400">Kode Transaksi:</span>
-                            <span className="font-mono text-sm bg-gray-200 dark:bg-gray-600 px-2 py-1 rounded">{data.transaction_code}</span>
-                        </div>
-                        <div className="mb-4 flex flex-col gap-2">
-                            <h6 className=" text-[var(--primary)] font-bold w-full rounded-full">Pesanan</h6>
-                            <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Jenis Paket</label>
-                                <div className="font-normal text-gray-700 dark:text-white">{data.pack_name}</div>
-                            </div>
-                            <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Judul Naskah</label>
-                                <div className="font-normal text-gray-700 dark:text-white">
-                                    {
-                                        data.isbn_program_id === 5 ? (
-                                            data.transactionable.title || '-'
-                                        ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
-                                            <>
-                                                <span>{data.transactionable.book_title.title || '-'}</span>
-                                                <br />
-                                                <span>{data.transactionable.topic.topic_name || '-'}</span>
-                                            </>
-                                        ) : (
-                                            data?.transactionable?.book_title || '-'
-                                        )
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <span className="text-gray-600 dark:text-gray-400">Jumlah Pembayaran:</span>
-                            <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}<br />
-                                <span className="text-gray-600 dark:text-gray-400 text-sm">({data.payment_method.description})</span></span>
+            <div className="flex flex-col items-center justify-center min-h-screen bg-slate-100 text-center px-4 py-8">
+                <div className="bg-white p-8 rounded-2xl shadow-lg max-w-lg w-full">
+                    <div className='flex justify-center items-center mb-4'>
+                        <div className='bg-red-600 rounded-full w-10 h-10 flex items-center justify-center'>
+                            <Icon icon="ph:x-bold" className="text-white w-5 h-5" />
                         </div>
                     </div>
-                    <Link href="/" className="w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-300 inline-block">
-                        Kembali ke Beranda
-                    </Link>
+                    <h1 className="text-xl font-bold text-gray-800 mb-4">Pembayaran Ditolak</h1>
+                    <div className="bg-slate-100 rounded-lg p-4 mb-6">
+                        <p className="text-sm text-gray-500">Nomor Pesanan Anda</p>
+                        <p className="text-2xl font-bold text-gray-800">{data.transaction_code}</p>
+                    </div>
+
+                    <div className="text-left mb-6 space-y-3">
+                        <div>
+                            <span className="text-sm font-bold">Paket:</span>
+                            <span className="text-sm ml-2">{data.pack_name}</span>
+                        </div>
+                        <div>
+                            <span className="text-sm font-bold">Total Pembayaran:</span>
+                            <span className="text-sm ml-2">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span>
+                        </div>
+                        <div>
+                            <span className="text-sm font-bold">Judul/Topik:</span>
+                            <div className='text-capitalize text-sm text-gray-600' dangerouslySetInnerHTML={{
+                                __html: (data.isbn_program_id === 1) ? (data.transactionable as any)?.book_title :
+                                    (data.isbn_program_id === 5) ? (data.transactionable as any)?.title :
+                                        (data.transactionable as any)?.book_title?.title ? (data.transactionable as any)?.book_title?.title + '<br/> ' + (data.transactionable as any)?.topic?.topic_name : 'N/A'
+                            }} />
+                        </div>
+                    </div>
+
+                    <div className="bg-red-100 text-red-800 rounded-lg p-3 mb-8 text-left">
+                        <p className="text-sm">Pembayaran Anda ditolak. Mohon periksa kembali detail pembayaran Anda atau coba metode pembayaran lain. Hubungi kami jika masalah berlanjut.</p>
+                    </div>
+
+                    <div className="flex justify-between items-center gap-4">
+                        <Link href="/contact" className="text-sm text-gray-600 font-semibold">
+                            Hubungi Kami
+                        </Link>
+                        <Link href="/transactions" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg text-sm">
+                            Kembali
+                        </Link>
+                    </div>
                 </div>
             </div>
         );
@@ -347,52 +349,47 @@ export default function Payment(props: { data: any, payment: any, loading: boole
 
     if (isProcessing) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 text-center px-4">
-                <div className="dark:bg-gray-800 p-8 md:p-12 rounded-2xl shadow-4xl backdrop-blur-2xl backdrop-filter backdrop-opacity-35 max-w-2xl w-full">
-                    <div className=' border-2 border-yellow-500 rounded-full w-24 h-24 p-4 mx-auto mb-6 flex items-center justify-center'>
-                        <Icon icon="clarity:inbox-line" className="text-yellow-500 w-20 h-20" />
-                    </div>
-                    <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-3">Pesanan Sedang Diproses!</h1>
-                    <p className="text-gray-600 dark:text-gray-300 mb-8">Pesanan Anda sedang diproses untuk dikirim oleh pihak Optimal Untuk Negeri.</p>
-                    <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-6 mb-8 text-left">
-                        <div className="flex justify-between items-center mb-4">
-                            <span className="text-gray-600 dark:text-gray-400">Kode Transaksi:</span>
-                            <span className="font-mono text-sm bg-gray-200 dark:bg-gray-600 px-2 py-1 rounded">{data.transaction_code}</span>
-                        </div>
-                        <div className="mb-4 flex flex-col gap-2">
-                            <h6 className=" text-[var(--primary)] font-bold w-full rounded-full">Pesanan</h6>
-                            <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Jenis Paket</label>
-                                <div className="font-normal text-gray-700 dark:text-white">{data.pack_name}</div>
-                            </div>
-                            <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Judul Naskah</label>
-                                <div className="font-normal text-gray-700 dark:text-white">
-                                    {
-                                        data.isbn_program_id === 5 ? (
-                                            data.transactionable.title || '-'
-                                        ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
-                                            <>
-                                                <span>{data.transactionable.book_title.title || '-'}</span>
-                                                <br />
-                                                <span>{data.transactionable.topic.topic_name || '-'}</span>
-                                            </>
-                                        ) : (
-                                            data?.transactionable?.book_title || '-'
-                                        )
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <span className="text-gray-600 dark:text-gray-400">Jumlah Pembayaran:</span>
-                            <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}<br />
-                                <span className="text-gray-600 dark:text-gray-400 text-sm">({data.payment_method.description})</span></span>
+            <div className="flex flex-col items-center justify-center min-h-screen bg-slate-100 text-center px-4 py-8">
+                <div className="bg-white p-8 rounded-2xl shadow-lg max-w-lg w-full">
+                    <div className='flex justify-center items-center mb-4'>
+                        <div className='bg-blue-600 rounded-full w-10 h-10 flex items-center justify-center'>
+                            <Icon icon="ph:package-bold" className="text-white w-5 h-5" />
                         </div>
                     </div>
-                    <Link href="/" className="w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-300 inline-block">
-                        Kembali ke Beranda
-                    </Link>
+                    <h1 className="text-xl font-bold text-gray-800 mb-4">Pesanan Sedang Diproses</h1>
+                    <div className="bg-slate-100 rounded-lg p-4 mb-6">
+                        <p className="text-sm text-gray-500">Nomor Pesanan Anda</p>
+                        <p className="text-2xl font-bold text-gray-800">{data.transaction_code}</p>
+                    </div>
+
+                    <div className="text-left mb-6 space-y-3">
+                        <div>
+                            <span className="text-sm font-bold">Paket:</span>
+                            <span className="text-sm ml-2">{data.pack_name}</span>
+                        </div>
+                        <div>
+                            <span className="text-sm font-bold">Total Pembayaran:</span>
+                            <span className="text-sm ml-2">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span>
+                        </div>
+                        <div>
+                            <span className="text-sm font-bold">Judul/Topik:</span>
+                            <div className='text-capitalize text-sm text-gray-600' dangerouslySetInnerHTML={{
+                                __html: (data.isbn_program_id === 1) ? (data.transactionable as any)?.book_title :
+                                    (data.isbn_program_id === 5) ? (data.transactionable as any)?.title :
+                                        (data.transactionable as any)?.book_title?.title ? (data.transactionable as any)?.book_title?.title + '<br/> ' + (data.transactionable as any)?.topic?.topic_name : 'N/A'
+                            }} />
+                        </div>
+                    </div>
+
+                    <div className="bg-blue-100 text-blue-800 rounded-lg p-3 mb-8 text-left">
+                        <p className="text-sm">Pesanan Anda sedang kami siapkan. Anda akan menerima notifikasi selanjutnya ketika pesanan Anda dikirim.</p>
+                    </div>
+
+                    <div className="flex justify-end items-center gap-4">
+                        <Link href="/" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg text-sm">
+                            Selesai
+                        </Link>
+                    </div>
                 </div>
             </div>
         );
@@ -400,52 +397,50 @@ export default function Payment(props: { data: any, payment: any, loading: boole
 
     if (isDelivered) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 text-center px-4">
-                <div className="dark:bg-gray-800 p-8 md:p-12 rounded-2xl shadow-4xl backdrop-blur-2xl backdrop-filter backdrop-opacity-35 max-w-2xl w-full">
-                    <div className=' border-2 border-blue-400 rounded-full w-24 h-24 p-4 mx-auto mb-6 flex items-center justify-center'>
-                        <Icon icon="clarity:truck-line" className="text-blue-400 w-20 h-20" />
-                    </div>
-                    <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-3">Sedang Dikirim!</h1>
-                    <p className="text-gray-600 dark:text-gray-300 mb-8">Pesanan Anda sedang dikirim oleh pihak Optimal Untuk Negeri.</p>
-                    <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-6 mb-8 text-left">
-                        <div className="flex justify-between items-center mb-4">
-                            <span className="text-gray-600 dark:text-gray-400">Kode Transaksi:</span>
-                            <span className="font-mono text-sm bg-gray-200 dark:bg-gray-600 px-2 py-1 rounded">{data.transaction_code}</span>
-                        </div>
-                        <div className="mb-4 flex flex-col gap-2">
-                            <h6 className=" text-[var(--primary)] font-bold w-full rounded-full">Pesanan</h6>
-                            <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Jenis Paket</label>
-                                <div className="font-normal text-gray-700 dark:text-white">{data.pack_name}</div>
-                            </div>
-                            <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Judul Naskah</label>
-                                <div className="font-normal text-gray-700 dark:text-white">
-                                    {
-                                        data.isbn_program_id === 5 ? (
-                                            data.transactionable.title || '-'
-                                        ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
-                                            <>
-                                                <span>{data.transactionable.book_title.title || '-'}</span>
-                                                <br />
-                                                <span>{data.transactionable.topic.topic_name || '-'}</span>
-                                            </>
-                                        ) : (
-                                            data?.transactionable?.book_title || '-'
-                                        )
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <span className="text-gray-600 dark:text-gray-400">Jumlah Pembayaran:</span>
-                            <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}<br />
-                                <span className="text-gray-600 dark:text-gray-400 text-sm">({data.payment_method.description})</span></span>
+            <div className="flex flex-col items-center justify-center min-h-screen bg-slate-100 text-center px-4 py-8">
+                <div className="bg-white p-8 rounded-2xl shadow-lg max-w-lg w-full">
+                    <div className='flex justify-center items-center mb-4'>
+                        <div className='bg-cyan-600 rounded-full w-10 h-10 flex items-center justify-center'>
+                            <Icon icon="ph:truck-bold" className="text-white w-5 h-5" />
                         </div>
                     </div>
-                    <Link href="/" className="w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-300 inline-block">
-                        Kembali ke Beranda
-                    </Link>
+                    <h1 className="text-xl font-bold text-gray-800 mb-4">Pesanan Telah Dikirim</h1>
+                    <div className="bg-slate-100 rounded-lg p-4 mb-6">
+                        <p className="text-sm text-gray-500">Nomor Pesanan Anda</p>
+                        <p className="text-2xl font-bold text-gray-800">{data.transaction_code}</p>
+                    </div>
+
+                    <div className="text-left mb-6 space-y-3">
+                        <div>
+                            <span className="text-sm font-bold">Paket:</span>
+                            <span className="text-sm ml-2">{data.pack_name}</span>
+                        </div>
+                        <div>
+                            <span className="text-sm font-bold">Total Pembayaran:</span>
+                            <span className="text-sm ml-2">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span>
+                        </div>
+                        <div>
+                            <span className="text-sm font-bold">Judul/Topik:</span>
+                            <div className='text-capitalize text-sm text-gray-600' dangerouslySetInnerHTML={{
+                                __html: (data.isbn_program_id === 1) ? (data.transactionable as any)?.book_title :
+                                    (data.isbn_program_id === 5) ? (data.transactionable as any)?.title :
+                                        (data.transactionable as any)?.book_title?.title ? (data.transactionable as any)?.book_title?.title + '<br/> ' + (data.transactionable as any)?.topic?.topic_name : 'N/A'
+                            }} />
+                        </div>
+                    </div>
+
+                    <div className="bg-cyan-100 text-cyan-800 rounded-lg p-3 mb-8 text-left">
+                        <p className="text-sm">Pesanan Anda sedang dalam perjalanan. Anda dapat melacak pengiriman menggunakan nomor resi yang telah kami kirimkan.</p>
+                    </div>
+
+                    <div className="flex justify-between items-center gap-4">
+                        <button type="button" className="text-sm text-gray-600 font-semibold">
+                            Lacak Pesanan
+                        </button>
+                        <Link href="/" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg text-sm">
+                            Selesai
+                        </Link>
+                    </div>
                 </div>
             </div>
         );
@@ -453,52 +448,50 @@ export default function Payment(props: { data: any, payment: any, loading: boole
 
     if (isFinalized) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 text-center px-4">
-                <div className="dark:bg-gray-800 p-8 md:p-12 rounded-2xl shadow-4xl backdrop-blur-2xl backdrop-filter backdrop-opacity-35 max-w-2xl w-full">
-                    <div className=' border-2 border-gray-500 rounded-full w-24 h-24 p-4 mx-auto mb-6 flex items-center justify-center'>
-                        <Icon icon="clarity:check-line" className="text-gray-500 w-20 h-20" />
-                    </div>
-                    <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-3">Pesanan Selesai!</h1>
-                    <p className="text-gray-600 dark:text-gray-300 mb-8">Pesanan Anda telah selesai dan diterima. Terima kasih telah berbelanja di Optimal Untuk Negeri!</p>
-                    <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-6 mb-8 text-left">
-                        <div className="flex justify-between items-center mb-4">
-                            <span className="text-gray-600 dark:text-gray-400">Kode Transaksi:</span>
-                            <span className="font-mono text-sm bg-gray-200 dark:bg-gray-600 px-2 py-1 rounded">{data.transaction_code}</span>
-                        </div>
-                        <div className="mb-4 flex flex-col gap-2">
-                            <h6 className=" text-[var(--primary)] font-bold w-full rounded-full">Pesanan</h6>
-                            <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Jenis Paket</label>
-                                <div className="font-normal text-gray-700 dark:text-white">{data.pack_name}</div>
-                            </div>
-                            <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Judul Naskah</label>
-                                <div className="font-normal text-gray-700 dark:text-white">
-                                    {
-                                        data.isbn_program_id === 5 ? (
-                                            data.transactionable.title || '-'
-                                        ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
-                                            <>
-                                                <span>{data.transactionable.book_title.title || '-'}</span>
-                                                <br />
-                                                <span>{data.transactionable.topic.topic_name || '-'}</span>
-                                            </>
-                                        ) : (
-                                            data?.transactionable?.book_title || '-'
-                                        )
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <span className="text-gray-600 dark:text-gray-400">Jumlah Pembayaran:</span>
-                            <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}<br />
-                                <span className="text-gray-600 dark:text-gray-400 text-sm">({data.payment_method.description})</span></span>
+            <div className="flex flex-col items-center justify-center min-h-screen bg-slate-100 text-center px-4 py-8">
+                <div className="bg-white p-8 rounded-2xl shadow-lg max-w-lg w-full">
+                    <div className='flex justify-center items-center mb-4'>
+                        <div className='bg-green-600 rounded-full w-10 h-10 flex items-center justify-center'>
+                            <Icon icon="ph:check-circle-bold" className="text-white w-5 h-5" />
                         </div>
                     </div>
-                    <Link href="/" className="w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-300 inline-block">
-                        Kembali ke Beranda
-                    </Link>
+                    <h1 className="text-xl font-bold text-gray-800 mb-4">Pesanan Selesai</h1>
+                    <div className="bg-slate-100 rounded-lg p-4 mb-6">
+                        <p className="text-sm text-gray-500">Nomor Pesanan Anda</p>
+                        <p className="text-2xl font-bold text-gray-800">{data.transaction_code}</p>
+                    </div>
+
+                    <div className="text-left mb-6 space-y-3">
+                        <div>
+                            <span className="text-sm font-bold">Paket:</span>
+                            <span className="text-sm ml-2">{data.pack_name}</span>
+                        </div>
+                        <div>
+                            <span className="text-sm font-bold">Total Pembayaran:</span>
+                            <span className="text-sm ml-2">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span>
+                        </div>
+                        <div>
+                            <span className="text-sm font-bold">Judul/Topik:</span>
+                            <div className='text-capitalize text-sm text-gray-600' dangerouslySetInnerHTML={{
+                                __html: (data.isbn_program_id === 1) ? (data.transactionable as any)?.book_title :
+                                    (data.isbn_program_id === 5) ? (data.transactionable as any)?.title :
+                                        (data.transactionable as any)?.book_title?.title ? (data.transactionable as any)?.book_title?.title + '<br/> ' + (data.transactionable as any)?.topic?.topic_name : 'N/A'
+                            }} />
+                        </div>
+                    </div>
+
+                    <div className="bg-green-100 text-green-800 rounded-lg p-3 mb-8 text-left">
+                        <p className="text-sm">Terima kasih telah menyelesaikan pesanan Anda. Kami harap Anda menikmati layanan kami!</p>
+                    </div>
+
+                    <div className="flex justify-between items-center gap-4">
+                        <Link href="/order-history" className="text-sm text-gray-600 font-semibold">
+                            Lihat Riwayat Pesanan
+                        </Link>
+                        <Link href="/transactions" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg text-sm">
+                            Kembali
+                        </Link>
+                    </div>
                 </div>
             </div>
         );
@@ -506,58 +499,51 @@ export default function Payment(props: { data: any, payment: any, loading: boole
 
     if (isPending) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-screen  text-center px-4">
-                <div className=" dark:bg-gray-800 p-8 md:p-12 rounded-2xl shadow-4xl backdrop-blur-2xl backdrop-filter backdrop-opacity-35 max-w-2xl w-full">
-                    <div className=' border-2 border-amber-500 rounded-full w-24 h-24 p-4 mx-auto mb-6 flex items-center justify-center'>
-                        <Icon icon="clarity:hourglass-line" className="text-amber-500 w-20 h-20" />
-                    </div>
-                    <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-3">Menunggu Konfirmasi Pembayaran!</h1>
-                    <p className="text-gray-600 dark:text-gray-300 mb-8">Terima kasih! Bukti pembayaran Anda telah berhasil kami terima dan akan segera kami verifikasi.</p>
-                    <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-6 mb-8 text-left">
-                        <div className="flex justify-between items-center mb-4">
-                            <span className="text-gray-600 dark:text-gray-400">Kode Transaksi:</span>
-                            <span className="font-mono text-sm bg-gray-200 dark:bg-gray-600 px-2 py-1 rounded">{data.transaction_code}</span>
-                        </div>
-                        <div className="mb-4 flex flex-col gap-2">
-                            <h6 className=" text-[var(--primary)] font-bold w-full rounded-full">Pesanan</h6>
-                            <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Jenis Paket</label>
-                                <div className="font-normal text-gray-700 dark:text-white">{data.pack_name}</div>
-                            </div>
-                            <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Judul Naskah</label>
-                                <div className="font-normal text-gray-700 dark:text-white">
-                                    {
-                                        data.isbn_program_id === 5 ? (
-                                            data.transactionable.title || '-'
-                                        ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
-                                            <>
-                                                <span>{data.transactionable.book_title.title || '-'}</span>
-                                                <br />
-                                                <span>{data.transactionable.topic.topic_name || '-'}</span>
-                                            </>
-                                        ) : (
-                                            data?.transactionable?.book_title || '-'
-                                        )
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <span className="text-gray-600 dark:text-gray-400">Jumlah Pembayaran:</span>
-                            <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}<br />
-                                <span className="text-gray-600 dark:text-gray-400 text-sm">({data.payment_method.description})</span></span>
+            <div className="flex flex-col items-center justify-center min-h-screen bg-slate-100 text-center px-4 py-8">
+                <div className="bg-white p-8 rounded-2xl shadow-lg max-w-lg w-full">
+                    <div className='flex justify-center items-center mb-4'>
+                        <div className='bg-amber-500 rounded-full w-10 h-10 flex items-center justify-center'>
+                            <Icon icon="ph:clock-bold" className="text-white w-5 h-5" />
                         </div>
                     </div>
-                    <div className='flex justify-between items-center mb-4 gap-8'>
-                        <Link href="/" className="w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-300 inline-block">
-                            Kembali ke Beranda
-                        </Link>
-                        <Link href="https://wa.link/pe0iuj" className="w-full bg-green-800 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-300 inline-block">
-                            Konfirmasi Pembayaran
-                        </Link>
+                    <h1 className="text-xl font-bold text-gray-800 mb-4">Menunggu Konfirmasi Pembayaran</h1>
+                    <div className="bg-slate-100 rounded-lg p-4 mb-6">
+                        <p className="text-sm text-gray-500">Nomor Pesanan Anda</p>
+                        <p className="text-2xl font-bold text-gray-800">{data.transaction_code}</p>
                     </div>
 
+                    <div className="text-left mb-6 space-y-3">
+                        <div>
+                            <span className="text-sm font-bold">Paket:</span>
+                            <span className="text-sm ml-2">{data.pack_name}</span>
+                        </div>
+                        <div>
+                            <span className="text-sm font-bold">Total Pembayaran:</span>
+                            <span className="text-sm ml-2">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span>
+                        </div>
+                        <div>
+                            <span className="text-sm font-bold">Judul/Topik:</span>
+                            <div className='text-capitalize text-sm text-gray-600' dangerouslySetInnerHTML={{
+                                __html: (data.isbn_program_id === 1) ? (data.transactionable as any)?.book_title :
+                                    (data.isbn_program_id === 5) ? (data.transactionable as any)?.title :
+                                        (data.transactionable as any)?.book_title?.title ? (data.transactionable as any)?.book_title?.title + '<br/> ' + (data.transactionable as any)?.topic?.topic_name : 'N/A'
+                            }} />
+                        </div>
+                    </div>
+
+                    <div className="bg-amber-100 text-amber-800 rounded-lg p-3 mb-8 text-left">
+                        <p className="text-sm">Terima kasih! Bukti pembayaran Anda telah kami terima dan akan segera diverifikasi oleh tim kami (maks. 2 jam kerja).</p>
+                    </div>
+
+                    <div className="flex justify-between items-center gap-4">
+                        <Link href="https://wa.link/pe0iuj" target="_blank" className="text-sm text-gray-600 font-semibold flex items-center gap-2">
+                            <Icon icon="tabler:brand-whatsapp" className="w-5 h-5" />
+                            Hubungi Kami
+                        </Link>
+                        <Link href="/transactions" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg text-sm">
+                            Kembali
+                        </Link>
+                    </div>
                 </div>
             </div>
         );
@@ -566,52 +552,39 @@ export default function Payment(props: { data: any, payment: any, loading: boole
 
     if (isExpired) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 text-center px-4">
-                <div className="dark:bg-gray-800 p-8 md:p-12 rounded-2xl shadow-4xl backdrop-blur-2xl backdrop-filter backdrop-opacity-35 max-w-2xl w-full">
-                    <div className=' border-2 border-red-500 rounded-full w-24 h-24 p-4 mx-auto mb-6 flex items-center justify-center'>
-                        <Icon icon="clarity:hourglass-solid" className="text-red-500 w-20 h-20" />
-                    </div>
-                    <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-3">Pesanan Dibatalkan!</h1>
-                    <p className="text-gray-600 dark:text-gray-300 mb-8">Pesanan Anda dibatalkan karena pembayaran Anda belum selesai.</p>
-                    <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-6 mb-8 text-left">
-                        <div className="flex justify-between items-center mb-4">
-                            <span className="text-gray-600 dark:text-gray-400">Kode Transaksi:</span>
-                            <span className="font-mono text-sm bg-gray-200 dark:bg-gray-600 px-2 py-1 rounded">{data.transaction_code}</span>
-                        </div>
-                        <div className="mb-4 flex flex-col gap-2">
-                            <h6 className=" text-[var(--primary)] font-bold w-full rounded-full">Pesanan</h6>
-                            <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Jenis Paket</label>
-                                <div className="font-normal text-gray-700 dark:text-white">{data.pack_name}</div>
-                            </div>
-                            <div className='flex flex-col gap-1'>
-                                <label className="text-gray-900 text-lg font-bold dark:text-gray-400">Judul Naskah</label>
-                                <div className="font-normal text-gray-700 dark:text-white">
-                                    {
-                                        data.isbn_program_id === 5 ? (
-                                            data.transactionable.title || '-'
-                                        ) : (data.isbn_program_id === 2 || data.isbn_program_id === 3 || data.isbn_program_id === 4) ? (
-                                            <>
-                                                <span>{data.transactionable.book_title.title || '-'}</span>
-                                                <br />
-                                                <span>{data.transactionable.topic.topic_name || '-'}</span>
-                                            </>
-                                        ) : (
-                                            data?.transactionable?.book_title || '-'
-                                        )
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <span className="text-gray-600 dark:text-gray-400">Jumlah Pembayaran:</span>
-                            <span className="font-bold text-gray-800 dark:text-white text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}<br />
-                                <span className="text-gray-600 dark:text-gray-400 text-sm">({data.payment_method.description})</span></span>
+            <div className="flex flex-col items-center justify-center min-h-screen bg-slate-100 text-center px-4 py-8">
+                <div className="bg-white p-8 rounded-2xl shadow-lg max-w-lg w-full">
+                    <div className='flex justify-center items-center mb-4'>
+                        <div className='bg-red-600 rounded-full w-10 h-10 flex items-center justify-center'>
+                            <Icon icon="ph:timer-bold" className="text-white w-5 h-5" />
                         </div>
                     </div>
-                    <Link href="/" className="w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors duration-300 inline-block">
-                        Kembali ke Beranda
-                    </Link>
+                    <h1 className="text-xl font-bold text-gray-800 mb-4">Waktu Pembayaran Habis</h1>
+                    <div className="bg-slate-100 rounded-lg p-4 mb-6">
+                        <p className="text-sm text-gray-500">Nomor Pesanan Anda</p>
+                        <p className="text-2xl font-bold text-gray-800">{data.transaction_code}</p>
+                    </div>
+
+                    <div className="text-left mb-6 space-y-3">
+                        <div>
+                            <span className="text-sm font-bold">Paket:</span>
+                            <span className="text-sm ml-2">{data.pack_name}</span>
+                        </div>
+                        <div>
+                            <span className="text-sm font-bold">Total Pembayaran:</span>
+                            <span className="text-sm ml-2">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span>
+                        </div>
+                    </div>
+
+                    <div className="bg-red-100 text-red-800 rounded-lg p-3 mb-8 text-left">
+                        <p className="text-sm">Pesanan Anda telah dibatalkan karena batas waktu pembayaran telah terlewati. Silakan buat pesanan baru jika Anda ingin melanjutkan.</p>
+                    </div>
+
+                    <div className="flex justify-end items-center gap-4">
+                        <Link href="/pricing" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg text-sm">
+                            Buat Pesanan Baru
+                        </Link>
+                    </div>
                 </div>
             </div>
         );
@@ -625,10 +598,10 @@ export default function Payment(props: { data: any, payment: any, loading: boole
 
                 <section className="w-full h-auto py-12 px-4 container mx-auto 2xl:px-0" id="payment">
                     <FormHeader title="Selesaikan Pembayaran" description="Segera selesaikan pembayaran anda sebelum waktu habis" className='text-center mb-8' />
-                    
+
                     <div className="bg-blue-50 border border-blue-200 text-blue-800 text-sm p-4 rounded-lg flex items-start lg:col-span-2 mb-8">
                         <Icon icon="ion:bulb-outline" className="text-xl mr-3 flex-shrink-0" />
-                        <p>Silahkan melakukan pembayaran sebesar <span className='font-bold'>{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 , maximumFractionDigits: 0})}</span> sebelum <b>{new Date(data.expires_at).toLocaleDateString('id', { day: 'numeric', month: 'long', year: 'numeric' , hour: 'numeric', minute: 'numeric' })}</b> ke rekening berikut:</p>
+                        <p>Silahkan melakukan pembayaran sebesar <span className='font-bold'>{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span> sebelum <b>{new Date(data.expires_at).toLocaleDateString('id', { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric' })}</b> ke rekening berikut:</p>
                     </div>
                     <main>
 
@@ -695,7 +668,7 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                                             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm'>
                                                 <div className='col-span-1'>Pembayaran ke <br /><b className="text-base">#{option.code}</b></div>
                                                 <div className='col-span-1'>Nama Penerima <br /> <b className="text-base">Optimal Untuk Negeri</b></div>
-                                                <div className='col-span-1 md:col-span-2 lg:col-span-1 lg:text-right '>Total Bayar:<br /><strong className="text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 , maximumFractionDigits: 0})}</strong></div>
+                                                <div className='col-span-1 md:col-span-2 lg:col-span-1 lg:text-right '>Total Bayar:<br /><strong className="text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</strong></div>
                                             </div>
                                         </div>
                                     </div>

@@ -46,11 +46,11 @@ export default async function TransactionDetailPage({ params }: { params: { slug
                 <p className="text-lg font-bold text-gray-900 mb-4">Pesanan belum selesai.</p>
                 <p className="text-center text-gray-600">Silahkan lanjutkan dengan menekan tombol di bawah ini untuk melanjutkan.</p>
                 <div className="flex justify-center gap-4 my-8">
-                    <a href="#" className="bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg hover:bg-gray-300 transition-colors flex items-center">
+                    <a href="#" className="bg-gray-200 text-gray-800 text-sm font-semibold py-3 px-6 rounded-lg hover:bg-gray-300 transition-colors flex items-center">
                         <Icon icon="ion:close-outline" className="mr-2" />
                         Batalkan Pesanan
                     </a>
-                    <a href={`/payment/${slug}`} className="bg-gray-800 text-white font-semibold py-3 px-6 rounded-lg hover:bg-gray-700 transition-colors flex items-center">
+                    <a href={`/payment/${slug}`} className="bg-gray-800 text-sm text-white font-semibold py-3 px-6 rounded-lg hover:bg-gray-700 transition-colors flex items-center">
                         Lanjutkan Pembayaran
                         <Icon icon="ion:arrow-forward-outline" className="ml-2" />
                     </a>
@@ -119,7 +119,7 @@ export default async function TransactionDetailPage({ params }: { params: { slug
                                 <div className="flex flex-col items-center">
                                     <Icon icon="ic:round-description" className="w-12 h-12 mb-3" />
                                     <p className="text-base font-medium">Invoice Transaksi</p>
-                                    <a href={getImageUrl(transaction.invoice_url)} target="_blank" rel="noopener noreferrer" className="mt-4 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors flex items-center gap-2">
+                                    <a href={getImageUrl(transaction.invoice_url)} target="_blank" rel="noopener noreferrer" className="mt-4 px-4 py-2 text-sm bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors flex items-center gap-2">
                                         <Icon icon="ic:round-cloud-download" className="w-5 h-5" />
                                         Unduh Invoice
                                     </a>
@@ -186,7 +186,11 @@ export default async function TransactionDetailPage({ params }: { params: { slug
                                 <Icon icon="ic:round-category" className="w-5 h-5" />
                                 <p className="text-sm">Judul</p>
                             </div>
-                            <p className="text-sm font-medium text-gray-900">{String(transaction.transactionable?.title || transaction.transactionable?.book_title || 'N/A')}</p>
+                            <div className='text-capitalize text-sm text-gray-600 text-right max-w-1/2' dangerouslySetInnerHTML={{
+                                __html: (transaction.isbn_program_id === 1) ? (transaction.transactionable as any)?.book_title :
+                                    (transaction.isbn_program_id === 5) ? (transaction.transactionable as any)?.title :
+                                        (transaction.transactionable as any)?.book_title?.title ? '<b>'+(transaction.transactionable as any)?.book_title?.title + '</b><br/> ' + (transaction.transactionable as any)?.topic?.topic_name : 'N/A'
+                            }} />
                         </div>
 
                         {/* Amount */}

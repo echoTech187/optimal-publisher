@@ -15,7 +15,7 @@ export default function EventPage() {
     const [isTableLoading, setIsTableLoading] = useState(true);
     const [userEventsTotal, setUserEventsTotal] = useState(0);
     const [userEventsCurrentPage, setUserEventsCurrentPage] = useState(1);
-    const userEventsItemsPerPage = 1;
+    const userEventsItemsPerPage = 10;
 
     useEffect(() => {
         const fetchEvents = async () => {
