@@ -43,11 +43,11 @@ export default function FormProgramMonograf(props: { data: any, user: User }) {
         institution: '',
         major: '',
         city: '',
+        members: [], // Initialize members as an empty array
     };
 
     for (let i = 0; i < data.package_type.member_total; i++) {
-        initialFormState[`members_name_${i}`] = '';
-        initialFormState[`members_phone_${i}`] = '';
+        initialFormState.members.push({ name: '', phone: '' });
     }
 
     const [form, setForm] = useState<any>(initialFormState);
@@ -88,7 +88,34 @@ export default function FormProgramMonograf(props: { data: any, user: User }) {
     };
 
     const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        setForm((prevForm: any) => ({ ...prevForm, [e.target.name]: e.target.value }));
+        const { name, value } = e.target;
+
+        setForm((prevForm: any) => {
+            // Check if the name matches the pattern for member fields (e.g., 'members[0].name')
+            const memberMatch = name.match(/members\[(\d+)\]\.(name|phone)/);
+
+            if (memberMatch) {
+                const index = parseInt(memberMatch[1], 10);
+                const field = memberMatch[2];
+
+                const newMembers = [...prevForm.members];
+                if (!newMembers[index]) {
+                    newMembers[index] = { name: '', phone: '' };
+                }
+                newMembers[index] = { ...newMembers[index], [field]: value };
+
+                return {
+                    ...prevForm,
+                    members: newMembers,
+                };
+            } else {
+                // For top-level fields
+                return {
+                    ...prevForm,
+                    [name]: value,
+                };
+            }
+        });
     };
 
     const handleAddressChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

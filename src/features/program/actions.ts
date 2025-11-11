@@ -78,6 +78,30 @@ export async function submitReferenceProgram(prevState: FormState, formData: For
 
 // Action for the monograf program
 export async function submitMonografProgram(prevState: FormState, formData: FormData): Promise<FormState> {
-    // Add any specific validation for monograf programs here if needed
-    return submitProgram(formData);
+    const newFormData = new FormData();
+    const members: { name: string; phone: string }[] = [];
+
+    for (let [key, value] of formData.entries()) {
+        const memberMatch = key.match(/members\[(\d+)\]\.(name|phone)/);
+        if (memberMatch) {
+            const index = parseInt(memberMatch[1], 10);
+            const field = memberMatch[2];
+
+            if (!members[index]) {
+                members[index] = { name: '', phone: '' };
+            }
+            members[index][field as 'name' | 'phone'] = value as string;
+        } else {
+            newFormData.append(key, value);
+        }
+    }
+
+    // Append members as a JSON string or individual fields, depending on backend expectation
+    // For now, let's try appending as individual fields with array notation
+    members.forEach((member, index) => {
+        newFormData.append(`members[${index}][name]`, member.name);
+        newFormData.append(`members[${index}][phone]`, member.phone);
+    });
+
+    return submitProgram(newFormData);
 }

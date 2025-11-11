@@ -6,18 +6,28 @@ import StyledInputField from './StyledInputField';
 
 const UserInfoMonograf = ({ user, memberCount, form, onChange, error }: { user: User | null, memberCount: number | 1, form: any, onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void, error: any }) => {
 
+    const handleMemberChange = (index: number, field: string, value: string) => {
+        // Create a synthetic event to pass to the parent onChange handler
+        // The parent's onChange expects an event with target.name and target.value
+        // We'll use a custom name format like 'members[index].field'
+        onChange({
+            target: {
+                name: `members[${index}].${field}`,
+                value: value,
+            }
+        } as React.ChangeEvent<HTMLInputElement>);
+    };
+
     const changeWritter = (checked: boolean) => {
         if (checked) {
-            // Use the form state directly instead of document.getElementById
             const chiefName = form.chief_writer;
             const chiefPhone = form.writter_phone;
 
-            // Simulate change events to update the form state
-            onChange({ target: { name: 'members_name_0', value: chiefName } } as React.ChangeEvent<HTMLInputElement>);
-            onChange({ target: { name: 'members_phone_0', value: chiefPhone } } as React.ChangeEvent<HTMLInputElement>);
+            handleMemberChange(0, 'name', chiefName);
+            handleMemberChange(0, 'phone', chiefPhone);
         } else {
-            onChange({ target: { name: 'members_name_0', value: "" } } as React.ChangeEvent<HTMLInputElement>);
-            onChange({ target: { name: 'members_phone_0', value: "" } } as React.ChangeEvent<HTMLInputElement>);
+            handleMemberChange(0, 'name', "");
+            handleMemberChange(0, 'phone', "");
         }
     }
     return (<>
@@ -79,21 +89,21 @@ const UserInfoMonograf = ({ user, memberCount, form, onChange, error }: { user: 
                         <div className="mb-2 w-full">
                             <StyledInputField
                                 label={`Nama Lengkap beserta Gelar (Anggota ${i + 1})`}
-                                name={`members_name_${i}`}
+                                name={`members[${i}].name`}
                                 id={`members_name_${i}`}
                                 placeholder="Masukan Nama Anggota"
-                                value={form[`members_name_${i}`]}
-                                onChange={onChange}
+                                value={form.members[i]?.name || ''}
+                                onChange={(e) => handleMemberChange(i, 'name', e.target.value)}
                             />
                         </div>
                         <div className="mb-2">
                             <StyledInputField
                                 label="No. Telepon"
-                                name={`members_phone_${i}`}
+                                name={`members[${i}].phone`}
                                 id={`members_phone_${i}`}
                                 placeholder="Masukan No. Telepon Anggota"
-                                value={form[`members_phone_${i}`]}
-                                onChange={onChange}
+                                value={form.members[i]?.phone || ''}
+                                onChange={(e) => handleMemberChange(i, 'phone', e.target.value)}
                             />
                         </div>
                     </div>
