@@ -61,7 +61,7 @@ const StyledFileInput = ({ label, description, accepted, required, uploadState, 
                 </div>
             ) : uploadedId ? (
                 <div className="w-full bg-green-100 border border-green-200 text-green-800 rounded-lg py-3 px-4 flex items-center justify-between">
-                    <span className="font-semibold truncate">{file.name}</span>
+                    <span className="font-semibold truncate">{file?.name || uploadedId}</span> {/* Use file.name if available, otherwise uploadedId */}
                     <Icon icon="ion:checkmark-circle" className="text-2xl" />
                 </div>
             ) : file ? (

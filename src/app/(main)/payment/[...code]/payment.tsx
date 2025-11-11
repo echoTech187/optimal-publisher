@@ -92,7 +92,7 @@ export default function Payment(props: { data: any, payment: any, loading: boole
     const handleFileChange = (inputName: string, file: File) => {
         setUploads(prev => ({ ...prev, [inputName]: { file, progress: 0, uploadedId: null, error: null } }));
 
-        uploadFileToServer(file, 'http://localhost:8000/api/v1/manuscript-upload', (progress: any) => {
+        uploadFileToServer(file, 'http://localhost:8000/api/v1/payment-proof-upload', (progress: any) => {
             setUploads(prev => ({ ...prev, [inputName]: { ...prev[inputName as keyof typeof prev], file: file, progress } }));
         })
             .then(fileId => {
