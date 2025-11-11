@@ -35,14 +35,21 @@ export default function FormProgramMonograf(props: { data: any, user: User }) {
         error: dataError,
     } = useProgramMonografForm();
 
-    const [form, setForm] = useState<any>({
+    const initialFormState: {[key: string]: any} = {
         title: '',
         chief_writer: '',
         writter_phone: '',
         institution: '',
         major: '',
         city: '',
-    });
+    };
+
+    for (let i = 0; i < data.package_type.member_total; i++) {
+        initialFormState[`members_name_${i}`] = '';
+        initialFormState[`members_phone_${i}`] = '';
+    }
+
+    const [form, setForm] = useState<any>(initialFormState);
     const [address, setAddress] = useState('');
     const [agreement, setAgreement] = useState(false);
     const [errors, setErrors] = useState<any>({});
