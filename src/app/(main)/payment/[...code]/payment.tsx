@@ -8,6 +8,57 @@ import uploadPaymentProof from '@/features/payment/actions';
 import Alert, { useAlert } from '@/components/ui/Alert';
 import Link from 'next/link';
 import FormHeader from '@/components/forms/program/FormHeader';
+import FileUpload from '@/components/forms/program/FileUpload'; // Import FileUpload component
+
+// Real file upload function (copied from FormProgramPrivate.tsx)
+const uploadFileToServer = async (file: string | Blob, url: string | undefined, onProgress: { (progress: any): void; (arg0: number): void; }) => {
+    const formData = new FormData();
+    formData.append('file', file); // 'file' must match the name your backend expects
+
+    try {
+        return await new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+
+            xhr.upload.addEventListener('progress', (event) => {
+                if (event.lengthComputable) {
+                    const percentCompleted = Math.round((event.loaded * 100) / event.total);
+                    onProgress(percentCompleted);
+                }
+            });
+
+            xhr.addEventListener('load', () => {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    const response = JSON.parse(xhr.responseText);
+                    resolve(response.fileId); // Assumes backend returns { fileId: '...' }
+                } else {
+                    try {
+                        const errorResponse = JSON.parse(xhr.responseText);
+                        reject(new Error(errorResponse.message || 'Failed to upload file.'));
+                    } catch (e) {
+                        reject(new Error('An unknown error occurred during upload.'));
+                    }
+                }
+            });
+
+            xhr.addEventListener('error', () => {
+                reject(new Error('A network or server error occurred.'));
+            });
+
+            // IMPORTANT: Replace with your actual backend endpoint URL
+            xhr.open('POST', url ? url : 'http://localhost:8000/api/v1/upload-file');
+
+            // If you use authentication, set the header here
+            // xhr.setRequestHeader('Authorization', `Bearer ${yourAuthToken}`);
+
+            xhr.send(formData);
+        });
+
+    } catch (error) {
+        console.error('Upload error:', error);
+        throw error; // Re-throw the error to be caught by handleFileChange
+    }
+};
+
 export default function Payment(props: { data: any, payment: any, loading: boolean }) {
     const router = useSearchParams();
     const type = router.get("type");
@@ -24,6 +75,33 @@ export default function Payment(props: { data: any, payment: any, loading: boole
     const [isFinalized, setIsFinalized] = useState(false);
     const [isExpired, setIsExpired] = useState(false);
     const { data, payment, loading } = props;
+
+    const [uploads, setUploads] = useState({
+        receipt: { file: null, progress: 0, uploadedId: null, error: null },
+    });
+
+    const resetUpload = (inputName: any) => {
+        setUploads(prev => ({
+            ...prev,
+            [inputName]: { file: null, progress: 0, uploadedId: null, error: null }
+        }));
+    };
+
+    const handleFileChange = (inputName: string, file: File) => {
+        setUploads(prev => ({ ...prev, [inputName]: { file, progress: 0, uploadedId: null, error: null } }));
+
+        uploadFileToServer(file, 'http://localhost:8000/api/v1/payment-proof-upload', (progress: any) => {
+            setUploads(prev => ({ ...prev, [inputName]: { ...prev[inputName as keyof typeof prev], file: file, progress } }));
+        })
+            .then(fileId => {
+                setUploads(prev => ({ ...prev, [inputName]: { ...prev[inputName as keyof typeof prev], file: file, uploadedId: fileId, progress: 100 } }));
+            })
+            .catch(err => {
+                console.error(`Error uploading ${inputName}:`, err.message);
+                setUploads(prev => ({ ...prev, [inputName]: { ...prev[inputName as keyof typeof prev], file: file, error: err.message || "Upload failed. Please try again." } }));
+            });
+    };
+
     useEffect(() => {
         function checkPaymentStatus() {
             if (data.status_id === 2) {
@@ -58,7 +136,8 @@ export default function Payment(props: { data: any, payment: any, loading: boole
             });
             return;
         }
-        if (!formData.get('receipted') || (formData.get('receipted') as File).size === 0) {
+        // Use the uploadedId from the state
+        if (!uploads.receipt.uploadedId) {
             showAlert({
                 type: 'error',
                 title: 'Invalid Receipt',
@@ -67,16 +146,9 @@ export default function Payment(props: { data: any, payment: any, loading: boole
             });
             return;
         }
-        if ((formData.get('receipted') as File).size > 2 * 1024 * 1024) { // 2MB
-            showAlert({
-                type: 'error',
-                title: 'Invalid Receipt Size',
-                message: 'The receipt file size should not exceed 2MB.',
-                onCloseCallback: closeAlert,
-            });
-            return;
-        }
 
+        // Append the uploadedId to the formData
+        formData.append('receipted', uploads.receipt.uploadedId);
 
         // Here you can handle the form data, e.g., send it to your server
         const response = await uploadPaymentProof(formData);
@@ -550,7 +622,7 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                 <input type="hidden" name="amount" id='amount' value={data.amount} />
 
                 <section className="w-full h-auto py-12 px-4 container mx-auto 2xl:px-0" id="payment">
-                    <FormHeader title="Selesaikan Pembayaran" description="Segera selesaikan pembayaran anda sebelum waktu habis" />
+                    <FormHeader title="Selesaikan Pembayaran" description="Segera selesaikan pembayaran anda sebelum waktu habis" className='text-center mb-8' />
                     
                     <div className="bg-blue-50 border border-blue-200 text-blue-800 text-sm p-4 rounded-lg flex items-start lg:col-span-2 mb-8">
                         <Icon icon="ion:bulb-outline" className="text-xl mr-3 flex-shrink-0" />
@@ -621,7 +693,7 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                                             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm'>
                                                 <div className='col-span-1'>Pembayaran ke <br /><b className="text-base">#{option.code}</b></div>
                                                 <div className='col-span-1'>Nama Penerima <br /> <b className="text-base">Optimal Untuk Negeri</b></div>
-                                                <div className='col-span-1 md:col-span-2 lg:col-span-1 lg:text-right '>Total Bayar:<br /><strong className="text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}</strong></div>
+                                                <div className='col-span-1 md:col-span-2 lg:col-span-1 lg:text-right '>Total Bayar:<br /><strong className="text-lg">{parseInt(data.amount).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 , maximumFractionDigits: 0})}</strong></div>
                                             </div>
                                         </div>
                                     </div>
@@ -633,21 +705,7 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                     <header className="relative mt-12">
                         <h2 className="text-2xl mb-4 z-10 text-gray-900 dark:text-gray-50 leading-tight font-bold">Upload Bukti Pembayaran</h2>
                     </header>
-                    <div className="col-span-full mb-6">
-                        <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 dark:border-gray-100/25 px-6 py-10">
-                            <div className="text-center">
-                                <Icon icon="tabler:photo" className="w-12 h-12 text-gray-400 mx-auto" />
-                                <div className="mt-4 flex text-sm text-gray-600 dark:text-gray-400">
-                                    <label htmlFor="receipted" className="relative cursor-pointer rounded-md bg-transparent font-semibold text-indigo-600 dark:text-indigo-400 focus-within:outline-none hover:text-indigo-500">
-                                        <span>Upload a file</span>
-                                        <input id="receipted" type="file" name="receipted" className="sr-only" accept='image/jpeg, image/png' />
-                                    </label>
-                                    <p className="pl-1">or drag and drop</p>
-                                </div>
-                                <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG up to 2MB</p>
-                            </div>
-                        </div>
-                    </div>
+                    <FileUpload name="receipted" uploadState={uploads.receipt} onFileChange={handleFileChange} onReset={resetUpload} error={undefined} />
                     <div className='col-span-full mb-12'>
                         <label className="block text-gray-800 dark:text-gray-200 font-bold mb-4">*) Konfirmasi Pembayaran anda dengan menghubungi tim kami via Whatsapp</label>
                         <button type="button" className="px-4 py-2 text-sm border rounded-lg border-green-600 hover:border-green-600 text-green-600 hover:bg-green-600 hover:text-white join items-center font-bold" onClick={() => window.open('https://wa.link/pe0iuj', '_parent')}> <Icon icon="tabler:brand-whatsapp" className="mr-2 size-6" width="32" height="32" />Hubungi kami</button>
