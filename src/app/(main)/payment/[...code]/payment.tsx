@@ -14,7 +14,7 @@ import FileUpload from '@/components/forms/program/FileUpload'; // Import FileUp
 const uploadFileToServer = async (file: string | Blob, url: string | undefined, onProgress: { (progress: any): void; (arg0: number): void; }) => {
     const formData = new FormData();
     formData.append('file', file); // 'file' must match the name your backend expects
-
+    console.log(formData);
     try {
         return await new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
@@ -31,11 +31,13 @@ const uploadFileToServer = async (file: string | Blob, url: string | undefined, 
                     const response = JSON.parse(xhr.responseText);
                     resolve(response.fileId); // Assumes backend returns { fileId: '...' }
                 } else {
+                    console.error('Server responded with status:', xhr.status);
+                    console.error('Server response text:', xhr.responseText);
                     try {
                         const errorResponse = JSON.parse(xhr.responseText);
-                        reject(new Error(errorResponse.message || 'Failed to upload file.'));
+                        reject(new Error(errorResponse.message || `Failed to upload file. Status: ${xhr.status}`));
                     } catch (e) {
-                        reject(new Error('An unknown error occurred during upload.'));
+                        reject(new Error(`An unknown error occurred during upload. Status: ${xhr.status}. Response: ${xhr.responseText}`));
                     }
                 }
             });
@@ -90,7 +92,7 @@ export default function Payment(props: { data: any, payment: any, loading: boole
     const handleFileChange = (inputName: string, file: File) => {
         setUploads(prev => ({ ...prev, [inputName]: { file, progress: 0, uploadedId: null, error: null } }));
 
-        uploadFileToServer(file, 'http://localhost:8000/api/v1/payment-proof-upload', (progress: any) => {
+        uploadFileToServer(file, 'http://localhost:8000/api/v1/manuscript-upload', (progress: any) => {
             setUploads(prev => ({ ...prev, [inputName]: { ...prev[inputName as keyof typeof prev], file: file, progress } }));
         })
             .then(fileId => {
