@@ -201,7 +201,7 @@ export default function FormProgramPrivate(props: { data: any, user: User }) {
                         <UserInfo user={user} />
                         <BookInfo majors={majors} bookTitles={bookTitles} selectedMajor={selectedMajor} loading={dataLoading} handleMajorChange={handleMajorChange} setBookTitle={handleBookTitleChange} error={errors.bookTitles || errors.selectedMajor} />
                         <Address value={address} onChange={handleAddressChange} error={errors.address} />
-                        <FileUpload name="manuscript" uploadState={uploads.manuscript} onFileChange={handleFileChange} onReset={resetUpload} error={errors.manuscript} />
+                        <FileUpload name="manuscript" accept=".docx" uploadState={uploads.manuscript} onFileChange={handleFileChange} onReset={resetUpload} error={errors.manuscript} />
 
                         <Agreement checked={agreement} onChange={handleAgreementChange} />
                         {errors.agreement && <p className="text-red-500 text-sm mt-1">{errors.agreement}</p>}

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
 
-const StyledFileInput = ({ label, description, required, uploadState, onFileChange, inputName, onReset }: { label: string; description: string; required: boolean; uploadState: any; onFileChange: (arg0: string, arg1: File) => void; inputName: string; onReset: (arg0: string) => void; }) => {
+const StyledFileInput = ({ label, description, accepted, required, uploadState, onFileChange, inputName, onReset }: { label: string; description: string; accepted?: string; required: boolean; uploadState: any; onFileChange: (arg0: string, arg1: File) => void; inputName: string; onReset: (arg0: string) => void; }) => {
     const { file, progress, uploadedId, error } = uploadState;
 
     const handleFileSelect = (event: any) => {
@@ -49,7 +49,7 @@ const StyledFileInput = ({ label, description, required, uploadState, onFileChan
                     <span className="text-sm text-gray-500 ml-2 truncate">
                         {file ? file.name : 'Tidak ada file yang dipilih'}
                     </span>
-                    <input id={inputName} type="file" className="hidden" onChange={handleFileSelect} accept='.docx' />
+                    <input id={inputName} type="file" className="hidden" onChange={handleFileSelect} accept={accepted || ''} />
                 </div>
             )}
             {error && <p className="text-red-500 text-sm mt-1">{error}</p>}

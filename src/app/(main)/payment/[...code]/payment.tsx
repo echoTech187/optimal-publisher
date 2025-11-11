@@ -130,8 +130,8 @@ export default function Payment(props: { data: any, payment: any, loading: boole
         if (data.amount != formData.get('amount')) {
             showAlert({
                 type: 'error',
-                title: 'Invalid Amount',
-                message: 'The amount you entered does not match the amount of the order. Please check and try again.',
+                title: 'Jumlah Tidak Sesuai',
+                message: 'Jumlah yang Anda masukkan tidak sesuai dengan jumlah pesanan. Mohon periksa kembali.',
                 onCloseCallback: closeAlert,
             });
             return;
@@ -140,8 +140,8 @@ export default function Payment(props: { data: any, payment: any, loading: boole
         if (!uploads.receipt.uploadedId) {
             showAlert({
                 type: 'error',
-                title: 'Invalid Receipt',
-                message: 'Please upload a payment receipt.',
+                title: 'Bukti Pembayaran Tidak Valid',
+                message: 'Mohon unggah bukti pembayaran.',
                 onCloseCallback: closeAlert,
             });
             return;
@@ -155,7 +155,7 @@ export default function Payment(props: { data: any, payment: any, loading: boole
         if (!response.success) {
             showAlert({
                 type: 'error',
-                title: 'Receipt Upload Failed',
+                title: 'Unggah Bukti Pembayaran Gagal',
                 message: response.message,
                 onCloseCallback: closeAlert,
             });
@@ -705,7 +705,7 @@ export default function Payment(props: { data: any, payment: any, loading: boole
                     <header className="relative mt-12">
                         <h2 className="text-2xl mb-4 z-10 text-gray-900 dark:text-gray-50 leading-tight font-bold">Upload Bukti Pembayaran</h2>
                     </header>
-                    <FileUpload name="receipted" uploadState={uploads.receipt} onFileChange={handleFileChange} onReset={resetUpload} error={undefined} />
+                    <FileUpload name="receipted" label="Upload Bukti Pembayaran" description="Format gambar yang diterima: .jpg, .png, .jpeg. Ukuran maksimal 5MB" accept=".jpg,.png,.jpeg" uploadState={uploads.receipt} onFileChange={handleFileChange} onReset={resetUpload} error={undefined} />
                     <div className='col-span-full mb-12'>
                         <label className="block text-gray-800 dark:text-gray-200 font-bold mb-4">*) Konfirmasi Pembayaran anda dengan menghubungi tim kami via Whatsapp</label>
                         <button type="button" className="px-4 py-2 text-sm border rounded-lg border-green-600 hover:border-green-600 text-green-600 hover:bg-green-600 hover:text-white join items-center font-bold" onClick={() => window.open('https://wa.link/pe0iuj', '_parent')}> <Icon icon="tabler:brand-whatsapp" className="mr-2 size-6" width="32" height="32" />Hubungi kami</button>
