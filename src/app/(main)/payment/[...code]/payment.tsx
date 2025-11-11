@@ -82,10 +82,6 @@ export default function Payment(props: { data: any, payment: any, loading: boole
         receipt: { file: null, progress: 0, uploadedId: null, error: null },
     });
 
-    useEffect(() => {
-        console.log('Current uploads state:', uploads); // Log uploads state on change
-    }, [uploads]);
-
     const resetUpload = (inputName: any) => {
         setUploads(prev => ({
             ...prev,
@@ -100,7 +96,6 @@ export default function Payment(props: { data: any, payment: any, loading: boole
             setUploads(prev => ({ ...prev, [inputName]: { ...prev[inputName as keyof typeof prev], file: file, progress } }));
         })
             .then(fileId => {
-                console.log('File uploaded successfully, fileId:', fileId); // Add this log
                 setUploads(prev => ({ ...prev, [inputName]: { ...prev[inputName as keyof typeof prev], file: file, uploadedId: fileId, progress: 100 } }));
             })
             .catch(err => {
