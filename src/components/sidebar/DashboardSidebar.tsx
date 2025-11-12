@@ -19,7 +19,7 @@ const DashboardSidebar = ({ isCollapsed, toggleSidebar }: { isCollapsed: boolean
         >
             <div className="flex items-center justify-between mb-8">
                 <div className={`transition-all duration-300 ${isCollapsed ? 'w-0 overflow-hidden' : 'w-auto'}`}>
-                    <Image src="/penerbit-logo.png" alt="Optimal Publisher Logo" width={80} height={80} className="filter grayscale brightness-0 invert" />
+                    <Image src="/penerbit-logo.png" priority={true} alt="Optimal Publisher Logo" width={80} height={80} className="filter grayscale brightness-0 invert" />
                 </div>
                 <button className="p-2" onClick={toggleSidebar} aria-label="Toggle Sidebar">
                     <Icon icon={isCollapsed ? "tabler:layout-sidebar-right-expand" : "tabler:layout-sidebar-left-collapse"} width="24" height="24" />

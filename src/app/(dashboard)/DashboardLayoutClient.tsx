@@ -20,7 +20,7 @@ export default function DashboardLayoutClient({ children, user }: { children: Re
     }, [isSidebarOpen]);
 
     return (
-        <div className="flex bg-white min-h-screen font-sans">
+        <div className="flex bg-white min-h-screen overflow-x-hidden font-sans">
             <NewDashboardSidebar user={user} isOpen={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
             <div className="flex-1 flex flex-col">
                 <DashboardHeader onMenuClick={() => setSidebarOpen(true)} />

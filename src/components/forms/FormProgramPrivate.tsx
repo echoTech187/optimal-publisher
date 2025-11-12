@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useActionState, useState } from 'react';
+import React, { useEffect, useActionState, useState, useTransition } from 'react';
 import { useFormStatus } from 'react-dom';
 import { User } from "@/types/user";
 
@@ -78,6 +78,7 @@ const uploadFileToServer = async (file: string | Blob, url: string | undefined, 
 export default function FormProgramPrivate(props: { data: any, user: User }) {
     const { data, user } = props;
     const [formState, formAction] = useActionState(submitPrivateProgram, initialState);
+    const [isPending, startTransition] = useTransition();
     const { alertProps, showAlert, closeAlert } = useAlert();
     const {
         majors,
@@ -121,7 +122,9 @@ export default function FormProgramPrivate(props: { data: any, user: User }) {
         e.preventDefault();
         if (validateForm(true)) {
             const formData = new FormData(e.currentTarget);
-            formAction(formData);
+            startTransition(() => {
+                formAction(formData);
+            });
         }
     };
 

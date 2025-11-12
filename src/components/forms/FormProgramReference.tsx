@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useEffect, useActionState, useState } from 'react';
+import React, { useEffect, useActionState, useState, useTransition } from 'react';
 import { useFormStatus } from 'react-dom';
 import { User } from "@/types/user";
 
@@ -28,6 +28,7 @@ const initialState = {
 export default function FormProgramReference(props: { data: any, user: User, showAdress?: boolean }) {
     const { data, user } = props;
     const [formState, formAction] = useActionState(submitReferenceProgram, initialState);
+    const [isPending, startTransition] = useTransition();
     const { alertProps, showAlert, closeAlert } = useAlert();
     const {
         majors,
@@ -70,7 +71,9 @@ export default function FormProgramReference(props: { data: any, user: User, sho
         e.preventDefault();
         if (validateForm(true)) {
             const formData = new FormData(e.currentTarget);
-            formAction(formData);
+            startTransition(() => {
+                formAction(formData);
+            });
         }
     };
 
@@ -169,5 +172,5 @@ export default function FormProgramReference(props: { data: any, user: User, sho
 
 function FormSubmitter({ disabled }: { disabled: boolean }) {
     const { pending } = useFormStatus();
-    return <SubmitButton loading={pending} title="Lanjutkan Pembayaran" disabled={disabled} />;
+    return <SubmitButton loading={pending} title="Lanjutkan Pembayaran" disabled={pending || disabled} />;
 }

@@ -20,14 +20,14 @@ const navLinks = [
 
 const SidebarContent = ({ user }: { user: User }) => {
     const today = new Date();
-    const dateString = today.toLocaleDateString('id-ID', { weekday: 'long',year: 'numeric', month: 'long', day: 'numeric' });
+    const dateString = today.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     const pathname = usePathname();
 
     return (
-        <div className="max-w-96 bg-white p-8 flex flex-col h-full">
+        <div className="min-w-90 max-w-96 bg-white p-8 flex flex-col h-full">
             <div className="flex items-center gap-3 mb-12">
                 <a href="/dashboard" className="text-lg font-bold text-gray-800">
-                <Image src="/penerbit-logo.png" alt="Optimal Publisher Logo" width={100} height={80} className="h-10 lg:h-12 w-auto object-contain" />
+                    <Image src="/penerbit-logo.png" priority={true} alt="Optimal Publisher Logo" width={100} height={80} className="h-10 lg:h-12 w-auto object-contain" />
                 </a>
             </div>
 
@@ -53,9 +53,8 @@ const SidebarContent = ({ user }: { user: User }) => {
                 <ul>
                     {navLinks.map((link) => (
                         <li key={link.href} className="mb-1">
-                            <Link href={link.href} className={`flex items-center gap-3 p-3 rounded-lg text-base transition-colors font-semibold ${
-                                pathname === link.href ? 'bg-fuchsia-100 text-fuchsia-800/60' : 'text-gray-500 hover:bg-gray-100'
-                            }`}>
+                            <Link href={link.href} className={`flex items-center gap-3 p-3 rounded-lg text-base transition-colors font-semibold ${pathname === link.href ? 'bg-fuchsia-100 text-fuchsia-800/60' : 'text-gray-500 hover:bg-gray-100'
+                                }`}>
                                 <Icon icon={link.icon} className="w-6 h-6" />
                                 <span>{link.label}</span>
                             </Link>
@@ -64,15 +63,15 @@ const SidebarContent = ({ user }: { user: User }) => {
                     <li className="mb-1">
                         <form action={logout} className="w-full">
                             <button type="submit" className="w-full flex items-center gap-3 p-3 rounded-lg text-base transition-colors font-semibold text-gray-500 hover:bg-gray-100">
-                            <Icon icon="ic:round-logout" className="w-6 h-6" />
-                            <span>Keluar</span>
+                                <Icon icon="ic:round-logout" className="w-6 h-6" />
+                                <span>Keluar</span>
                             </button>
                         </form>
                     </li>
                 </ul>
             </nav>
 
-            
+
         </div>
     );
 };

@@ -3,7 +3,19 @@
 
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
-
+import jQuery from "jquery";
+import DataTable from "datatables.net-dt";
+// Assign jQuery to window object for global access
+declare global {
+  interface Window {
+    $: typeof jQuery;
+    jQuery: typeof jQuery;
+    DataTable: typeof DataTable; // Use a more specific type if available
+    IStaticMethods: {
+      autoInit: () => void;
+    };
+  }
+}
 
 async function loadFlyonUI() {
   return import('flyonui/flyonui');

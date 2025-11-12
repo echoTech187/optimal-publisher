@@ -88,8 +88,8 @@ export default function UserTransactionPage() {
                                 <h2 className="text-xl font-bold">Riwayat Transaksi</h2>
                                 <p>Daftar riwayat transaksi Anda di sini.</p>
                             </div>
-                            <div className="p-4 sm:p-6 lg:p-8  relative">
-                                <TransactionTable transactions={transactions} totalItems={totalItems} itemsPerPage={itemsPerPage} currentPage={currentPage} onPageChange={setCurrentPage} isLoading={isTableLoading} />
+                            <div className="p-4 sm:p-6 lg:p-8 w-full">
+                                <TransactionTable transactions={transactions}  isLoading={isTableLoading} />
                             </div>
                         </div>
                     </>

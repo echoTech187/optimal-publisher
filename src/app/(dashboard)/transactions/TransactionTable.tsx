@@ -1,9 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Transaction } from '@/types/transaction';
-import { Icon } from "@iconify/react"; // Added Icon import
-import Pagination from '@/components/ui/Pagination';
+import { Icon } from "@iconify/react";
 
 // --- Helper Components ---
 const StatusBadge = ({ status }: { status: string | undefined }) => {
@@ -74,7 +73,7 @@ const TransactionRow = ({ trx }: { trx: Transaction }) => {
             <td className="p-4 text-gray-600 dark:text-gray-400">{new Date(trx.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</td>
             <td className="p-4 text-gray-800 dark:text-gray-200 text-right font-mono">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(trx.amount)}</td>
             <td className="p-4 text-center"><span className="px-2 py-1 text-xs font-medium rounded-full inline-block bg-gray-100 text-gray-800">{trx.payment_method?.name}</span></td>
-            <td className="p-4 text-center text-nowrap"><StatusBadge status={trx.status?.status} /></td>
+            <td className="p-4 text-center"><StatusBadge status={trx.status?.status} /></td>
             <td className="p-4 text-center">
                 <div className="relative inline-block text-left">
                     {trx.transaction_code && <a href={`/transactions/${trx.transaction_code}`} className="text-gray-700 block px-4 py-2 text-sm" role="menuitem"><Icon icon="ion:arrow-forward-outline" className="size-6" /></a>}
@@ -84,48 +83,112 @@ const TransactionRow = ({ trx }: { trx: Transaction }) => {
     );
 };
 
-export default function TransactionTable({ transactions, totalItems, itemsPerPage, currentPage, onPageChange, isLoading }: { transactions: Transaction[], totalItems: number, itemsPerPage: number, currentPage: number, onPageChange: (page: number) => void, isLoading: boolean }) {
-    return (
-        <div className="bg-white/60 dark:bg-gray-800 rounded-xl overflow-hidden">
-            {/* Desktop Table */}
-            <div className="hidden md:block">
-                <table className="w-full text-left">
-                    <thead className="border-b border-gray-200 dark:border-gray-700">
-                        <tr>
-                            <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300">Kode Transaksi</th>
-                            <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300 max-w-1/6">Paket Pembelian</th>
-                            <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300">Judul</th>
-                            <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300">Alamat Pengiriman</th>
-                            <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300">Tanggal</th>
-                            <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300 text-right">Jumlah</th>
-                            <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300 text-center">Pembayaran Melalui</th>
-                            <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300 text-center">Status</th>
-                            <th className="p-4 text-sm font-semibold text-gray-600 dark:text-gray-300 text-center">#</th>
-                        </tr>
-                    </thead>
+export default function TransactionTable({ transactions, isLoading }: { transactions: Transaction[], isLoading: boolean }) {
+    useEffect(() => {
+        if (typeof window !== 'undefined' && window.$ && window.$.fn.DataTable) {
+            // Destroy existing DataTable instance if it exists
+            if ((window.$.fn.DataTable as any).isDataTable(window.$('#transactionTable'))) {
+                window.$('#transactionTable').DataTable().destroy();
+            }
 
-                    {isLoading ? (
-                        <tbody>
-                            <tr>
-                                <td colSpan={9} className="text-center p-4 ">
-                                    <p className='flex items-center justify-center gap-2'>
-                                        <Icon icon="line-md:loading-twotone-loop" className="mx-auto text-4xl" />
-                                    </p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    ) : (
-                        <tbody>
-                            {transactions.map((trx) => (
-                                <TransactionRow key={trx.id} trx={trx} />
-                            ))}
-                        </tbody>
-                    )}
-                </table>
+            try {
+                var dt = window.$('#transactionTable').DataTable({
+                    paging: true,
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    responsive:true,
+                    data: transactions, // Pass data directly
+                    columns: [
+                        { data: 'transaction_code', title: 'Kode Transaksi' },
+                        { data: 'pack_name', title: 'Paket Pembelian' },
+                        {
+                            data: null,
+                            title: 'Judul',
+                            render: function (data, type, row) {
+                                return (row.isbn_program_id === 1) ? (row.transactionable as any)?.book_title :
+                                    (row.isbn_program_id === 5) ? (row.transactionable as any)?.title :
+                                        (row.transactionable as any)?.book_title?.title ? (row.transactionable as any)?.book_title?.title + '<br/> ' + (row.transactionable as any)?.topic?.topic_name : 'N/A';
+                            }
+                        },
+                        { data: 'transactionable.address', title: 'Alamat Pengiriman' },
+                        {
+                            data: 'created_at',
+                            title: 'Tanggal',
+                            render: function (data) {
+                                return new Date(data).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+                            }
+                        },
+                        {
+                            data: 'amount',
+                            title: 'Jumlah',
+                            className: 'text-right',
+                            render: function (data) {
+                                return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(data);
+                            }
+                        },
+                        { data: 'payment_method.name', title: 'Pembayaran Melalui', className: 'text-center' },
+                        {
+                            data: 'status.status',
+                            title: 'Status',
+                            className: 'text-center',
+                            render: function (data) {
+                                const baseClasses = "px-2 py-1 text-xs font-medium rounded-full inline-block";
+                                let statusClasses = "bg-gray-100 text-gray-800"; // Default
+
+                                switch (data?.toLowerCase()) {
+                                    case 'success':
+                                        statusClasses = "bg-green-100 text-green-800";
+                                        break;
+                                    case 'pending':
+                                        statusClasses = "bg-yellow-100 text-yellow-800";
+                                        break;
+                                    case 'failed':
+                                        statusClasses = "bg-red-100 text-red-800";
+                                        break;
+                                }
+                                return `<span class="${baseClasses} ${statusClasses}">${data || 'N/A'}</span>`;
+                            }
+                        },
+                        {
+                            data: 'transaction_code',
+                            title: '#',
+                            className: 'text-center',
+                            render: function (data: any) {
+                                return `<a href="/transactions/${data}" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem"><span class="iconify" data-icon="ion:arrow-forward-outline" data-width="24" data-height="24"></span></a>`;
+                            }
+                        }
+                    ],
+                    // Add any other DataTables options here
+                });// Initialize Responsive extension
+                window.$(function () {
+                    dt.responsive.recalc();
+                });
+
+                window.$('#transactionTable').DataTable().responsive.recalc();
+                // Add responsive re-draw event listener to update DataTables on window resize
+                window.$(window).on('resize', function () {
+                    dt.responsive.recalc();
+                });
+            } catch (error) {
+                console.error("Error initializing DataTables:", error);
+            }
+        }
+    }, [transactions]); // Re-initialize when transactions data changes
+
+    return (
+        <div className="bg-white/60 dark:bg-gray-800 rounded-xl">
+            {/* Desktop Table */}
+            <div>
+                <div className='max-w-full  dt-responsive '>
+                    <table id="transactionTable" className="table" style={{ width: '100%' }}>
+                        {/* DataTables will populate thead and tbody */}
+                    </table>
+                </div>
             </div>
 
-            {/* Mobile Card List */}
-            <div className="md:hidden space-y-4 p-4">
+            {/* Mobile Card List - Keep existing for now, DataTables doesn't handle this directly */}
+            {/* <div className="md:hidden space-y-4 p-4">
                 {isLoading ? (
                     <div className="text-center p-8">
                         <Icon icon="line-md:loading-twotone-loop" className="mx-auto text-4xl" />
@@ -155,14 +218,8 @@ export default function TransactionTable({ transactions, totalItems, itemsPerPag
                         </div>
                     ))
                 )}
-            </div>
-            <Pagination
-                totalItems={totalItems}
-                itemsPerPage={itemsPerPage}
-                currentPage={currentPage}
-                onPageChange={onPageChange}
-            />
+            </div> */}
+            {/* DataTables handles pagination, so custom Pagination component is removed */}
         </div>
     );
 }
-

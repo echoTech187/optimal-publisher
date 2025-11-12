@@ -106,7 +106,7 @@ const DashboardSidebar = ({ isOpen, onClose }: { isOpen: boolean, onClose: () =>
                 className={`bg-fuchsia-900 text-white w-64 min-h-screen p-4 fixed top-0 left-0 z-40 transform transition-transform lg:relative lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
             >
                 <div className="flex items-center justify-between mb-8">
-                    <Image src="/penerbit-logo.png" alt="Optimal Publisher Logo" width={80} height={80} className="filter grayscale brightness-0 invert" />
+                    <Image src="/penerbit-logo.png" priority={true} alt="Optimal Publisher Logo" width={80} height={80} className="filter grayscale brightness-0 invert" />
                     <button className="lg:hidden p-2" onClick={onClose} aria-label="Close">
                         <Icon icon="tabler:x" width="24" height="24" />
                     </button>

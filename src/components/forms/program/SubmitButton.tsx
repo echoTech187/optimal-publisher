@@ -18,8 +18,13 @@ const SubmitButton = ({ loading, title, disabled }: { loading: boolean, title: s
 
     return (
         <div className=" col-span-2" id="form-customer-address">
-            <button type="submit" className="block w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-400" disabled={loading || disabled}>
-                {loading ? 'Memproses...' : title}
+            <button type="submit" className="flex items-center justify-center w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-400" disabled={disabled}>
+                {loading ? (
+                    <>
+                        <span className="animate-spin rounded-full h-5 w-5 border-b-2 border-white inline-block"></span>
+                        <span className="ml-2">Memproses...</span>
+                    </>
+                ) : title}
             </button>
         </div>
     );
