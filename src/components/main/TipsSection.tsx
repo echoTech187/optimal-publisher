@@ -20,15 +20,15 @@ export default function TipsSection({ images }: { images: string[] }) {
 
     return (
         <motion.section
-            className="mt-12 p-8 lg:p-12"
+            className="p-8"
             variants={sectionVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
         >
-            <div className="text-left mb-12">
-                <h2 className="text-3xl lg:text-4xl font-bold text-gray-800">Tips & Trik</h2>
-                <p className="text-base lg:text-lg text-gray-500 mt-2">Kumpulan tips dan trik bermanfaat untuk Anda.</p>
+            <div className="text-left mb-6">
+                <h2 className="text-lg lg:text-2xl font-bold text-gray-800">Tips & Trik</h2>
+                <p className="text-sm lg:text-base text-gray-500">Kumpulan tips dan trik bermanfaat untuk Anda.</p>
             </div>
 
             {/* Masonry Layout */}

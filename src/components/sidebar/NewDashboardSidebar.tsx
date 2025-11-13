@@ -24,7 +24,7 @@ const SidebarContent = ({ user }: { user: User }) => {
     const pathname = usePathname();
 
     return (
-        <div className="min-w-90 max-w-96 bg-white p-8 flex flex-col h-full">
+        <div className="min-w-90 max-w-96 bg-white p-6 flex flex-col h-full">
             <div className="flex items-center gap-3 mb-12">
                 <a href="/dashboard" className="text-lg font-bold text-gray-800">
                     <Image src="/penerbit-logo.png" priority={true} alt="Optimal Publisher Logo" width={100} height={80} className="h-10 lg:h-12 w-auto object-contain" />

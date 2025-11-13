@@ -1,303 +1,16 @@
-'use client';
-
-import { Icon } from "@iconify/react/dist/iconify.js";
-import Image from "next/image";
-import { EventNews } from "@/types/program"; // EventNews is in program.ts
-import { Article } from "@/types/article";
-import { motion, Variants } from "framer-motion";
-import { useState, useEffect } from "react";
-import { fetchEventData } from "@/features/event/data";
-import { getImageUrl } from "@/lib/utils/image";
-import { getArticles } from "@/features/article/data";
-import TipsSection from "@/components/main/TipsSection";
+"use client";
+import { Icon } from "@iconify/react";
 import Link from "next/link";
-const mockStats = [
-    { value: "10+", label: "Program Unggulan" },
-    { value: "500+", label: "Pengguna Terdaftar" },
-    { value: "100+", label: "Buku Terbit" },
-    { value: "95%", label: "Tingkat Kepuasan" },
-];
-
-// --- Animation Variants ---
-const sectionVariants: Variants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.6, ease: "easeOut" }
-    }
-};
-
-// --- COMPONENTS ---
-
-const HeroSection = () => (
-    <motion.section
-        className="object-cover h-auto flex items-center justify-center bg-cover bg-center bg-no-repeat py-12 lg:px-8 2xl:min-h-[700px]"
-        style={{ backgroundImage: "url('/images/Poster.png')" }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-    >
-        <div className="container mx-auto p-12 text-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-                Membuka Potensi, Menuang Karya
-            </h1>
-            <p className="text-lg md:text-xl text-gray-950 mb-10">
-                Platform terdepan untuk penulis, peneliti, dan profesional yang ingin menerbitkan karya berkualitas tinggi.
-            </p>
-            <div className="flex flex-col gap-6 justify-center items-center">
-                <motion.button
-                    className="border border-fuchsia-500/30 bg-fuchsia-800/90 drop-shadow-2xl backdrop-blur-2xl text-white font-semibold py-3 px-8 rounded-lg shadow-lg"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                >
-                    Terbitkan Karya Anda
-                </motion.button>
-                <motion.button
-                    className="text-fuchsia-900"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                >
-                    Baca Tips Menulis Karya Ilmiah
-                </motion.button>
-            </div>
-        </div>
-        {/* <motion.div 
-            className="relative h-96 mt-16"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-        >
-            <Image src="/images/banner.png" alt="Illustration" layout="fill" objectFit="contain" />
-        </motion.div> */}
-    </motion.section>
-);
-
-const StatsSection = () => (
-    <motion.section
-        className="p-8 lg:p-12"
-        variants={sectionVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.5 }}
-    >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto">
-            <div className={`bg-white p-8 rounded-2xl border-3 border-amber-100 w-full relative `}>
-
-                <div className="flex items-center">
-                    <div className={`p-4 rounded-xl bg-yellow-100 mr-5`}>
-                        <Icon icon="ion:book-outline" className={`text-4xl text-gray-800`} />
-                    </div>
-                    <div className="flex-1">
-                        <h3 className="text-2xl font-bold text-gray-800">ISBN</h3>
-                        <p className="text-gray-600">Terbitkan karya anda dengan ISBN</p>
-                    </div>
-                    <Link href="/program">
-                        <Icon icon="ion:arrow-forward-circle-outline" className={`size-18 text-yellow-300`} />
-                    </Link>
-                </div>
-
-            </div>
-            <div className={`bg-white p-8 rounded-2xl border-3 border-fuchsia-100 w-full relative `}>
-                <div className="flex items-center">
-                    <div className={`p-4 rounded-xl bg-fuchsia-100 mr-5`}>
-                        <Icon icon="ion:library-outline" className={`text-4xl text-gray-800`} />
-                    </div>
-                    <div className="flex-1">
-                        <h3 className="text-2xl font-bold text-gray-800">Hak Kekayaan Intelektual</h3>
-                        <p className="text-gray-600">Lindungi karya anda dengan hak kekayaan intelektual</p>
-                    </div>
-                    <Link href="/hki/register">
-                        <Icon icon="ion:arrow-forward-circle-outline" className={`size-18 text-fuchsia-400`} />
-                    </Link>
-                </div>
-            </div>
-        </div>
-    </motion.section>
-);
-
-const EventsSection = ({ events }: { events: EventNews[] }) => {
-    const [selectedEvent, setSelectedEvent] = useState<EventNews | null>(null);
-
-    useEffect(() => {
-        if (events && events.length > 0) {
-            setSelectedEvent(events[0]);
-        }
-    }, [events]);
-
-    if (!events || events.length === 0) {
-        return (
-            <div className="my-12 p-8 lg:p-12 flex-1">
-                <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 text-center">Tidak ada acara tersedia.</h2>
-            </div>
-        );
-    }
-
-    if (!selectedEvent) {
-        return (
-            <div className="fixed top-0 left-0 h-screen w-screen bg-white/20 backdrop-blur-3xl shadow-xl z-50 flex justify-center items-center">
-                <Image src="/penerbit-logo.png"  alt="logo" width={200} height={100} priority={true} className="animate-pulse w-24" />
-            </div>
-        ); // Or some other loading indicator
-    }
-
-    return (
-        <motion.section
-            className="my-12 p-8 lg:p-12"
-            variants={sectionVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-        >
-            <div className=" mb-12">
-                <h2 className="text-3xl lg:text-4xl font-bold text-gray-800">Acara Mendatang</h2>
-                <p className="text-base lg:text-lg text-gray-500 mt-2">Ikuti acara menarik untuk menambah wawasan Anda.</p>
-            </div>
-            <div className="hidden lg:grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-                {/* Left Column: Image */}
-                <div className="relative w-full h-96 lg:h-[500px] rounded-2xl overflow-hidden shadow-xl sticky top-8">
-                    <Image src={getImageUrl(selectedEvent.image)} alt={selectedEvent.title} width={5000} height={6000} className="transition-opacity duration-500 w-full h-full object-cover" />
-                </div>
-
-                {/* Right Column: Event List */}
-                <div className="space-y-6">
-                    {events.map(event => (
-                        <motion.div
-                            key={event.slug}
-                            onClick={() => setSelectedEvent(event)}
-                            className={`p-6 rounded-2xl cursor-pointer transition-all duration-300 ${selectedEvent.slug === event.slug ? 'bg-white shadow-2xl border-2 border-blue-500' : 'bg-white/70 shadow-lg hover:shadow-xl'}`}
-                            whileHover={{ scale: 1.03 }}
-                        >
-                            <h3 className="font-bold text-xl text-gray-900 ">{event.title}</h3>
-                            <p className="text-sm text-gray-500 mb-3">{new Date(event.event_date).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                            <div dangerouslySetInnerHTML={{ __html: event.description }} className="html-content text-sm text-gray-600 line-clamp-2 overflow-hidden" />
-                        </motion.div>
-                    ))}
-                    <div className="text-center mt-12">
-                        <a href="/events" className="bg-white text-gray-700 font-semibold py-3 px-6 rounded-full border border-gray-200 shadow-sm hover:bg-gray-50
-       transition-colors">
-                            Lihat Semua Acara
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-            {/* Mobile: Simple Vertical List */}
-            <div className="block lg:hidden flex overflow-x-auto space-x-4 pb-4 snap-x snap-mandatory">
-                {events.map(event => (
-                    <motion.div
-                        key={event.slug}
-                        className="bg-white/70 border border-white/20 rounded-2xl shadow-lg backdrop-blur-md overflow-hidden group min-w-[280px] snap-center flex flex-col justify-between"
-                        initial={{ opacity: 0, y: 50 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
-                        viewport={{ once: true }}
-                    >                        <div className="relative h-56 w-full">
-                            <Image src={getImageUrl(event.image)} alt={event.title} width={5000} height={6000} className="transition-opacity duration-500 w-full h-full object-cover" />
-                        </div>
-                        <div className="p-6 flex-1 w-full h-auto flex flex-col justify-between">
-                            <div>
-                                <h3 className="font-bold text-lg text-gray-800 mb-2">{event.title}</h3>
-                                <p className="text-sm text-gray-500 mb-3">{new Date(event.event_date).toLocaleDateString('id-ID', {
-                                    weekday: 'long', year: 'numeric',
-                                    month: 'long', day: 'numeric'
-                                })}</p>
-                            </div>
-                            <div dangerouslySetInnerHTML={{ __html: event.description }} className="html-content text-sm text-gray-600 line-clamp-3" />
-                            <a href={`/event/${event.slug}`} className="mt-4 font-semibold text-green-500 hover:text-green-600 transition-colors inline-block">
-                                Daftar Sekarang <Icon icon="ic:round-arrow-forward" className="inline-block" />
-                            </a>
-                        </div>
-                    </motion.div>
-                ))}
-            </div>
-            <div className="text-center mt-12 block lg:hidden">
-                <a href="/events" className="bg-white text-gray-700 font-semibold py-3 px-6 rounded-full border border-gray-200 shadow-sm hover:bg-gray-50
-       transition-colors">
-                    Lihat Semua Acara
-                </a>
-            </div>
-        </motion.section>
-    );
-};
-
-const ArticlesSection = ({ articles }: { articles: Article[] }) => (
-    <motion.section
-        className="my-12 p-8 lg:p-12"
-        variants={sectionVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-    >
-        <div className="text-left mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-800">Wawasan Terbaru</h2>
-            <p className="text-base lg:text-lg text-gray-500 mt-2">Baca artikel dan tips terbaru dari para ahli di bidangnya.</p>
-        </div>
-
-        {/* Desktop View */}
-        <div className="hidden md:block space-y-8">
-            {articles.map((article, index) => (
-                <motion.div
-                    key={article.id}
-                    className="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-2xl transition-shadow duration-300 flex flex-col md:flex-row md:items-start gap-0 md:h-42"
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.2 }}
-                    viewport={{ once: true }}
-                >
-                    <div className="relative w-full md:w-1/3">
-                        <Image src={getImageUrl(article.image)} alt={article.title} width={5000} height={6000} className="transition-opacity duration-500 w-full h-full object-cover" />
-                    </div>
-                    <div className="p-8 w-full h-full md:w-2/3 flex flex-col justify-between">
-                        <div>
-                            <p className="text-sm text-green-500 font-semibold mb-1">{article.article_category.category.toUpperCase()}</p>
-                            <h3 className="font-bold text-lg text-gray-800 mb-3">{article.title}</h3>
-                        </div>
-                        {/* <div dangerouslySetInnerHTML={{ __html: article.description }} className="text-gray-600 mb-4 html-content"/> */}
-                        <a href={`/article/${article.slug}`} className="font-semibold text-green-500 hover:text-green-600 transition-colors group-hover:translate-x-1 inline-block">
-                            Read Article <Icon icon="ic:round-arrow-forward" className="inline-block" />
-                        </a>
-                    </div>
-                </motion.div>
-            ))}
-        </div>
-
-        {/* Mobile View */}
-        <div className="block md:hidden flex space-x-4 overflow-x-auto pb-4 snap-x snap-mandatory">
-            {articles.map((article, index) => (
-                <motion.div
-                    key={article.id}
-                    className="bg-white rounded-xl shadow-lg overflow-hidden group flex flex-col items-center gap-0 min-w-[300px] snap-center"
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.2 }}
-                    viewport={{ once: true }}
-                >
-                    <div className="relative w-full h-64">
-                        <Image src={getImageUrl(article.image)} alt={article.title} width={5000} height={6000} className="transition-opacity h-64 duration-500 w-full  object-cover" />
-                    </div>
-                    <div className="p-8 w-full">
-                        <p className="text-sm text-green-500 font-semibold mb-1">{article.article_category.category.toUpperCase()}</p>
-                        <h3 className="font-bold text-xl text-gray-800 mb-3">{article.title}</h3>
-                        {/* <div dangerouslySetInnerHTML={{ __html: article.description }} className="text-gray-600 mb-4 html-content"/> */}
-                        <a href={`/article/${article.slug}`} className="font-semibold text-green-500 hover:text-green-600 transition-colors group-hover:translate-x-1 inline-block">
-                            Read Article <Icon icon="ic:round-arrow-forward" className="inline-block" />
-                        </a>
-                    </div>
-                </motion.div>
-            ))}
-        </div>
-    </motion.section>
-);
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { EventNews } from "@/types/program";
+import { fetchEventData } from "@/features/event/data";
+import { getArticles } from "@/features/article/data";
+import { Article } from "@/types/article";
+import { getImageUrl } from "@/lib/utils/image";
 
 
-function HKIRegisterAction() {
-    window.location.href = "/hki/register";
-}
-function openWhatsappChat() {
-    window.location.href = "https://wa.link/gkfaqz";
-}
-export default function DashboardPage() {
+export function DashboardPage() {
     const [events, setEvents] = useState<EventNews[]>([]);
     const [articles, setArticles] = useState<Article[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -347,7 +60,7 @@ export default function DashboardPage() {
     const upcomingEvents = events
         .filter(event => new Date(event.event_date) <= new Date())
         .sort((a, b) => new Date(b.event_date).getTime() - new Date(a.event_date).getTime())
-        .slice(0, 3);
+        .slice(0, 5);
 
     if (isLoading) return (
         <div className="fixed top-0 left-0 h-screen w-screen bg-white/20 backdrop-blur-3xl shadow-xl z-50 flex justify-center items-center">
@@ -355,87 +68,151 @@ export default function DashboardPage() {
         </div>
     )
     return (
-        <div className="bg-white min-h-screen">
-            <div className="">
-
-                {/* <div className="bg-gray-50 min-h-screen">
-                    <div className=" mx-auto p-8">
-                        <div className="mt-16 text-center">
-                            <div className="flex justify-center mb-8">
-                                <img src="/images/HKI.png" alt="Lindungi Karya Anda" className="max-w-sm" />
-                            </div>
-                            <h2 className="text-3xl font-bold text-gray-800">
-                                LINDUNGI KARYA ANDA SEKARANG
-                            </h2>
-                            <p className="text-gray-600 mt-2 mb-8">
-                                Daftarkan karya anda dan dapatkan perlindungan hukum yang kuat
-                                untuk hak kekayaan intelektual anda
-                            </p>
-
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 max-w-4xl mx-auto">
-                                <div className="flex flex-col items-center">
-                                    <div className="bg-blue-100 p-4 rounded-full mb-4">
-                                        <Icon icon="ion:shield-checkmark-outline" className="text-blue-600 text-3xl" />
-                                    </div>
-                                    <h3 className="font-semibold text-gray-800">Terjamin aman</h3>
-                                    <p className="text-gray-600 text-sm">
-                                        Perlindungan hukum resmi untuk karya anda
-                                    </p>
-                                </div>
-                                <div className="flex flex-col items-center">
-                                    <div className="bg-blue-100 p-4 rounded-full mb-4">
-                                        <Icon icon="ion:flash-outline" className="text-blue-600 text-3xl" />
-                                    </div>
-                                    <h3 className="font-semibold text-gray-800">Proses Cepat</h3>
-                                    <p className="text-gray-600 text-sm">Pendaftaran mudah</p>
-                                </div>
-                                <div className="flex flex-col items-center">
-                                    <div className="bg-blue-100 p-4 rounded-full mb-4">
-                                        <Icon icon="ion:people-outline" className="text-blue-600 text-3xl" />
-                                    </div>
-                                    <h3 className="font-semibold text-gray-800">Terpercaya</h3>
-                                    <p className="text-gray-600 text-sm">
-                                        Ribuan karya telah mendaftar
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="flex justify-center gap-4 mb-8">
-                                <button onClick={HKIRegisterAction} className="bg-gray-800 text-white font-semibold py-3 px-6 rounded-lg hover:bg-gray-700 transition-colors flex items-center">
-                                    Mulai Pendaftaran Sekarang
-                                    <Icon icon="ion:arrow-forward-outline" className="ml-2" />
-                                </button>
-                                <button onClick={openWhatsappChat} className="bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg hover:bg-gray-300 transition-colors flex items-center">
-                                    <Icon icon="ion:chatbubbles-outline" className="mr-2" />
-                                    Jadwalkan Konsultasi
-                                </button>
-                            </div>
-
-                            <div className="flex justify-center items-center gap-8 text-gray-500">
-                                <div className="flex items-center gap-2">
-                                    <Icon icon="ion:checkmark-circle-outline" className="text-green-500" />
-                                    <span>100% Legal dan Resmi</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <Icon icon="ion:lock-closed-outline" className="text-green-500" />
-                                    <span>Data Aman & Terenkripsi</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <Icon icon="ion:headset-outline" className="text-green-500" />
-                                    <span>Support 24/7</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <HeroSection /> */}
-                <StatsSection />
-                <div className="grid grid-cols-1 2xl:grid-cols-2 lg:gap-8 mb-12">
-                    <EventsSection events={upcomingEvents} />
-                    <ArticlesSection articles={articles} />
-                </div>
-                <TipsSection images={tipImages} />
-            </div>
+        <div className="container m-auto p-6 ">
+            <DashboardHeroSection />
+            <DashboardEventNewsEventCardSection events={upcomingEvents} articles={articles} />
         </div>
     );
 }
+
+export function DashboardEventNewsEventCardSection({ events, articles }: { events: EventNews[]; articles: Article[] }) {
+    const [selectedEvent, setSelectedEvent] = useState<EventNews | null>(null);
+
+    useEffect(() => {
+        if (events && events.length > 0) {
+            setSelectedEvent(events[0]);
+        }
+    }, [events]);
+
+    if (!events || events.length === 0) {
+        return (
+            <div className="my-12 p-8 lg:p-12 flex-1">
+                <h2 className="text-2xl lg:text-4xl font-bold text-gray-800 text-center">Tidak ada acara tersedia.</h2>
+            </div>
+        );
+    }
+
+    if (!selectedEvent) {
+        return (
+            <div className="fixed top-0 left-0 h-screen w-screen bg-white/20 backdrop-blur-3xl shadow-xl z-50 flex justify-center items-center">
+                <Image src="/penerbit-logo.png" alt="logo" width={200} height={100} priority={true} className="animate-pulse w-24" />
+            </div>
+        ); // Or some other loading indicator
+    }
+    return (
+        <section className=" dark:bg-gray-800 rounded-xl py-6">
+
+            <div className="grid grid-cols-1 2xl:grid-cols-3 gap-8 mx-auto">
+                {/* Left Column: Image */}
+                <div className="space-y-4 2xl:col-span-2">
+                    <div className="mb-8">
+                        <h2 className="text-lg lg:text-2xl font-bold text-gray-800 mb-1">Artikel Terbaru</h2>
+                        <p className="text-xs lg:text-sm text-gray-500">Baca artikel-artikel terbaru kami untuk meningkatkan wawasan Anda.</p>
+                    </div>
+                    {
+                        articles.map(article => (
+                            <ArticleCard key={article.slug} article={article} />
+                        ))
+                    }
+                </div>
+
+                {/* Right Column: Event List */}
+                <div className="space-y-4 2xl:col-span-1">
+                    <div className="flex justify-between items-center mb-8 gap-4">
+                        <div className="">
+                            <h2 className="text-lg lg:text-2xl font-bold text-gray-800 mb-1">Acara Mendatang</h2>
+                            <p className="text-xs lg:text-sm text-gray-500">Bergabung bersama kami di acara-acara yang akan datang.</p>
+                        </div>
+                        <div className="text-center w-fit whitespace-nowrap">
+                            <a href="/events" className="text-xs lg:text-sm bg-white text-gray-700 font-normal lg:py-3 lg:px-6 rounded-full lg:border lg:border-gray-200 lg:hover:bg-gray-50 transition-colors">
+                                Lihat Semua
+                            </a>
+                        </div>
+                    </div>
+                    {events.map(event => (
+                        <EventCard key={event.slug} event={event} />
+                    ))}
+
+                </div>
+
+            </div>
+        </section>
+    )
+}
+
+export function EventCard({ event }: { event: EventNews }) {
+    return (
+        <div
+            key={event.slug}
+            className={`md:p-3 rounded-2xl w-full cursor-pointer border-2 border-transparent transition-all duration-300 hover:border-2 hover:border-blue-500 bg-white/70 hover:shadow-xl`}
+        >
+            <div className="flex items-center gap-4">
+                <div className="w-2/6 md:w-1/6 lg:w-1/4 xl:w-2/6 rounded-lg overflow-hidden shadow-xl h-full">
+                    <Image src={getImageUrl(event.image)} alt={event.title} width={5000} height={6000} className="transition-opacity duration-500 w-full h-full object-cover" />
+                </div>
+                <div className="w-4/6 md:w-5/6 lg:w-3/4 xl:w-4/6">
+                    <h3 className="font-bold max-md:text-sm text-xl text-gray-900 line-clamp-1 "><a href={`/event/${event.slug}`}>{event.title}</a></h3>
+                    <p className="max-md:text-xs text-sm text-gray-500 mb-3">{new Date(event.event_date).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                    <div dangerouslySetInnerHTML={{ __html: event.description }} className="html-content max-md:text-xs text-sm text-gray-600 line-clamp-6 md:line-clamp-6 lg:line-clamp-3 xl:line-clamp-5 2xl:line-clamp-7 overflow-hidden" />
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export function ArticleCard({ article }: { article: Article }) {
+    return (
+        <div key={article.slug} className={`md:p-3 rounded-2xl w-full cursor-pointer border-2 border-transparent transition-all duration-300 hover:border-2 hover:border-blue-500 bg-white/70 hover:shadow-xl`}>
+            <div className="flex items-center gap-4">
+                <div className="relative w-2/6 md:w-1/6 lg:w-1/4 xl:w-3/12 shrink-0 h-[80px] md:h-[100px] lg:h-[120px] xl:h-[150px] 2xl:h-[150px] rounded-md overflow-hidden">
+                    <Image src={getImageUrl(article.image)} alt={article.title} width={6000} height={5000} className="h-full w-full rounded-md md:rounded-lg object-cover" />
+                </div>
+                <div className="w-4/6 md:w-5/6 lg:w-3/4 xl:w-9/12 flex flex-col items-start justify-start">
+                    <h3 className="font-bold max-md:text-sm text-xl text-gray-900 line-clamp-2"><a href={`/article/${article.slug}`}>{article.title}</a></h3>
+                    <p className="max-md:text-xs text-sm text-gray-500 mb-3">{new Date(article.created_at).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                    {/* <div dangerouslySetInnerHTML={{ __html: article.description }} className="html-content text-xs md:text-sm text-gray-600 line-clamp-3  md:line-clamp-6 lg:line-clamp-3 xl:line-clamp-5 overflow-hidden" /> */}
+                </div>
+            </div>
+        </div>
+    )
+}
+export function DashboardHeroSection() {
+    return (
+        <section className="bg-white/60 dark:bg-gray-800 rounded-xl mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4 mx-auto">
+                <div className={`bg-white max-md:p-4 md:p-6 xl:p-8 rounded-2xl border-3 border-amber-100 w-full relative `}>
+                    <div className="flex items-center gap-4 ">
+                        <div className={`p-4 rounded-xl bg-yellow-100`}>
+                            <Icon icon="ion:book-outline" className={`size-8 md:size-10 lg:size-12 text-gray-800`} />
+                        </div>
+                        <div className="flex-1 ">
+                            <h3 className="text-2xl max-lg:text-base lg:text-lg xl:text-base font-bold text-gray-800">ISBN</h3>
+                            <p className="text-gray-600 text-sm max-lg:text-xs">Terbitkan karya anda dengan ISBN</p>
+                        </div>
+                        <Link href="/program" className=" max-lg:hidden flex max-lg:items-center max-lg:justify-between max-lg:w-full max-lg:text-sm max-lg:gap-2 max-lg:bg-amber-300/20 max-lg:px-4 max-lg:py-2 max-lg:rounded-lg">
+                            <span className="md:hidden font-semibold">Daftar Sekarang</span>
+                            <Icon icon="ion:arrow-forward-circle-outline" className={`size-12 max-lg:size-8 text-yellow-800`} />
+                        </Link>
+                    </div>
+
+                </div>
+                <div className={`bg-white max-md:p-4 md:p-6 xl:p-8 rounded-2xl border-3 border-fuchsia-100 w-full relative `}>
+                    <div className="flex items-center gap-4">
+                        <div className={`p-4 rounded-xl bg-fuchsia-100`}>
+                            <Icon icon="ion:library-outline" className={`size-8 md:size-10 lg:size-12 text-gray-800`} />
+                        </div>
+                        <div className="flex-1">
+                            <h3 className="text-2xl max-lg:text-base lg:text-lg xl:text-base font-bold text-gray-800">Hak Kekayaan Intelektual</h3>
+                            <p className="text-sm max-lg:text-xs text-gray-600 ">Lindungi karya anda dengan hak kekayaan intelektual</p>
+                        </div>
+                        <Link href="/hki/register" className=" max-lg:hidden flex max-lg:items-center max-lg:justify-between max-lg:w-full max-lg:text-sm max-lg:gap-2 max-lg:bg-fuchsia-300/20 max-lg:px-4 max-lg:py-2 max-lg:rounded-lg">
+                            <span className="md:hidden font-semibold">Daftar Sekarang</span>
+                            <Icon icon="ion:arrow-forward-circle-outline" className={`size-12 max-lg:size-8 text-fuchsia-800`} />
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+}
+export default DashboardPage;

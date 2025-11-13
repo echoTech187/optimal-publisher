@@ -3,6 +3,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import Image from "next/image";
 
 const Breadcrumb = () => {
     const pathname = usePathname();
@@ -24,7 +25,7 @@ const Breadcrumb = () => {
     };
 
     return (
-        <nav aria-label="breadcrumb">
+        <nav aria-label="breadcrumb" className="px-6 md:p-8">
             <ol className="flex items-center gap-2 text-sm text-gray-500">
                 <li>
                     <Link href="/dashboard" className="hover:text-gray-700 transition-colors">
@@ -63,14 +64,24 @@ const DashboardHeader = ({ onMenuClick }: { onMenuClick: () => void }) => {
     }, []);
 
     return (
-        <header className="w-full py-8 px-4 bg-white lg:rounded-t-lg">
-            <div className="flex items-center justify-start w-full">
-                <button className="lg:hidden p-2" onClick={onMenuClick}>
-                    <Icon icon="ic:round-menu" className="w-6 h-6 text-gray-500" />
-                </button>
-                {mounted && <Breadcrumb />}
+        <>
+            <header className="w-full py-4 px-4 bg-white lg:rounded-t-lg md:hidden">
+                <div className="flex items-center justify-start w-full">
+                    <button className="lg:hidden p-2" onClick={onMenuClick}>
+                        <Icon icon="ic:round-menu" className="w-6 h-6 text-gray-500" />
+                    </button>
+                    <a href="/dashboard" className="text-lg font-bold text-gray-800 ml-4">
+                        <Image src="/penerbit-logo.png" priority={true} alt="Optimal Publisher Logo" width={100} height={80} className="h-10 lg:h-12 w-auto object-contain" />
+                    </a>
+                </div>
+            </header>
+            <div className="max-md:hidden block">
+                {
+                    mounted && (<Breadcrumb />)
+
+                }
             </div>
-        </header>
+        </>
     );
 }
 

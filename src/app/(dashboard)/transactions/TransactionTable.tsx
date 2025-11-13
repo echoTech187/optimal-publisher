@@ -85,7 +85,7 @@ const TransactionRow = ({ trx }: { trx: Transaction }) => {
 
 export default function TransactionTable({ transactions, isLoading }: { transactions: Transaction[], isLoading: boolean }) {
     useEffect(() => {
-        if (typeof window !== 'undefined' && window.$ && window.$.fn.DataTable) {
+        if (typeof window !== 'undefined' && window.$ && window.$.fn.DataTable as any && !isLoading) {
             // Destroy existing DataTable instance if it exists
             if ((window.$.fn.DataTable as any).isDataTable(window.$('#transactionTable'))) {
                 window.$('#transactionTable').DataTable().destroy();
@@ -105,7 +105,7 @@ export default function TransactionTable({ transactions, isLoading }: { transact
                         {
                             data: null,
                             title: 'Judul',
-                            render: function (data, type, row) {
+                            render: function (data :any, type : any, row : any) {
                                 return (row.isbn_program_id === 1) ? (row.transactionable as any)?.book_title :
                                     (row.isbn_program_id === 5) ? (row.transactionable as any)?.title :
                                         (row.transactionable as any)?.book_title?.title ? (row.transactionable as any)?.book_title?.title + '<br/> ' + (row.transactionable as any)?.topic?.topic_name : 'N/A';
@@ -115,7 +115,7 @@ export default function TransactionTable({ transactions, isLoading }: { transact
                         {
                             data: 'created_at',
                             title: 'Tanggal',
-                            render: function (data) {
+                            render: function (data :any) {
                                 return new Date(data).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
                             }
                         },
@@ -123,7 +123,7 @@ export default function TransactionTable({ transactions, isLoading }: { transact
                             data: 'amount',
                             title: 'Jumlah',
                             className: 'text-right',
-                            render: function (data) {
+                            render: function (data :any) {
                                 return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(data);
                             }
                         },
@@ -132,7 +132,7 @@ export default function TransactionTable({ transactions, isLoading }: { transact
                             data: 'status.status',
                             title: 'Status',
                             className: 'text-center',
-                            render: function (data) {
+                            render: function (data :any) {
                                 const baseClasses = "px-2 py-1 text-xs font-medium rounded-full inline-block";
                                 let statusClasses = "bg-gray-100 text-gray-800"; // Default
 
