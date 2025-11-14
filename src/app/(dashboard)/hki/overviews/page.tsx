@@ -1,13 +1,8 @@
 "use client";
 
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import EventCard from '@/components/event/EventCard';
 import FullPageLoader from '@/components/ui/FullPageLoader';
-import EventRegistrationTable from '@/components/event/EventRegistrationTable';
-import { redirect } from 'next/navigation';
-import { getSession } from '@/features/auth/session';
-import { getToken } from '@/lib/utils/token';
-import HkiRegistrationTable from './HkiRegistrationTable';
+import HkiTransactionTable from '../HkiTransactionTable';
 import { Icon } from '@iconify/react';
 
 export default function HkiOverviews({ setIsEmptyHki, isLoading, userEvents, userEventsTotal, userEventsCurrentPage, setUserEventsCurrentPage, userEventsItemsPerPage, isTableLoading }: { setIsEmptyHki: Dispatch<SetStateAction<boolean>>; isLoading: boolean; userEvents: any[]; userEventsTotal: number; userEventsCurrentPage: number; setUserEventsCurrentPage: Dispatch<SetStateAction<number>>; userEventsItemsPerPage: number; isTableLoading: boolean; }) {
@@ -40,7 +35,7 @@ export default function HkiOverviews({ setIsEmptyHki, isLoading, userEvents, use
                     </button>
                 </div>
             </div>
-            <HkiRegistrationTable hkiTransactions={userEvents} totalItems={userEventsTotal} itemsPerPage={userEventsItemsPerPage} currentPage={userEventsCurrentPage} onPageChange={setUserEventsCurrentPage} isLoading={isTableLoading} />
+            <HkiTransactionTable hkiTransactions={userEvents} totalItems={userEventsTotal} itemsPerPage={userEventsItemsPerPage} currentPage={userEventsCurrentPage} onPageChange={setUserEventsCurrentPage} isLoading={isTableLoading} />
         </div>
     );
 }

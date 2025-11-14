@@ -106,8 +106,8 @@ export function DashboardEventNewsEventCardSection({ events, articles }: { event
                 {/* Left Column: Image */}
                 <div className="space-y-4 md:grid-cols-1 lg:grid-cols-1 xl:col-span-1 2xl:col-span-2">
                     <div className="mb-8">
-                        <h2 className="text-lg lg:text-2xl font-bold text-gray-800 mb-1">Artikel Terbaru</h2>
-                        <p className="text-xs lg:text-sm text-gray-500 h-12 line-clamp-2 overflow-hidden">Baca artikel-artikel terbaru kami untuk meningkatkan wawasan Anda.</p>
+                        <h2 className="text-lg lg:text-2xl font-bold text-gray-800 mb-1">Wawasan Terkini</h2>
+                        <p className="text-xs lg:text-sm text-gray-500 h-12 line-clamp-2 overflow-hidden">Jelajahi artikel-artikel pilihan untuk memperkaya pengetahuan dan wawasan industri Anda.</p>
                     </div>
                     {
                         articles.map(article => (
@@ -120,8 +120,8 @@ export function DashboardEventNewsEventCardSection({ events, articles }: { event
                 <div className="space-y-4 md:grid-cols-1 lg:grid-cols-1 xl:col-span-1 2xl:col-span-1">
                     <div className="flex justify-between items-center mb-8 gap-4">
                         <div className="">
-                            <h2 className="text-lg lg:text-2xl font-bold text-gray-800 mb-1">Acara Mendatang</h2>
-                            <p className="text-xs lg:text-sm text-gray-500 h-12 line-clamp-2 overflow-hidden">Bergabung bersama kami di acara-acara yang akan datang.</p>
+                            <h2 className="text-lg lg:text-2xl font-bold text-gray-800 mb-1">Agenda Eksklusif</h2>
+                            <p className="text-xs lg:text-sm text-gray-500 h-12 line-clamp-2 overflow-hidden">Jangan lewatkan kesempatan untuk terhubung dan berkembang dalam acara-acara inspiratif kami.</p>
                         </div>
                         <div className="text-center w-fit whitespace-nowrap">
                             <a href="/events" className="text-xs lg:text-sm bg-white text-gray-700 font-normal lg:py-3 lg:px-6 rounded-full lg:border lg:border-gray-200 lg:hover:bg-gray-50 transition-colors">
@@ -186,8 +186,8 @@ export function DashboardHeroSection() {
                             <Icon icon="ion:book-outline" className={`size-8 md:size-10 lg:size-12 text-gray-800`} />
                         </div>
                         <div className="flex-1 ">
-                            <h3 className="text-2xl max-lg:text-base lg:text-lg xl:text-base font-bold text-gray-800">ISBN</h3>
-                            <p className="text-gray-600 text-sm max-lg:text-xs">Terbitkan karya anda dengan ISBN</p>
+                            <h3 className="text-2xl max-lg:text-base lg:text-lg xl:text-base font-bold text-gray-800">Penerbitan ISBN</h3>
+                            <p className="text-gray-600 text-sm max-lg:text-xs">Resmikan dan standarisasi karya tulis Anda dengan International Standard Book Number.</p>
                         </div>
                         <Link href="/program" className=" max-lg:hidden flex max-lg:items-center max-lg:justify-between max-lg:w-full max-lg:text-sm max-lg:gap-2 max-lg:bg-amber-300/20 max-lg:px-4 max-lg:py-2 max-lg:rounded-lg">
                             <span className="md:hidden font-semibold">Daftar Sekarang</span>
@@ -202,8 +202,8 @@ export function DashboardHeroSection() {
                             <Icon icon="ion:library-outline" className={`size-8 md:size-10 lg:size-12 text-gray-800`} />
                         </div>
                         <div className="flex-1">
-                            <h3 className="text-2xl max-lg:text-base lg:text-lg xl:text-base font-bold text-gray-800">Hak Kekayaan Intelektual</h3>
-                            <p className="text-sm max-lg:text-xs text-gray-600 ">Lindungi karya anda dengan hak kekayaan intelektual</p>
+                            <h3 className="text-2xl max-lg:text-base lg:text-lg xl:text-base font-bold text-gray-800">Proteksi HKI</h3>
+                            <p className="text-sm max-lg:text-xs text-gray-600 ">Amankan properti intelektual Anda untuk melindungi inovasi dan kreativitas.</p>
                         </div>
                         <Link href="/hki/register" className=" max-lg:hidden flex max-lg:items-center max-lg:justify-between max-lg:w-full max-lg:text-sm max-lg:gap-2 max-lg:bg-fuchsia-300/20 max-lg:px-4 max-lg:py-2 max-lg:rounded-lg">
                             <span className="md:hidden font-semibold">Daftar Sekarang</span>

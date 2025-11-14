@@ -35,8 +35,10 @@ export default function UserTransactionPage() {
                     },
                 });
                 const transactionsData = await response.json();
-                setTransactions(transactionsData.data);
-                setTotalItems(transactionsData.total);
+                const parsedData = transactionsData?.data ?? transactionsData?.items ?? transactionsData?.results ?? transactionsData?.records ?? [];
+                const parsedTotal = transactionsData?.total ?? transactionsData?.totalItems ?? transactionsData?.meta?.total ?? transactionsData?.pagination?.total ?? transactionsData?.data?.total ?? 0;
+                setTransactions(parsedData);
+                setTotalItems(parsedTotal);
                 setIsLoading(false);
                 setIsTableLoading(false);
             }
@@ -63,7 +65,14 @@ export default function UserTransactionPage() {
             {
                 transactions.length > 0 && (
 
-                    <TransactionTable transactions={transactions} isLoading={isTableLoading} />
+                    <TransactionTable
+                        transactions={transactions}
+                        isLoading={isTableLoading}
+                        totalItems={totalItems}
+                        currentPage={currentPage}
+                        itemsPerPage={itemsPerPage}
+                        onPageChange={handlePageChange}
+                    />
 
                 )
             }
@@ -77,27 +86,27 @@ function openWhatsappChat() {
 export function IsbnHeroSection() {
 
     return (
-        <div className="container mx-auto px-4 py-12 text-center">
-            <div className="flex justify-center mb-8">
-                <img src="/images/ISBN.png" alt="Lindungi Karya Anda" className="max-w-sm" />
+        <div className="max-w-6xl mx-auto px-4 py-8 md:py-12 text-center 2xl:flex 2xl:items-center 2xl:justify-start 2xl:gap-8 2xl:flex-row-reverse">
+            <div className="flex justify-center mb-6 md:mb-8">
+                <img src="/images/ISBN.png" alt="Lindungi Karya Anda" className="w-40 sm:w-56 md:w-64 lg:w-72 2xl:w-99 h-auto mx-auto" />
             </div>
-            <h2 className="text-3xl font-bold text-gray-800">
-                PENULISAN ISBN
-            </h2>
-            <p className="text-gray-600 w-8/12 mx-auto mt-2 mb-8">
-                Mulai petualangan menulis bersama Optimal, di mana kata-kata menjadi jembatan yang menghubungkan ide-ide cemerlang. Optimal membantu Anda mengungkap potensi terbaik dalam menulis dengan alat dan layanan canggih. Bersama Optimal, mulai menulis bersama dan jelajahi batas-batas tulisan yang tak terbatas.
-            </p>
-
-
-            <div className="flex justify-center gap-4 mb-8">
-                <a href="/program" className="bg-gray-800 text-white font-semibold py-3 px-6 rounded-lg hover:bg-gray-700 transition-colors flex items-center">
-                    Mulai Pendaftaran Sekarang
-                    <Icon icon="ion:arrow-forward-outline" className="ml-2" />
-                </a>
-                <a onClick={openWhatsappChat} className="bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg hover:bg-gray-300 transition-colors flex items-center">
-                    <Icon icon="ion:chatbubbles-outline" className="mr-2" />
-                    Jadwalkan Konsultasi
-                </a>
+            <div>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 uppercase">
+                    Wujudkan Impian Menerbitkan Buku
+                </h2>
+                <p className="text-gray-600 mx-auto mt-3 mb-8 md:mb-8 text-sm sm:text-base leading-relaxed max-w-2xl px-2">
+                    Menerbitkan buku tidak harus rumit. Kami sederhanakan setiap langkah dan mendampingi Anda di setiap prosesnya. Dari konsultasi awal hingga penerbitan resmi, tim expert kami siap membantu. Fokus pada karya Anda, percayakan sisanya kepada kami.
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mb-6 md:mb-8 w-full max-w-xl mx-auto">
+                    <a href="/program" className="w-full sm:w-auto bg-gray-800 text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center shadow-sm">
+                        Mulai Pendaftaran Sekarang
+                        <Icon icon="ion:arrow-forward-outline" className="ml-2" />
+                    </a>
+                    <button onClick={openWhatsappChat} className="w-full sm:w-auto bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center shadow-sm">
+                        <Icon icon="ion:chatbubbles-outline" className="mr-2" />
+                        Jadwalkan Konsultasi
+                    </button>
+                </div>
             </div>
         </div>
     );

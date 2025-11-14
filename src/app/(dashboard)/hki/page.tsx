@@ -73,7 +73,7 @@ const CategoryAccordion = ({ category }: CategoryAccordionProps) => {
     const count = category.items.length;
 
     return (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white rounded-lg  border border-gray-100">
             <div
                 className="p-4 flex items-center justify-between cursor-pointer"
                 onClick={() => setIsOpen(!isOpen)}
@@ -173,7 +173,7 @@ export default function HKIPage() {
         );
         return matchesCategoryName || matchesSubCategoryItem;
     });
-    if(isLoading){
+    if (isLoading) {
         return <FullPageLoader />;
     }
     return (
@@ -184,7 +184,7 @@ export default function HKIPage() {
                 }
                 {
                     (isEmptyHki && isLoading === false) && (
-                        <div className="mt-16 text-center">
+                        <div className="text-center">
                             <div className="flex justify-center mb-8">
                                 <img src="/images/HKI.png" alt="Lindungi Karya Anda" className="max-w-sm" />
                             </div>
@@ -253,19 +253,23 @@ export default function HKIPage() {
                     )
                 }
 
-                <div className={`text-center md:text-left mb-8  ${isEmptyHki ? 'mt-8' : 'mt-24'}`}>
-                    <div className="flex justify-center md:justify-start items-center mb-4">
+                <div className={`text-center md:text-left mb-8  ${isEmptyHki ? 'mt-8' : 'mt-12'}`}>
+                    <div className="flex justify-center md:justify-start items-center mb-4 gap-4">
                         <div className="bg-blue-100 p-3 rounded-lg">
                             <Icon icon="ion:book-outline" className="text-blue-600 text-3xl" />
                         </div>
+                        <div>
+                            <h1 className="text-2xl font-bold text-gray-800">
+                                Apa Saja yang bisa Didaftarkan HKI?
+                            </h1>
+                            <p className="text-gray-600 mt-1">
+                                Jelajahi berbagai kategori karya yang dapat di daftarkan untuk
+                                perlindungan Hak Kekayaan Intelektual
+                            </p>
+                        </div>
                     </div>
-                    <h1 className="text-3xl font-bold text-gray-800">
-                        Apa Saja yang bisa Didaftarkan HKI?
-                    </h1>
-                    <p className="text-gray-600 mt-2">
-                        Jelajahi berbagai kategori karya yang dapat di daftarkan untuk
-                        perlindungan Hak Kekayaan Intelektual
-                    </p>
+
+
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -318,8 +322,8 @@ export default function HKIPage() {
                         <CategoryAccordion key={index} category={category} />
                     ))}
                 </div>
-                
-                
+
+
             </div>
         </div>
     );

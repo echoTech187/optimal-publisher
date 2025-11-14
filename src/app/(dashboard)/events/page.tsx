@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import EventCard from '@/components/event/EventCard';
 import FullPageLoader from '@/components/ui/FullPageLoader';
-import EventRegistrationTable from '@/components/event/EventRegistrationTable';
+import EventTransactionTable from './EventTransactionTable';
 import { redirect } from 'next/navigation';
 import { getSession } from '@/features/auth/session';
 import { getToken } from '@/lib/utils/token';
@@ -73,7 +73,7 @@ export default function EventPage() {
                 <h2 className="text-2xl font-bold">Riwayat Pendaftaran Lomba</h2>
                 <p>Daftar riwayat pendaftaran lomba dan acara Anda di sini.</p>
             </header>
-            <EventRegistrationTable events={userEvents} totalItems={userEventsTotal} itemsPerPage={userEventsItemsPerPage} currentPage={userEventsCurrentPage} onPageChange={setUserEventsCurrentPage} isLoading={isTableLoading} />
+            <EventTransactionTable events={userEvents} totalItems={userEventsTotal} itemsPerPage={userEventsItemsPerPage} currentPage={userEventsCurrentPage} onPageChange={setUserEventsCurrentPage} isLoading={isTableLoading} />
             <div className="my-12 flex justify-between">
                 <div>
                     <h2 className="text-2xl font-bold">Daftar Lomba dan Acara</h2>
@@ -82,7 +82,7 @@ export default function EventPage() {
                 <a href="/event" className="btn btn-primary">Lihat Semua</a>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
-                {sortedEvents.map((event: any) => (
+                {sortedEvents.filter(Boolean).map((event: any) => (
                     <EventCard key={event.id} index={event.id} item={event} />
                 ))}
             </div>
