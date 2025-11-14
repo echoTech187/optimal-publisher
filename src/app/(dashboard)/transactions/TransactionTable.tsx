@@ -88,16 +88,12 @@ export default function TransactionTable({ transactions, isLoading }: { transact
         if (typeof window !== 'undefined' && window.$ && window.$.fn.DataTable as any && !isLoading) {
             // Destroy existing DataTable instance if it exists
             if ((window.$.fn.DataTable as any).isDataTable(window.$('#transactionTable'))) {
-                window.$('#transactionTable').DataTable().destroy();
-            }
-
-            try {
-                var dt = window.$('#transactionTable').DataTable({
+                window.$('#transactionTable').DataTable({
                     paging: true,
                     searching: true,
                     ordering: true,
                     info: true,
-                    responsive:true,
+                    responsive: false,
                     data: transactions, // Pass data directly
                     columns: [
                         { data: 'transaction_code', title: 'Kode Transaksi' },
@@ -105,7 +101,7 @@ export default function TransactionTable({ transactions, isLoading }: { transact
                         {
                             data: null,
                             title: 'Judul',
-                            render: function (data :any, type : any, row : any) {
+                            render: function (data: any, type: any, row: any) {
                                 return (row.isbn_program_id === 1) ? (row.transactionable as any)?.book_title :
                                     (row.isbn_program_id === 5) ? (row.transactionable as any)?.title :
                                         (row.transactionable as any)?.book_title?.title ? (row.transactionable as any)?.book_title?.title + '<br/> ' + (row.transactionable as any)?.topic?.topic_name : 'N/A';
@@ -115,7 +111,7 @@ export default function TransactionTable({ transactions, isLoading }: { transact
                         {
                             data: 'created_at',
                             title: 'Tanggal',
-                            render: function (data :any) {
+                            render: function (data: any) {
                                 return new Date(data).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
                             }
                         },
@@ -123,7 +119,7 @@ export default function TransactionTable({ transactions, isLoading }: { transact
                             data: 'amount',
                             title: 'Jumlah',
                             className: 'text-right',
-                            render: function (data :any) {
+                            render: function (data: any) {
                                 return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(data);
                             }
                         },
@@ -132,7 +128,79 @@ export default function TransactionTable({ transactions, isLoading }: { transact
                             data: 'status.status',
                             title: 'Status',
                             className: 'text-center',
-                            render: function (data :any) {
+                            render: function (data: any) {
+                                const baseClasses = "px-2 py-1 text-xs font-medium rounded-full inline-block";
+                                let statusClasses = "bg-gray-100 text-gray-800"; // Default
+
+                                switch (data?.toLowerCase()) {
+                                    case 'success':
+                                        statusClasses = "bg-green-100 text-green-800";
+                                        break;
+                                    case 'pending':
+                                        statusClasses = "bg-yellow-100 text-yellow-800";
+                                        break;
+                                    case 'failed':
+                                        statusClasses = "bg-red-100 text-red-800";
+                                        break;
+                                }
+                                return `<span class="${baseClasses} ${statusClasses}">${data || 'N/A'}</span>`;
+                            }
+                        },
+                        {
+                            data: 'transaction_code',
+                            title: '#',
+                            className: 'text-center',
+                            render: function (data: any) {
+                                return `<a href="/transactions/${data}" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem"><span class="iconify" data-icon="ion:arrow-forward-outline" data-width="24" data-height="24"></span></a>`;
+                            }
+                        }
+                    ],
+                    // Add any other DataTables options here
+                })
+            }
+
+            try {
+                var dt = window.$('#transactionTable').DataTable({
+                    paging: true,
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    responsive: false,
+                    data: transactions, // Pass data directly
+                    columns: [
+                        { data: 'transaction_code', title: 'Kode Transaksi' },
+                        { data: 'pack_name', title: 'Paket Pembelian' },
+                        {
+                            data: null,
+                            title: 'Judul',
+                            render: function (data: any, type: any, row: any) {
+                                return (row.isbn_program_id === 1) ? (row.transactionable as any)?.book_title :
+                                    (row.isbn_program_id === 5) ? (row.transactionable as any)?.title :
+                                        (row.transactionable as any)?.book_title?.title ? (row.transactionable as any)?.book_title?.title + '<br/> ' + (row.transactionable as any)?.topic?.topic_name : 'N/A';
+                            }
+                        },
+                        { data: 'transactionable.address', title: 'Alamat Pengiriman' },
+                        {
+                            data: 'created_at',
+                            title: 'Tanggal',
+                            render: function (data: any) {
+                                return new Date(data).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+                            }
+                        },
+                        {
+                            data: 'amount',
+                            title: 'Jumlah',
+                            className: 'text-right',
+                            render: function (data: any) {
+                                return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(data);
+                            }
+                        },
+                        { data: 'payment_method.name', title: 'Pembayaran Melalui', className: 'text-center' },
+                        {
+                            data: 'status.status',
+                            title: 'Status',
+                            className: 'text-center',
+                            render: function (data: any) {
                                 const baseClasses = "px-2 py-1 text-xs font-medium rounded-full inline-block";
                                 let statusClasses = "bg-gray-100 text-gray-800"; // Default
 
@@ -177,49 +245,12 @@ export default function TransactionTable({ transactions, isLoading }: { transact
     }, [transactions]); // Re-initialize when transactions data changes
 
     return (
-        <div className="bg-white/60 dark:bg-gray-800 rounded-xl">
-            {/* Desktop Table */}
-            <div>
-                <div className='max-w-full  dt-responsive '>
-                    <table id="transactionTable" className="table" style={{ width: '100%' }}>
-                        {/* DataTables will populate thead and tbody */}
-                    </table>
-                </div>
-            </div>
 
-            {/* Mobile Card List - Keep existing for now, DataTables doesn't handle this directly */}
-            {/* <div className="md:hidden space-y-4 p-4">
-                {isLoading ? (
-                    <div className="text-center p-8">
-                        <Icon icon="line-md:loading-twotone-loop" className="mx-auto text-4xl" />
-                    </div>
-                ) : (
-                    transactions.map((trx) => (
-                        <div key={trx.id} className="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg shadow">
-                            <div className="flex justify-between items-start mb-2">
-                                <span className="font-bold text-lg text-gray-800 dark:text-gray-200">
-                                    {
-                                        (trx.isbn_program_id === 1) ? (trx.transactionable as any)?.book_title?.title :
-                                            (trx.isbn_program_id === 5) ? (trx.transactionable as any)?.title :
-                                                (trx.transactionable as any)?.book_title?.title ?? (trx.transactionable as any)?.title ?? 'N/A'
-                                    }
-                                </span>
-                                <StatusBadge status={trx.status?.status} />
-                            </div>
-                            <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                                <span>{trx.transaction_code}</span> &bull; <span>{new Date(trx.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
-                            </div>
-                            <div className="text-right text-lg font-bold text-gray-900 dark:text-gray-100">
-                                {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(trx.amount)}
-                            </div>
-                            <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-600 text-right">
-                                {trx.transaction_code && <a href={`/transactions/${trx.transaction_code}`} className="text-blue-600 hover:underline">Lihat Detail</a>}
-                            </div>
-                        </div>
-                    ))
-                )}
-            </div> */}
-            {/* DataTables handles pagination, so custom Pagination component is removed */}
+        <div className='max-w-full overflow-hidden p-8'>
+            <table id="transactionTable" className="table table-sm display text-nowrap w-full overflow-hidden dt-responsive" style={{ width: '100%' }}>
+                {/* DataTables will populate thead and tbody */}
+            </table>
         </div>
+
     );
 }

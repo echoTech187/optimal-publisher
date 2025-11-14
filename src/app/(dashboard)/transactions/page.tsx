@@ -44,9 +44,7 @@ export default function UserTransactionPage() {
 
         fetchData();
     }, [currentPage]);
-    function openWhatsappChat() {
-        window.location.href = "https://wa.link/gkfaqz";
-    }
+
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
         setIsTableLoading(true);
@@ -57,45 +55,50 @@ export default function UserTransactionPage() {
 
     return (
         <>
-            <div className="mt-16 text-center">
-                <div className="flex justify-center mb-8">
-                    <img src="/images/ISBN.png" alt="Lindungi Karya Anda" className="max-w-sm" />
-                </div>
-                <h2 className="text-3xl font-bold text-gray-800">
-                    PENULISAN ISBN
-                </h2>
-                <p className="text-gray-600 w-8/12 mx-auto mt-2 mb-8">
-                    Mulai petualangan menulis bersama Optimal, di mana kata-kata menjadi jembatan yang menghubungkan ide-ide cemerlang. Optimal membantu Anda mengungkap potensi terbaik dalam menulis dengan alat dan layanan canggih. Bersama Optimal, mulai menulis bersama dan jelajahi batas-batas tulisan yang tak terbatas.
-                </p>
-
-
-                <div className="flex justify-center gap-4 mb-8">
-                    <a href="/program" className="bg-gray-800 text-white font-semibold py-3 px-6 rounded-lg hover:bg-gray-700 transition-colors flex items-center">
-                        Mulai Pendaftaran Sekarang
-                        <Icon icon="ion:arrow-forward-outline" className="ml-2" />
-                    </a>
-                    <a onClick={openWhatsappChat} className="bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg hover:bg-gray-300 transition-colors flex items-center">
-                        <Icon icon="ion:chatbubbles-outline" className="mr-2" />
-                        Jadwalkan Konsultasi
-                    </a>
-                </div>
+            <IsbnHeroSection />
+            <div className="px-8 pt-8">
+                <h2 className="text-xl font-bold">Riwayat Transaksi</h2>
+                <p>Daftar riwayat transaksi Anda di sini.</p>
             </div>
             {
                 transactions.length > 0 && (
-                    <>
-                        <div className='py-12'>
-                            <div className="px-8 pt-8">
-                                <h2 className="text-xl font-bold">Riwayat Transaksi</h2>
-                                <p>Daftar riwayat transaksi Anda di sini.</p>
-                            </div>
-                            <div className="p-4 sm:p-6 lg:p-8 w-full">
-                                <TransactionTable transactions={transactions}  isLoading={isTableLoading} />
-                            </div>
-                        </div>
-                    </>
+
+                    <TransactionTable transactions={transactions} isLoading={isTableLoading} />
+
                 )
             }
 
         </>
+    );
+}
+function openWhatsappChat() {
+    window.location.href = "https://wa.link/gkfaqz";
+}
+export function IsbnHeroSection() {
+
+    return (
+        <div className="container mx-auto px-4 py-12 text-center">
+            <div className="flex justify-center mb-8">
+                <img src="/images/ISBN.png" alt="Lindungi Karya Anda" className="max-w-sm" />
+            </div>
+            <h2 className="text-3xl font-bold text-gray-800">
+                PENULISAN ISBN
+            </h2>
+            <p className="text-gray-600 w-8/12 mx-auto mt-2 mb-8">
+                Mulai petualangan menulis bersama Optimal, di mana kata-kata menjadi jembatan yang menghubungkan ide-ide cemerlang. Optimal membantu Anda mengungkap potensi terbaik dalam menulis dengan alat dan layanan canggih. Bersama Optimal, mulai menulis bersama dan jelajahi batas-batas tulisan yang tak terbatas.
+            </p>
+
+
+            <div className="flex justify-center gap-4 mb-8">
+                <a href="/program" className="bg-gray-800 text-white font-semibold py-3 px-6 rounded-lg hover:bg-gray-700 transition-colors flex items-center">
+                    Mulai Pendaftaran Sekarang
+                    <Icon icon="ion:arrow-forward-outline" className="ml-2" />
+                </a>
+                <a onClick={openWhatsappChat} className="bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg hover:bg-gray-300 transition-colors flex items-center">
+                    <Icon icon="ion:chatbubbles-outline" className="mr-2" />
+                    Jadwalkan Konsultasi
+                </a>
+            </div>
+        </div>
     );
 }

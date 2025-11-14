@@ -102,12 +102,12 @@ export function DashboardEventNewsEventCardSection({ events, articles }: { event
     return (
         <section className=" dark:bg-gray-800 rounded-xl py-6">
 
-            <div className="grid grid-cols-1 2xl:grid-cols-3 gap-8 mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-8 mx-auto">
                 {/* Left Column: Image */}
-                <div className="space-y-4 2xl:col-span-2">
+                <div className="space-y-4 md:grid-cols-1 lg:grid-cols-1 xl:col-span-1 2xl:col-span-2">
                     <div className="mb-8">
                         <h2 className="text-lg lg:text-2xl font-bold text-gray-800 mb-1">Artikel Terbaru</h2>
-                        <p className="text-xs lg:text-sm text-gray-500">Baca artikel-artikel terbaru kami untuk meningkatkan wawasan Anda.</p>
+                        <p className="text-xs lg:text-sm text-gray-500 h-12 line-clamp-2 overflow-hidden">Baca artikel-artikel terbaru kami untuk meningkatkan wawasan Anda.</p>
                     </div>
                     {
                         articles.map(article => (
@@ -117,11 +117,11 @@ export function DashboardEventNewsEventCardSection({ events, articles }: { event
                 </div>
 
                 {/* Right Column: Event List */}
-                <div className="space-y-4 2xl:col-span-1">
+                <div className="space-y-4 md:grid-cols-1 lg:grid-cols-1 xl:col-span-1 2xl:col-span-1">
                     <div className="flex justify-between items-center mb-8 gap-4">
                         <div className="">
                             <h2 className="text-lg lg:text-2xl font-bold text-gray-800 mb-1">Acara Mendatang</h2>
-                            <p className="text-xs lg:text-sm text-gray-500">Bergabung bersama kami di acara-acara yang akan datang.</p>
+                            <p className="text-xs lg:text-sm text-gray-500 h-12 line-clamp-2 overflow-hidden">Bergabung bersama kami di acara-acara yang akan datang.</p>
                         </div>
                         <div className="text-center w-fit whitespace-nowrap">
                             <a href="/events" className="text-xs lg:text-sm bg-white text-gray-700 font-normal lg:py-3 lg:px-6 rounded-full lg:border lg:border-gray-200 lg:hover:bg-gray-50 transition-colors">
@@ -144,15 +144,15 @@ export function EventCard({ event }: { event: EventNews }) {
     return (
         <div
             key={event.slug}
-            className={`md:p-3 rounded-2xl w-full cursor-pointer border-2 border-transparent transition-all duration-300 hover:border-2 hover:border-blue-500 bg-white/70 hover:shadow-xl`}
+            className={`lg:p-3 rounded-2xl w-full cursor-pointer border-2 border-transparent transition-all duration-300 hover:border-2 hover:border-blue-500 bg-white/70 hover:shadow-xl`}
         >
             <div className="flex items-center gap-4">
-                <div className="w-2/6 md:w-1/6 lg:w-1/4 xl:w-2/6 rounded-lg overflow-hidden shadow-xl h-full">
+                <div className="w-2/6 md:w-2/6 lg:w-1/4 xl:w-2/6 rounded-lg overflow-hidden shadow-xl h-full">
                     <Image src={getImageUrl(event.image)} alt={event.title} width={5000} height={6000} className="transition-opacity duration-500 w-full h-full object-cover" />
                 </div>
-                <div className="w-4/6 md:w-5/6 lg:w-3/4 xl:w-4/6">
-                    <h3 className="font-bold max-md:text-sm text-xl text-gray-900 line-clamp-1 "><a href={`/event/${event.slug}`}>{event.title}</a></h3>
-                    <p className="max-md:text-xs text-sm text-gray-500 mb-3">{new Date(event.event_date).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                <div className="w-4/6 md:w-4/6 lg:w-3/4 xl:w-4/6">
+                    <h3 className="font-bold max-lg:text-sm text-xl text-gray-900 line-clamp-1 "><a href={`/event/${event.slug}`}>{event.title}</a></h3>
+                    <p className="max-lg:text-xs text-sm text-gray-500 mb-3">{new Date(event.event_date).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
                     <div dangerouslySetInnerHTML={{ __html: event.description }} className="html-content max-md:text-xs text-sm text-gray-600 line-clamp-6 md:line-clamp-6 lg:line-clamp-3 xl:line-clamp-5 2xl:line-clamp-7 overflow-hidden" />
                 </div>
             </div>
@@ -162,14 +162,14 @@ export function EventCard({ event }: { event: EventNews }) {
 
 export function ArticleCard({ article }: { article: Article }) {
     return (
-        <div key={article.slug} className={`md:p-3 rounded-2xl w-full cursor-pointer border-2 border-transparent transition-all duration-300 hover:border-2 hover:border-blue-500 bg-white/70 hover:shadow-xl`}>
-            <div className="flex items-center gap-4">
-                <div className="relative w-2/6 md:w-1/6 lg:w-1/4 xl:w-3/12 shrink-0 h-[80px] md:h-[100px] lg:h-[120px] xl:h-[150px] 2xl:h-[150px] rounded-md overflow-hidden">
+        <div key={article.slug} className={`lg:p-3 rounded-2xl w-full cursor-pointer border-2 border-transparent transition-all duration-300 hover:border-2 hover:border-blue-500 bg-white/70 hover:shadow-xl`}>
+            <div className="flex items-stretch justify-start content-stretch gap-4 h-full">
+                <div className="relative w-2/6 md:w-2/6 lg:w-1/4 xl:w-3/12 shrink-0 mb-0 h-[80px] md:h-[100px] lg:h-[120px] xl:h-[100px] 2xl:h-[120px] rounded-md overflow-hidden">
                     <Image src={getImageUrl(article.image)} alt={article.title} width={6000} height={5000} className="h-full w-full rounded-md md:rounded-lg object-cover" />
                 </div>
-                <div className="w-4/6 md:w-5/6 lg:w-3/4 xl:w-9/12 flex flex-col items-start justify-start">
-                    <h3 className="font-bold max-md:text-sm text-xl text-gray-900 line-clamp-2"><a href={`/article/${article.slug}`}>{article.title}</a></h3>
-                    <p className="max-md:text-xs text-sm text-gray-500 mb-3">{new Date(article.created_at).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                <div className="w-4/6 md:w-4/6 lg:w-3/4 xl:w-9/12 flex flex-col items-start justify-start">
+                    <h3 className="font-bold max-lg:text-sm text-xl text-gray-900 line-clamp-2"><a href={`/article/${article.slug}`}>{article.title}</a></h3>
+                    <p className="max-lg:text-xs text-sm text-gray-500 mb-3">{new Date(article.created_at).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
                     {/* <div dangerouslySetInnerHTML={{ __html: article.description }} className="html-content text-xs md:text-sm text-gray-600 line-clamp-3  md:line-clamp-6 lg:line-clamp-3 xl:line-clamp-5 overflow-hidden" /> */}
                 </div>
             </div>
