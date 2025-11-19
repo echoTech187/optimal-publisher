@@ -79,7 +79,6 @@ export default function EventPage() {
                     <h2 className="text-2xl font-bold">Daftar Lomba dan Acara</h2>
                     <p>Pilih acara yang ingin kamu ikuti.</p>
                 </div>
-                <a href="/event" className="btn btn-primary">Lihat Semua</a>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
                 {sortedEvents.filter(Boolean).map((event: any) => (

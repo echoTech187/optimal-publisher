@@ -1,26 +1,28 @@
-
 "use client";
 
 import { useEffect, useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { login } from "@/features/auth/actions";
 import Alert, { useAlert } from "@/components/ui/Alert";
-import Link from "next/link";
 
-// Submit button that is aware of the form's pending state
 function SubmitButton() {
     const { pending } = useFormStatus();
 
     return (
-        <button type="submit" disabled={pending} className="block w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        <button 
+            type="submit" 
+            disabled={pending} 
+            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-fuchsia-800 hover:bg-fuchsia-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-500 disabled:opacity-50"
+        >
             {pending ? (
                 <>
-                    <span className="animate-spin rounded-full h-5 w-5 border-b-2 border-white inline-block"></span>
-                    <span className="ml-2">Loading...</span>
+                    <span className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></span>
+                    <span>Processing...</span>
                 </>
             ) : (
-                <span>Login</span>
+                "Sign In"
             )}
         </button>
     );
@@ -33,18 +35,14 @@ export default function SignInForm() {
     const redirectedFrom = params.get("redirectedFrom");
 
     const { alertProps, showAlert, closeAlert } = useAlert();
-
-    const initialState = { success: false, message: null };
-    const [state, formAction] = useActionState(login, initialState);
+    const [state, formAction] = useActionState(login, { success: false, message: null });
 
     useEffect(() => {
-        document.title = "Login | Optimal Penerbit";
-    
-
+        document.title = "Login | Optimal Publisher";
         if (state?.message) {
             showAlert({
                 type: state.success ? 'success' : 'error',
-                title: state.success ? 'Login Berhasil!' : 'Login Gagal!',
+                title: state.success ? 'Login Successful!' : 'Login Failed!',
                 message: state.message,
                 onCloseCallback: closeAlert,
             });
@@ -53,31 +51,64 @@ export default function SignInForm() {
 
     return (
         <>
-            <form action={formAction} id="loginForm" name="loginForm" className="max-w-sm mx-auto w-full">
-                {/* Hidden inputs to pass params to the server action */}
+            <form action={formAction} className="space-y-6 w-full max-w-md">
                 <input type="hidden" name="type" value={type ?? ''} />
                 <input type="hidden" name="event" value={eventType ?? ''} />
                 <input type="hidden" name="redirectedFrom" value={redirectedFrom ?? ''} />
 
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="phone">No. Telepon</label>
-                    <input type="tel" name="phone" id="phone" autoFocus required className="input rounded-md bg-white/50 border-white/40 w-full" />
+                <div>
+                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        No. Telepon
+                    </label>
+                    <div className="mt-1">
+                        <input 
+                            id="phone" 
+                            name="phone" 
+                            type="tel" 
+                            autoComplete="tel"
+                            autoFocus 
+                            required 
+                            className="block w-full px-3 py-2 input rounded-md bg-white/50 border-white/40 hover:border-white/45 hover:shadow-outline hover:outline-none active:border-white/50 focus:border-white/50 focus:outline-none focus:shadow-outline focus-within:border-white/50 sm:text-sm"
+                        />
+                    </div>
                 </div>
-                <div className="mb-6">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">Password</label>
-                    <input type="password" name="password" id="password" required className="input rounded-md bg-white/50 border-white/40 w-full" />
+
+                <div>
+                    <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Password
+                    </label>
+                    <div className="mt-1">
+                        <input 
+                            id="password" 
+                            name="password" 
+                            type="password" 
+                            autoComplete="current-password"
+                            required 
+                            className="block w-full px-3 py-2 input rounded-md bg-white/50 border-white/40 hover:border-white/45 hover:shadow-outline hover:outline-none active:border-white/50 focus:border-white/50 focus:outline-none focus:shadow-outline focus-within:border-white/50 sm:text-sm"
+                        />
+                    </div>
                 </div>
 
                 <div className="flex items-center justify-between">
+                    <div className="text-sm">
+                        <a href="#" className="font-medium text-fuchsia-600 hover:text-fuchsia-500">
+                            Forgot your password?
+                        </a>
+                    </div>
+                </div>
+
+                <div>
                     <SubmitButton />
                 </div>
             </form>
 
-            <div className="w-full max-w-sm mx-auto h-12 flex items-center justify-center gap-1">
-                Belum memiliki akun? <Link href={`/register?type=${type}`} className="text-fuchsia-800 hover:text-fuchsia-700">Daftar disini</Link>
-            </div>
+            <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+                Belum memiliki akun?{' '}
+                <Link href={`/register?${params.toString()}`} className="font-medium text-fuchsia-600 hover:text-fuchsia-500">
+                    Daftar disini
+                </Link>
+            </p>
 
-            {/* Alert component to show feedback */}
             <Alert {...alertProps} />
         </>
     );
