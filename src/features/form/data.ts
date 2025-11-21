@@ -15,7 +15,6 @@ async function fetchData(endpoint: string) {
     if (!API_BASE_URL) {
         throw new Error("API base URL is not configured.");
     }
-    console.log('Fetching from endpoint:', `${API_BASE_URL}/api/v1${endpoint}`);
     try {
         const response = await fetch(`${API_BASE_URL}/api/v1${endpoint}`, {
             method: "GET",

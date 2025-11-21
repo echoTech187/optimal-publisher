@@ -3,7 +3,6 @@ import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
 export async function GET() {
-    console.log('API route /api/events/user hit');
     // const token = (await cookies()).get('token')?.value;
 
     // if (!token) {

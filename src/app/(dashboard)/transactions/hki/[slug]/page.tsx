@@ -219,7 +219,6 @@ export default async function HkiDetailPage({ params }: { params: { slug: string
     }
 
     const transaction = await fetchHkiTransaction(slug);
-    console.log(transaction);
     if (!transaction) {
         return (
             <div className="p-8 text-center text-gray-500 text-lg flex flex-col items-center justify-center h-screen bg-gray-50">

@@ -55,7 +55,6 @@ export async function submitPayment(previousState: any, formData: FormData) {
     }
 
     const responseData = await response.json();
-    console.log('Event registration successful:', responseData);
 
     // The redirect should be handled by the client or by throwing an error that Next.js catches
     // For now, I will return a success state and let the client handle it.

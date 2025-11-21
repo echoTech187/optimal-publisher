@@ -155,7 +155,6 @@ export async function fetchTransactions(userId : string): Promise<Transaction[]>
         });
 
         if (!response.ok) {
-            console.log("Failed to fetch transactions:", response.statusText);
             return [];
         }
 
@@ -163,7 +162,6 @@ export async function fetchTransactions(userId : string): Promise<Transaction[]>
         return result.data; // Assuming the API returns { data: [...] }
 
     } catch (error) {
-        console.log("Error fetching transactions:", error);
         return [];
     }
 }

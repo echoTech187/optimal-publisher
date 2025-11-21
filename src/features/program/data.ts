@@ -3,14 +3,10 @@
 
 import 'server-only';
 import { cookies } from 'next/headers';
+import { ProgramPackage } from '@/types/program';
 
 // Define the Package type based on what the component expects
-interface ProgramPackage {
-    id: number;
-    name: string;
-    category_id: number;
-    // ... other properties
-}
+
 
 // Define the Program type based on what the component expects
 export interface Program {
@@ -39,7 +35,6 @@ export async function getProgramPackage(programId: number): Promise<ProgramPacka
     }
 
     try {
-            console.log(`Fetching program package from: ${apiBaseUrl}/api/v1/program/package/${programId}`);
             const response = await fetch(`${apiBaseUrl}/api/v1/program/package/${programId}`, {
                 method: "GET",
                 headers: {
@@ -48,7 +43,6 @@ export async function getProgramPackage(programId: number): Promise<ProgramPacka
                 },
                 cache: 'no-store',
             });
-            console.log(`Response status for program package: ${response.status}`);
         if (!response.ok) {
             console.error("Failed to fetch program package:", response.statusText);
             return [];

@@ -9,7 +9,6 @@ export async function GET() {
     if (!session || !session.id) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
-    console.log(token);
     const response = await fetch(`http://127.0.0.1:8000/api/v1/member/${session.slug}`, {
         method: 'GET',
         headers: {

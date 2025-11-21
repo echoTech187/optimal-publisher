@@ -3,7 +3,6 @@
 import { cookies } from "next/headers";
 
 export async function postRegister(data: any) {
-    console.log(data);
     const token = (await cookies()).get('token')?.value;
 
     // Lakukan fetch ke backend Laravel Anda
@@ -15,14 +14,12 @@ export async function postRegister(data: any) {
         },
         body: JSON.stringify(data),
     });
-    console.log(response);
     if (!response.ok) {
         // Tangani error jika respons tidak berhasil
         const errorData = await response.json().catch(() => ({ message: 'Terjadi kesalahan pada server.' }));
         throw new Error(errorData.message || 'Gagal melakukan registrasi.');
     }
     const result = await response.json();
-    console.log(result);
     // Kembalikan data jika berhasil
     return result;
 }

@@ -14,7 +14,6 @@ import FileUpload from '@/components/forms/program/FileUpload'; // Import FileUp
 const uploadFileToServer = async (file: string | Blob, url: string | undefined, onProgress: { (progress: any): void; (arg0: number): void; }) => {
     const formData = new FormData();
     formData.append('file', file); // 'file' must match the name your backend expects
-    console.log(formData);
     try {
         return await new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();

@@ -106,7 +106,6 @@ function PricingPageContent() {
     const handlePlanSelection = async (package_id : number) => {
         setIsLoading(true);
         if (!code_transaction) {
-            alert("Error: code_transaction tidak ditemukan di URL.");
             return;
         }
 
@@ -115,15 +114,13 @@ function PricingPageContent() {
 
         try {
             const result = await updateHkiPackage({ code_transaction, package_id });
-            console.log("Update success:", result);
+
             setIsLoading(false);
             // Redirect to payment page, passing the transaction code
             router.push(`/hki/payment?code_transaction=${code_transaction}`);
         } catch (e : any) {
             setError(e.message);
             setIsLoading(false);
-            console.error("Failed to update package:", e);
-            alert(`Gagal memperbarui paket: ${e.message}`);
         } finally {
             setIsLoading(false);
             setUpdatingId(0);

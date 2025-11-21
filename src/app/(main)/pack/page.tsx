@@ -7,6 +7,7 @@ import { getSession } from "@/features/auth/session";
 
 import PackView from "@/components/pack/PackView";
 import FullPageLoader from '@/components/ui/FullPageLoader';
+import GenerateFormFields from "@/components/forms/GenerateFormFields";
 
 export const metadata: Metadata = {
     title: 'Pilih Paket | Optimal Untuk Negeri',
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 // It allows the main page to remain clean and use Suspense effectively.
 async function PackDataFetcher({ packageKey }: { packageKey: number }) {
     // Fetch packages and session in parallel
-    const [packages, session] = await Promise.all([
+    const [packages , session] = await Promise.all([
         getProgramPackage(packageKey),
         getSession(),
     ]);
@@ -31,8 +32,9 @@ async function PackDataFetcher({ packageKey }: { packageKey: number }) {
     //     // Redirect to a 404 page if no packages are found for the key
     //     redirect('/not-found'); // Use the standard Next.js not-found page
     // }
-
-    return <PackView packages={packages} user={session} />;
+    console.log(packages);
+    return <GenerateFormFields packages={packages || []}  user={session} />;
+    // return <PackView packages={packages} user={session} />;
 }
 
 

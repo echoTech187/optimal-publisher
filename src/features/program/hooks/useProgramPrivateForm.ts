@@ -1,4 +1,5 @@
 
+"use client";
 import { useState, useEffect, useCallback } from 'react';
 import { fetchMajors } from '@/features/form/data';
 import type { Major } from '@/types/form';

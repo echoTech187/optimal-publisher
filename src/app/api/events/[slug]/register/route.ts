@@ -30,14 +30,6 @@ export async function POST(request: NextRequest, context: { params: Promise<{ sl
     await writeFile(filePath, buffer);
 
     // Mock database storage (log to console for now)
-    console.log("New Event Registration:", {
-      eventSlug: slug,
-      fullName,
-      phoneNumber,
-      paymentMethod,
-      proofOfPaymentPath: `/uploads/proofs/${filename}`,
-      timestamp: new Date().toISOString(),
-    });
 
     return NextResponse.json({ message: "Registration successful!" }, { status: 200 });
   } catch (error) {

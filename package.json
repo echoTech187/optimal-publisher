@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "@types/js-cookie": "^3.0.6",
     "datatables.net": "^2.3.4",
     "datatables.net-autofill-dt": "^2.7.1",
@@ -41,7 +42,9 @@
     "preline": "^3.2.3",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "react-select": "^5.10.2"
+    "react-hook-form": "^7.66.1",
+    "react-select": "^5.10.2",
+    "yup": "^1.7.1"
   },
   "devDependencies": {
     "@iconify/react": "^6.0.2",

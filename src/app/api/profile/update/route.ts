@@ -11,7 +11,6 @@ export async function POST(request: Request) {
     }
 
     const formData = await request.formData();
-    console.log(formData);
     formData.append('_method', 'POST'); // Spoof PATCH method for Laravel
 
     const response = await fetch(`http://127.0.0.1:8000/api/v1/member/${session.slug}`, {
