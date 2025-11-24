@@ -7,6 +7,7 @@ import { Icon } from '@iconify/react';
 import FormProgramReference from '../forms/FormProgramReference';
 import GenerateFormFields from '../forms/GenerateFormFields';
 import { User } from '@/types/user';
+import DynamicFormFields from './DynamicFormFields';
 
 interface PackagesProps {
     packages: ProgramPackage[];
@@ -50,7 +51,7 @@ const Packages: React.FC<PackagesProps> = ({ packages, onSelect, user, selectedS
     }
     if (packages.length > 1) {
         return (
-            <section className="w-full h-full py-24 lg:py-32">
+            <section className="w-full h-full">
                 <header className={`container mx-auto px-4 text-center`}>
                     <h2 className="text-3xl md:text-4xl font-bold z-10 text-gray-700 dark:text-gray-50 leading-tight text-center">Pilih Paket Optimal</h2>
                     <p className="text-lg text-gray-600 dark:text-gray-300 mt-2">Pilih paket yang sesuai dengan kebutuhanmu</p>
@@ -105,9 +106,6 @@ const Packages: React.FC<PackagesProps> = ({ packages, onSelect, user, selectedS
                         </button>
                     </div>
                 </div>
-                {
-                    showCustomerForm && (<GenerateFormFields packages={packages} user={user} />)
-                }
             </section>
         );
     }

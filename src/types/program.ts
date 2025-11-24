@@ -29,6 +29,7 @@ export interface ProgramPackage {
     price: number;
     discount: number;
     is_primary_package: boolean;
+    form_class_name?: string;
     form_fields?: FormField[];
     package_features?: PackageFeature[];
     is_active: boolean;
@@ -44,11 +45,19 @@ export interface FormField {
     placeholder: string;
     required_frontend: boolean;
     upload_url?: string;
-    source_label_column?: string;
     source_label_field?: string;
+    source_value_field?: string;
+    depends_on_field?: string;
+    depends_on_param?: string;
     source_url?: string;
     options?: string;
+    field_class_name?: string;
+    repeater_count_field?: number;
     repeater_fields?: FormRepeater[];
+    on_change_effect?: string;
+    copy_source_fields?: string;
+    copy_target_repeater?: string;
+    copy_target_repeater_fields?: string;
 }
 
 export interface PackageFeature {

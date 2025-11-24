@@ -1,16 +1,23 @@
 // src/app/components/form/GenerateFormFields.tsx
 'use client';
 
-import { FormField } from '@/types/program';
-import React, { useState, useEffect } from 'react';
+import { FormField, ProgramPackage } from '@/types/program';
+import React, { useState, useEffect, FormEvent, useCallback } from 'react';
 import StyledInputField from '../forms/program/StyledInputField';
 import StyledTextareaField from '../forms/program/StyledTextareaField';
 import StyledSelectField from '../forms/program/StyledSelectField';
+import { useFormStatus } from 'react-dom';
+import SubmitButton from '../forms/program/SubmitButton';
+import StyledCheckBoxField from '../forms/program/StyledCheckBoxField';
+import StyledRepeaterField from '../forms/program/StyledRepeaterField';
+import { User } from '@/types/user';
 
 // --- Props Interface ---
 interface GenerateFormFieldsProps {
     formFields: FormField[];
     onSubmit: (formData: any) => void;
+    formClassName?: string;
+    user?: User; // Ditambahkan: Prop opsional untuk data pengguna
 }
 
 // --- Komponen untuk setiap jenis field ---
@@ -63,7 +70,6 @@ const FormSelect = ({ field, value, onChange, error }: any) => {
                     // Ganti dengan URL API Anda untuk mengambil opsi
                     const response = await fetch(field.source_url);
                     const data = await response.json(); // Asumsi API mengembalikan [{ value: '', label: '' }]
-                    console.log(data);
                     setOptions(data);
                 } catch (e) {
                     console.error("Failed to fetch select options", e);
@@ -210,33 +216,125 @@ const FormFile = ({ field, onChange, error }: any) => {
 }
 
 // --- Komponen Utama ---
-const DynamicFormFields: React.FC<GenerateFormFieldsProps> = ({ formFields, onSubmit }) => {
+const DynamicFormFields: React.FC<GenerateFormFieldsProps> = ({ formFields, onSubmit, formClassName, user }) => {
     const [formData, setFormData] = useState<any>({});
     const [formErrors, setFormErrors] = useState<any>({});
+    const [isFormValid, setIsFormValid] = useState(false);
+    const [programs, setPrograms] = useState<ProgramPackage[]>([]);
+    const [selectedPackage, setSelectedPackage] = useState<ProgramPackage | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [isFirstMemberReadOnly, setIsFirstMemberReadOnly] = useState(false); // New state for read-only
 
-    // Inisialisasi state formData saat formFields berubah
+    // Inisialisasi state formData saat formFields atau user berubah
     useEffect(() => {
         const initialData: any = {};
         formFields.forEach(field => {
             if (field.type === 'repeater') {
-                initialData[field.name] = []; // Inisialisasi repeater sebagai array kosong
+                const repeaterCount = field.repeater_count_field ? parseInt(field.repeater_count_field.toString(), 10) : 1;
+                const emptyItem = (field.repeater_fields || []).reduce((acc: any, f: any) => ({ ...acc, [f.name]: '' }), {});
+                initialData[field.name] = Array.from({ length: repeaterCount }, () => ({ ...emptyItem })); // Initialize with fixed empty items
             } else {
-                initialData[field.name] = '';
+                // Pre-fill author data from user prop if available
+                if (field.name === 'fullname' && user?.full_name) {
+                    initialData[field.name] = user.full_name;
+                    initialData[field.name + '_readonly'] = true;
+                } else if (field.name === 'phone' && user?.phone_number) {
+                    initialData[field.name] = user.phone_number;
+                    initialData[field.name + '_readonly'] = true;
+                } else {
+                    initialData[field.name] = '';
+                }
             }
         });
         setFormData(initialData);
-        setFormErrors({}); // Reset error
-    }, [formFields]);
+        setFormErrors({});
+        // Reset read-only status on formFields/user change
+        setIsFirstMemberReadOnly(false);
+    }, [formFields, user]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value, type } = e.target;
         // @ts-ignore
         const checked = e.target.checked;
+        const newValue = type === 'checkbox' ? checked : value;
 
-        setFormData((prev: any) => ({
-            ...prev,
-            [name]: type === 'checkbox' ? checked : value,
-        }));
+        setFormData((prev: any) => {
+            const updatedValues = { ...prev, [name]: newValue };
+            const changedFieldMeta = formFields.find(f => f.name === name);
+
+            // Update isFirstMemberReadOnly state based on checkbox
+            if (changedFieldMeta?.name === 'include_main_author' && changedFieldMeta?.type === 'checkbox') {
+                setIsFirstMemberReadOnly(newValue === true);
+            }
+
+            // Handle checkbox copy-to-repeater effect
+            if (changedFieldMeta?.type === 'checkbox' && changedFieldMeta?.on_change_effect === 'copy_to_repeater') {
+                const sourceFieldNames = changedFieldMeta.copy_source_fields && changedFieldMeta.copy_source_fields.split(',') || [];
+                const targetRepeaterName = changedFieldMeta.copy_target_repeater;
+                const targetRepeaterFieldNames = changedFieldMeta.copy_target_repeater_fields && changedFieldMeta.copy_target_repeater_fields.split(',');
+
+                const currentRepeaterItems = updatedValues[targetRepeaterName || ''] || [];
+
+                if (targetRepeaterFieldNames) {
+                    const newRepeaterItem = targetRepeaterFieldNames.reduce((acc, targetName, index) => {
+                        const sourceValue = updatedValues[sourceFieldNames[index]];
+                        if (sourceValue !== undefined) {
+                            acc[targetName] = updatedValues[sourceFieldNames[index]] || '';
+                        }
+                        return acc;
+                    }, {} as { [key: string]: any });
+
+                    if (newValue === true) { // if checked
+                        const hasValidSource = Object.values(newRepeaterItem).some(val => val);
+                        if (hasValidSource) {
+                            const isAlreadyFirst = currentRepeaterItems.length > 0 &&
+                                targetRepeaterFieldNames.every(key => currentRepeaterItems[0][key] === newRepeaterItem[key]);
+                            if (!isAlreadyFirst) {
+                                // Ensure the members array is large enough before attempting to place a value at index 0
+                                const repeaterCount = changedFieldMeta.repeater_count_field ? parseInt(changedFieldMeta.repeater_count_field.toString(), 10) : 1;
+                                const newMembersArray = Array.from({ length: repeaterCount }, (_, i) => currentRepeaterItems[i] || targetRepeaterFieldNames.reduce((acc, tn) => ({ ...acc, [tn]: '' }), {}));
+                                newMembersArray[0] = newRepeaterItem;
+                                updatedValues[targetRepeaterName || ''] = newMembersArray;
+                            }
+                        }
+                    } else { // if unchecked
+                        // Revert the first item to an empty state when unchecked
+                        const repeaterCount = changedFieldMeta.repeater_count_field ? parseInt(changedFieldMeta.repeater_count_field.toString(), 10) : 1;
+                        const newMembersArray = Array.from({ length: repeaterCount }, (_, i) => currentRepeaterItems[i] || targetRepeaterFieldNames.reduce((acc, tn) => ({ ...acc, [tn]: '' }), {}));
+
+                        const emptyItem = targetRepeaterFieldNames.reduce((acc, tn) => ({ ...acc, [tn]: '' }), {});
+                        newMembersArray[0] = emptyItem; // Make first item empty
+                        updatedValues[targetRepeaterName || ''] = newMembersArray;
+                    }
+                }
+            }
+
+            // Handle source field updates while a 'copy_to_repeater' checkbox is checked
+            formFields.forEach(fieldMeta => {
+                if (fieldMeta.type === 'checkbox' && fieldMeta.on_change_effect === 'copy_to_repeater' && updatedValues[fieldMeta.name]) {
+                    const sourceFieldNames = fieldMeta.copy_source_fields && fieldMeta.copy_source_fields.split(',');
+                    if (sourceFieldNames?.includes(name)) {
+                        const targetRepeaterName = fieldMeta.copy_target_repeater;
+                        const targetRepeaterFieldNames = fieldMeta.copy_target_repeater_fields && fieldMeta.copy_target_repeater_fields.split(',');
+                        const currentRepeaterItems = updatedValues[targetRepeaterName || ''] || [];
+                        const repeaterCount = fieldMeta.repeater_count_field ? parseInt(fieldMeta.repeater_count_field.toString(), 10) : 1;
+                        if (targetRepeaterFieldNames) {
+                            const updatedRepeaterItem = targetRepeaterFieldNames.reduce((acc, targetName, index) => {
+                                acc[targetName] = updatedValues[sourceFieldNames[index]] || '';
+                                return acc;
+                            }, {} as { [key: string]: any });
+
+                            // Ensure the array is large enough and then update the first item
+                            const newMembersArray = Array.from({ length: repeaterCount }, (_, i) => currentRepeaterItems[i] || targetRepeaterFieldNames.reduce((acc, tn) => ({ ...acc, [tn]: '' }), {}));
+                            newMembersArray[0] = updatedRepeaterItem;
+                            updatedValues[targetRepeaterName || ''] = newMembersArray;
+                        }
+                    }
+                }
+            });
+
+            return updatedValues;
+        });
     };
 
     const handleRepeaterChange = (e: { target: { name: string, value: any } }) => {
@@ -247,28 +345,35 @@ const DynamicFormFields: React.FC<GenerateFormFieldsProps> = ({ formFields, onSu
         }));
     };
 
-    const validateForm = () => {
+    const validateForm = useCallback(() => { // Use useCallback for validateForm
         const errors: any = {};
         formFields.forEach(field => {
             const rules = field.rules ? field.rules.split('\n') : [];
-            if (rules.includes('required') && !formData[field.name]) {
-                errors[field.name] = `${field.label} wajib diisi.`;
+            if (rules.includes('required')) {
+                // Special handling for repeater fields
+                if (field.type === 'repeater') {
+                    if (!formData[field.name] || formData[field.name].length === 0) {
+                        errors[field.name] = `${field.label} wajib memiliki setidaknya satu item.`;
+                    }
+                } else if (!formData[field.name]) { // General check for other field types
+                    errors[field.name] = `${field.label} wajib diisi.`;
+                }
             }
             // Anda bisa menambahkan validasi lain di sini
+            // TODO: Implement more specific rules validation (e.g., max, email format)
         });
         setFormErrors(errors);
-        return Object.keys(errors).length === 0;
-    };
+        const isValid = Object.keys(errors).length === 0;
+        setIsFormValid(isValid); // Update isFormValid here
+        return isValid;
+    }, [formData, formFields]); // Depend on formData and formFields
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (validateForm()) {
-            onSubmit(formData);
-        } else {
-            console.log('Validation failed', formErrors);
-            alert('Harap periksa kembali form Anda, ada field yang belum terisi dengan benar.');
-        }
-    };
+    // The useEffect should now call validateForm directly
+    useEffect(() => {
+        validateForm();
+    }, [formData, validateForm]); // Depend on formData and validateForm
+
+
 
     const renderField = (field: FormField) => {
         const value = formData[field.name] || (field.type === 'repeater' ? [] : '');
@@ -276,52 +381,40 @@ const DynamicFormFields: React.FC<GenerateFormFieldsProps> = ({ formFields, onSu
 
         switch (field.type) {
             case 'textarea':
-                return <StyledTextareaField field={field} value={value} onChange={handleInputChange} />;
+                return <StyledTextareaField field={field} value={value} onChange={handleInputChange} errors={error} />;
             case 'select':
-                return <StyledSelectField field={field} value={value} onChange={handleInputChange}  />;
+                return <StyledSelectField field={field} formData={formData} value={value} onChange={handleInputChange} />;
             case 'repeater':
-                return <FormRepeater field={field} value={value} onChange={handleRepeaterChange} error={error} />;
+                return <StyledRepeaterField field={field} value={value} onChange={handleRepeaterChange} firstItemReadOnly={isFirstMemberReadOnly} />;
             case 'file':
                 return <FormFile field={field} onChange={handleInputChange} error={error} />;
             case 'checkbox':
-                return (
-                    <div className="mb-4">
-                        <label className="flex items-center">
-                            <input
-                                type="checkbox"
-                                name={field.name}
-                                checked={!!value}
-                                onChange={handleInputChange}
-                                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                            />
-                            <span className="ml-2 text-sm text-gray-900">{field.label}</span>
-                        </label>
-                        {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
-                    </div>
-                );
+                return <StyledCheckBoxField field={field} value={value} onChange={handleInputChange} />;
             case 'text':
             case 'email':
             case 'tel':
             default:
-                return <StyledInputField field={field} value={value} onChange={handleInputChange} />;
+                return <StyledInputField field={field} value={value} onChange={handleInputChange} readOnly={formData[field.name + '_readonly']} />;
         }
     };
+    function FormSubmitter({ disabled }: { disabled: boolean }) {
+        const { pending } = useFormStatus();
+        return <SubmitButton loading={pending} title="Lanjutkan Pembayaran" disabled={pending || disabled} />;
+    }
+    console.log(formData);
+    function handleSubmit(event: FormEvent<HTMLFormElement>): void {
+        throw new Error('Function not implemented.');
+    }
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow">
+        <form onSubmit={handleSubmit} className={formClassName} id="form-customer">
             {formFields.map(field => (
-                <div key={field.name}>
+                <div key={field.name} className={`${field.field_class_name} mb-4`} id={`form-${field.name}-name`}>
                     {renderField(field)}
                 </div>
             ))}
-            <button
-                type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-                Kirim Pendaftaran
-            </button>
+            <FormSubmitter disabled={!isFormValid} />
         </form>
     );
 };
-
 export default DynamicFormFields;

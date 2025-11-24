@@ -2,12 +2,13 @@ import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import type { Metadata } from 'next';
 
-import { getProgramPackage } from "@/features/program/data";
+import { getProgramPackage, Program } from "@/features/program/data";
 import { getSession } from "@/features/auth/session";
 
 import PackView from "@/components/pack/PackView";
 import FullPageLoader from '@/components/ui/FullPageLoader';
 import GenerateFormFields from "@/components/forms/GenerateFormFields";
+import { Package } from "@/types/transaction";
 
 export const metadata: Metadata = {
     title: 'Pilih Paket | Optimal Untuk Negeri',
@@ -17,8 +18,9 @@ export const metadata: Metadata = {
 // This helper component fetches the data and renders the view.
 // It allows the main page to remain clean and use Suspense effectively.
 async function PackDataFetcher({ packageKey }: { packageKey: number }) {
+    
     // Fetch packages and session in parallel
-    const [packages , session] = await Promise.all([
+    const [packages, session] = await Promise.all([
         getProgramPackage(packageKey),
         getSession(),
     ]);
@@ -32,8 +34,7 @@ async function PackDataFetcher({ packageKey }: { packageKey: number }) {
     //     // Redirect to a 404 page if no packages are found for the key
     //     redirect('/not-found'); // Use the standard Next.js not-found page
     // }
-    console.log(packages);
-    return <GenerateFormFields packages={packages || []}  user={session} />;
+    return <GenerateFormFields packages={packages || []} user={session} />;
     // return <PackView packages={packages} user={session} />;
 }
 
@@ -41,6 +42,7 @@ async function PackDataFetcher({ packageKey }: { packageKey: number }) {
 export default async function Page({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
     const awaitedSearchParams = await searchParams;
     const packageKey = Number(awaitedSearchParams?.key);
+    
     if (isNaN(packageKey)) {
         // Redirect if the key is missing or not a number
         redirect('/not-found');

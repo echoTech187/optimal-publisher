@@ -19,11 +19,10 @@ import FormHeader from "./program/FormHeader";
 import SubmitButton from './program/SubmitButton';
 import Packages from "../pack/Packages";
 import Alert, { useAlert } from '@/components/ui/Alert';
-import DynamicFormFields from '../pack/DynamicFormFields';
+import DynamicFormFields from '@/components/pack/DynamicFormFields';
 
 // --- MOCK UNIFIED SERVER ACTION ---
 const mockSubmitProgramForm = async (prevState: any, formData: FormData) => {
-    console.log("Form submitted with data:", Object.fromEntries(formData.entries()));
     await new Promise(res => setTimeout(res, 1500));
     // Simulasi respons gagal untuk demonstrasi error inline
     if (formData.get('fullname') === 'Test Error') {
@@ -284,11 +283,16 @@ function DynamicForm({ formFields, user, pkg }: { formFields: any[], user: User,
 
     useEffect(() => {
         const initialValues: any = {};
-        formFields.forEach(field => { initialValues[field.name] = field.value || (field.type === 'checkbox' ? false : ''); });
-        if (user) {
-            initialValues['fullname'] = user.full_name;
-            initialValues['phone'] = user.phone_number;
-        }
+        formFields.forEach(field => {
+            initialValues[field.name] = field.value || (field.type === 'checkbox' ? false : '');
+            // Pre-fill main author fields if available from user data
+            if (field.name === 'main_author_name' && user?.full_name) {
+                initialValues[field.name] = user.full_name;
+            }
+            if (field.name === 'main_author_phone' && user?.phone_number) {
+                initialValues[field.name] = user.phone_number;
+            }
+        });
         initialValues['serverErrors'] = null;
         setFormValues(initialValues);
     }, [formFields, user]);
@@ -308,8 +312,105 @@ function DynamicForm({ formFields, user, pkg }: { formFields: any[], user: User,
     useEffect(() => { setIsFormValid(validateForm()); }, [formValues, validateForm]);
 
     const handleValueChange = (e: React.ChangeEvent<any>) => {
-        const { name, value } = e.target;
-        setFormValues((prev: any) => ({ ...prev, [name]: value, serverErrors: { ...prev.serverErrors, [name]: null } }));
+        const { name, value, type, checked } = e.target;
+        let newValue = value;
+
+        // For checkboxes, value is 'on' or 'off', we need checked status
+        if (type === 'checkbox') {
+            newValue = checked;
+        }
+
+        setFormValues((prev: any) => {
+            let updatedValues = { ...prev, [name]: newValue, serverErrors: { ...prev.serverErrors, [name]: null } };
+
+            const changedFieldMeta = formFields.find(f => f.name === name);
+
+            // --- START: Dynamic Logic for Checkboxes with on_change_effect ---
+            if (changedFieldMeta?.type === 'checkbox' && changedFieldMeta?.on_change_effect === 'copy_to_repeater') {
+                const sourceFieldNames = changedFieldMeta.copy_source_fields.split(',');
+                const targetRepeaterName = changedFieldMeta.copy_target_repeater;
+                const targetRepeaterFieldNames = changedFieldMeta.copy_target_repeater_fields.split(',');
+
+                const currentRepeaterItems = updatedValues[targetRepeaterName] || [];
+                const sourceValues: { [key: string]: any } = {};
+                sourceFieldNames.forEach((sourceName: string) => {
+                    sourceValues[sourceName] = updatedValues[sourceName];
+                });
+
+                const newRepeaterItem: { [key: string]: any } = {};
+                targetRepeaterFieldNames.forEach((targetName: string, index: number) => {
+                    const sourceName = sourceFieldNames[index];
+                    if (sourceName) {
+                        newRepeaterItem[targetName] = sourceValues[sourceName];
+                    }
+                });
+
+                if (newValue === true) { // Checkbox is checked
+                    const hasValidSource = Object.values(sourceValues).some(val => val !== undefined && val !== null && val !== '');
+                    if (hasValidSource) {
+                        const isFirstItemExistingAndMatching = currentRepeaterItems.length > 0 &&
+                            Object.keys(newRepeaterItem).every(key => currentRepeaterItems[0][key] === newRepeaterItem[key]);
+
+                        if (!isFirstItemExistingAndMatching) {
+                            updatedValues[targetRepeaterName] = [newRepeaterItem, ...currentRepeaterItems];
+                        }
+                    }
+                } else { // Checkbox is unchecked
+                    if (currentRepeaterItems.length > 0) {
+                        const isFirstItemMatchingSource = Object.keys(newRepeaterItem).every(key =>
+                            currentRepeaterItems[0][key] === newRepeaterItem[key]
+                        );
+                        if (isFirstItemMatchingSource) {
+                            updatedValues[targetRepeaterName] = currentRepeaterItems.slice(1);
+                        }
+                    }
+                }
+            }
+
+            // --- START: Ensure target repeater is updated if source fields change while relevant checkbox is checked ---
+            // Iterate through all fields to find checkboxes with 'copy_to_repeater' effect
+            // and check if the current `name` is one of their source fields.
+            formFields.forEach(fieldMeta => {
+                if (fieldMeta.type === 'checkbox' && fieldMeta.on_change_effect === 'copy_to_repeater' && updatedValues[fieldMeta.name]) { // If the checkbox is checked
+                    const sourceFieldNames = fieldMeta.copy_source_fields.split(',');
+                    if (sourceFieldNames.includes(name)) { // If the currently changed field is a source field for this checkbox
+                        const targetRepeaterName = fieldMeta.copy_target_repeater;
+                        const targetRepeaterFieldNames = fieldMeta.copy_target_repeater_fields.split(',');
+
+                        const currentRepeaterItems = updatedValues[targetRepeaterName] || [];
+                        const sourceValues: { [key: string]: any } = {};
+                        sourceFieldNames.forEach((sourceName: string) => {
+                            sourceValues[sourceName] = updatedValues[sourceName];
+                        });
+
+                        const updatedRepeaterItem: { [key: string]: any } = {};
+                        targetRepeaterFieldNames.forEach((targetName: string, index: number) => {
+                            const sourceName = sourceFieldNames[index];
+                            if (sourceName) {
+                                updatedRepeaterItem[targetName] = sourceValues[sourceName];
+                            }
+                        });
+
+                        // Check if the first item in the repeater matches the item that would be copied
+                        const isFirstItemCopied = currentRepeaterItems.length > 0 &&
+                            Object.keys(updatedRepeaterItem).every(key => currentRepeaterItems[0][key] === updatedRepeaterItem[key]);
+
+                        if (isFirstItemCopied) {
+                            // Update the first member (which is the copied one) if source fields change
+                            updatedValues[targetRepeaterName] = [updatedRepeaterItem, ...currentRepeaterItems.slice(1)];
+                        } else if (updatedValues[fieldMeta.name]) { // If checkbox is still checked and main author is NOT the first element (e.g., manually removed)
+                            // This case is tricky. If the user manually deleted the first copied item, and then changed the source field,
+                            // should we re-add it? For now, we only update if it's already there and is the *first* one.
+                            // To avoid re-adding an item the user explicitly deleted, we only update existing first items.
+                            // If the intention is to always keep it first, a more complex tracking mechanism might be needed.
+                        }
+                    }
+                }
+            });
+            // --- END: Ensure target repeater is updated if source fields change while relevant checkbox is checked ---
+
+            return updatedValues;
+        });
     };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -330,7 +431,7 @@ function DynamicForm({ formFields, user, pkg }: { formFields: any[], user: User,
             if (formState.success) {
                 showAlert({ type: 'success', title: 'Berhasil!', message: formState.message, onPrimaryClick: () => { window.location.href = '/payment/' + formState?.transactionCode; }, primaryButtonText: 'Lanjutkan' });
             } else {
-                setFormValues((prev : any) => ({ ...prev, serverErrors: formState.errors }));
+                setFormValues((prev: any) => ({ ...prev, serverErrors: formState.errors }));
             }
         }
     }, [formState, showAlert]);
@@ -373,20 +474,21 @@ function DynamicForm({ formFields, user, pkg }: { formFields: any[], user: User,
 // +-----------------------------------+
 
 export default function GenerateFormFields({ packages, user }: { packages: ProgramPackage[], user: User }) {
-    const [selectedPackage, setSelectedPackage] = useState<ProgramPackage[] | null>(null);
-    const [formValues, setFormValues] = useState<any>({});
-    const [errors, setErrors] = useState<any>({});
-    const [isFormValid, setIsFormValid] = useState(false);
-
     const initialState = {
         success: false,
         message: "",
         errors: undefined,
         transactionCode: "", // Update the type to string
     };
+    const [selectedPackage, setSelectedPackage] = useState<ProgramPackage[] | null>(null);
+    const [formValues, setFormValues] = useState<any>({});
+    const [errors, setErrors] = useState<any>({});
+    const [isFormValid, setIsFormValid] = useState(false);
     const [formState, formAction] = useActionState(mockSubmitProgramForm, initialState);
     const [isPending, startTransition] = useTransition();
     const { alertProps, showAlert, closeAlert } = useAlert();
+    
+
     const validateForm = useCallback(() => {
         const newErrors: any = {};
         packages[0].form_fields && packages[0].form_fields.forEach(field => {
@@ -394,21 +496,33 @@ export default function GenerateFormFields({ packages, user }: { packages: Progr
                 const error = validateField(formValues[field.name], field.rules);
                 if (error) newErrors[field.name] = error;
             }
+            if (field.type === 'checkbox') {
+                if (!formValues[field.name]) {
+                    newErrors[field.name] = `${field.label} wajib diisi.`;
+                }
+            }
+            if (field.type === 'file') {
+                if (!formValues[field.name]) {
+                    newErrors[field.name] = `${field.label} wajib diisi.`;
+                }
+            }
+
+            setIsFormValid(Object.keys(newErrors).length === 0);
         });
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     }, [formValues, packages[0].form_fields]);
-    // useEffect(() => {
-    //     async function checkPackageLength() {
-    //         if(packages && packages.length > 1) {
-    //             const primaryPackage = packages;
-    //             setSelectedPackage(primaryPackage);
-    //         }
-    //     }
-    //     checkPackageLength();
-    // }, [packages,selectedPackage]);
+    useEffect(() => {
+        async function checkPackageLength() {
+            if (packages && packages.length === 1) {
+                const primaryPackage = packages;
+                setSelectedPackage(primaryPackage);
+            }
+        }
+        checkPackageLength();
+    }, [packages, selectedPackage]);
 
-    const handlePackageSelect = (pkg: ProgramPackage) => { setSelectedPackage(prevSelectedPackage => prevSelectedPackage ? [prevSelectedPackage[0], pkg] : [pkg]); };
+    const handlePackageSelect = (pkg: ProgramPackage) => { setSelectedPackage([pkg]); };
 
     if (!packages || packages.length === 0) return <div className="text-center p-12">Tidak ada paket yang tersedia.</div>;
 
@@ -425,36 +539,28 @@ export default function GenerateFormFields({ packages, user }: { packages: Progr
         }
     };
 
-    console.log(packages.length);
 
     return (
-        <section className="w-full h-full">
-            <div className="py-12 bg-white">
+        <section className="w-full h-full py-24 lg:py-32">
+            <div className=" bg-white">
                 {packages.length > 1 && (
-                    <Packages packages={packages} user={user} onSelect={handlePackageSelect} selectedSlug={selectedPackage? selectedPackage[0].slug : null} />
+                    <Packages packages={packages} user={user} onSelect={handlePackageSelect} selectedSlug={selectedPackage ? selectedPackage[0].slug : null} />
                 )}
             </div>
 
             {
-                (selectedPackage && packages.length > 1) ? (
-                    <div className="container mx-auto px-4 pb-24">
-                        <div id="informasi-pemesanan" className="pt-16">
+                (selectedPackage && selectedPackage?.length > 0) ? (
+                    <div className="container mx-auto">
+                        <div id="informasi-pemesanan">
                             <FormHeader title="Informasi Pemesanan" description={selectedPackage ? selectedPackage[0].description : ''} />
                         </div>
-                        <div className="bg-white p-6 md:p-8 mt-6">
-                            <DynamicFormFields formFields={selectedPackage ? selectedPackage[0].form_fields || [] : []} onSubmit={handleSubmit} />
+                        <div className="bg-white p-6">
+                            <DynamicFormFields user={user} formClassName={packages[0].form_class_name} formFields={selectedPackage ? selectedPackage[0].form_fields || [] : []} onSubmit={handleSubmit} />
                         </div>
                     </div>
-                ) : (
-                    <div className="container mx-auto px-4 pb-24">
-                        <div id="informasi-pemesanan" className="pt-16">
-                            <FormHeader title="Informasi Pemesanan" description={packages ? packages[0].description : ''} />
-                        </div>
-                        <div className="bg-white p-6 md:p-8 mt-6">
-                            <DynamicFormFields formFields={packages ? packages[0].form_fields || [] : []} onSubmit={handleSubmit} />
-                        </div>
-                    </div>
-                )}
+                ) : null
+            }
         </section>
     );
 }
+
