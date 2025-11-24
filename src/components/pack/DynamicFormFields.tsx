@@ -11,6 +11,7 @@ import SubmitButton from '../forms/program/SubmitButton';
 import StyledCheckBoxField from '../forms/program/StyledCheckBoxField';
 import StyledRepeaterField from '../forms/program/StyledRepeaterField';
 import { User } from '@/types/user';
+import StyledFileUploadField from '../forms/program/StyledFileUploadField';
 
 // --- Props Interface ---
 interface GenerateFormFieldsProps {
@@ -387,7 +388,7 @@ const DynamicFormFields: React.FC<GenerateFormFieldsProps> = ({ formFields, onSu
             case 'repeater':
                 return <StyledRepeaterField field={field} value={value} onChange={handleRepeaterChange} firstItemReadOnly={isFirstMemberReadOnly} />;
             case 'file':
-                return <FormFile field={field} onChange={handleInputChange} error={error} />;
+                return <StyledFileUploadField field={field} error={error} />;
             case 'checkbox':
                 return <StyledCheckBoxField field={field} value={value} onChange={handleInputChange} />;
             case 'text':
