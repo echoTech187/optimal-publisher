@@ -11,8 +11,8 @@ import { ProgramPackage } from "@/types/program";
 import { User } from "@/types/user";
 import { Icon } from '@iconify/react';
 
-// Asumsi kita menggunakan satu server action yang terunifikasi
-// import { submitProgramForm } from '@/features/program/actions';
+// Menggunakan server action untuk submit form
+import { submitReferenceProgram } from '@/features/program/actions';
 
 // Impor komponen-komponen UI yang sudah ada
 import FormHeader from "./program/FormHeader";
@@ -20,26 +20,6 @@ import SubmitButton from './program/SubmitButton';
 import Packages from "../pack/Packages";
 import Alert, { useAlert } from '@/components/ui/Alert';
 import DynamicFormFields from '@/components/pack/DynamicFormFields';
-
-// --- MOCK UNIFIED SERVER ACTION ---
-const mockSubmitProgramForm = async (prevState: any, formData: FormData) => {
-    await new Promise(res => setTimeout(res, 1500));
-    // Simulasi respons gagal untuk demonstrasi error inline
-    if (formData.get('fullname') === 'Test Error') {
-        return {
-            success: false,
-            message: "Nama ini tidak diizinkan, silakan coba nama lain. (Error dari server)",
-            errors: { fullname: ["Nama test error tidak valid."] },
-        };
-    }
-    return {
-        success: true,
-        message: "Formulir Anda telah berhasil dikirimkan! (Simulasi)",
-        transactionCode: "SIM-12345",
-        errors: undefined,
-    };
-};
-// --- END OF MOCK ---
 
 
 // +----------------------------------+
@@ -277,7 +257,7 @@ function DynamicForm({ formFields, user, pkg }: { formFields: any[], user: User,
         errors: undefined,
         transactionCode: "", // Update the type to string
     };
-    const [formState, formAction] = useActionState(mockSubmitProgramForm, initialState);
+    const [formState, formAction] = useActionState(submitReferenceProgram, initialState);
     const [isPending, startTransition] = useTransition();
     const { alertProps, showAlert, closeAlert } = useAlert();
 
@@ -484,7 +464,7 @@ export default function GenerateFormFields({ packages, user }: { packages: Progr
     const [formValues, setFormValues] = useState<any>({});
     const [errors, setErrors] = useState<any>({});
     const [isFormValid, setIsFormValid] = useState(false);
-    const [formState, formAction] = useActionState(mockSubmitProgramForm, initialState);
+    const [formState, formAction] = useActionState(submitReferenceProgram, initialState);
     const [isPending, startTransition] = useTransition();
     const { alertProps, showAlert, closeAlert } = useAlert();
     
