@@ -53,7 +53,7 @@ const Packages: React.FC<PackagesProps> = ({ packages, onSelect, user, selectedS
         return (
             <section className="w-full h-full">
                 <header className={`container mx-auto px-4 text-center`}>
-                    <h2 className="text-3xl md:text-4xl font-bold z-10 text-gray-700 dark:text-gray-50 leading-tight text-center">Pilih Paket Optimal</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold z-10 text-gray-700 dark:text-gray-50 leading-tight text-center">Pilih Paket Penerbitan</h2>
                     <p className="text-lg text-gray-600 dark:text-gray-300 mt-2">Pilih paket yang sesuai dengan kebutuhanmu</p>
                 </header>
                 <div className="container mx-auto px-4 my-12">
@@ -61,7 +61,7 @@ const Packages: React.FC<PackagesProps> = ({ packages, onSelect, user, selectedS
                         <button onClick={() => scroll('left')} className="absolute left-0 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-md z-10">
                             <Icon icon="ion:chevron-back" />
                         </button>
-                        <div ref={scrollContainer} className="overflow-x-auto pb-4 -mb-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                        <div ref={scrollContainerRef} className="overflow-x-auto pb-4 -mb-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                             <div className="grid grid-flow-col auto-cols-max gap-5">
                                 {
                                     data && data.map((item: any, index: number) => (
@@ -86,7 +86,7 @@ const Packages: React.FC<PackagesProps> = ({ packages, onSelect, user, selectedS
                                                     </button>
                                                 </div>
                                                 <div className="border-t border-gray-200 dark:border-gray-700 p-6">
-                                                    <h4 className="font-bold mb-4">What's included</h4>
+                                                    <h4 className="font-bold mb-4">Sudah termasuk</h4>
                                                     <ul className="space-y-2 text-sm">
                                                         {
                                                             data[index].package_features && data[index].package_features.map((feature: any, index: number) => (
