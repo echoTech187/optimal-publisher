@@ -21,7 +21,7 @@ async function submitProgram(formData: FormData): Promise<FormState> {
     if (!apiBaseUrl) {
         return { success: false, message: "Konfigurasi server eror." };
     }
-
+    console.log('form', formData);
     try {
         const response = await fetch(`${apiBaseUrl}/api/v1/order`, {
             method: 'POST',

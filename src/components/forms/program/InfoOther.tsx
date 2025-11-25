@@ -1,7 +1,7 @@
 
 import React from 'react';
 import type { Major, Institution} from '@/types/form';
-import StyledSelectField from './StyledSelectField';
+import StyledSelectField from './StyledSelectFieldNew';
 import StyledInputField from './StyledInputField';
 
 interface ProgramSelectionProps {

@@ -81,9 +81,7 @@ const TransactionDetailsCard = ({ transaction }: { transaction: Transaction }) =
                     <div 
                         className='text-capitalize' 
                         dangerouslySetInnerHTML={{
-                            __html: (transaction.isbn_program_id === 1) ? (transaction.transactionable as any)?.book_title :
-                                    (transaction.isbn_program_id === 5) ? (transaction.transactionable as any)?.title :
-                                    (transaction.transactionable as any)?.book_title?.title ? `<b>${(transaction.transactionable as any)?.book_title?.title}</b><br/> ${(transaction.transactionable as any)?.topic?.topic_name}` : 'N/A'
+                            __html: (transaction.transactionable?.book_title || transaction.transactionable?.title) || 'N/A',
                         }} 
                     />
                 } 

@@ -14,7 +14,7 @@ const FileUpload = ({ name, label,description,accept, uploadState, onFileChange,
             onFileChange={onFileChange}
             onReset={onReset}
         />
-        {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+        {/* {error && <p className="text-red-500 text-sm mt-1">{error}</p>} */}
     </div>
 );
 

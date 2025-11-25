@@ -42,6 +42,7 @@ export interface PaymentMethod {
 
 export interface Transactionable {
     id: number;
+    package_name: string;
     title?: string;
     book_title?: string | BookTitle[] | null;
     address?: string;

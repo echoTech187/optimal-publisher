@@ -63,6 +63,7 @@ const StyledFileInput = ({ label, description, accepted, required, uploadState, 
                 <div className="w-full bg-green-100 border border-green-200 text-green-800 rounded-lg py-3 px-4 flex items-center justify-between">
                     <span className="font-semibold truncate">{file?.name || uploadedId}</span> {/* Use file.name if available, otherwise uploadedId */}
                     <Icon icon="ion:checkmark-circle" className="text-2xl" />
+                    <input id={inputName} name={inputName} type="file" className="hidden" onChange={handleFileSelect} accept={accepted || ''} />
                 </div>
             ) : file ? (
                 <div className="w-full bg-gray-100 border border-gray-200 rounded-lg p-4">
@@ -73,6 +74,7 @@ const StyledFileInput = ({ label, description, accepted, required, uploadState, 
                     <div className="w-full bg-gray-200 rounded-full h-2.5">
                         <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: `${progress}%` }}></div>
                     </div>
+                    <input id={inputName} name={inputName} type="file" className="hidden" onChange={handleFileSelect} accept={accepted || ''} />
                 </div>
             ) : (
                 <div className="w-full bg-white border border-gray-200 rounded-lg py-2 px-4 flex items-center justify-between">

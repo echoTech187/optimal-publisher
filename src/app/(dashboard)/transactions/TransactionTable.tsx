@@ -93,6 +93,7 @@ export default function TransactionTable({ transactions, isLoading, totalItems, 
             {/* Mobile & Tablet (Accordion collapse) */}
             <div className="overflow-hidden mb-4 space-y-4">
                 {transactions.map((trx, i) => (
+                    console.log(trx),
                     <details key={trx.id} className="group" >
                         <summary className="flex border border-gray-200/50 dark:border-gray-700 items-center justify-between gap-2 cursor-pointer focus:outline-none backdrop-blur-3xl rounded-lg bg-white dark:bg-gray-800 px-4 py-3 list-none hover:bg-fuchsia-700 dark:hover:bg-fuchsia-700 hover:text-white group-open:bg-fuchsia-700 dark:group-open:bg-fuchsia-700 group-open:text-white transition-colors shadow-sm group-open:shadow-lg">
                             <div className="flex flex-col">
@@ -116,7 +117,7 @@ export default function TransactionTable({ transactions, isLoading, totalItems, 
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="text-[10px] uppercase tracking-wide text-gray-500 dark:text-gray-400">Paket</span>
-                                    <span className="font-medium text-gray-700 dark:text-gray-200">{trx.pack_name || '-'}</span>
+                                    <span className="font-medium text-gray-700 dark:text-gray-200">{trx.transactionable?.package_name || '-'}</span>
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="text-[10px] uppercase tracking-wide text-gray-500 dark:text-gray-400">Metode</span>

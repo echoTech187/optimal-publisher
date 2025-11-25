@@ -506,18 +506,7 @@ export default function GenerateFormFields({ packages, user }: { packages: Progr
 
     if (!packages || packages.length === 0) return <div className="text-center p-12">Tidak ada paket yang tersedia.</div>;
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if (validateForm()) {
-            const formData = new FormData(e.currentTarget);
-            formData.append('user_id', user.id.toString());
-            formData.append('package_id', selectedPackage ? selectedPackage[0].id.toString() : '');
-            formData.append('form_type', selectedPackage ? selectedPackage[0].name : '');
-            startTransition(() => formAction(formData));
-        } else {
-            console.log("Form tidak valid, errors:", errors);
-        }
-    };
+
 
 
     return (
@@ -535,11 +524,13 @@ export default function GenerateFormFields({ packages, user }: { packages: Progr
                             <FormHeader title="Informasi Pemesanan" description={selectedPackage ? selectedPackage[0].description : ''} />
                         </div>
                         <div className="bg-white p-6">
-                            <DynamicFormFields user={user} formClassName={packages[0].form_class_name} formFields={selectedPackage ? selectedPackage[0].form_fields || [] : []} onSubmit={handleSubmit} />
+                            <DynamicFormFields user={user} formClassName={packages[0].form_class_name} selectedPackage={selectedPackage ? selectedPackage[0] : null} formFields={selectedPackage ? selectedPackage[0].form_fields || [] : []} />
                         </div>
                     </div>
+                    
                 ) : null
             }
+            
         </section>
     );
 }
