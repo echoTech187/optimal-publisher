@@ -1,7 +1,7 @@
 // src/components/pack/Packages.tsx
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { ProgramPackage } from '@/types/program';
 import { Icon } from '@iconify/react';
 import FormProgramReference from '../forms/FormProgramReference';
@@ -22,7 +22,43 @@ const Packages: React.FC<PackagesProps> = ({ packages, onSelect, user, selectedS
     const [showCustomerForm, setShowCustomerForm] = useState(false);
     const [showAdress, setShowAdress] = useState(false);
     const [itemSelected, setItemSelected] = useState("");
-    const scrollContainer = React.useRef<HTMLDivElement>(null);
+    const [showLeftButton, setShowLeftButton] = useState(false);
+    const [showRightButton, setShowRightButton] = useState(false);
+
+    const handleScroll = () => {
+        if (scrollContainerRef.current) {
+            const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+            setShowLeftButton(scrollLeft > 0);
+            setShowRightButton(scrollLeft < scrollWidth - clientWidth - 1);
+        }
+    };
+
+    const checkForOverflow = () => {
+        if (scrollContainerRef.current) {
+            const { scrollWidth, clientWidth } = scrollContainerRef.current;
+            const hasOverflow = scrollWidth > clientWidth;
+            setShowRightButton(hasOverflow);
+            setShowLeftButton(false);
+            handleScroll();
+        }
+    };
+
+    useEffect(() => {
+        const scrollContainer = scrollContainerRef.current;
+
+        checkForOverflow();
+        window.addEventListener('resize', checkForOverflow);
+        if (scrollContainer) {
+            scrollContainer.addEventListener('scroll', handleScroll);
+        }
+
+        return () => {
+            window.removeEventListener('resize', checkForOverflow);
+            if (scrollContainer) {
+                scrollContainer.removeEventListener('scroll', handleScroll);
+            }
+        };
+    }, [packages]);
 
     function showFormCustomer(data: any) {
         setItemSelected(data);
@@ -58,9 +94,11 @@ const Packages: React.FC<PackagesProps> = ({ packages, onSelect, user, selectedS
                 </header>
                 <div className="container mx-auto px-4 my-12">
                     <div className="relative">
-                        <button onClick={() => scroll('left')} className="absolute left-0 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-md z-10">
-                            <Icon icon="ion:chevron-back" />
-                        </button>
+                        {showLeftButton && (
+                            <button onClick={() => scroll('left')} className="absolute left-0 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-md z-10">
+                                <Icon icon="ion:chevron-back" />
+                            </button>
+                        )}
                         <div ref={scrollContainerRef} className="overflow-x-auto pb-4 -mb-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                             <div className="grid grid-flow-col auto-cols-max gap-5">
                                 {
@@ -101,9 +139,11 @@ const Packages: React.FC<PackagesProps> = ({ packages, onSelect, user, selectedS
                                 }
                             </div>
                         </div>
-                        <button onClick={() => scroll('right')} className="absolute right-0 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-md z-10">
-                            <Icon icon="ion:chevron-forward" />
-                        </button>
+                        {showRightButton && (
+                            <button onClick={() => scroll('right')} className="absolute right-0 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-md z-10">
+                                <Icon icon="ion:chevron-forward" />
+                            </button>
+                        )}
                     </div>
                 </div>
             </section>
