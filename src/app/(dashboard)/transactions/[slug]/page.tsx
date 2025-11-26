@@ -10,10 +10,12 @@ import { Transaction } from '@/types/transaction';
 
 // --- Helper Components ---
 
-const DetailRow = ({ icon, label, value }: { icon: string; label: string; value: React.ReactNode }) => (
+const DetailRow = ({ icon, label, value }: { icon?: string; label: string; value: React.ReactNode }) => (
     <div className="flex justify-between items-start py-3 border-b border-gray-100 dark:border-gray-700 last:border-b-0">
         <div className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-            <Icon icon={icon} className="w-5 h-5" />
+            {
+                icon && <Icon icon={icon} className="w-5 h-5" />
+            }
             <p className="text-sm">{label}</p>
         </div>
         <div className="text-sm font-medium text-gray-900 dark:text-gray-200 text-right max-w-[60%]">
@@ -48,7 +50,55 @@ const StatusBadge = ({ status, id, className = '' }: { status?: string; id?: num
 };
 
 // --- Main Page Components ---
+const TransactionField = ({ field, value }: { field: any, value: any }) => {
 
+
+    if (field.type === 'checkbox') return null;
+
+    if (field.type === 'file') {
+        const relativePath = field.relative_path;
+        if (!value) return null;
+        const imageUrl = getImageUrl(relativePath + '/' + value);
+        if (!imageUrl) return null;
+        return (
+            <div className="flex justify-between items-start py-3 border-b border-gray-100 dark:border-gray-700 last:border-b-0">
+                <div className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
+                    <p className="text-sm">{field.label}</p>
+                </div>
+                <div className="text-sm font-medium text-gray-900 dark:text-gray-200 text-right max-w-[60%]">
+                    <a href={imageUrl} target="_blank" className="text-blue-600 hover:text-blue-800 flex items-center gap-2">
+                        <Icon icon="tabler:file-type-docx" className="size-4" />
+                        Lihat
+                    </a>
+                </div>
+            </div>
+
+        );
+    }
+
+    const displayValue = () => {
+        if (typeof value === 'object' && value !== null) {
+            if (Array.isArray(value)) {
+                // If it's an array of objects, map through them
+                return value.map((item, index) => {
+                    if (typeof item === 'object' && item !== null) {
+                        // For each object, join its values
+                        return <div key={index}>{Object.values(item).join(' - ')}</div>
+                    }
+                    return <div key={index}>{item}</div>
+                })
+            }
+            // If it's a single object
+            return Object.values(value).join(' - ');
+        }
+        return value || '-';
+    };
+
+    return (
+        <DetailRow label={field.label} value={displayValue()} />
+
+    );
+};
 const TransactionHeader = ({ transaction }: { transaction: Transaction }) => (
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-center gap-4">
@@ -66,29 +116,57 @@ const TransactionHeader = ({ transaction }: { transaction: Transaction }) => (
     </div>
 );
 
-const TransactionDetailsCard = ({ transaction }: { transaction: Transaction }) => (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/80 dark:border-gray-700">
-        <div className="p-6 border-b border-gray-200/80 dark:border-gray-700">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Informasi Pengajuan</h2>
-        </div>
-        <div className="p-6 space-y-2">
-            <DetailRow icon="ic:round-qr-code" label="Kode Transaksi" value={<CopyableTransactionCode transactionCode={transaction.transaction_code} />} />
-            <DetailRow icon="ic:round-shopping-bag" label="Nama Paket" value={transaction.pack_name} />
-            <DetailRow 
-                icon="ic:round-category" 
-                label="Judul" 
-                value={
-                    <div 
-                        className='text-capitalize' 
-                        dangerouslySetInnerHTML={{
-                            __html: (transaction.transactionable?.book_title || transaction.transactionable?.title) || 'N/A',
-                        }} 
-                    />
-                } 
-            />
-        </div>
-    </div>
-);
+const TransactionDetailsCard = ({ transaction }: { transaction: Transaction }) => {
+    // It's better to not assume any specific field name for repeater
+    const repeaterFields = transaction.pack.form_fields?.filter(f => f.repeater_fields && (transaction.transactionable as any)[f.name] && Array.isArray((transaction.transactionable as any)[f.name]));
+    const normalFields = transaction.pack.form_fields?.filter(f => !repeaterFields?.some(rf => rf.name === f.name));
+
+    return (
+        <>
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/80 dark:border-gray-700">
+                <div className="p-6 border-b border-gray-200/80 dark:border-gray-700">
+                    <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Informasi Pengajuan</h2>
+                </div>
+                <div className="p-6 space-y-2">
+                    <DetailRow icon="ic:round-qr-code" label="Kode Transaksi" value={<CopyableTransactionCode transactionCode={transaction.transaction_code} />} />
+                    <DetailRow icon="ic:round-shopping-bag" label="Nama Paket" value={transaction.pack.name} />
+                    {normalFields?.map((field, i) => (
+                        <TransactionField
+                            key={i}
+                            field={field}
+                            value={(transaction.transactionable as any)[field.name]}
+                        />
+                    ))}
+                </div>
+            </div>
+
+            {repeaterFields?.map((repeaterField, repeaterIndex) => {
+                const members = (transaction.transactionable as any)[repeaterField.name];
+                if (!members || members.length === 0) return null;
+
+                return (
+                    <div key={repeaterIndex} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/80 dark:border-gray-700">
+                        <div className="p-6 border-b border-gray-200/80 dark:border-gray-700">
+                            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{repeaterField.label}</h2>
+                        </div>
+                        <div className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            {members.map((member: any, index: number) => (
+                                <div key={index} className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg space-y-3 bg-gray-50/50 dark:bg-gray-900/50">
+                                    {repeaterField.repeater_fields?.map((subField: any) => (
+                                        <div key={subField.name}>
+                                            <p className="text-xs text-gray-500 dark:text-gray-400">{subField.label}</p>
+                                            <p className="font-medium text-gray-800 dark:text-gray-200">{member[subField.name] || '-'}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                );
+            })}
+        </>
+    );
+};
 
 const PaymentDetailsCard = ({ transaction }: { transaction: Transaction }) => (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/80 dark:border-gray-700">
@@ -158,7 +236,7 @@ const ActionCard = ({ transaction }: { transaction: Transaction }) => {
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Dokumen Transaksi</h3>
                 <div className="space-y-4">
                     {transaction.receipt_url && (
-                         <a href={getImageUrl(transaction.receipt_url)} target="_blank" rel="noopener noreferrer" className="w-full flex items-center justify-between gap-3 p-4 rounded-lg bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                        <a href={getImageUrl(transaction.receipt_url)} target="_blank" rel="noopener noreferrer" className="w-full flex items-center justify-between gap-3 p-4 rounded-lg bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                             <div className="flex items-center gap-3">
                                 <Icon icon="ion:receipt-outline" className="w-6 h-6 text-blue-500" />
                                 <div>
@@ -181,7 +259,7 @@ const ActionCard = ({ transaction }: { transaction: Transaction }) => {
                             <Icon icon="ion:download-outline" className="w-5 h-5 text-gray-400" />
                         </a>
                     )}
-                     {!transaction.receipt_url && !transaction.invoice_url && (
+                    {!transaction.receipt_url && !transaction.invoice_url && (
                         <div className="text-center text-gray-500 py-8">
                             <Icon icon="ion:folder-open-outline" className="w-10 h-10 mx-auto mb-3" />
                             <p className="font-semibold text-sm">Tidak ada dokumen.</p>
@@ -198,7 +276,7 @@ const ActionCard = ({ transaction }: { transaction: Transaction }) => {
 
 const HelpCard = () => (
     <div className="bg-fuchsia-700 rounded-xl p-6 text-white text-center">
-         <div className="p-3 inline-block bg-white/20 rounded-full mb-4">
+        <div className="p-3 inline-block bg-white/20 rounded-full mb-4">
             <Icon icon="ion:headset-outline" className="w-8 h-8 text-white" />
         </div>
         <h3 className="text-lg font-bold">Butuh Bantuan?</h3>

@@ -17,6 +17,7 @@ export default function HkiOverviews({ setIsEmptyHki, isLoading, userEvents, use
     if (isLoading) {
         return <FullPageLoader />;
     }
+    if (userEvents.length === 0) return ;
     return (
         <div className="">
             <div className='flex items-center justify-between'>

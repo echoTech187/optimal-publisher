@@ -1,3 +1,5 @@
+import { FormField, PackageFeature } from "./program";
+
 export interface Transaction {
     id: string;
     isbn_program_id: number;
@@ -5,7 +7,7 @@ export interface Transaction {
     pack_name: string;
     pack: Package;
     amount: number;
-    transactionable?: Transactionable | undefined | null;
+    transactionable?: Transactionable[] | undefined | null;
     transaction_code: string;
     payment_method?: PaymentMethod | null;
     status?: TransactionStatus | null;
@@ -23,7 +25,13 @@ export interface Package {
     name: string;
     description: string;
     price: number;
-}
+    discount: number;
+    is_primary_package: boolean;
+    form_class_name?: string;
+    form_fields?: FormField[];
+    package_features?: PackageFeature[];
+    is_active: boolean;
+};
 
 export interface TransactionStatus {
     id: number;

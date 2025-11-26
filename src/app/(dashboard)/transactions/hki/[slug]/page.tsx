@@ -84,19 +84,40 @@ const HkiTransactionHeader = ({ transaction, slug }: { transaction: HkiTransacti
 );
 
 const HkiDetailsCard = ({ transaction, slug }: { transaction: HkiTransaction, slug: string }) => (
-    
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/80 dark:border-gray-700">
-        <div className="p-6 border-b border-gray-200/80 dark:border-gray-700">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Informasi Pengajuan</h2>
+    <>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/80 dark:border-gray-700">
+            <div className="p-6 border-b border-gray-200/80 dark:border-gray-700">
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Informasi Pesanan</h2>
+            </div>
+            <div className="p-6">
+                <DetailRow label="Kode Transaksi" value={<CopyableTransactionCode transactionCode={slug} />} />
+                <DetailRow label="Tanggal Pengajuan" value={new Date(transaction?.created_at || '').toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })} />
+                <DetailRow label="Pencipta" value={transaction?.creators?.map((c: any) => c.full_name).join(', ')} />
+                <DetailRow label="Jenis Karya atau Ciptaan" value={transaction?.jenis_karya} />
+                <DetailRow label="Status" value={<StatusBadge status={transaction?.status?.status} id={transaction?.status?.id} />} />
+            </div>
         </div>
-        <div className="p-6">
-            <DetailRow label="Kode Transaksi" value={<CopyableTransactionCode transactionCode={slug} />} />
-            <DetailRow label="Tanggal Pengajuan" value={new Date(transaction?.created_at || '').toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })} />
-            <DetailRow label="Pencipta" value={transaction?.creators?.map((c: any) => c.full_name).join(', ')} />
-            <DetailRow label="Judul" value={transaction?.jenis_karya} />
-            <DetailRow label="Status" value={<StatusBadge status={transaction?.status?.status} id={transaction?.status?.id} />} />
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/80 dark:border-gray-700">
+            <div className="p-6 border-b border-gray-200/80 dark:border-gray-700">
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Daftar Pencipta</h2>
+            </div>
+            <div className="p-6">
+                {
+                    transaction?.creators?.map((c: any) => {
+                        return (
+                            <div key={c.id}>
+                                <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Pencipta {transaction?.creators?.indexOf(c) + 1}</h2>
+                                <DetailRow label="Nama" value={c.full_name} />
+                                <DetailRow label="Email" value={c.email} />
+                                <DetailRow label="Nomor Telepon" value={c.phone} />
+                                <DetailRow label="Alamat" value={c.address} />
+                            </div>
+                        )
+                    })
+                }
+            </div>
         </div>
-    </div>
+    </>
 );
 
 const HkiPaymentCard = ({ transaction }: { transaction: HkiTransaction }) => {
@@ -118,14 +139,14 @@ const HkiPaymentCard = ({ transaction }: { transaction: HkiTransaction }) => {
 const HkiFilesCard = ({ transaction }: { transaction: HkiTransaction }) => (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/80 dark:border-gray-700">
         <div className="p-6 border-b border-gray-200/80 dark:border-gray-700">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Berkas Lampiran</h2>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Dokumen Pendukung</h2>
         </div>
         <div className="p-6 space-y-3">
             {
                 transaction?.documents?.map((doc: any) => (
-                    
-                
-                    <FileRow key={doc.id} label={doc.document_type ==='ktp' ? 'KTP Pencipta' : doc.document_type === 'suratPernyataan' ? 'Surat Pernyataan' : doc.document_type === 'suratPengalihan' ? 'Surat Pengalihan' : doc.document_type === 'berkasKarya' ? 'Berkas Karya' : 'N/A'} url={doc.file_path} />
+
+
+                    <FileRow key={doc.id} label={doc.document_type === 'ktp' ? 'KTP Pencipta' : doc.document_type === 'suratPernyataan' ? 'Surat Pernyataan' : doc.document_type === 'suratPengalihan' ? 'Surat Pengalihan' : doc.document_type === 'berkasKarya' ? 'Berkas Karya' : 'N/A'} url={doc.file_path} />
                 ))
             }
         </div>
@@ -150,9 +171,9 @@ const ActionCard = ({ transaction, slug }: { transaction: HkiTransaction, slug: 
             </div>
         );
     }
-    
+
     if (statusId === 2) { // Menunggu Pembayaran (setelah memilih paket)
-         return (
+        return (
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/80 dark:border-gray-700 p-6 text-center">
                 <div className="p-3 inline-block bg-yellow-100 rounded-full mb-4">
                     <Icon icon="ion:wallet-outline" className="w-8 h-8 text-yellow-700" />
@@ -172,12 +193,12 @@ const ActionCard = ({ transaction, slug }: { transaction: HkiTransaction, slug: 
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/80 dark:border-gray-700 p-6">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Bukti Pembayaran</h3>
                 <div className="space-y-3">
-                    <FileRow label="Bukti Pembayaran" url={transaction?.transaction_proof_path} />
+                    <FileRow label="Bukti Pembayaran" url={transaction?.payment.transaction_proof_path} />
                 </div>
             </div>
         );
     }
-    
+
     if (statusId === 5 || statusId === 6 || statusId === 7) { // Diproses, Selesai, Dikirim
         return (
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/80 dark:border-gray-700 p-6">
@@ -196,7 +217,7 @@ const ActionCard = ({ transaction, slug }: { transaction: HkiTransaction, slug: 
 
 const HelpCard = () => (
     <div className="bg-fuchsia-700 rounded-xl p-6 text-white text-center">
-         <div className="p-3 inline-block bg-white/20 rounded-full mb-4">
+        <div className="p-3 inline-block bg-white/20 rounded-full mb-4">
             <Icon icon="ion:headset-outline" className="w-8 h-8 text-white" />
         </div>
         <h3 className="text-lg font-bold">Butuh Bantuan?</h3>

@@ -58,22 +58,23 @@ export default function UserTransactionPage() {
     return (
         <>
             <IsbnHeroSection />
-            <div className="px-8 pt-8">
-                <h2 className="text-xl font-bold">Riwayat Transaksi</h2>
-                <p>Daftar riwayat transaksi Anda di sini.</p>
-            </div>
+
             {
                 transactions.length > 0 && (
-
-                    <TransactionTable
-                        transactions={transactions}
-                        isLoading={isTableLoading}
-                        totalItems={totalItems}
-                        currentPage={currentPage}
-                        itemsPerPage={itemsPerPage}
-                        onPageChange={handlePageChange}
-                    />
-
+                    <>
+                        <div className="px-8 pt-8">
+                            <h2 className="text-xl font-bold">Riwayat Transaksi</h2>
+                            <p>Daftar riwayat transaksi Anda di sini.</p>
+                        </div>
+                        <TransactionTable
+                            transactions={transactions}
+                            isLoading={isTableLoading}
+                            totalItems={totalItems}
+                            currentPage={currentPage}
+                            itemsPerPage={itemsPerPage}
+                            onPageChange={handlePageChange}
+                        />
+                    </>
                 )
             }
 

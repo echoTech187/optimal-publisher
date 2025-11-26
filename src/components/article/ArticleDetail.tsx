@@ -17,25 +17,33 @@ const ArticleDetail = ({ article }: { article: Article }) => {
             <div className="container mx-auto px-4 py-[100px] rounded-lg">
 
                 <article className="w-full">
-                    {/* <div className="mb-4 md:mb-0 w-full mx-auto relative">
-                        <div className="relative w-full h-[200px] md:h-[600px]">
-                            <Image
-                                priority
-                                src={imageUrl}
-                                alt={article.title}
-                                fill
-                                style={{ objectFit: 'contain' }}
-                                className="rounded-lg size-full"
-                            />
-                        </div>
-                    </div> */}
+
                     <div className="w-full lg:w-3/4 mx-auto mt-12">
                         <h1 className="text-3xl sm:text-4xl md:text-3xl font-bold text-gray-800 dark:text-gray-100 leading-tight mb-1">{article.title}</h1>
                         <p className="text-sm text-gray-500 dark:text-gray-400 font-normal mb-6 leading-relaxed text-left">{displayDate}</p>
+                        <div className="mb-4 md:mb-0 w-full mx-auto relative">
+                            <div className="relative w-full h-[200px] md:h-[600px]">
+                                <Image
+                                    priority
+                                    src={imageUrl}
+                                    alt={article.title}
+                                    fill
+                                    className="relative w-full h-full object-cover rounded-lg size-full"
+                                />
+                            </div>
+                        </div>
                         <div
                             className="prose dark:prose-invert lg:prose-xl max-w-none text-gray-700 dark:text-gray-200 html_content"
                             dangerouslySetInnerHTML={{ __html: article.description }}
                         />
+                        {
+                            article.source_article && (
+                                <div className="prose dark:prose-invert lg:prose-xl max-w-none text-gray-700 dark:text-gray-200 html_content">
+                                    <h3 className="text-lg">Sumber</h3>
+                                    <div dangerouslySetInnerHTML={{ __html: article.source_article }} />
+                                </div>
+                            )
+                        }
                     </div>
                 </article>
             </div>

@@ -15,6 +15,7 @@ export const metadata: Metadata = {
 // This component fetches the data and passes it to the presentation component.
 async function ArticleListFetcher({ params }: { params: URLSearchParams }) {
     const articles = await getArticles(params);
+    
     // Ensure the fetched data conforms to the app's Article type before passing down
     const typedArticles = articles as unknown as ArticleType[];
     return <ArticleList articles={typedArticles} />;

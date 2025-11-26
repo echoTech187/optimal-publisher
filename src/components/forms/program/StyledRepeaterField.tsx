@@ -83,20 +83,17 @@ const StyledRepeaterField: React.FC<StyledRepeaterFieldProps> = ({ field, value,
 
                             <h4 className="font-semibold col-span-full mb-2">Daftar Anggota #{itemIndex + 1}</h4>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full member-item mb-4">
-                                {(field.repeater_fields || []).map((subField: any) => (
+                                {(field.repeater_fields || []).map((subField: any, subFieldIndex: number) => (
 
-                                    <div key={subField.name} className={subField.field_class_name}>
+                                    <div key={subFieldIndex} className={subField.field_class_name}>
 
                                         <StyledInputRepeaterField
-
+                                            key={subFieldIndex}
+                                            fieldKey={subFieldIndex}
                                             repeaterFields={subField}
-
                                             onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => handleItemChange(itemIndex, subField.name, e.target.value)}
-
                                             value={item[subField.name] || ''} // Use value from the current item
-
                                             readOnly={itemIndex === 0 && firstItemReadOnly} // Pass readOnly prop conditionally
-
                                         />
 
                                     </div>

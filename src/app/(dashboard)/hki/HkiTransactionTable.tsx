@@ -25,7 +25,21 @@ const StatusBadge = ({ status, className = "" }: { status: string | undefined, c
 };
 
 export default function HkiTransactionTable({ hkiTransactions, isLoading, totalItems, currentPage, itemsPerPage, onPageChange }: { hkiTransactions: any[], isLoading: boolean, totalItems: number, currentPage: number, itemsPerPage: number, onPageChange: (page: number) => void }) {
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center h-40 py-12">
+                <Icon icon="eos-icons:loading" className="animate-spin" />
+            </div>
+        );
+    }
 
+    if(hkiTransactions.length === 0) {
+        return (
+            <div className="flex items-center justify-center h-40 py-12">
+                <p className="text-gray-600 dark:text-gray-400">Belum ada transaksi, silahkan lakukan pembelian.</p>
+            </div>
+        );
+    }
 
     return (
         <>

@@ -1,8 +1,8 @@
 
-import { FormField, FormRepeater } from '@/types/program';
+import { FormRepeater } from '@/types/program';
 import React from 'react';
 
-const StyledInputRepeaterField = ({ repeaterFields, required = false,  value, onChange, readOnly = false }: { repeaterFields: FormRepeater; required?: boolean; value: string; onChange?: (arg0: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void; readOnly?: boolean; }) => (
+const StyledInputRepeaterField = ({fieldKey, repeaterFields, required = false,  value, onChange, readOnly = false }: {fieldKey: number; repeaterFields: FormRepeater; required?: boolean; value: string; onChange?: (arg0: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void; readOnly?: boolean; }) => (
     <>
         <label className="block text-sm font-medium text-gray-700 mb-1">
             {repeaterFields.label}
@@ -11,11 +11,11 @@ const StyledInputRepeaterField = ({ repeaterFields, required = false,  value, on
             required={required}
             type={repeaterFields.type}
             placeholder={`Silahkan isi ${repeaterFields.label}`}
-            name={repeaterFields.name}
+            name={repeaterFields.name+'['+fieldKey+']'}
             value={value}
             onChange={onChange}
             readOnly={readOnly}
-            id={repeaterFields.name}
+            id={repeaterFields.name+'-'+fieldKey}
             className={`w-full border border-gray-200 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 ${readOnly ? 'bg-gray-100' : 'bg-white'}`}
         />
     </>

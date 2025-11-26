@@ -58,6 +58,8 @@ export interface FormField {
     copy_source_fields?: string;
     copy_target_repeater?: string;
     copy_target_repeater_fields?: string;
+    relative_path?: string;
+    is_active: boolean;
 }
 
 export interface PackageFeature {

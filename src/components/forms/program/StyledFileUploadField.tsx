@@ -5,9 +5,10 @@ import { m } from "framer-motion";
 import StyledFileInput from "./StyledFileInput";
 
 const StyledFileUploadField = ({ field, error, onChange }: any) => {
-    const uploadFileToServer = async (file: string | Blob, url: string | undefined, onProgress: { (progress: any): void; (arg0: number): void; }) => {
+    const uploadFileToServer = async (file: string | Blob, url: string | undefined,relativePath: string, onProgress: { (progress: any): void; (arg0: number): void; }) => {
         const formData = new FormData();
-        formData.append('file', file); // 'file' must match the name your backend expects
+        formData.append('file', file);// 'file' must match the name your backend expects
+        formData.append('relative_path', relativePath); 
         try {
             return await new Promise((resolve, reject) => {
                 const xhr = new XMLHttpRequest();
@@ -34,7 +35,6 @@ const StyledFileUploadField = ({ field, error, onChange }: any) => {
                 });
 
                 xhr.addEventListener('error', (e) => {
-                    console.log(e);
                     reject(new Error('A network or server error occurred.'));
                 });
 
@@ -64,7 +64,7 @@ const StyledFileUploadField = ({ field, error, onChange }: any) => {
 
     const handleFileChange = (inputName: string, file: File) => {
         setUploads(prev => ({ ...prev, [inputName]: { file, progress: 0, uploadedId: null, error: null } }));
-        uploadFileToServer(file, field.upload_url, (progress: any) => {
+        uploadFileToServer(file, field.upload_url, field.relative_path, (progress: any) => {
             setUploads(prev => ({ ...prev, [inputName]: { ...prev[inputName as keyof typeof prev], file: file, progress } }));
         })
             .then(fileId => {

@@ -7,6 +7,7 @@ import EventTransactionTable from './EventTransactionTable';
 import { redirect } from 'next/navigation';
 import { getSession } from '@/features/auth/session';
 import { getToken } from '@/lib/utils/token';
+import { Icon } from '@iconify/react';
 
 export default function EventPage() {
     const [events, setEvents] = useState([]);
@@ -69,12 +70,19 @@ export default function EventPage() {
     }
     return (
         <div className="p-8">
-            <header className=" mb-12">
-                <h2 className="text-2xl font-bold">Riwayat Pendaftaran Lomba</h2>
-                <p>Daftar riwayat pendaftaran lomba dan acara Anda di sini.</p>
-            </header>
-            <EventTransactionTable events={userEvents} totalItems={userEventsTotal} itemsPerPage={userEventsItemsPerPage} currentPage={userEventsCurrentPage} onPageChange={setUserEventsCurrentPage} isLoading={isTableLoading} />
-            <div className="my-12 flex justify-between">
+            {
+                userEvents.length > 0 && (
+                    <>
+                        <header className=" mb-12">
+                            <h2 className="text-2xl font-bold">Riwayat Pendaftaran Lomba</h2>
+                            <p>Daftar riwayat pendaftaran lomba dan acara Anda di sini.</p>
+                        </header>
+                        <EventTransactionTable events={userEvents} totalItems={userEventsTotal} itemsPerPage={userEventsItemsPerPage} currentPage={userEventsCurrentPage} onPageChange={setUserEventsCurrentPage} isLoading={isTableLoading} />
+
+                    </>
+                )
+            }
+            <div className="mb-6 flex justify-between">
                 <div>
                     <h2 className="text-2xl font-bold">Daftar Lomba dan Acara</h2>
                     <p>Pilih acara yang ingin kamu ikuti.</p>

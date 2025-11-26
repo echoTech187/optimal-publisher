@@ -34,7 +34,7 @@ const ArticleCard = ({ article }: { article: Article }) => {
         <h3 title={article.title} className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors duration-300 line-clamp-1 mb-2 flex-1">
           {article.title}
         </h3>
-        <div dangerouslySetInnerHTML={{ __html: article.description }} className="text-sm text-gray-600 line-clamp-3"></div>
+        <div dangerouslySetInnerHTML={{ __html: article.short_description }} className="text-sm text-gray-600 line-clamp-3"></div>
 
       </div>
     </Link>

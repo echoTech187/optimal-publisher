@@ -96,3 +96,14 @@ export async function getPrograms(): Promise<Program[]> {
         return [];
     }
 }
+export async function fetchOption(option: any, value: string) {
+    const response = await fetch(option.source_url + '?id=' + value, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    });
+    const data = await response.json();
+    return data;
+
+}

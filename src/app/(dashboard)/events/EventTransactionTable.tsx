@@ -25,7 +25,7 @@ const StatusBadge = ({ status, className = "" }: { status: string | undefined, c
 };
 
 export default function EventTransactionTable({ events, isLoading, totalItems, currentPage, itemsPerPage, onPageChange }: { events: any[], isLoading: boolean, totalItems: number, currentPage: number, itemsPerPage: number, onPageChange: (page: number) => void }) {
-
+    
     return (
         <>
         <div className='max-w-full'>
