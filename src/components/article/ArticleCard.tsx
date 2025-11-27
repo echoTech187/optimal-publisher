@@ -19,8 +19,8 @@ const ArticleCard = ({ article }: { article: Article }) => {
           priority
           src={imageUrl}
           alt={article.title}
-          width={0}
-          height={0}
+          width={2048}
+          height={1536}
           style={{ objectFit: 'cover' }}
           className="rounded-lg h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
         />

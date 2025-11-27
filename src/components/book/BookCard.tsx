@@ -7,7 +7,6 @@ import { getImageUrl } from '@/lib/utils/image';
 const BookCard = ({ book }: { book: Book }) => {
   const { slug, cover, title, author, price, book_authors } = book;
   const imageUrl = getImageUrl(cover);
-
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-lg backdrop-blur-md bg-white dark:bg-gray-800 transition-transform duration-300 hover:scale-105 hover:shadow-xl">
       <Link href={`/book/${slug}`} className="block">
@@ -16,8 +15,9 @@ const BookCard = ({ book }: { book: Book }) => {
           <Image
             src={imageUrl}
             alt={title}
-            width={300}
-            height={400}
+            width={1024}
+            height={512}
+            priority={true}
             className="h-full w-full object-cover object-center rounded-lg"
           />
         </div>
@@ -31,7 +31,7 @@ const BookCard = ({ book }: { book: Book }) => {
         <div className="mb-1">
           {Array.isArray(book_authors) && book_authors.length > 0 && (
             <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 overflow-hidden w-full">
-              <b>Oleh</b> {book_authors.map((author: any) => author.book_writter.name).join(', ')}
+              <b>Oleh</b> {book_authors.map((author: any) => author.book_writer?.name).filter(Boolean).join(', ')}
             </p>
           )}
         </div>

@@ -63,7 +63,8 @@ export default function EventDetailClientPage({ initialEvent, slug }: EventDetai
   return (
     <div className="mx-auto p-8">
       <div className="flex max-sm:flex-col justify-between w-full gap-12">
-        <Image priority={true} alt={event.title} src={getImageUrl(event.image)} width={0} height={0} className="max-sm:size-full size-1/3 object-cover mb-4" />
+        <Image priority={true} alt={event.title} src={getImageUrl(event.image)} width={1024}
+          height={2048} className="max-sm:size-full size-1/3 object-cover mb-4" />
         <div className="w-full">
           <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-gray-100">{event.title}</h1>
           <div className="mb-8">

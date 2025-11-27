@@ -6,7 +6,11 @@ import SignInForm from "./SignInForm";
 import { getSession } from "@/features/auth/session";
 import { redirect } from "next/navigation";
 
-async function SignInContent({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+async function SignInContent({
+    searchParams,
+}: {
+    searchParams: { [key: string]: string | string[] | undefined };
+}) {
     const session = await getSession();
     if (session) {
         const raw = searchParams['redirectedFrom'];
@@ -42,7 +46,13 @@ async function SignInContent({ searchParams }: { searchParams: { [key: string]: 
     );
 }
 
-export default function SignInPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+export default function SignInPage({
+    params,
+    searchParams,
+}: {
+    params: { slug: string };
+    searchParams: { [key: string]: string | string[] | undefined };
+}) {
     return (
         <Suspense fallback={<FullPageLoader />}>
             <SignInContent searchParams={searchParams} />

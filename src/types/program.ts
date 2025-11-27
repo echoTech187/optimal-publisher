@@ -45,6 +45,7 @@ export interface FormField {
     placeholder: string;
     required_frontend: boolean;
     upload_url?: string;
+    file_description?: string;
     source_label_field?: string;
     source_value_field?: string;
     depends_on_field?: string;
@@ -59,6 +60,8 @@ export interface FormField {
     copy_target_repeater?: string;
     copy_target_repeater_fields?: string;
     relative_path?: string;
+    max_file_size?: number;
+    accepted_file_types?: string;
     is_active: boolean;
 }
 

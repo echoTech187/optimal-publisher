@@ -1,126 +1,50 @@
 'use client';
-import FullPageLoader from '@/components/ui/FullPageLoader';
-import { useEffect, useState, useActionState, useCallback } from "react";
-import { useFormStatus } from "react-dom";
-import { useSearchParams } from "next/navigation";
+
 import Image from "next/image";
+import { useRegister } from "@/features/auth/hooks/useRegister";
 
-// Local components
-import { PersonalInformation, Institution } from "./form";
+// UI Components
+import FullPageLoader from '@/components/ui/FullPageLoader';
 import AuthHeader from "@/components/header/auth";
-import Alert, { useAlert } from '@/components/ui/Alert';
+import Alert from '@/components/ui/Alert';
 import { Stepper } from '@/components/ui/stepper';
-import { Icon } from "@iconify/react/dist/iconify.js";
+import FinalSubmitButton from "@/components/forms/FinalSubmitButton";
 
-// Server Actions & Data
-import { fetchInstitutions, fetchMajors } from "@/features/form/data";
-import { register } from "@/features/auth/actions";
-
-import { useLoading } from "@/context/LoadingContext";
-
-// A submit button that can be disabled by both form pending status and parent validation state.
-function FinalSubmitButton({ isValid }: { isValid: boolean }) {
-    const { pending } = useFormStatus();
-    const { showLoader, hideLoader } = useLoading();
-
-    useEffect(() => {
-        if (pending) {
-            showLoader();
-        } else {
-            hideLoader();
-        }
-        return () => hideLoader();
-    }, [pending, showLoader, hideLoader]);
-
-    return (
-        <button
-            type="submit"
-            disabled={pending || !isValid}
-            className="btn justify-center rounded-sm w-full bg-fuchsia-800 hover:bg-fuchsia-700 text-white text-base font-bold py-2 px-4 border-none outline-none shadow-outline focus:outline-none focus:shadow-outline disabled:bg-fuchsia-400"
-        >
-            {pending ? "Loading..." : (
-                <>
-                    <Icon icon="tabler:send" width="24" height="24" className="text-primary-content size-5 rtl:rotate-180" />
-                    <span>Daftar</span>
-                </>
-            )}
-        </button>
-    );
-}
+// Form Step Components
+import { PersonalInformation, Institution } from "./form";
 
 export default function Register() {
-    const router = useSearchParams();
-    const type = router.get("type");
-    const eventType = router.get("event");
-    const redirectedFrom = router.get("redirectedFrom");
+    const {
+        isLoading,
+        activeStep,
+        stepsValidity,
+        institution,
+        major,
+        alertProps,
+        type,
+        eventType,
+        redirectedFrom,
+        formAction,
+        setActiveStep,
+        onValidationChangeStep1,
+        onValidationChangeStep2,
+    } = useRegister();
 
-    const { alertProps, showAlert, closeAlert } = useAlert();
-
-    const initialState = { success: false, message: null };
-    const [state, formAction] = useActionState(register, initialState);
-
-    // --- Centralized State Management ---
-    const [activeStep, setActiveStep] = useState(1);
-    const [stepsValidity, setStepsValidity] = useState<{ [key: number]: boolean }>({ 1: false, 2: false });
-
-    // Data fetching state
-    const [institution, setInstitution] = useState([]);
-    const [major, setMajor] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-
-    // --- Stepper Configuration ---
     const stepsConfig = [
         { title: 'Account Details' },
         { title: 'Personal Info' }
     ];
 
-    const handleValidationChange = useCallback((step: number, isValid: boolean) => {
-        setStepsValidity(prev => ({ ...prev, [step]: isValid }));
-    }, []);
-
-    const onValidationChangeStep1 = useCallback((isValid: boolean) => {
-        handleValidationChange(1, isValid);
-    }, [handleValidationChange]);
-
-    const onValidationChangeStep2 = useCallback((isValid: boolean) => {
-        handleValidationChange(2, isValid);
-    }, [handleValidationChange]);
-
-    // Fetch initial data
-    useEffect(() => {
-        document.title = "Register";
-        async function fetchInitialData() {
-            setIsLoading(true);
-            const [instData, majorData] = await Promise.all([fetchInstitutions(), fetchMajors()]);
-            setInstitution(instData);
-            setMajor(majorData);
-            setIsLoading(false);
-        }
-        fetchInitialData();
-    }, []);
-
-    // Show alert on form action result
-    useEffect(() => {
-        if (state?.message) {
-            showAlert({
-                type: state.success ? 'success' : 'error',
-                title: state.success ? 'Registrasi Berhasil!' : 'Registrasi Gagal!',
-                message: state.message,
-                onCloseCallback: closeAlert,
-            });
-        }
-    }, [state]);
-
     if (isLoading) {
         return <FullPageLoader />;
     }
+
     return (
         <>
             <div className="relative w-screen min-h-screen h-full flex items-center justify-center bg-gray-50 dark:bg-gray-700 overflow-x-hidden">
                 <div className="relative w-full h-screen overflow-hidden grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 place-items-center ">
                     <Image priority={true} src="/images/1.png" alt="Background" width={2000} height={1000} className="absolute left-0 top-0 h-screen w-screen z-1 object-cover" />
                     <div className="max-lg:absolute left-0 top-0 w-full h-full relative lg:col-span-1 xl:col-span-2">
-                        
                         <div className="absolute top-0 left-0 h-full w-full bg-purple-900/50 z-2 flex flex-col gap-12 items-center justify-center p-12">
                             <h2 className="text-2xl lg:text-3xl xl:text-4xl text-white text-center font-bold">
                                 Karyamu Layak Mendapat Pengakuan Resmi
@@ -139,9 +63,8 @@ export default function Register() {
                                     <Stepper
                                         totalSteps={stepsConfig.length}
                                         steps={stepsConfig}
-                                        onStepChange={setActiveStep} // <-- Using the callback to sync active step
+                                        onStepChange={setActiveStep}
                                     >
-                                        {/* Hidden Nav, as per original design. Can be shown by removing `hidden` */}
                                         <Stepper.Nav className="hidden" />
 
                                         <form action={formAction} className="max-w-md mx-auto w-full needs-validation peer" noValidate>
@@ -170,8 +93,6 @@ export default function Register() {
                                             </Stepper.Content>
 
                                             <Stepper.Controls>
-                                                {/* <Stepper.PrevButton /> */}
-                                                {/* Disable button based on the current active step's validity */}
                                                 <Stepper.NextButton disabled={!stepsValidity[activeStep]} />
                                                 <Stepper.FinishButton>
                                                     <FinalSubmitButton isValid={stepsValidity[activeStep]} />
@@ -192,4 +113,4 @@ export default function Register() {
             <Alert {...alertProps} />
         </>
     );
-}   
+}

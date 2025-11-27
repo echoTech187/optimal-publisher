@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Major, BookTitle, BookTopic } from '@/types/form';
-import StyledSelectField from './StyledSelectFieldNew';
+import StyledSelectField from './StyledSelectField';
 
 interface ProgramSelectionProps {
     majors: Major[];

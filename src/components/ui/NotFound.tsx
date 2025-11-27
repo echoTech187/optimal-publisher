@@ -5,7 +5,7 @@ const NotFound = () => {
         <section>
             <div className="mx-auto container my-[150px] flex flex-col items-center justify-center gap-24">
                 <div className="w-full h-full flex flex-col items-center justify-center size-80">
-                    <Image src="../images/404.png" alt="404" width={0} height={0} className=" w-80 object-cover" />
+                    <Image src="/images/404.png" alt="404" width={500} height={300} className=" w-80 object-cover" />
                 </div>
                 <span className=" font-bold text-base-content">Halaman Tidak Ditemukan, <Link href="/book" className="text-fuchsia-700 hover:text-fuchsia-900">Silahkan Kembali Ke Halaman Sebelumnya</Link></span>
 

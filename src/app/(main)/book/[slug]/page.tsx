@@ -1,97 +1,61 @@
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
+// src/app/(main)/book/[slug]/page.tsx
 import React from "react";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 import { Icon } from '@iconify/react';
+import type { Metadata, ResolvingMetadata } from 'next';
+import createDOMPurify from 'dompurify';
+import { JSDOM } from 'jsdom';
+
+                            // ... (inside the DetailBookPage component)
+
+// Import data fetching functions and types
+import { getBookBySlug, getRecommendedBooks } from "@/features/book/data";
 import { Book } from "@/types/book";
-import NotFound from "@/components/ui/NotFound";
-import FullPageLoader from '@/components/ui/FullPageLoader';
-interface BookWritter {
-    name: string;
-    // other properties
+
+// Import extracted components
+import DetailItem from "@/components/book/DetailItem";
+import FullPageLoader from "@/components/ui/FullPageLoader"; // Assuming this is still needed for suspense, though the page itself is now faster
+
+type Props = {
+    params: { slug: string };
+};
+
+// Generate dynamic metadata on the server
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const book = await getBookBySlug(params.slug);
+    if (!book) {
+        return { title: 'Buku Tidak Ditemukan' };
+    }
+    return {
+        title: `${book.title} | Optimal Untuk Negeri`,
+        description: book.description,
+        openGraph: {
+            title: book.title,
+            description: book.description,
+            images: [`http://127.0.0.1:8000/storage/${book.cover}`],
+        },
+    };
 }
-const DetailBook = () => {
-    const router = useParams();
-    const slug = router.slug;
-    const [bookDetail, setData] = useState<Book>({
-        book_authors: [],
-        id: 0,
-        isbn: "",
-        title: "",
-        slug: "",
-        book_writters: [],
-        author: "",
-        cover: "",
-        cover_size: "",
-        edition: "",
-        series: "",
-        page_length: 0,
-        description: "",
-        price: 0,
-        type: {
-            name: "",
-        },
-        categories: {
-            id: 0,
-            category: "",
-        },
-        reading: {
-            name: ""
-        },
-        media: {
-            name: "",
-        },
-        library: {
-            name: "",
-        },
-        publisher: {
-            name: ""
-        }
-    });
-    const [recommendedBooks, setRecommendedBooks] = useState<Book[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
+// Main Page Component - Now a Server Component
+export default async function DetailBookPage({ params }: Props) {
+    const { slug } = params;
 
-        async function getRecommendedBooks() {
-            const response = await fetch("http://127.0.0.1:8000/api/v1/book?length=5");
-            const book = await response.json();
-            if (book.data.length === 0) {
-                setRecommendedBooks(book.data);
-            } else {
-                setRecommendedBooks([]);
-            }
+    // Fetch data on the server in parallel
+    const [bookDetail, recommendedBooks] = await Promise.all([
+        getBookBySlug(slug),
+        getRecommendedBooks(5)
+    ]);
 
-        }
-        async function getData() {
-            const response = await fetch("http://127.0.0.1:8000/api/v1/book/" + slug);
-
-            const book = await response.json();
-
-            setData(book.data);
-            setIsLoading(false);
-
-
-        }
-
-        getData();
-        // getRecommendedBooks();
-    }, [slug]);
-
-    if (isLoading) {
-        return <FullPageLoader />;
-    }
-
+    // Handle not found case
     if (!bookDetail) {
-        return (
-            <NotFound />
-        );
+        notFound();
     }
 
-    document.title = bookDetail ? bookDetail.title : "Buku | Optimal Untuk Negeri";
+    const window = new JSDOM('').window;
+    const DOMPurify = createDOMPurify(window);
+
     return (
         <>
             <section className="my-24 md:py-32 bg-gray-50">
@@ -122,23 +86,21 @@ const DetailBook = () => {
 
                                 {Array.isArray(bookDetail.categories) && bookDetail.categories.length > 0 && (
                                     <div className="flex gap-2 mb-2">
-                                        {
-                                            bookDetail.categories.map((category: any) => (
-                                                <span key={category.id} className="badge badge-outline badge-primary max-sm:text-sm text-fuchsia-800">{category.category}</span>
-                                            ))
-                                        }
+                                        {bookDetail.categories.map((category: any) => (
+                                            <span key={category.id} className="badge badge-outline badge-primary max-sm:text-sm text-fuchsia-800">{category.category}</span>
+                                        ))}
                                     </div>
                                 )}
                                 {Array.isArray(bookDetail.book_authors) && bookDetail.book_authors.length > 0 && (
                                     <p className="max-sm:text-sm text-md text-gray-600 mb-3">
-                                        ditulis oleh <span className="font-semibold text-gray-800">{bookDetail.book_authors.map((author: any) => author.book_writter.name).join(', ')}</span>
+                                        ditulis oleh <span className="font-semibold text-gray-800">{bookDetail.book_authors.map((author: any) => author.book_writter?.name).join(', ')}</span>
                                     </p>
                                 )}
                             </div>
 
                             <div className="mb-8">
                                 <span className="max-sm:text-xl max-xl:text-3xl text-4xl font-bold text-fuchsia-800">
-                                    {(bookDetail.price ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(bookDetail.price) : '0')}
+                                    {(bookDetail.price ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(bookDetail.price) : 'Rp. 0')}
                                 </span>
                             </div>
 
@@ -154,47 +116,30 @@ const DetailBook = () => {
 
                             <hr className="my-8 border-gray-200" />
 
-                            {/* Book Specs */}
                             <h2 className="max-sm:text-lgtext-2xl font-bold text-gray-800 mb-6">Detail Buku</h2>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
                                 <DetailItem label="ISBN" value={bookDetail.isbn} />
-                                {/* <DetailItem label="Jenis Pustaka" value={bookDetail.library.name} /> */}
-                                <DetailItem label="Kategori" value={bookDetail.categories.category} />
-                                {/* <DetailItem label="Penerbit" value={bookDetail.publisher.name} /> */}
-                                {/* <DetailItem label="Media" value={bookDetail.media.name} /> */}
-                                {/* <DetailItem label="Jenis ISBN" value={bookDetail.type.name} /> */}
-                                {/* <DetailItem label="Kelompok Pembaca" value={bookDetail.reading.name} /> */}
-                                {/* <DetailItem label="Jumlah Halaman" value={bookDetail.page_length} /> */}
-                                {/* <DetailItem label="Ukuran" value={bookDetail.cover_size} /> */}
-                                {/* <DetailItem label="Edisi" value={bookDetail.edition} /> */}
-                                {/* <DetailItem label="Seri" value={bookDetail.series} /> */}
+                                <DetailItem label="Kategori" value={bookDetail.categories?.category} />
+                                {/* Add other DetailItem fields as needed, ensuring data exists */}
                             </div>
+
+                            
 
                             {bookDetail.description && (
                                 <>
                                     <hr className="my-8 border-gray-200" />
                                     <h2 className="max-sm:text-lg text-2xl font-bold text-gray-800 mb-4">Deskripsi</h2>
-                                    <div className="prose prose-lg max-w-none text-gray-600 text-editor" dangerouslySetInnerHTML={{ __html: bookDetail.description }}></div>
+                                    <div
+                                        className="prose prose-lg max-w-none text-gray-600 text-editor"
+                                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(bookDetail.description) }}
+                                    ></div>
                                 </>
                             )}
                         </div>
                     </div>
                 </div>
             </section>
-            {/* <BookRecomend bookList={recommendedBooks} isLoading={isLoading} /> */}
+            {/* Recommended books section can be added here, passing `recommendedBooks` */}
         </>
     );
 }
-
-const DetailItem = ({ label, value }: { label: string, value: string | number | null | undefined }) => {
-    if (!value) return null;
-    return (
-        <div>
-            <p className="text-sm text-gray-500">{label}</p>
-            <p className="text-base font-semibold text-gray-800">{value}</p>
-        </div>
-    );
-};
-
-
-export default DetailBook

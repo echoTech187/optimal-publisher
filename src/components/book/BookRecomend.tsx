@@ -37,7 +37,7 @@ const BookRecomend = ({ bookList }: { bookList: Book[] }) => {
                             return (
                                 <div className={`carousel-slide ${index === 0 ? "sm:[&]:ml-4 " : ""}`} key={item.id}>
                                     <div className='w-full mb-3'>
-                                        <Image src={imageUrl} alt={item.title} className="object-cover w-full h-[320px]" width={250} height={320} sizes="(max-width: 768px) 50vw, (max-width: 1200px) 20vw, 15vw" />
+                                        <Image src={imageUrl} alt={item.title} className="object-cover w-full h-[320px]" width={350} height={620} sizes="(max-width: 768px) 50vw, (max-width: 1200px) 20vw, 15vw" />
                                     </div>
                                     <div className="flex flex-col items-start justify-between gap-3 ">
                                         <span className="text-xs text-[var(--primary)] font-normal bg-purple-50 w-fit px-4 py-1 rounded-full">{item.categories?.category}</span>

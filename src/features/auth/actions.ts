@@ -2,13 +2,35 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import * as yup from 'yup';
 
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+// --- Validation Schemas ---
+const registerSchema = yup.object({
+    name: yup.string().required("Nama wajib diisi."),
+    phone: yup.string().required("Nomor telepon wajib diisi."),
+    email: yup.string().email("Email tidak valid.").required("Email wajib diisi."),
+    password: yup.string().min(8, "Password minimal 8 karakter.").required("Password wajib diisi."),
+    password_confirmation: yup.string()
+        .oneOf([yup.ref('password')], 'Konfirmasi password tidak cocok.')
+        .required('Konfirmasi password wajib diisi.'),
+});
+
+const loginSchema = yup.object({
+    phone: yup.string().required("Nomor telepon wajib diisi."),
+    password: yup.string().required("Password wajib diisi."),
+});
+
 
 export async function register(previousState: any, formData: FormData) {
     const data = Object.fromEntries(formData);
 
     try {
+        // 1. Validate data on the server
+        await registerSchema.validate(data, { abortEarly: false });
+
+        // 2. Proceed with API call if validation is successful
         const response = await fetch(`${apiBaseUrl}/api/v1/register`, {
             method: "POST",
             headers: {
@@ -22,7 +44,7 @@ export async function register(previousState: any, formData: FormData) {
         if (result.code !== 200) {
             return {
                 success: false,
-                message: result.message || "Registration failed. Please try again.",
+                message: result.message || "Registrasi gagal. Silakan coba lagi.",
             };
         }
 
@@ -34,20 +56,21 @@ export async function register(previousState: any, formData: FormData) {
                 path: '/',
             });
 
-        // Optionally, you can also store non-sensitive user info
-        (await
-            // Optionally, you can also store non-sensitive user info
-            cookies()).set('user', JSON.stringify(result.user), {
-                httpOnly: true, // Still good practice
+        (await cookies()).set('user', JSON.stringify(result.user), {
+                httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
                 maxAge: result.expires_in,
                 path: '/',
             });
 
     } catch (error: any) {
+        // Handle validation errors from Yup or other errors
+        if (error instanceof yup.ValidationError) {
+            return { success: false, message: error.errors.join(', ') };
+        }
         return {
             success: false,
-            message: error.message || "An unexpected error occurred.",
+            message: error.message || "Terjadi kesalahan tak terduga.",
         };
     }
 
@@ -72,7 +95,10 @@ export async function register(previousState: any, formData: FormData) {
 export async function login(previousState: any, formData: FormData) {
     const data = Object.fromEntries(formData);
     try {
-        // The old code used signInAction, let's assume it calls the /login endpoint
+        // 1. Validate data on the server
+        await loginSchema.validate(data, { abortEarly: false });
+
+        // 2. Proceed with API call if validation is successful
         const response = await fetch(`${apiBaseUrl}/api/v1/login`, {
             method: "POST",
             headers: {
@@ -86,14 +112,12 @@ export async function login(previousState: any, formData: FormData) {
         if (!response.ok) {
             return {
                 success: false,
-                message: result.message || "Login failed. Please check your credentials.",
+                message: result.message || "Login gagal. Silakan periksa kembali kredensial Anda.",
             };
         }
 
         // Set cookies on successful login
-        (await
-            // Set cookies on successful login
-            cookies()).set('token', result.token, {
+        (await cookies()).set('token', result.token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
                 maxAge: result.expires_in,
@@ -108,9 +132,13 @@ export async function login(previousState: any, formData: FormData) {
         });
 
     } catch (error: any) {
+        // Handle validation errors from Yup or other errors
+        if (error instanceof yup.ValidationError) {
+            return { success: false, message: error.errors.join(', ') };
+        }
         return {
             success: false,
-            message: error.message || "An unexpected error occurred.",
+            message: error.message || "Terjadi kesalahan tak terduga.",
         };
     }
 
@@ -137,6 +165,7 @@ export async function logout() {
     (await cookies()).delete('user');
     redirect('/signin');
 }
+
 export async function validateOrRefreshToken() {
     try {
         var tokenCookie = (await cookies()).get('token')?.value;

@@ -30,10 +30,10 @@ async function PackDataFetcher({ packageKey }: { packageKey: number }) {
         redirect('/signin');
     }
 
-    // if (packages.length === 0) {
-    //     // Redirect to a 404 page if no packages are found for the key
-    //     redirect('/not-found'); // Use the standard Next.js not-found page
-    // }
+    if (packages.length === 0) {
+        // Redirect to a 404 page if no packages are found for the key
+        redirect('/not-found'); // Use the standard Next.js not-found page
+    }
     return <GenerateFormFields packages={packages || []} user={session} />;
     // return <PackView packages={packages} user={session} />;
 }

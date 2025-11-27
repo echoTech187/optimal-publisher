@@ -1,7 +1,7 @@
 import { JSX } from "react";
 
 export interface Book {
-  book_authors: any;
+  book_authors: any[];
   isbn?: string;
   id: number;
   title: string;
@@ -22,7 +22,7 @@ export interface Book {
     id: number;
     category: string;
   };
-  book_writters: any;
+  book_writters: any[];
   reading: {
     name: string;
   },

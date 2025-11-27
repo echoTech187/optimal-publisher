@@ -1,29 +1,10 @@
-
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Book } from '@/types/book';
-import { getRecommendedBooks } from '@/features/book/data';
+import { usePopularBooks } from '@/features/book/hooks/usePopularBooks';
 import BookRecomend, { BookRecomendLoading } from './BookRecomend';
-import { useSearchParams } from 'next/navigation';
 
 export default function PopularBooks() {
-  const [books, setBooks] = useState<Book[]>([]);
-  const [loading, setLoading] = useState(true);
-  const searchParams = useSearchParams();
-  useEffect(() => {
-    const fetchBooks = async () => {
-      setLoading(true);
-      const params = new URLSearchParams();
-      params.append('limit', '10');
-      params.append('program_category', searchParams.get('feature') || '');
-      const recommendedBooks = await getRecommendedBooks(params); // Fetch 10 popular books
-      setBooks(recommendedBooks);
-      setLoading(false);
-    };
-
-    fetchBooks();
-  }, []);
+  const { books, loading } = usePopularBooks();
 
   if (loading) {
     return <BookRecomendLoading />;

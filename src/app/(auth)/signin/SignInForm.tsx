@@ -1,53 +1,18 @@
 "use client";
 
-import { useEffect, useActionState } from "react";
-import { useFormStatus } from "react-dom";
-import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { login } from "@/features/auth/actions";
-import Alert, { useAlert } from "@/components/ui/Alert";
-
-function SubmitButton() {
-    const { pending } = useFormStatus();
-
-    return (
-        <button 
-            type="submit" 
-            disabled={pending} 
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-fuchsia-800 hover:bg-fuchsia-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-500 disabled:opacity-50"
-        >
-            {pending ? (
-                <>
-                    <span className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></span>
-                    <span>Processing...</span>
-                </>
-            ) : (
-                "Sign In"
-            )}
-        </button>
-    );
-}
+import { useSignIn } from "@/features/auth/hooks/useSignIn";
+import Alert from "@/components/ui/Alert";
+import SubmitButton from "@/components/forms/SubmitButton";
 
 export default function SignInForm() {
-    const params = useSearchParams();
+    // All logic is now encapsulated in the useSignIn hook
+    const { params, formAction, alertProps } = useSignIn();
+
+    // Extract params for hidden fields
     const type = params.get("type");
     const eventType = params.get("event");
     const redirectedFrom = params.get("redirectedFrom");
-
-    const { alertProps, showAlert, closeAlert } = useAlert();
-    const [state, formAction] = useActionState(login, { success: false, message: null });
-
-    useEffect(() => {
-        document.title = "Login | Optimal Publisher";
-        if (state?.message) {
-            showAlert({
-                type: state.success ? 'success' : 'error',
-                title: state.success ? 'Login Successful!' : 'Login Failed!',
-                message: state.message,
-                onCloseCallback: closeAlert,
-            });
-        }
-    }, [state]);
 
     return (
         <>

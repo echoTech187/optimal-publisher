@@ -1,36 +1,171 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Tentu, ini adalah draft `README.md` yang komprehensif untuk proyek **Optimal Penerbit** kamu, disusun berdasarkan analisis kode sumber yang kamu unggah.
 
-## Getting Started
+File ini mencakup deskripsi proyek, tumpukan teknologi, panduan instalasi, konfigurasi, struktur folder, dan fitur-fitur utama.
 
-First, run the development server:
+-----
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Optimal Penerbit - Platform Layanan Penerbitan & Edukasi
+
+**Optimal Penerbit** adalah platform web modern yang dirancang untuk memfasilitasi layanan penerbitan buku (ISBN), pendaftaran Hak Kekayaan Intelektual (HKI), pendaftaran acara/lomba, serta penyediaan materi edukasi dan artikel. Aplikasi ini dibangun menggunakan **Next.js 14+ (App Router)** dengan **TypeScript** dan **Tailwind CSS**.
+
+## 🚀 Teknologi yang Digunakan
+
+  * **Framework:** [Next.js 14](https://nextjs.org/) (App Router)
+  * **Bahasa:** [TypeScript](https://www.typescriptlang.org/)
+  * **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+  * **UI Components:** [FlyonUI](https://flyonui.com/) (berbasis Tailwind)
+  * **Icons:** [Iconify](https://iconify.design/)
+  * **State Management & Data Fetching:** React Server Components (RSC), Server Actions, & Custom Hooks.
+  * **Backend Integration:** REST API (Laravel/PHP Backend - *External*)
+
+## 📋 Prasyarat
+
+Sebelum memulai, pastikan kamu telah menginstal:
+
+  * [Node.js](https://nodejs.org/) (Versi 18 atau lebih baru direkomendasikan)
+  * [npm](https://www.npmjs.com/) atau yarn/pnpm
+
+## 🛠️ Cara Instalasi & Menjalankan Project
+
+Ikuti langkah-langkah berikut untuk menjalankan proyek ini di lingkungan lokal (local machine):
+
+1.  **Clone Repository**
+
+    ```bash
+    git clone https://github.com/echoTech187/optimal-publisher
+    cd optimal-penerbit
+    ```
+
+2.  **Instal Dependensi**
+
+    ```bash
+    npm install
+    # atau
+    yarn install
+    ```
+
+3.  **Konfigurasi Environment Variable**
+    Buat file `.env.local` di root folder proyek. Salin konfigurasi berikut dan sesuaikan dengan URL backend API kamu:
+
+    ```env
+    # .env.local
+    NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000
+    ```
+
+    *(Ganti `http://127.0.0.1:8000` dengan URL backend production jika sudah dideploy).*
+
+4.  **Jalankan Development Server**
+
+    ```bash
+    npm run dev
+    ```
+
+5.  **Buka Aplikasi**
+    Buka browser dan kunjungi [http://localhost:3000](https://www.google.com/search?q=http://localhost:3000).
+
+## 📂 Struktur Folder
+
+Proyek ini menggunakan struktur **Feature-based** yang dikombinasikan dengan App Router Next.js untuk skalabilitas yang lebih baik.
+
+```
+src/
+├── app/                    # Routing utama (Next.js App Router)
+│   ├── (auth)/             # Route group untuk autentikasi (login, register)
+│   ├── (dashboard)/        # Route group untuk dashboard user (protected)
+│   ├── (main)/             # Route group untuk halaman publik (landing, book, event)
+│   ├── api/                # Next.js API Routes (Proxy ke Backend)
+│   ├── favicon.ico         # Ikon website
+│   ├── globals.css         # Global styles & Tailwind directives
+│   └── layout.tsx          # Root layout
+│
+├── components/             # Komponen UI yang dapat digunakan kembali
+│   ├── ui/                 # Komponen dasar (Button, Alert, Loader, Pagination)
+│   ├── forms/              # Komponen form & input (Dynamic Forms, FileUpload)
+│   ├── layout/             # Header, Footer, Sidebar
+│   ├── pack/               # Komponen tampilan paket penerbitan
+│   ├── book/               # Komponen list & detail buku
+│   └── ... (article, event, hki, dll)
+│
+├── context/                # React Context Providers
+│   └── LoadingContext.tsx  # Global loading state
+│
+├── features/               # Logika bisnis (Business Logic)
+│   ├── auth/               # Actions, hooks, & validasi autentikasi
+│   ├── book/               # Data fetching & hooks untuk buku
+│   ├── event/              # Data fetching & actions untuk event
+│   ├── hki/                # Logika pendaftaran HKI
+│   ├── pack/               # Logika dynamic form paket
+│   ├── payment/            # Logika pembayaran & upload bukti
+│   ├── program/            # Data & actions program penerbitan
+│   └── transactions/       # Hooks & data riwayat transaksi
+│
+├── lib/                    # Utilitas & Helper functions
+│   ├── hooks/              # Custom hooks (useForm, useFileUpload, useDebounce)
+│   ├── services/           # Service helper (fileService)
+│   └── utils/              # Fungsi utilitas (image path, token, validation)
+│
+├── types/                  # Definisi TypeScript Interfaces/Types
+│   ├── user.ts             # Tipe data User
+│   ├── transaction.ts      # Tipe data Transaksi
+│   ├── program.ts          # Tipe data Program & Form Fields
+│   ├── book.ts             # Tipe data Buku
+│   └── ...
+│
+└── middleware.ts           # Middleware untuk proteksi route & validasi sesi
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ Fitur Utama
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 1\. Autentikasi & Pengguna (`src/features/auth`)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+  * **Login & Register:** Menggunakan validasi server-side dan client-side.
+  * **Session Management:** Menggunakan Cookies untuk menyimpan token autentikasi.
+  * **Middleware:** Memproteksi halaman dashboard dari akses tanpa login.
+  * **Profil:** Pengguna dapat memperbarui data diri dan avatar.
 
-## Learn More
+### 2\. Penerbitan Buku (ISBN) (`src/features/program`)
 
-To learn more about Next.js, take a look at the following resources:
+  * **Pilihan Paket:** Menampilkan berbagai paket penerbitan (Single, Multi, Monograf).
+  * **Dynamic Form Builder:** Formulir pendaftaran dibuat secara dinamis berdasarkan konfigurasi paket dari backend (mendukung input teks, file upload, repeater fields untuk anggota penulis).
+  * **Pengajuan Naskah:** Upload naskah buku (.docx) dengan progress bar.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 3\. Hak Kekayaan Intelektual (HKI) (`src/features/hki`)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+  * **Kategori HKI:** Informasi lengkap mengenai jenis karya yang bisa didaftarkan.
+  * **Pendaftaran HKI:** Form pendaftaran pencipta (support multiple creators) dan upload dokumen pendukung (KTP, Surat Pernyataan, Karya).
+  * **Pricing:** Pemilihan paket harga untuk pendaftaran HKI.
 
-## Deploy on Vercel
+### 4\. Event & Lomba (`src/features/event`)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+  * **Listing Event:** Menampilkan daftar acara/lomba terbaru.
+  * **Pendaftaran Event:** User dapat mendaftar event (gratis/berbayar).
+  * **Status Pendaftaran:** Pengecekan otomatis apakah user sudah terdaftar.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 5\. Katalog Buku & Artikel (`src/features/book`, `src/features/article`)
+
+  * **Pencarian & Filter:** Mencari buku berdasarkan judul, penulis, atau kategori.
+  * **Detail Buku:** Informasi lengkap buku termasuk harga dan tombol pembelian via WhatsApp.
+  * **Artikel:** Blog/Artikel edukasi untuk pengguna.
+
+### 6\. Transaksi & Pembayaran (`src/features/payment`)
+
+  * **Riwayat Transaksi:** Tabel lengkap riwayat transaksi ISBN, HKI, dan Event.
+  * **Upload Bukti Bayar:** Fitur untuk mengunggah bukti transfer manual.
+  * **Status Order:** Pelacakan status (Menunggu Pembayaran, Diproses, Selesai, Dibatalkan).
+  * **Invoice & Resi:** Akses ke dokumen invoice dan bukti pembayaran.
+
+### 7\. Dashboard User (`src/app/(dashboard)`)
+
+  * **Sidebar Navigasi:** Akses cepat ke menu utama.
+  * **Ringkasan:** Widget ringkasan aktivitas pengguna.
+  * **Responsif:** Tampilan dashboard yang optimal di mobile dan desktop.
+
+## ⚙️ Pengembangan (Development Notes)
+
+  * **Dynamic Forms:** Sistem formulir di `src/components/pack/DynamicFormFields.tsx` sangat bergantung pada struktur JSON yang dikirim dari backend. Pastikan respon API sesuai dengan tipe `FormField` di `src/types/program.ts`.
+  * **Image Handling:** Helper `getImageUrl` di `src/lib/utils/image.ts` digunakan untuk meresolve path gambar dari storage backend.
+  * **Server Actions:** Sebagian besar mutasi data (POST/PUT) menggunakan Next.js Server Actions untuk keamanan dan performa yang lebih baik.
+
+
+
+**Optimal Penerbit** - *Mewujudkan Karya Untuk Negeri.*
