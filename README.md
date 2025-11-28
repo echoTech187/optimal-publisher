@@ -1,9 +1,3 @@
-Tentu, ini adalah draft `README.md` yang komprehensif untuk proyek **Optimal Penerbit** kamu, disusun berdasarkan analisis kode sumber yang kamu unggah.
-
-File ini mencakup deskripsi proyek, tumpukan teknologi, panduan instalasi, konfigurasi, struktur folder, dan fitur-fitur utama.
-
------
-
 # Optimal Penerbit - Platform Layanan Penerbitan & Edukasi
 
 **Optimal Penerbit** adalah platform web modern yang dirancang untuk memfasilitasi layanan penerbitan buku (ISBN), pendaftaran Hak Kekayaan Intelektual (HKI), pendaftaran acara/lomba, serta penyediaan materi edukasi dan artikel. Aplikasi ini dibangun menggunakan **Next.js 14+ (App Router)** dengan **TypeScript** dan **Tailwind CSS**.
